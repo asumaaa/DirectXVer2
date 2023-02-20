@@ -34,8 +34,11 @@ private:
 	FbxModel* model0 = nullptr;
 	FbxObject3D* object0 = nullptr;
 
+	FbxModel* model1 = nullptr;
+	FbxObject3D* object1 = nullptr;
+
 	//ïœå`çsóÒ
 	DirectX::XMFLOAT3 position = { 0.0f,0.0f,0.0f };
 	DirectX::XMFLOAT3 rotation = { 0.0f,0.0f,0.0f };
-	DirectX::XMFLOAT3 scale = { 0.10f,0.001f,0.10f };
+	DirectX::XMFLOAT3 scale = { 0.010f,0.010f,0.010f };
 };
