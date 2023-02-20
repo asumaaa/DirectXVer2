@@ -35,7 +35,7 @@ void DirectXCommon::Initialize(WinApp* winApp)
 	InitializeFence();
 
 	//imgui‰Šú‰»
-	InitializeImgui();
+	/*InitializeImgui();*/
 	/*if (ImGui::CreateContext() == nullptr)
 	{
 		assert(0);

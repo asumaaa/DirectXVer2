@@ -6,6 +6,8 @@
 #include "FPS.h"
 #include "fbxsdk.h"
 #include "GameScene.h"
+#include "ImGuiManager.h"
+#include "imgui.h"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
@@ -28,6 +30,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	input = Input::GetInstance();
 	input->Initialize(winApp);
 
+	//ImGuiManager
+	ImGuiManager* imGuiManager = nullptr;
+	imGuiManager = new ImGuiManager();
+	imGuiManager->Initialize(winApp,dxCommon);
+
 	//ゲームシーン
 	GameScene* gameScene = nullptr;
 	gameScene = new GameScene();
@@ -48,6 +55,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//キーボード更新
 		input->Update();
 
+		imGuiManager->Begin();
+
 		//ゲームシーン更新
 		gameScene->Update();
 
@@ -55,12 +64,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		// 4. 描画コマンド
 		gameScene->Draw();
 
+		imGuiManager->End();
+		imGuiManager->Draw();
+
 		dxCommon->PostDraw();
 	}
 
 	fps->FpsControlEnd();
 
 	dxCommon->EndImgui();
+
+	imGuiManager->Finalize();
 
 	//ウィンドウクラスを登録解除
 	winApp->deleteWindow();
