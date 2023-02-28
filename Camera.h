@@ -66,7 +66,7 @@ private:
 	//ターゲットまでの距離
 	float DebugTargetDistance = 20.0f;
 	//加算用
-	float DebugChangeRot = 0.0f;
+	float DebugChangeRot = PI;
 	float DebugChangeRot2 = 0.5f;
 	float DebugChangeDistance = 0.0f;
 };

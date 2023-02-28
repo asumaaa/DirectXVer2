@@ -99,9 +99,9 @@ void Camera::DebugUpdate()
 	}
 
 	//‹“_À•W‚É‘ã“ü
-	eye_.x = cos(DebugChangeRot) * DebugTargetDistance + target_.x;
+	eye_.x = sin(DebugChangeRot) * DebugTargetDistance + target_.x;
 	eye_.y = sin(DebugChangeRot2) * DebugTargetDistance + target_.y;
-	eye_.z = sin(DebugChangeRot) * DebugTargetDistance + target_.z;
+	eye_.z = cos(DebugChangeRot) * DebugTargetDistance + target_.z;
 }
 
 void Camera::SetTarget(XMFLOAT3 pos)

@@ -12,6 +12,7 @@ ComPtr<ID3D12PipelineState>FbxObject3D::pipelinestate;
 
 ID3D12Device* FbxObject3D::device = nullptr;
 Camera* FbxObject3D::camera = nullptr;
+LightGroup* FbxObject3D::lightGroup = nullptr;
 
 void FbxObject3D::Initialize()
 {
@@ -139,6 +140,7 @@ void FbxObject3D::Draw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->SetGraphicsRootConstantBufferView(2, constBuffSkin->GetGPUVirtualAddress());
 
 	//モデル描画
+	lightGroup->Draw(cmdList,3);
 	model->Draw(cmdList);
 }
 
@@ -276,13 +278,16 @@ void FbxObject3D::CreateGraphicsPipeline()
 
 	// ルートパラメータ
 	//CD3DX12_ROOT_PARAMETER rootparams[2];
-	CD3DX12_ROOT_PARAMETER rootparams[3];
+	//CD3DX12_ROOT_PARAMETER rootparams[3];
+	CD3DX12_ROOT_PARAMETER rootparams[4];
 	// CBV（座標変換行列用）
 	rootparams[0].InitAsConstantBufferView(0, 0, D3D12_SHADER_VISIBILITY_ALL);
 	// SRV（テクスチャ）
 	rootparams[1].InitAsDescriptorTable(1, &descRangeSRV, D3D12_SHADER_VISIBILITY_ALL);
 	//CBV(スキニング)
 	rootparams[2].InitAsConstantBufferView(3, 0, D3D12_SHADER_VISIBILITY_ALL);
+	//ライト
+	rootparams[3].InitAsConstantBufferView(2, 0, D3D12_SHADER_VISIBILITY_ALL);
 
 	// スタティックサンプラー
 	CD3DX12_STATIC_SAMPLER_DESC samplerDesc = CD3DX12_STATIC_SAMPLER_DESC(0);

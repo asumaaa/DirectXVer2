@@ -35,6 +35,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	imGuiManager = new ImGuiManager();
 	imGuiManager->Initialize(winApp,dxCommon);
 
+	//ライト静的初期化
+	LightGroup::StaticInitialize(dxCommon->GetDevice());
+
 	//ゲームシーン
 	GameScene* gameScene = nullptr;
 	gameScene = new GameScene();

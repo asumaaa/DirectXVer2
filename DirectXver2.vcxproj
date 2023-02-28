@@ -156,12 +156,17 @@
     <ClCompile Include="base\Message.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="fbx\FbxLoader.cpp" />
     <ClCompile Include="fbx\FbxModel.cpp" />
     <ClCompile Include="fbx\FbxObject3D.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="ImGuiManager.cpp" />
+    <ClCompile Include="LightGroup.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PointLight.cpp" />
+    <ClCompile Include="Shadow.cpp" />
+    <ClCompile Include="SpotLight.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base\DirectXCommon.h" />
@@ -171,11 +176,17 @@
     <ClInclude Include="base\Message.h" />
     <ClInclude Include="base\WinApp.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CircleShadow.h" />
+    <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="fbx\FbxLoader.h" />
     <ClInclude Include="fbx\FbxModel.h" />
     <ClInclude Include="fbx\FbxObject3D.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="ImGuiManager.h" />
+    <ClInclude Include="LightGroup.h" />
+    <ClInclude Include="PointLight.h" />
+    <ClInclude Include="Shadow.h" />
+    <ClInclude Include="SpotLight.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
