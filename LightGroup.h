@@ -8,6 +8,7 @@
 #include "PointLight.h"
 #include "SpotLight.h"
 #include "CircleShadow.h"
+#include "Shadow.h"
 
 class LightGroup
 {
@@ -26,6 +27,7 @@ public: // 定数
 	static const int PointLightNum = 3;
 	static const int SpotLightNum = 3;
 	static const int CircleShadowNum = 1;
+	static const int ShadowNum = 1;
 
 public: // サブクラス
 	// 定数バッファ用データ構造体 
@@ -42,6 +44,8 @@ public: // サブクラス
 		SpotLight::ConstBufferData spotLights[SpotLightNum];
 		//丸影用
 		CircleShadow::ConstBufferData circleShadows[CircleShadowNum];
+		//影用
+		Shadow::ConstBufferData shadows[ShadowNum];
 	};
 
 private:	//静的メンバ変数
@@ -105,6 +109,14 @@ public:	//メンバ関数
 	//丸影の減衰角度セット
 	void SetCircleShadowFactorAngle(int index, const XMFLOAT2& lightFactorAngle);
 
+	//影の有効フラグセット
+	void SetShadowActive(int index, bool active);
+	//影のライト座標セット
+	void SetShadowLightPos(int index, XMFLOAT3 lightPos, XMFLOAT3 target, XMFLOAT3 up);
+	//影のライトビュー座標
+	void SetShadowLightView(int index, XMMATRIX lightView);
+	//影の射影変換
+	void SetShadowLightViewProj(int index, XMMATRIX lightViewProj);
 
 	void Initialize();
 	void Update();
@@ -125,5 +137,7 @@ private: // メンバ変数
 	SpotLight spotLights[SpotLightNum];
 	//丸影の配列
 	CircleShadow circleShadows[CircleShadowNum];
+	//影の配列
+	Shadow shadows[ShadowNum];
 };
 

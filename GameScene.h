@@ -48,13 +48,15 @@ private:
 	float lightDir0[3] = { 0,0,1 };
 	float lightColor0[3] = { 0,0,0 };
 
-	float pointLightPos0[3] = { 0,0,0 };
+	float pointLightPos0[3] = { 0,7,0 };
 	float pointLightColor0[3] = { 1,1,1 };
-	float pointLightAtten0[3] = {0.3f,0.1f,0.1f};
+	float pointLightAtten0[3] = {0.3f,0.05f,0.0f};
 
 	float circleShadowDir[3] = { 1,-1,0 };
 	float circleShadowAtten[3] = { 0.5f,0.6f,0.0f };
 	float circleShadowFactorAngle[2] = { 0.0f,0.5f };
+
+	float shadowLightPos[3] = { 3,5,3 };
 
 	//ïœå`çsóÒ
 	DirectX::XMFLOAT3 position = { 0.0f,0.0f,0.0f };

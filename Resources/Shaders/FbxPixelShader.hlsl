@@ -123,6 +123,45 @@ float4 main(VSOutput input) : SV_TARGET
 		}
 	}
 
+	for (int i = 0; i < SHADOW_NUM; i++)
+	{
+		//if (1)
+		//{
+		//	// ライト目線によるZ値の再算出
+		//	float ZValue = input.zCalcTex.z / input.zCalcTex.w;
+
+		//	// 射影空間のXY座標をテクスチャ座標に変換
+		//	float2 TransTexCoord;
+		//	TransTexCoord.x = (1.0f + input.zCalcTex.x / input.zCalcTex.w) * 0.5f;
+		//	TransTexCoord.y = (1.0f - input.zCalcTex.y / input.zCalcTex.w) * 0.5f;
+
+		//	// リアルZ値抽出
+		//	float SM_Z = tex.Sample(smp, texcoord).x;
+
+		//	// 算出点がシャドウマップのZ値よりも大きければ影と判断
+		//	if (ZValue > SM_Z + 0.005f) {
+		//		input.col.rgb = input.col.rgb * 0.5f;
+		//	}
+		//	return input.col * texcoord * shadecolor;
+		//}
+		//// ライト目線によるZ値の再算出
+		//float ZValue = input.zCalcTex.z / input.zCalcTex.w;
+
+		//// 射影空間のXY座標をテクスチャ座標に変換
+		//float2 TransTexCoord;
+		//TransTexCoord.x = (1.0f + input.zCalcTex.x / input.zCalcTex.w) * 0.5f;
+		//TransTexCoord.y = (1.0f - input.zCalcTex.y / input.zCalcTex.w) * 0.5f;
+
+		//// リアルZ値抽出
+		//float SM_Z = tex.Sample(smp, texcoord);
+
+		//// 算出点がシャドウマップのZ値よりも大きければ影と判断
+		//if (ZValue > SM_Z + 0.005f) {
+		//	input.col.rgb = input.col.rgb * 0.5f;
+		//}
+		//return input.col * texcoord;
+	}
+
 	//陰影とテクスチャの色を合成
 	return shadecolor * texcoord;
 }
