@@ -3,7 +3,6 @@ static const int MAX_BONES = 32;
 
 cbuffer cbuff0 : register(b0)
 {
-	matrix view;	//ビユー
 	matrix viewproj;	//ビュープロジェクション行列
 	matrix world;	//ワールド行列
 	float3 cameraPos;	//カメラ座標
@@ -61,16 +60,6 @@ struct CircleShadow
 	uint active;
 };
 
-//影の数
-static const int SHADOW_NUM = 1;
-
-struct Shadow
-{
-	uint active;
-	matrix lightView;
-	matrix lightViewProj;
-};
-
 cbuffer cbuff2 : register(b2)
 {
 	float3 ambientColor;
@@ -78,7 +67,6 @@ cbuffer cbuff2 : register(b2)
 	PointLight pointLights[POINTLIGHT_NUM];
 	SpotLight spotLights[SPOTLIGHT_NUM];
 	CircleShadow circleShadows[CIRCLESHADOW_NUM];
-	Shadow shadows[SHADOW_NUM];
 }
 
 cbuffer skinning:register(b3)	//ボーンのスキニング行列が入る
@@ -103,9 +91,4 @@ struct VSOutput
 	float4 worldpos : POSITION;	//システム用頂点座標
 	float3 normal : NORMAL;	//法線
 	float2 uv : TEXCOORD;	//uv値
-
-	//影用
-	float4 pos : POSITION2;	//射影変換座標
-	float4 zCalcTex : TEX;	//Z値算出用テクスチャ
-	float4 col : COLOR0;	//ディフューズ色
 };

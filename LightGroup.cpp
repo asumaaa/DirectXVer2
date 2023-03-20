@@ -102,7 +102,7 @@ void LightGroup::TransferConstBuffer()
 		for (int i = 0; i < ShadowNum; i++) {
 			// —LŒø‚È‚çÝ’è‚ð“]‘—
 			if (shadows[i].IsActive()) {
-				constMap->shadows[i].active = true;
+				constMap->shadows[i].active = shadows[i].IsActive();
 				constMap->shadows[i].lightView = shadows[i].GetLightView();
 				constMap->shadows[i].lightViewProj = shadows[i].GetLightViewProj();
 			}
@@ -282,7 +282,7 @@ void LightGroup::SetShadowActive(int index, bool active)
 {
 	assert(0 <= index && index < ShadowNum);
 
-	shadows[index].SetActive(true);
+	shadows[index].SetActive(active);
 }
 
 void LightGroup::SetShadowLightPos(int index, XMFLOAT3 lightPos, XMFLOAT3 target, XMFLOAT3 up)

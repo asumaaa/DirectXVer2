@@ -7,6 +7,7 @@
 #include "DirectXCommon.h"
 #include "Camera.h"
 #include "FbxObject3d.h"
+#include "FbxObject3d2.h"
 #include "FbxModel.h"
 #include "LightGroup.h"
 
@@ -36,12 +37,15 @@ private:
 	FbxObject3D* object0 = nullptr;
 	FbxObject3D* object2 = nullptr;
 
+	FbxObject3D2* object1 = nullptr;
+
 	FbxModel* model1 = nullptr;
-	FbxObject3D* object1 = nullptr;
+	//FbxObject3D* object1 = nullptr;
 	FbxModel* model2 = nullptr;
 
 	//ƒ‰ƒCƒg
-	LightGroup* lightGroup = nullptr;
+	LightGroup* lightGroup0 = nullptr;
+	LightGroup* lightGroup1 = nullptr;
 
 	float ambientColor0[3] = { 1,1,1 };
 	//Œõü•ûŒü‰Šú’l

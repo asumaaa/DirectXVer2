@@ -35,17 +35,16 @@ public: // サブクラス
 	{
 		//環境光の色
 		XMFLOAT3 ambientColor;
-		float pad1;
 		//平行光源用
 		DirectionalLight::ConstBufferData dirLights[DirLightNum];
 		//点光源用
 		PointLight::ConstBufferData pointLights[PointLightNum];
 		//スポットライト
 		SpotLight::ConstBufferData spotLights[SpotLightNum];
-		//丸影用
-		CircleShadow::ConstBufferData circleShadows[CircleShadowNum];
 		//影用
 		Shadow::ConstBufferData shadows[ShadowNum];
+		//丸影用
+		CircleShadow::ConstBufferData circleShadows[CircleShadowNum];
 	};
 
 private:	//静的メンバ変数

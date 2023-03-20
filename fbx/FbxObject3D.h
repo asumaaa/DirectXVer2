@@ -29,7 +29,6 @@ public:
 	//定数バッファ用データ構造体
 	struct ConstBufferDataTransform
 	{
-		XMMATRIX view;
 		XMMATRIX viewproj;
 		XMMATRIX world;
 		XMFLOAT3 cameraPos;
