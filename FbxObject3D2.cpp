@@ -312,7 +312,8 @@ void FbxObject3D2::CreateGraphicsPipeline()
 	if (FAILED(result)) { assert(0); }
 }
 
-void FbxObject3D2::PlayAnimation()
+void FbxObject3D2
+::PlayAnimation()
 {
 	FbxScene* fbxScene = model->GetFbxScene();
 	//0番アニメーション取得
