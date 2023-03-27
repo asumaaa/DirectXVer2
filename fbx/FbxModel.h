@@ -121,6 +121,8 @@ public:
 	//モデルの変形行列のゲッター
 	const XMMATRIX& GetModelTransform() { return meshNode->globalTransform; }
 
+	ComPtr<ID3D12Resource> GetTexBuff() { return texBuff; }
+
 private:
 	//ボーン配列
 	std::vector<Bone>bones;

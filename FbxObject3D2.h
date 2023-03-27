@@ -29,9 +29,9 @@ public:
 	//定数バッファ用データ構造体
 	struct ConstBufferDataTransform
 	{
+		XMMATRIX view;
 		XMMATRIX viewproj;
 		XMMATRIX world;
-		XMFLOAT3 cameraPos;
 	};
 	//定数バッファ用データ構造体(スキニング)
 	struct ConstBufferDataSkin
@@ -64,6 +64,9 @@ public://メンバ関数
 	//アニメーション開始
 	void PlayAnimation();
 
+	////シャドウマップ用デスクリプタヒープ作成
+	void CreateShadowBuffer();
+
 	//セッター
 	void SetPosition(XMFLOAT3 pos) { position = pos; }
 	void SetRotation(XMFLOAT3 rot) { rotation = rot; }
@@ -91,6 +94,16 @@ private:
 
 	//定数バッファ
 	ComPtr<ID3D12Resource>constBuffSkin;
+
+	//テクスチャバッファ
+	ComPtr<ID3D12Resource>texBuff;
+	//シャドウバッファ
+	ComPtr<ID3D12Resource>shadowBuff;
+	//シャドウマップ用深度バッフ
+	ComPtr<ID3D12DescriptorHeap>descHeapShadowBufffer;
+	ComPtr<ID3D12DescriptorHeap>descHeapShadowTexture;
+
+	ComPtr<ID3D12DescriptorHeap>descHeapTexture;
 
 	//1フレームの時間
 	FbxTime frameTime;

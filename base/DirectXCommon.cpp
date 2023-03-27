@@ -240,7 +240,7 @@ void DirectXCommon::InitializeDepthBuffer()
 	);
 
 	//深度ビュー用デスクリプタヒープ作成
-	dsvHeapDesc.NumDescriptors = 1;	//深度ビューは1つ
+	dsvHeapDesc.NumDescriptors = 2;	//深度ビューは1つ
 	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;	//デプスステンシルビュー
 	result = GetDevice()->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&dsvHeap));
 
@@ -286,7 +286,7 @@ void DirectXCommon::PreDraw()
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = GetRtvHeap()->GetCPUDescriptorHandleForHeapStart();
 	rtvHandle.ptr += bbIndex * GetDevice()->GetDescriptorHandleIncrementSize(rtvHeapDesc.Type);
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvHeap->GetCPUDescriptorHandleForHeapStart();
-	GetCommandList()->OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
+	GetCommandList()->OMSetRenderTargets(0, nullptr, false, &dsvHandle);
 
 	// 3. 画面クリアコマンド   R     G    B    A
 	FLOAT clearColor[] = { 0.004f,0.0f,0.0f,0.0f };
@@ -310,6 +310,9 @@ void DirectXCommon::PreDraw()
 	scissorRect.top = 0;
 	scissorRect.bottom = scissorRect.top + window_height;
 	GetCommandList()->RSSetScissorRects(1, &scissorRect);
+}
+void DirectXCommon::PreDraw1()
+{
 }
 #pragma endregion 
 #pragma region 描画後処理
@@ -360,6 +363,9 @@ void DirectXCommon::PostDraw()
 	//再びコマンドリストを貯める準備
 	result = GetCommandList()->Reset(GetCommandAllocator(), nullptr);
 	assert(SUCCEEDED(result));
+}
+void DirectXCommon::PostDraw1()
+{
 }
 #pragma endregion
 ComPtr<ID3D12DescriptorHeap> DirectXCommon::CreateDescriptorForImgui()

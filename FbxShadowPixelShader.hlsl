@@ -2,25 +2,8 @@
 
 //0番スロットに設定されたテクスチャ
 Texture2D<float4> tex : register(t0);
-//シャドウマップ
-Texture2D<float4> shadow_map : register(t1);
 //0番スロットに設定されたサンプラー
 SamplerState smp : register(s0);
-//1番スロットに設定されたサンプラー
-SamplerState smp1 : register(s1);
-//エントリーポイント
-//float4 main(VSOutput input) : SV_TARGET
-//{
-//	//テクスチャマッピング
-//	float4 texcoord = tex.Sample(smp,input.uv);
-//	//Lambert反射
-//	float3 light = normalize(float3(1,-1,1));	//右下奥 向きのライト
-//	float diffuse = saturate(dot(-light, input.normal));
-//	float brightness = diffuse + 0.3f;
-//	float4 shadecolor = float4(brightness, brightness, brightness, 1.0f);
-//	//陰影とテクスチャの色を合成
-//	return shadecolor * texcoord;
-//}
 
 float4 main(VSOutput input) : SV_TARGET
 {
@@ -41,7 +24,7 @@ float4 main(VSOutput input) : SV_TARGET
 	//		// 拡散反射光
 	//		float3 diffuse = dotlightnormal;
 	//		//全て加算する
-	//		shadecolor.rgb += (diffuse) * dirLights[i].lightcolor;
+	//		shadecolor.rgb += (diffuse)*dirLights[i].lightcolor;
 	//	}
 	//}
 
@@ -65,7 +48,7 @@ float4 main(VSOutput input) : SV_TARGET
 	//		// 拡散反射光
 	//		float3 diffuse = dotlightnormal;
 	//		//全て加算する
-	//		shadecolor.rgb += atten * (diffuse) * pointLights[i].lightcolor;
+	//		shadecolor.rgb += atten * (diffuse)*pointLights[i].lightcolor;
 	//	}
 	//}
 
@@ -78,7 +61,7 @@ float4 main(VSOutput input) : SV_TARGET
 	//		float d = length(lightv);
 	//		lightv = normalize(lightv);
 	//		//距離減衰係数
-	//		float atten = saturate(1.0f / (spotLights[i].lightatten.x + spotLights[i].lightatten.y * d + spotLights[i].lightatten.z * d * d)); 
+	//		float atten = saturate(1.0f / (spotLights[i].lightatten.x + spotLights[i].lightatten.y * d + spotLights[i].lightatten.z * d * d));
 	//		// 角度減衰
 	//		float cos = dot(lightv, spotLights[i].lightv);
 	//		//減衰開始角度から、 減衰終了角度にかけて減衰
@@ -93,7 +76,7 @@ float4 main(VSOutput input) : SV_TARGET
 	//		//拡散反射光
 	//		float3 diffuse = dotlightnormal;
 	//		//全て加算する
-	//		shadecolor.rgb += atten * (diffuse) * spotLights[i].lightcolor;
+	//		shadecolor.rgb += atten * (diffuse)*spotLights[i].lightcolor;
 	//	}
 	//}
 
@@ -110,14 +93,14 @@ float4 main(VSOutput input) : SV_TARGET
 	//		// 距離がマイナスなら0にする
 	//		atten *= step(0, d);
 	//		// 仮想ライトの座標
-	//		float3 lightpos = circleShadows[i].casterPos + circleShadows[i].dir * circleShadows[i].distanceCasterLight; 
+	//		float3 lightpos = circleShadows[i].casterPos + circleShadows[i].dir * circleShadows[i].distanceCasterLight;
 	//		// オブジェクト表面からライトへのベクトル (単位ベクトル)
 	//		float3 lightv = normalize(lightpos - input.worldpos.xyz);
 	//		// 角度減衰
 	//		float cos = dot(lightv, circleShadows[i].dir);
 	//		//減衰開始角度から、 減衰終了角度にかけて減衰
 	//		//減衰開始角度の内側は1倍減衰終了角度の外側は0倍の輝度
-	//		float angleatten = smoothstep(circleShadows[i].factorAngleCos.y, circleShadows[i].factorAngleCos.x, cos); 
+	//		float angleatten = smoothstep(circleShadows[i].factorAngleCos.y, circleShadows[i].factorAngleCos.x, cos);
 	//		//角度減衰を乗算
 	//		atten *= angleatten;
 
@@ -127,10 +110,8 @@ float4 main(VSOutput input) : SV_TARGET
 	//	}
 	//}
 
-	float sm = shadow_map.Sample(smp1, input.pos.xy);
-	float sma = (input.pos.z - 0.005f < sm) ? 1.0f : 0.5f;
-
-	return tex.Sample(smp, input.uv) * sma;
+	////陰影とテクスチャの色を合成
+	//return shadecolor * texcoord;
 
 	for (int i = 0; i < SHADOW_NUM; i++)
 	{
@@ -145,17 +126,15 @@ float4 main(VSOutput input) : SV_TARGET
 			TransTexCoord.y = (1.0f - input.zCalcTex.y / input.zCalcTex.w) * 0.5f;
 
 			// リアルZ値抽出
-			float SM_Z = tex.Sample(smp, texcoord).x;
+			float SM_Z = tex.Sample(smp, TransTexCoord).x;
 
 			// 算出点がシャドウマップのZ値よりも大きければ影と判断
-			if (ZValue > SM_Z + 0.001f) {
-				input.col.rgb = input.col.rgb * 0.5f;
+			if (ZValue > SM_Z + 0.005f) {
+				input.col.rgb = input.col.rgb * 0.1f;
 			}
-			return float4(1, 0, 1, 1);
-			return (input.col * shadecolor);
+			return input.col * texcoord;
 		}
 	}
 
-	//陰影とテクスチャの色を合成
-	return shadecolor * texcoord;
+	return float4(0,1,1,0.1f);
 }

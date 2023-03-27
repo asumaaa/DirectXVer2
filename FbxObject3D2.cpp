@@ -114,9 +114,9 @@ void FbxObject3D2::Update()
 	result = constBuffTransform->Map(0, nullptr, (void**)&constMap);
 	if (SUCCEEDED(result))
 	{
+		constMap->view = camera->GetMatView();
 		constMap->viewproj = matViewProjection;
 		constMap->world = matWorld;
-		constMap->cameraPos = cameraPos;
 		constBuffTransform->Unmap(0, nullptr);
 	}
 
@@ -158,7 +158,7 @@ void FbxObject3D2::CreateGraphicsPipeline()
 
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/FbxVertexShader.hlsl",    // シェーダファイル名
+		L"FbxShadowVertexShader.hlsl",    // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "vs_5_0",    // エントリーポイント名、シェーダーモデル指定
@@ -181,7 +181,7 @@ void FbxObject3D2::CreateGraphicsPipeline()
 
 	// ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/FbxPixelShader.hlsl",    // シェーダファイル名
+		L"FbxShadowPixelShader.hlsl",    // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "ps_5_0",    // エントリーポイント名、シェーダーモデル指定
@@ -331,4 +331,8 @@ void FbxObject3D2
 	currentTime = startTime;
 	//再生中状態にする
 	isPlay = true;
+}
+
+void FbxObject3D2::CreateShadowBuffer()
+{
 }

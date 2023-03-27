@@ -101,7 +101,7 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 	D3D12_DESCRIPTOR_HEAP_DESC descHeapDesc = {};
 	descHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 	descHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-	descHeapDesc.NumDescriptors = 1;
+	descHeapDesc.NumDescriptors = 2;
 	result = device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&descHeapSRV));
 
 	//シェーダリソースビュー作成

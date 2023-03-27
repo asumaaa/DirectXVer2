@@ -65,7 +65,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	FbxLoader::GetInstance()->Initialize(dxCommon_->GetDevice());
 	//モデル名を指定してファイル読み込み
 	model0 = FbxLoader::GetInstance()->LoadModelFromFile("key", "Resources/key.png");
-	model1 = FbxLoader::GetInstance()->LoadModelFromFile("cube", "Resources/white1x1.png");
+	model1 = FbxLoader::GetInstance()->LoadModelFromFile("cube", "Resources/toriko.png");
 	model2 = FbxLoader::GetInstance()->LoadModelFromFile("light", "Resources/white1x1.png");
 
 	//デバイスをセット
@@ -77,7 +77,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	//デバイスをセット
 	FbxObject3D2::SetDevice(dxCommon_->GetDevice());
 	FbxObject3D2::SetCamera(camera_.get());
-	FbxObject3D2::SetLightGroup(lightGroup0);
+	FbxObject3D2::SetLightGroup(lightGroup1);
 	FbxObject3D2::CreateGraphicsPipeline();
 
 	//オブジェクト初期化
@@ -93,9 +93,9 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	object2->Initialize();
 	object2->SetModel(model2);
 
-	/*object1 = new FbxObject3D;
+	object1 = new FbxObject3D2;
 	object1->Initialize();
-	object1->SetModel(model1);*/
+	object1->SetModel(model1);
 
 }
 
@@ -169,4 +169,8 @@ void GameScene::Draw()
 	object0->Draw(dxCommon_->GetCommandList());
 	object1->Draw(dxCommon_->GetCommandList());
 	object2->Draw(dxCommon_->GetCommandList());
+}
+
+void GameScene::Draw1()
+{
 }

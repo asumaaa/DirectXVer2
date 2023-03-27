@@ -34,7 +34,9 @@ public:
 	void InitializeFence();				//フェンス関連
 	//描画
 	void PreDraw();		//描画前
+	void PreDraw1();		//描画前
 	void PostDraw();	//描画後 
+	void PostDraw1();	//描画後 
 	//imgui用のヒープ生成
 	ComPtr<ID3D12DescriptorHeap>CreateDescriptorForImgui();
 	void InitializeImgui();

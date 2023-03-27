@@ -3,11 +3,9 @@ static const int MAX_BONES = 32;
 
 cbuffer cbuff0 : register(b0)
 {
-	float4 pos;
-	matrix view;	//ビユー
+	matrix view;	//ビュー行列
 	matrix viewproj;	//ビュープロジェクション行列
 	matrix world;	//ワールド行列
-	float3 cameraPos;	//カメラ座標
 }
 
 //cbuffer cbuff2 : register(b2)
@@ -50,6 +48,16 @@ struct SpotLight
 };
 
 //丸影の数
+static const int SHADOW_NUM = 2;
+
+struct Shadow
+{
+	uint active;
+	matrix lightView;
+	matrix lightViewProj;
+};
+
+//丸影の数
 static const int CIRCLESHADOW_NUM = 2;
 
 struct CircleShadow
@@ -60,16 +68,6 @@ struct CircleShadow
 	float3 atten;
 	float2 factorAngleCos;
 	uint active;
-};
-
-//影の数
-static const int SHADOW_NUM = 1;
-
-struct Shadow
-{
-	uint active;
-	matrix lightView;
-	matrix lightViewProj;
 };
 
 cbuffer cbuff2 : register(b2)
@@ -105,8 +103,20 @@ struct VSOutput
 	float3 normal : NORMAL;	//法線
 	float2 uv : TEXCOORD;	//uv値
 
-	//影用
-	float4 pos : POSITION2;	//射影変換座標
-	float4 zCalcTex : TEX;	//Z値算出用テクスチャ
-	float4 col : COLOR0;	//ディフューズ色
+	float4 pos : POSITION2; // 射影変換座標
+	float4 zCalcTex : TEX; // Z値算出用テクスチャ
+	float4 col : COLOR0; // ディフューズ色
 };
+
+//cbuffer cbuff0 : register(b0)
+//{
+//	matrix viewproj;	//ビュープロジェクション行列
+//	matrix world;	//ワールド行列
+//	float3 cameraPos;	//カメラ座標
+//}
+//
+//cbuffer cbuff2 : register(b2)
+//{
+//	float3 lightv;	//ライトへの方向ベクトル
+//	float3 lightcolor;	//ライトの色
+//}

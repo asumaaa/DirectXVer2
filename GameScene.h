@@ -22,6 +22,7 @@ public:
 	void Update();
 	//•`‰æ
 	void Draw();
+	void Draw1();
 
 	//ƒƒ“ƒo•Ï”
 private:
