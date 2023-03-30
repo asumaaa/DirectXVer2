@@ -9,6 +9,9 @@
 #include "ImGuiManager.h"
 #include "imgui.h"
 
+#include "SpriteCommon.h"
+#include "Sprite.h"
+
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	//ウィンドウ生成
@@ -42,6 +45,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	GameScene* gameScene = nullptr;
 	gameScene = new GameScene();
 	gameScene->Initialize(dxCommon, input);
+
+	//スプライト
+
 
 	//FPSを固定
 	FPS* fps = nullptr;

@@ -286,7 +286,7 @@ void DirectXCommon::PreDraw()
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = GetRtvHeap()->GetCPUDescriptorHandleForHeapStart();
 	rtvHandle.ptr += bbIndex * GetDevice()->GetDescriptorHandleIncrementSize(rtvHeapDesc.Type);
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvHeap->GetCPUDescriptorHandleForHeapStart();
-	GetCommandList()->OMSetRenderTargets(0, nullptr, false, &dsvHandle);
+	GetCommandList()->OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
 
 	// 3. 画面クリアコマンド   R     G    B    A
 	FLOAT clearColor[] = { 0.004f,0.0f,0.0f,0.0f };

@@ -74,29 +74,18 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	FbxObject3D::SetLightGroup(lightGroup0);
 	FbxObject3D::CreateGraphicsPipeline();
 
-	//デバイスをセット
-	FbxObject3D2::SetDevice(dxCommon_->GetDevice());
-	FbxObject3D2::SetCamera(camera_.get());
-	FbxObject3D2::SetLightGroup(lightGroup1);
-	FbxObject3D2::CreateGraphicsPipeline();
-
 	//オブジェクト初期化
 	object0 = new FbxObject3D;
 	object0->Initialize();
 	object0->SetModel(model0);
 
-	object1 = new FbxObject3D2;
+	object1 = new FbxObject3D;
 	object1->Initialize();
 	object1->SetModel(model1);
 
 	object2 = new FbxObject3D;
 	object2->Initialize();
 	object2->SetModel(model2);
-
-	object1 = new FbxObject3D2;
-	object1->Initialize();
-	object1->SetModel(model1);
-
 }
 
 void GameScene::Update()
