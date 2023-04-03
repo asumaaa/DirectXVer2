@@ -24,7 +24,7 @@ private:	//エイリアス
 
 public:
 	//定数
-	static const int MAX_BONES = 32;
+	static const int MAX_BONES = 320;
 	//サブクラス
 	//定数バッファ用データ構造体
 	struct ConstBufferDataTransform

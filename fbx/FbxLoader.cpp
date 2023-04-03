@@ -197,6 +197,7 @@ void FbxLoader::ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh)
     //Uv名リスト
     FbxStringList uvNames;
     fbxMesh->GetUVSetNames(uvNames);
+    const char* uvSetName = uvNames.GetStringAt(0);
 
     //面ごとの情報読み取り
     for (int i = 0; i < polygonCount; i++)
@@ -228,7 +229,7 @@ void FbxLoader::ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh)
                 FbxVector2 uvs;
                 bool lUnmappedUv;
                 //0番決め打ちで読み込み
-                if (fbxMesh->GetPolygonVertexUV(i, j, uvNames[0], uvs, lUnmappedUv))
+                if (fbxMesh->GetPolygonVertexUV(i, j, uvSetName, uvs, lUnmappedUv))
                 {
                     vertex.uv.x = (float)uvs[0];
                     vertex.uv.y = (float)uvs[1];

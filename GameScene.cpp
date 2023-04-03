@@ -124,7 +124,7 @@ void GameScene::Update()
 	//オブジェクト更新
 	rotation0.y += 0.02;
 	object0->SetPosition({0,3,0});
-	object0->SetScale({0.2f,0.1f,0.4f});
+	object0->SetScale({0.1f,0.1f,0.4f});
 	object0->SetRotation(rotation0);
 	object0->Update();
 

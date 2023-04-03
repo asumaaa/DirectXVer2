@@ -93,9 +93,6 @@
     <ClCompile Include="ShadowMap.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="SpriteCommon.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Sprite.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -158,9 +155,6 @@
     <ClInclude Include="ShadowMap.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="SpriteCommon.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Sprite.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -170,9 +164,6 @@
       <Filter>リソース ファイル\Shaders</Filter>
     </None>
     <None Include="Resources\Shaders\ShaderHeader.hlsli">
-      <Filter>リソース ファイル\Shaders</Filter>
-    </None>
-    <None Include="Resources\Shaders\SpriteHeader.hlsli">
       <Filter>リソース ファイル\Shaders</Filter>
     </None>
     <None Include="FbxShadowHeader.hlsli">
@@ -189,12 +180,6 @@
     <FxCompile Include="Resources\Shaders\PixelShader.hlsl">
       <Filter>リソース ファイル\Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\SpritePixelShader.hlsl">
-      <Filter>リソース ファイル\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\SpriteVertexShader.hlsl">
-      <Filter>リソース ファイル\Shaders</Filter>
-    </FxCompile>
     <FxCompile Include="Resources\Shaders\VertexShader.hlsl">
       <Filter>リソース ファイル\Shaders</Filter>
     </FxCompile>
@@ -202,6 +187,12 @@
       <Filter>リソース ファイル\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="FbxShadowPixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\SpritePixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\SpriteVertexShader.hlsl">
       <Filter>リソース ファイル\Shaders</Filter>
     </FxCompile>
   </ItemGroup>

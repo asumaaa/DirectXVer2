@@ -9,7 +9,6 @@
 #include "ImGuiManager.h"
 #include "imgui.h"
 
-#include "SpriteCommon.h"
 #include "Sprite.h"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
@@ -47,7 +46,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	gameScene->Initialize(dxCommon, input);
 
 	//スプライト
+	Sprite::SetDevice(dxCommon->GetDevice());
+	Sprite::CreateGraphicsPipeLine();
 
+	Sprite* sprite = nullptr;
+	sprite = new Sprite;
+	sprite->Initialize();
 
 	//FPSを固定
 	FPS* fps = nullptr;
@@ -73,6 +77,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		// 4. 描画コマンド
 		gameScene->Draw();
+
+		sprite->SetAlpha(0.7f);
+		sprite->Update();
+		sprite->Draw(dxCommon->GetCommandList());
 
 		imGuiManager->End();
 		imGuiManager->Draw();
