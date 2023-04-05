@@ -169,6 +169,9 @@
     <None Include="FbxShadowHeader.hlsli">
       <Filter>リソース ファイル\Shaders</Filter>
     </None>
+    <None Include="Resources\Shaders\SpriteHeader.hlsli">
+      <Filter>リソース ファイル\Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\FbxPixelShader.hlsl">

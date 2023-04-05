@@ -29,7 +29,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	newCamera->Initialize();
 	camera_.reset(newCamera);
 	camera_->SetTarget({ 0,0,0 });
-	camera_->SetEye({ 0, 10,-10 });
+	camera_->SetEye({ 0, 5,-10 });
 
 	//ライト生成
 	lightGroup0 = LightGroup::Create();
@@ -86,6 +86,14 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	object2 = new FbxObject3D;
 	object2->Initialize();
 	object2->SetModel(model2);
+
+	//スプライト
+	Sprite::SetDevice(dxCommon->GetDevice());
+	Sprite::CreateGraphicsPipeLine();
+
+	sprite = new Sprite;
+	sprite->Initialize();
+	sprite->LoadFile(L"Resources/toriko.png");
 }
 
 void GameScene::Update()
@@ -137,6 +145,10 @@ void GameScene::Update()
 	object2->SetScale({ 0.2f,0.1f,0.4f });
 	object2->SetRotation({0,0,0});
 	object2->Update();
+
+	//スプライト更新
+	sprite->SetAlpha(0.1f);
+	sprite->Update();
 }
 
 void GameScene::Draw()
@@ -158,6 +170,8 @@ void GameScene::Draw()
 	object0->Draw(dxCommon_->GetCommandList());
 	object1->Draw(dxCommon_->GetCommandList());
 	object2->Draw(dxCommon_->GetCommandList());
+
+	sprite->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::Draw1()

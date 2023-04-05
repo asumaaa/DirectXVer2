@@ -1,6 +1,7 @@
 #include "Sprite.h"
 #include "string.h"
 #include <d3dcompiler.h>
+#include <DirectXTex.h>
 
 #pragma comment(lib, "d3dcompiler.lib")
 
@@ -16,12 +17,15 @@ void Sprite::Initialize()
 	HRESULT result;
 
 	//頂点データ
-	vertices[0] = { -0.5f,-0.5f, 0.0f };
-	vertices[1] = { -0.5f,+0.5f, 0.0f };
-	vertices[2] = { +0.5f,-0.5f, 0.0f };
+	vertices[0] = {{ -0.4f,-0.7f, 0.0f },{ 0.0f,1.0f }};	//左下
+	vertices[1] = {{ -0.4f,+0.7f, 0.0f },{ 0.0f,0.0f }};	//左上
+	vertices[2] = {{ +0.4f,-0.7f, 0.0f },{ 1.0f,1.0f }};	//右下
+	vertices[3] = {{ +0.4f,-0.7f, 0.0f },{ 1.0f,1.0f }};	//右下
+	vertices[4] = {{ -0.4f,+0.7f, 0.0f },{ 0.0f,0.0f }};	//左上
+	vertices[5] = {{ +0.4f,+0.7f, 0.0f },{ 1.0f,0.0f }};	//右上
 
 	//頂点データのサイズ
-	UINT sizeVB = static_cast<UINT>(sizeof(XMFLOAT3) * _countof(vertices));
+	UINT sizeVB = static_cast<UINT>(sizeof(Vertex) * _countof(vertices));
 
 	//頂点バッファの設定
 	D3D12_HEAP_PROPERTIES heapProp{};	//ヒープ設定
@@ -49,7 +53,7 @@ void Sprite::Initialize()
 	assert(SUCCEEDED(result));
 
 	//GPU上のバッファに対応した仮想メモリを取得
-	XMFLOAT3* vertMap = nullptr;
+	Vertex* vertMap = nullptr;
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	//全頂点に対して
@@ -66,7 +70,7 @@ void Sprite::Initialize()
 	//頂点バッファのサイズ
 	vbView.SizeInBytes = sizeVB;
 	//頂点1つ分のデータサイズ
-	vbView.StrideInBytes = sizeof(XMFLOAT3);
+	vbView.StrideInBytes = sizeof(Vertex);
 
 	//定数バッファの設定
 	//ヒープ設定
@@ -91,6 +95,110 @@ void Sprite::Initialize()
 		IID_PPV_ARGS(&constBuffMaterial)
 	);
 	assert(SUCCEEDED(result));
+}
+
+void Sprite::LoadFile(const wchar_t* fileName)
+{
+	HRESULT result;
+
+	DirectX::TexMetadata metadata{};
+	DirectX::ScratchImage scratchImg{};
+	
+	//WICテクスチャのロード
+	result = DirectX::LoadFromWICFile(
+		fileName,
+		DirectX::WIC_FLAGS_NONE,
+		&metadata,
+		scratchImg
+	);
+
+	DirectX::ScratchImage mipChain{};
+	
+	//ミップマップ生成
+	result = DirectX::GenerateMipMaps(
+		scratchImg.GetImages(),
+		scratchImg.GetImageCount(),
+		scratchImg.GetMetadata(),
+		DirectX::TEX_FILTER_DEFAULT,
+		0,
+		mipChain
+	);
+	if (SUCCEEDED(result))
+	{
+		scratchImg = std::move(mipChain);
+		metadata = scratchImg.GetMetadata();
+	}
+
+	//読み込んだディフューズテクスチャをSRGBとして扱う
+	metadata.format = DirectX::MakeSRGB(metadata.format);
+
+	//リソース設定
+	D3D12_RESOURCE_DESC textureResourceDesc{};
+	textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	textureResourceDesc.Format = metadata.format;
+	textureResourceDesc.Width = metadata.width;
+	textureResourceDesc.Height = (UINT)metadata.height;
+	textureResourceDesc.DepthOrArraySize = (UINT)metadata.arraySize;
+	textureResourceDesc.MipLevels = (UINT)metadata.mipLevels;
+	textureResourceDesc.SampleDesc.Count = 1;
+
+	//テクスチャバッファ設定
+	D3D12_HEAP_PROPERTIES textureHeapProp{};
+	textureHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
+	textureHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
+	textureHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
+
+	//テクスチャバッファの生成
+	result = device->CreateCommittedResource(
+		&textureHeapProp,
+		D3D12_HEAP_FLAG_NONE,
+		&textureResourceDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&textureBuff)
+	);
+
+	for (size_t i = 0; i < metadata.mipLevels; i++)
+	{
+		//ミップマップレベルを指定してイメージを取得
+		const DirectX::Image* img = scratchImg.GetImage(i, 0, 0);
+		//テクスチャバッファにデータ転送
+		result = textureBuff->WriteToSubresource(
+			(UINT)i,
+			nullptr,
+			img->pixels,
+			(UINT)img->rowPitch,
+			(UINT)img->slicePitch
+			);
+		assert(SUCCEEDED(result));
+	}
+
+
+	//SRVの最大個数
+	const size_t kMaxSrvCount = 2056;
+	//デスクリプタヒープの設定
+	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
+	srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	srvHeapDesc.NumDescriptors = kMaxSrvCount;
+
+	//設定を元にSRV用デスクリプタヒープを生成
+	/*ID3D12DescriptorHeap* srvHeap = nullptr;*/
+	result = device->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
+	assert(SUCCEEDED(result));
+
+	//SRVヒープの先頭ハンドルを取得
+	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
+
+	//シェーダリソースビューの作成
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+	srvDesc.Format = textureResourceDesc.Format;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Texture2D.MipLevels = textureResourceDesc.MipLevels;
+
+	//ハンドルの指す位置にシェーダリソースビュー作成
+	device->CreateShaderResourceView(textureBuff.Get(), &srvDesc, srvHandle);
 }
 
 void Sprite::Update()
@@ -119,6 +227,13 @@ void Sprite::Draw(ID3D12GraphicsCommandList* cmdList)
 	
 	//定数バッファビューの設定コマンド
 	cmdList->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
+	//デスクリプタヒープの配列をセットするコマンド
+	ID3D12DescriptorHeap* ppHeaps[] = { srvHeap.Get() };
+	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+	//SRVヒープの先頭ハンドルを取得
+	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap.Get()->GetGPUDescriptorHandleForHeapStart();
+	//SRVヒープの先頭にあるSRVをルートパラメータ1晩に設定
+	cmdList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 
 	//描画コマンド
 	cmdList->DrawInstanced(_countof(vertices), 1, 0, 0);
@@ -190,6 +305,11 @@ void Sprite::CreateGraphicsPipeLine()
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0
 		},
+		{
+			"TEXCOORD",0,DXGI_FORMAT_R32G32_FLOAT,0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0
+		},
 	};
 
 	//グラフィックスパイプライン設定
@@ -235,18 +355,45 @@ void Sprite::CreateGraphicsPipeLine()
 	pipelineDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;	//RGBA
 	pipelineDesc.SampleDesc.Count = 1;	//1ピクセルにつき1回サンプリング
 
+	//テクスチャサンプラーの設定
+	D3D12_STATIC_SAMPLER_DESC samplerDesc{};
+	samplerDesc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	samplerDesc.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	samplerDesc.AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	samplerDesc.BorderColor = D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK;
+	samplerDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
+	samplerDesc.MaxLOD = D3D12_FLOAT32_MAX;
+	samplerDesc.MinLOD = 0.0f;
+	samplerDesc.ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
+	samplerDesc.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+
+	//デスクリプタレンジの設定
+	D3D12_DESCRIPTOR_RANGE descriptorRange{};
+	descriptorRange.NumDescriptors = 1;
+	descriptorRange.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	descriptorRange.BaseShaderRegister = 0;
+	descriptorRange.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
 	//ルートパラメータの設定
-	D3D12_ROOT_PARAMETER rootParameter = {};
-	rootParameter.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-	rootParameter.Descriptor.ShaderRegister = 0;
-	rootParameter.Descriptor.RegisterSpace = 0;
-	rootParameter.ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+	D3D12_ROOT_PARAMETER rootParameter[2] = {};
+	rootParameter[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameter[0].Descriptor.ShaderRegister = 0;
+	rootParameter[0].Descriptor.RegisterSpace = 0;
+	rootParameter[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+	//テクスチャレジスタ0番
+	rootParameter[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParameter[1].DescriptorTable.pDescriptorRanges = &descriptorRange;
+	rootParameter[1].DescriptorTable.NumDescriptorRanges = 1;
+	rootParameter[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 
 	//ルートシグネチャの設定
 	D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc{};
 	rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
-	rootSignatureDesc.pParameters = &rootParameter;
-	rootSignatureDesc.NumParameters = 1;
+	rootSignatureDesc.pParameters = rootParameter;
+	rootSignatureDesc.NumParameters = _countof(rootParameter);
+	rootSignatureDesc.pStaticSamplers = &samplerDesc;
+	rootSignatureDesc.NumStaticSamplers = 1;
+
 	//ルートシグネチャのシリアライズ
 	ID3DBlob* rootSigBlob = nullptr;
 	result = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0,
@@ -259,6 +406,6 @@ void Sprite::CreateGraphicsPipeLine()
 	pipelineDesc.pRootSignature = rootsignature.Get();
 
 	//パイプラインステートの生成
-	result = device->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelinestate));
+	result = device->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(pipelinestate.ReleaseAndGetAddressOf()));
 	assert(SUCCEEDED(result));
 }

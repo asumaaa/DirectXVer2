@@ -48,6 +48,7 @@ private:
 	LightGroup* lightGroup1 = nullptr;
 
 	//スプライト
+	Sprite* sprite = nullptr;
 
 	float ambientColor0[3] = { 1,1,1 };
 	//光線方向初期値

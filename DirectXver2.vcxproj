@@ -204,6 +204,7 @@
     <None Include="FbxShadowHeader.hlsli" />
     <None Include="Resources\Shaders\FbxHeader.hlsli" />
     <None Include="Resources\Shaders\ShaderHeader.hlsli" />
+    <None Include="Resources\Shaders\SpriteHeader.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="FbxShadowPixelShader.hlsl">
