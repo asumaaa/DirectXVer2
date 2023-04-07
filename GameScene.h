@@ -10,6 +10,7 @@
 #include "FbxModel.h"
 #include "LightGroup.h"
 #include "Sprite.h"
+#include "FireParticle.h"
 
 class GameScene
 {
@@ -47,8 +48,11 @@ private:
 	LightGroup* lightGroup0 = nullptr;
 	LightGroup* lightGroup1 = nullptr;
 
+	FireParticle* fireParticle1 = nullptr;
+
 	//スプライト
-	Sprite* sprite = nullptr;
+	Sprite* sprite0 = nullptr;
+	Sprite* sprite1 = nullptr;
 
 	float ambientColor0[3] = { 1,1,1 };
 	//光線方向初期値

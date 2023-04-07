@@ -15,9 +15,14 @@ private:	//エイリアス
 
 public:	//サブクラス
 	//定数バッファ
-	struct ConstBuff
+	struct ConstBuffMaterial
 	{
 		XMFLOAT4 color;
+	};
+	//定数バッファ2
+	struct ConstBuffTransform
+	{
+		XMMATRIX mat;	//3D変換行列
 	};
 	//頂点データ用構造体
 	struct Vertex
@@ -36,8 +41,23 @@ public:	//静的メンバ変数セッター
 	static void SetDevice(ID3D12Device* device) { Sprite::device = device; }
 	static void CreateGraphicsPipeLine();
 
-public:
+public:	//セッター
+	//アルファ値
 	void SetAlpha(float alpha) { color.w = alpha; }
+	//座標
+	void SetPosition(XMFLOAT2 pos) { position = pos; }
+	//角度
+	void SetRotation(float rot) { rotation = rot; }
+	//スケール
+	void SetScale(XMFLOAT2 sca) { scale = sca; }
+
+public:	//ゲッター
+	//座標
+	XMFLOAT2 GetPosition() { return position; }
+	//角度
+	float GetRotation() { return rotation; }
+	//スケール
+	XMFLOAT2 GetScale() { return scale; }
 
 private:
 	//デバイス
@@ -52,13 +72,23 @@ private:	//メンバ変数
 	D3D12_VERTEX_BUFFER_VIEW vbView;
 	//頂点データ
 	Vertex vertices[6];
-	//定数バッファ
+	Vertex* vertMap = nullptr;
+	//定数バッファ マテリアル
 	ComPtr<ID3D12Resource>constBuffMaterial;
+	ConstBuffMaterial* constMapMaterial = nullptr;
+	//定数バッファ 変形行列
+	ComPtr<ID3D12Resource>constBuffTransform;
+	ConstBuffTransform* constMapTransform = nullptr;
 	//テクスチャバッファ
 	ComPtr<ID3D12Resource>textureBuff;
 	//デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> srvHeap;
 	//テクスチャの色
 	XMFLOAT4 color = {1,1,1,1};
+
+private:
+	float rotation = 0;
+	XMFLOAT2 position = { 0,0 };
+	XMFLOAT2 scale = { 100.0f,100.0f };
 };
 

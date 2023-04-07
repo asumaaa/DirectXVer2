@@ -5,7 +5,9 @@ SamplerState smp : register(s0);
 
 float4 main(VSOutput input) : SV_TARGET
 {
+	//画像のデータ
 	float4 texData = float4(tex.Sample(smp,input.uv));
 
+	//アルファ値を合成
 	return float4(texData.x, texData.y, texData.z, texData.w * color.w);
 }

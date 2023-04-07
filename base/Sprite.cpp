@@ -1,9 +1,11 @@
 #include "Sprite.h"
 #include "string.h"
+#include "WinApp.h"
 #include <d3dcompiler.h>
 #include <DirectXTex.h>
 
 #pragma comment(lib, "d3dcompiler.lib")
+#define PI 3.1415
 
 using namespace Microsoft::WRL;
 
@@ -17,12 +19,12 @@ void Sprite::Initialize()
 	HRESULT result;
 
 	//頂点データ
-	vertices[0] = {{ -0.4f,-0.7f, 0.0f },{ 0.0f,1.0f }};	//左下
-	vertices[1] = {{ -0.4f,+0.7f, 0.0f },{ 0.0f,0.0f }};	//左上
-	vertices[2] = {{ +0.4f,-0.7f, 0.0f },{ 1.0f,1.0f }};	//右下
-	vertices[3] = {{ +0.4f,-0.7f, 0.0f },{ 1.0f,1.0f }};	//右下
-	vertices[4] = {{ -0.4f,+0.7f, 0.0f },{ 0.0f,0.0f }};	//左上
-	vertices[5] = {{ +0.4f,+0.7f, 0.0f },{ 1.0f,0.0f }};	//右上
+	vertices[0] = {{   0.0f,100.0f, 0.0f },{ 0.0f,1.0f }};	//左下
+	vertices[1] = {{   0.0f,  0.0f, 0.0f },{ 0.0f,0.0f }};	//左上
+	vertices[2] = {{ 100.0f,100.0f, 0.0f },{ 1.0f,1.0f }};	//右下
+	vertices[3] = {{ 100.0f,100.0f, 0.0f },{ 1.0f,1.0f }};	//右下
+	vertices[4] = {{   0.0f,  0.0f, 0.0f },{ 0.0f,0.0f }};	//左上
+	vertices[5] = {{ 100.0f,  0.0f, 0.0f },{ 1.0f,0.0f }};	//右上
 
 	//頂点データのサイズ
 	UINT sizeVB = static_cast<UINT>(sizeof(Vertex) * _countof(vertices));
@@ -53,7 +55,7 @@ void Sprite::Initialize()
 	assert(SUCCEEDED(result));
 
 	//GPU上のバッファに対応した仮想メモリを取得
-	Vertex* vertMap = nullptr;
+	/*Vertex* vertMap = nullptr;*/
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	//全頂点に対して
@@ -79,7 +81,7 @@ void Sprite::Initialize()
 	//リソース設定
 	D3D12_RESOURCE_DESC v1{};
 	v1.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	v1.Width = (sizeof(ConstBuff) + 0xff) & ~0xff;
+	v1.Width = (sizeof(ConstBuffMaterial) + 0xff) & ~0xff;
 	v1.Height = 1;
 	v1.DepthOrArraySize = 1;
 	v1.MipLevels = 1;
@@ -95,6 +97,37 @@ void Sprite::Initialize()
 		IID_PPV_ARGS(&constBuffMaterial)
 	);
 	assert(SUCCEEDED(result));
+
+	//定数バッファマッピング
+	result = constBuffMaterial->Map(0, nullptr, (void**)&constMapMaterial);
+	assert(SUCCEEDED(result));
+
+	//行列用定数バッファ設定
+	D3D12_HEAP_PROPERTIES v2{};
+	v2.Type = D3D12_HEAP_TYPE_UPLOAD;
+	//リソース設定
+	D3D12_RESOURCE_DESC v3{};
+	v3.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	v3.Width = (sizeof(ConstBuffTransform) + 0xff) & ~0xff;
+	v3.Height = 1;
+	v3.DepthOrArraySize = 1;
+	v3.MipLevels = 1;
+	v3.SampleDesc.Count = 1;
+	v3.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+	//定数バッファの生成
+	result = device->CreateCommittedResource(
+		&v2,
+		D3D12_HEAP_FLAG_NONE,
+		&v3,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&constBuffTransform)
+	);
+
+	//定数バッファマッピング
+	result = constBuffTransform->Map(0, nullptr, (void**)&constMapTransform);
+	assert(SUCCEEDED(result));
+	constMapTransform->mat = DirectX::XMMatrixIdentity();
 }
 
 void Sprite::LoadFile(const wchar_t* fileName)
@@ -203,14 +236,40 @@ void Sprite::LoadFile(const wchar_t* fileName)
 
 void Sprite::Update()
 {
-	HRESULT result;
+	//頂点データ
+	vertices[0] = { {    0.0f, scale.y, 0.0f },{ 0.0f,1.0f } };	//左下
+	vertices[1] = { {    0.0f,    0.0f, 0.0f },{ 0.0f,0.0f } };	//左上
+	vertices[2] = { { scale.x, scale.y, 0.0f },{ 1.0f,1.0f } };	//右下
+	vertices[3] = { { scale.x, scale.y, 0.0f },{ 1.0f,1.0f } };	//右下
+	vertices[4] = { {    0.0f,    0.0f, 0.0f },{ 0.0f,0.0f } };	//左上
+	vertices[5] = { { scale.x,    0.0f, 0.0f },{ 1.0f,0.0f } };	//右上
 
-	//定数バッファへデータ転送
-	ConstBuff* constMap = nullptr;
-	result = constBuffMaterial->Map(0, nullptr, (void**)&constMap);
-	assert(SUCCEEDED(result));
+	std::copy(std::begin(vertices), std::end(vertices), vertMap);
 
-	constMap->color = color;
+	//マテリアル
+	constMapMaterial->color = color;
+
+	//変形行列
+	//ワールド変換行列
+	XMMATRIX matWorld;
+	matWorld = DirectX::XMMatrixIdentity();
+	//回転
+	XMMATRIX matRot;
+	matRot = DirectX::XMMatrixIdentity();
+	matRot *= DirectX::XMMatrixRotationZ(rotation);
+	matWorld *= matRot;
+	//平行移動
+	XMMATRIX matTrans;
+	matTrans = DirectX::XMMatrixTranslation(position.x,position.y,0.0f);
+	matWorld *= matTrans;
+
+	//合成
+	constMapTransform->mat = matWorld;
+	//2D座標に変換
+	constMapTransform->mat.r[0].m128_f32[0] = 2.0f / window_width;
+	constMapTransform->mat.r[1].m128_f32[1] = -2.0f / window_height;
+	constMapTransform->mat.r[3].m128_f32[0] = -1.0f + (position.x / window_width) * 2;
+	constMapTransform->mat.r[3].m128_f32[1] = 1.0f - (position.y / window_height) * 2;
 }
 
 void Sprite::Draw(ID3D12GraphicsCommandList* cmdList)
@@ -234,6 +293,8 @@ void Sprite::Draw(ID3D12GraphicsCommandList* cmdList)
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap.Get()->GetGPUDescriptorHandleForHeapStart();
 	//SRVヒープの先頭にあるSRVをルートパラメータ1晩に設定
 	cmdList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+	//定数バッファビューの設定コマンド
+	cmdList->SetGraphicsRootConstantBufferView(2, constBuffTransform->GetGPUVirtualAddress());
 
 	//描画コマンド
 	cmdList->DrawInstanced(_countof(vertices), 1, 0, 0);
@@ -375,7 +436,8 @@ void Sprite::CreateGraphicsPipeLine()
 	descriptorRange.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
 	//ルートパラメータの設定
-	D3D12_ROOT_PARAMETER rootParameter[2] = {};
+	D3D12_ROOT_PARAMETER rootParameter[3] = {};
+	//定数バッファ0番
 	rootParameter[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 	rootParameter[0].Descriptor.ShaderRegister = 0;
 	rootParameter[0].Descriptor.RegisterSpace = 0;
@@ -385,6 +447,11 @@ void Sprite::CreateGraphicsPipeLine()
 	rootParameter[1].DescriptorTable.pDescriptorRanges = &descriptorRange;
 	rootParameter[1].DescriptorTable.NumDescriptorRanges = 1;
 	rootParameter[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+	//定数バッファ1番
+	rootParameter[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameter[2].Descriptor.ShaderRegister = 1;
+	rootParameter[2].Descriptor.RegisterSpace = 0;
+	rootParameter[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 
 	//ルートシグネチャの設定
 	D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc{};
