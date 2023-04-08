@@ -11,6 +11,7 @@ using namespace Microsoft::WRL;
 
 //静的メンバ変数
 ID3D12Device* Sprite::device = nullptr;
+SpriteManager* Sprite::spriteManager = nullptr;
 ComPtr<ID3D12RootSignature>Sprite::rootsignature;
 ComPtr<ID3D12PipelineState>Sprite::pipelinestate;
 
@@ -130,110 +131,6 @@ void Sprite::Initialize()
 	constMapTransform->mat = DirectX::XMMatrixIdentity();
 }
 
-void Sprite::LoadFile(const wchar_t* fileName)
-{
-	HRESULT result;
-
-	DirectX::TexMetadata metadata{};
-	DirectX::ScratchImage scratchImg{};
-
-	//WICテクスチャのロード
-	result = DirectX::LoadFromWICFile(
-		fileName,
-		DirectX::WIC_FLAGS_NONE,
-		&metadata,
-		scratchImg
-	);
-
-	DirectX::ScratchImage mipChain{};
-
-	//ミップマップ生成
-	result = DirectX::GenerateMipMaps(
-		scratchImg.GetImages(),
-		scratchImg.GetImageCount(),
-		scratchImg.GetMetadata(),
-		DirectX::TEX_FILTER_DEFAULT,
-		0,
-		mipChain
-	);
-	if (SUCCEEDED(result))
-	{
-		scratchImg = std::move(mipChain);
-		metadata = scratchImg.GetMetadata();
-	}
-
-	//読み込んだディフューズテクスチャをSRGBとして扱う
-	metadata.format = DirectX::MakeSRGB(metadata.format);
-
-	//リソース設定
-	D3D12_RESOURCE_DESC textureResourceDesc{};
-	textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-	textureResourceDesc.Format = metadata.format;
-	textureResourceDesc.Width = metadata.width;
-	textureResourceDesc.Height = (UINT)metadata.height;
-	textureResourceDesc.DepthOrArraySize = (UINT)metadata.arraySize;
-	textureResourceDesc.MipLevels = (UINT)metadata.mipLevels;
-	textureResourceDesc.SampleDesc.Count = 1;
-
-	//テクスチャバッファ設定
-	D3D12_HEAP_PROPERTIES textureHeapProp{};
-	textureHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
-	textureHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
-	textureHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
-
-	//テクスチャバッファの生成
-	result = device->CreateCommittedResource(
-		&textureHeapProp,
-		D3D12_HEAP_FLAG_NONE,
-		&textureResourceDesc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&textureBuff)
-	);
-
-	for (size_t i = 0; i < metadata.mipLevels; i++)
-	{
-		//ミップマップレベルを指定してイメージを取得
-		const DirectX::Image* img = scratchImg.GetImage(i, 0, 0);
-		//テクスチャバッファにデータ転送
-		result = textureBuff->WriteToSubresource(
-			(UINT)i,
-			nullptr,
-			img->pixels,
-			(UINT)img->rowPitch,
-			(UINT)img->slicePitch
-		);
-		assert(SUCCEEDED(result));
-	}
-
-
-	//SRVの最大個数
-	const size_t kMaxSrvCount = 2056;
-	//デスクリプタヒープの設定
-	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
-	srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-	srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-	srvHeapDesc.NumDescriptors = kMaxSrvCount;
-
-	//設定を元にSRV用デスクリプタヒープを生成
-	/*ID3D12DescriptorHeap* srvHeap = nullptr;*/
-	result = device->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
-	assert(SUCCEEDED(result));
-
-	//SRVヒープの先頭ハンドルを取得
-	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
-
-	//シェーダリソースビューの作成
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	srvDesc.Format = textureResourceDesc.Format;
-	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-	srvDesc.Texture2D.MipLevels = textureResourceDesc.MipLevels;
-
-	//ハンドルの指す位置にシェーダリソースビュー作成
-	device->CreateShaderResourceView(textureBuff.Get(), &srvDesc, srvHandle);
-}
-
 void Sprite::Update()
 {
 	//頂点データ
@@ -287,10 +184,15 @@ void Sprite::Draw(ID3D12GraphicsCommandList* cmdList)
 	//定数バッファビューの設定コマンド
 	cmdList->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
 	//デスクリプタヒープの配列をセットするコマンド
-	ID3D12DescriptorHeap* ppHeaps[] = { srvHeap.Get() };
+	ID3D12DescriptorHeap* ppHeaps[] = { spriteManager->GetSrvHeap()};
 	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 	//SRVヒープの先頭ハンドルを取得
-	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap.Get()->GetGPUDescriptorHandleForHeapStart();
+	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = spriteManager->GetSrvHeap()->GetGPUDescriptorHandleForHeapStart();
+	//ハンドル1分のサイズ
+	UINT incrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+
+	/*srvGpuHandle.ptr += incrementSize;*/
+
 	//SRVヒープの先頭にあるSRVをルートパラメータ1晩に設定
 	cmdList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 	//定数バッファビューの設定コマンド

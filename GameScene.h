@@ -10,6 +10,7 @@
 #include "FbxModel.h"
 #include "LightGroup.h"
 #include "Sprite.h"
+#include "SpriteManager.h"
 #include "FireParticle.h"
 
 class GameScene
@@ -49,6 +50,9 @@ private:
 	LightGroup* lightGroup1 = nullptr;
 
 	FireParticle* fireParticle1 = nullptr;
+
+	//スプライトマネージャー
+	SpriteManager* spriteManager = nullptr;
 
 	//スプライト
 	Sprite* sprite0 = nullptr;

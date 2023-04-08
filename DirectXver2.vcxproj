@@ -170,6 +170,7 @@
     <ClCompile Include="Shadow.cpp" />
     <ClCompile Include="ShadowMap.cpp" />
     <ClCompile Include="SpotLight.cpp" />
+    <ClCompile Include="SpriteManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base\DirectXCommon.h" />
@@ -193,6 +194,7 @@
     <ClInclude Include="Shadow.h" />
     <ClInclude Include="ShadowMap.h" />
     <ClInclude Include="SpotLight.h" />
+    <ClInclude Include="SpriteManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">

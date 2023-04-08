@@ -2,6 +2,7 @@
 #include "d3dx12.h"
 #include "DirectXMath.h"
 #include "array"
+#include "SpriteManager.h"
 
 class Sprite
 {
@@ -39,11 +40,11 @@ public:	 //定数
 public:	//メンバ関数
 	void Initialize();
 	void Update();
-	void LoadFile(const wchar_t* fileName);
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 
 public:	//静的メンバ変数セッター
 	static void SetDevice(ID3D12Device* device) { Sprite::device = device; }
+	static void SetSpriteManager(SpriteManager* spriteManager) { Sprite::spriteManager = spriteManager; }
 	static void CreateGraphicsPipeLine();
 
 public:	//セッター
@@ -67,6 +68,8 @@ public:	//ゲッター
 private:
 	//デバイス
 	static ID3D12Device* device;
+	//スプライトマネージャー
+	static SpriteManager* spriteManager;
 	//ルートシグネチャ
 	static ComPtr<ID3D12RootSignature>rootsignature;
 	//パイプラインステートオブジェクト
@@ -84,10 +87,6 @@ private:	//メンバ変数
 	//定数バッファ 変形行列
 	ComPtr<ID3D12Resource>constBuffTransform;
 	ConstBuffTransform* constMapTransform = nullptr;
-	//テクスチャバッファ
-	ComPtr<ID3D12Resource>textureBuff;
-	//デスクリプタヒープ
-	ComPtr<ID3D12DescriptorHeap> srvHeap;
 	//テクスチャの色
 	XMFLOAT4 color = {1,1,1,1};
 
