@@ -136,7 +136,7 @@ void Sprite::LoadFile(const wchar_t* fileName)
 
 	DirectX::TexMetadata metadata{};
 	DirectX::ScratchImage scratchImg{};
-	
+
 	//WICテクスチャのロード
 	result = DirectX::LoadFromWICFile(
 		fileName,
@@ -146,7 +146,7 @@ void Sprite::LoadFile(const wchar_t* fileName)
 	);
 
 	DirectX::ScratchImage mipChain{};
-	
+
 	//ミップマップ生成
 	result = DirectX::GenerateMipMaps(
 		scratchImg.GetImages(),
@@ -202,7 +202,7 @@ void Sprite::LoadFile(const wchar_t* fileName)
 			img->pixels,
 			(UINT)img->rowPitch,
 			(UINT)img->slicePitch
-			);
+		);
 		assert(SUCCEEDED(result));
 	}
 

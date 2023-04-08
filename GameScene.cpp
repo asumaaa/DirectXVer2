@@ -93,11 +93,11 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 
 	sprite0 = new Sprite;
 	sprite0->Initialize();
-	sprite0->LoadFile(L"Resources/toriko2.png");
+	sprite0->LoadFile(L"Resources/toriko.png");
 
 	sprite1 = new Sprite;
 	sprite1->Initialize();
-	sprite1->LoadFile(L"Resources/toriko.png");
+	sprite1->LoadFile(L"Resources/toriko2.png");
 
 	//パーティクル
 	fireParticle1->SetSprite(sprite1);
@@ -168,19 +168,19 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
-	//ImGui::Begin("Light");
-	//ImGui::SetWindowPos(ImVec2(0, 0));
-	//ImGui::SetWindowSize(ImVec2(500, 500));
-	//ImGui::ColorEdit3("ambientColor", ambientColor0, ImGuiColorEditFlags_Float);
-	//ImGui::InputFloat3("lightDir0",lightDir0);
-	//ImGui::ColorEdit3("lightColor0", lightColor0, ImGuiColorEditFlags_Float);
-	///*ImGui::InputFloat3("circleShadowDir", circleShadowDir);
-	//ImGui::InputFloat3("circleShadowAtten", circleShadowAtten);
-	//ImGui::ColorEdit3("pointLightColor", pointLightColor0, ImGuiColorEditFlags_Float);
-	//ImGui::InputFloat3("pointLightPos", pointLightPos0);
-	//ImGui::InputFloat3("pointLightAtten", pointLightAtten0);*/
-	//ImGui::InputFloat3("lightPos", shadowLightPos);
-	//ImGui::End();
+	/*ImGui::Begin("Light");
+	ImGui::SetWindowPos(ImVec2(0, 0));
+	ImGui::SetWindowSize(ImVec2(500, 500));
+	ImGui::ColorEdit3("ambientColor", ambientColor0, ImGuiColorEditFlags_Float);
+	ImGui::InputFloat3("lightDir0",lightDir0);
+	ImGui::ColorEdit3("lightColor0", lightColor0, ImGuiColorEditFlags_Float);
+	ImGui::InputFloat3("circleShadowDir", circleShadowDir);
+	ImGui::InputFloat3("circleShadowAtten", circleShadowAtten);
+	ImGui::ColorEdit3("pointLightColor", pointLightColor0, ImGuiColorEditFlags_Float);
+	ImGui::InputFloat3("pointLightPos", pointLightPos0);
+	ImGui::InputFloat3("pointLightAtten", pointLightAtten0);
+	ImGui::InputFloat3("lightPos", shadowLightPos);
+	ImGui::End();*/
 
 	/*object0->Draw(dxCommon_->GetCommandList());
 	object1->Draw(dxCommon_->GetCommandList());

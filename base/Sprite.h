@@ -1,6 +1,7 @@
 #pragma once
 #include "d3dx12.h"
 #include "DirectXMath.h"
+#include "array"
 
 class Sprite
 {
@@ -31,10 +32,14 @@ public:	//サブクラス
 		XMFLOAT2 uv;
 	};
 
+public:	 //定数
+	//SRVの最大個数
+	static const size_t kMaxSrvCount = 2056;
+
 public:	//メンバ関数
 	void Initialize();
-	void LoadFile(const wchar_t* fileName);
 	void Update();
+	void LoadFile(const wchar_t* fileName);
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 
 public:	//静的メンバ変数セッター
