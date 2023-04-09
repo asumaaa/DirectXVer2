@@ -47,6 +47,7 @@ private:	//メンバ変数
 	std::vector<XMFLOAT3> rotations;
 	//各ベクトル
 	std::vector<XMFLOAT2> velocitys;
+	std::vector<XMFLOAT3> colors;
 
 	//タイマー
 	float timer = 0;

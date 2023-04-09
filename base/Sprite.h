@@ -46,6 +46,8 @@ public:	//静的メンバ変数セッター
 public:	//セッター
 	//アルファ値
 	void SetAlpha(float alpha) { color.w = alpha; }
+	//色
+	void SetColor(XMFLOAT3 c) { color.x = c.x; color.y = c.y; color.z = c.z;}
 	//テクスチャの番号をセット
 	void SetTextureNum(int num) { textureNum = num; }
 	//座標

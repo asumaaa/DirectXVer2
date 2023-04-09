@@ -9,6 +9,7 @@ void FireParticle::Initialize()
 	scales.resize(spriteNum);
 	rotations.resize(spriteNum);
 	velocitys.resize(spriteNum);
+	colors.resize(spriteNum);
 
 	for (int i = 0; i < spriteNum; i++)
 	{
@@ -33,6 +34,9 @@ void FireParticle::Initialize()
 	{
 		velocitys[i].x = 0.0f;
 		velocitys[i].y = 0.0f;
+		colors[i].x = 1.0f;
+		colors[i].y = 1.0f;
+		colors[i].z = 1.0f;
 	}
 }
 
@@ -53,19 +57,26 @@ void FireParticle::Update()
 			scales[i].y = scale.y;
 			positions[i].x = position.x;
 			positions[i].y = position.y;
-			velocitys[i].x = static_cast<float>(rand() % 2 - 1);
+			velocitys[i].x = static_cast<float>(rand() % 4 - 1);
 			velocitys[i].y = static_cast<float>(rand() % 4 - 4);
+			colors[i].x = 1.0f;
+			colors[i].y = 1.0f;
+			colors[i].z = 1.0f;
 		}
 		scales[i].x -= 4;
 		scales[i].y -= 4;
 		positions[i].x += velocitys[i].x;
 		positions[i].y += velocitys[i].y;
+		colors[i].x -= 0.04f;
+		colors[i].y -= 0.04f;
+		colors[i].z -= 0.04f;
 	}
 
 	int i = 0;
 	for (std::unique_ptr<Sprite>& sprite : sprite)
 	{
 		sprite->SetAlpha(1.0f);
+		sprite->SetColor(colors[i]);
 		sprite->SetScale({ scales[i].x,scales[i].y });
 		sprite->SetPosition({ positions[i].x,positions[i].y });
 		sprite->Update();
