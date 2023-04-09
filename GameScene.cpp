@@ -90,8 +90,10 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	//スプライトマネージャー
 	SpriteManager::SetDevice(dxCommon->GetDevice());
 	spriteManager = new SpriteManager;
-	spriteManager->LoadFile(1,L"Resources/toriko2.png");
-	spriteManager->LoadFile(0, L"Resources/toriko.png");
+	spriteManager->Initialize();
+	spriteManager->LoadFile(0,L"Resources/toriko.png");
+	spriteManager->LoadFile(1, L"Resources/toriko2.png");
+	spriteManager->LoadFile(2,L"Resources/GourmetSpyzer.png");
 
 	//スプライト
 	Sprite::SetDevice(dxCommon->GetDevice());
@@ -99,7 +101,12 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	Sprite::CreateGraphicsPipeLine();
 
 	sprite0 = new Sprite;
+	sprite0->SetTextureNum(1);
 	sprite0->Initialize();
+
+	sprite1 = new Sprite;
+	sprite1->SetTextureNum(2);
+	sprite1->Initialize();
 
 	//パーティクル
 	fireParticle1->SetSprite(sprite1);
@@ -161,10 +168,10 @@ void GameScene::Update()
 	sprite0->SetPosition({ 0.0f, 0.0 });
 	sprite0->Update();
 
-	/*sprite1->SetAlpha(1.0f);
+	sprite1->SetAlpha(1.0f);
 	sprite1->SetScale({ 500.0f, 500.0 });
 	sprite1->SetPosition({ 0.0f, 100.0 });
-	sprite1->Update();*/
+	sprite1->Update();
 
 }
 
@@ -189,7 +196,7 @@ void GameScene::Draw()
 	object2->Draw(dxCommon_->GetCommandList());*/
 
 	sprite0->Draw(dxCommon_->GetCommandList());
-	/*sprite1->Draw(dxCommon_->GetCommandList());*/
+	sprite1->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::Draw1()

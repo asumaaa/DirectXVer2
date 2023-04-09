@@ -33,10 +33,6 @@ public:	//サブクラス
 		XMFLOAT2 uv;
 	};
 
-public:	 //定数
-	//SRVの最大個数
-	static const size_t kMaxSrvCount = 2056;
-
 public:	//メンバ関数
 	void Initialize();
 	void Update();
@@ -50,6 +46,8 @@ public:	//静的メンバ変数セッター
 public:	//セッター
 	//アルファ値
 	void SetAlpha(float alpha) { color.w = alpha; }
+	//テクスチャの番号をセット
+	void SetTextureNum(int num) { textureNum = num; }
 	//座標
 	void SetPosition(XMFLOAT2 pos) { position = pos; }
 	//角度
@@ -76,6 +74,8 @@ private:
 	static ComPtr<ID3D12PipelineState>pipelinestate;
 
 private:	//メンバ変数
+	//使用するテクスチャの番号
+	int textureNum = 0;
 	//頂点バッファビュー
 	D3D12_VERTEX_BUFFER_VIEW vbView;
 	//頂点データ

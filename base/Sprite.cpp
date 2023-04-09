@@ -191,7 +191,11 @@ void Sprite::Draw(ID3D12GraphicsCommandList* cmdList)
 	//ハンドル1分のサイズ
 	UINT incrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
-	/*srvGpuHandle.ptr += incrementSize;*/
+	//テクスチャの番号に合わせてハンドルを進める
+	if (textureNum > 0)
+	{
+		srvGpuHandle.ptr += incrementSize * textureNum;
+	}
 
 	//SRVヒープの先頭にあるSRVをルートパラメータ1晩に設定
 	cmdList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);

@@ -1,6 +1,9 @@
 #pragma once
 #include "d3dx12.h"
 #include "DirectXMath.h"
+#include "array"
+#include "DirectXTex.h"
+#include "vector"
 
 class SpriteManager
 {
@@ -13,11 +16,17 @@ private:	//エイリアス
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 
+public:	 //定数
+	//SRVの最大個数
+	static const size_t kMaxSrvCount = 2056;
+
 public:	//メンバ関数
+	void Initialize();
 	void LoadFile(int number,const wchar_t* fileName);
+	void SetTextureCommand(int number);
 
 public:	//ゲッター
-	ID3D12Resource* GetTextureBuff() { return textureBuff.Get(); }
+	ID3D12Resource* GetTextureBuff(int number) { return textureBuff[number].Get(); }
 	ID3D12DescriptorHeap* GetSrvHeap() { return srvHeap.Get(); }
 
 public:
@@ -29,8 +38,10 @@ private:	//静的メンバ変数
 
 private:	//メンバ変数
 	//テクスチャバッファ
-	ComPtr<ID3D12Resource>textureBuff;
+	std::array<Microsoft::WRL::ComPtr<ID3D12Resource>, kMaxSrvCount>textureBuff;
 	//デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> srvHeap;
+	std::vector<DirectX::TexMetadata> metadata;
+	std::vector<DirectX::ScratchImage> scratchImg;
 };
 
