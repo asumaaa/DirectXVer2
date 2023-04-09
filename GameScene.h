@@ -57,6 +57,7 @@ private:
 	//スプライト
 	Sprite* sprite0 = nullptr;
 	Sprite* sprite1 = nullptr;
+	Sprite* sprite2 = nullptr;
 
 	float ambientColor0[3] = { 1,1,1 };
 	//光線方向初期値

@@ -156,6 +156,7 @@
     <ClCompile Include="base\Input.cpp" />
     <ClCompile Include="base\Message.cpp" />
     <ClCompile Include="base\Sprite.cpp" />
+    <ClCompile Include="base\SpriteManager.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
@@ -170,7 +171,6 @@
     <ClCompile Include="Shadow.cpp" />
     <ClCompile Include="ShadowMap.cpp" />
     <ClCompile Include="SpotLight.cpp" />
-    <ClCompile Include="SpriteManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base\DirectXCommon.h" />
@@ -180,6 +180,7 @@
     <ClInclude Include="base\Input.h" />
     <ClInclude Include="base\Message.h" />
     <ClInclude Include="base\Sprite.h" />
+    <ClInclude Include="base\SpriteManager.h" />
     <ClInclude Include="base\WinApp.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CircleShadow.h" />
@@ -194,7 +195,6 @@
     <ClInclude Include="Shadow.h" />
     <ClInclude Include="ShadowMap.h" />
     <ClInclude Include="SpotLight.h" />
-    <ClInclude Include="SpriteManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">

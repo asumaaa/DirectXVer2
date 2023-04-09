@@ -99,17 +99,6 @@ void SpriteManager::LoadFile(int number, const wchar_t* fileName)
 		assert(SUCCEEDED(result));
 	}
 
-	////デスクリプタヒープの設定
-	//D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
-	//srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-	//srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-	//srvHeapDesc.NumDescriptors = kMaxSrvCount;
-
-	////設定を元にSRV用デスクリプタヒープを生成
-	///*ID3D12DescriptorHeap* srvHeap = nullptr;*/
-	//result = device->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
-	//assert(SUCCEEDED(result));
-
 	//SRVヒープの先頭ハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
 	//ハンドル1分のサイズ
@@ -130,8 +119,4 @@ void SpriteManager::LoadFile(int number, const wchar_t* fileName)
 	//ハンドルの指す位置にシェーダリソースビュー作成
 	device->CreateShaderResourceView(textureBuff[number].Get(), &srvDesc, srvHandle);
 
-}
-
-void SpriteManager::SetTextureCommand(int number)
-{
 }

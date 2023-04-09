@@ -66,7 +66,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	//モデル名を指定してファイル読み込み
 	model0 = FbxLoader::GetInstance()->LoadModelFromFile("key", "Resources/key.png");
 	model1 = FbxLoader::GetInstance()->LoadModelFromFile("cube", "Resources/toriko.png");
-	model2 = FbxLoader::GetInstance()->LoadModelFromFile("light", "Resources/white1x1.png");
+	model2 = FbxLoader::GetInstance()->LoadModelFromFile("Walking", "Resources/white1x1.png");
 
 	//デバイスをセット
 	FbxObject3D::SetDevice(dxCommon_->GetDevice());
@@ -86,6 +86,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	object2 = new FbxObject3D;
 	object2->Initialize();
 	object2->SetModel(model2);
+	object2->PlayAnimation();
 
 	//スプライトマネージャー
 	SpriteManager::SetDevice(dxCommon->GetDevice());
@@ -93,7 +94,9 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	spriteManager->Initialize();
 	spriteManager->LoadFile(0,L"Resources/toriko.png");
 	spriteManager->LoadFile(1, L"Resources/toriko2.png");
-	spriteManager->LoadFile(2,L"Resources/GourmetSpyzer.png");
+	spriteManager->LoadFile(2, L"Resources/GourmetSpyzer.png");
+	spriteManager->LoadFile(3, L"Resources/orange.png");
+	spriteManager->LoadFile(4,L"Resources/red.png");
 
 	//スプライト
 	Sprite::SetDevice(dxCommon->GetDevice());
@@ -101,15 +104,23 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	Sprite::CreateGraphicsPipeLine();
 
 	sprite0 = new Sprite;
-	sprite0->SetTextureNum(1);
+	sprite0->SetTextureNum(0);
 	sprite0->Initialize();
 
 	sprite1 = new Sprite;
-	sprite1->SetTextureNum(2);
+	sprite1->SetTextureNum(1);
 	sprite1->Initialize();
 
+	sprite2 = new Sprite;
+	sprite2->SetTextureNum(2);
+	sprite2->Initialize();
+
 	//パーティクル
-	fireParticle1->SetSprite(sprite1);
+	fireParticle1 = new FireParticle;
+	fireParticle1->SetTextureNum(3,4);
+	fireParticle1->Initialize();
+	fireParticle1->SetPosition(XMFLOAT3({ 500,300,0 }));
+	fireParticle1->SetScale(XMFLOAT3({200,200,0}));
 }
 
 void GameScene::Update()
@@ -147,18 +158,18 @@ void GameScene::Update()
 
 	//オブジェクト更新
 	rotation0.y += 0.02;
-	object0->SetPosition({ 0,3,0 });
+	object0->SetPosition({ -5,3,0 });
 	object0->SetScale({ 0.1f,0.1f,0.4f });
 	object0->SetRotation(rotation0);
 	object0->Update();
 
-	object1->SetPosition({ 0,0,0 });
+	object1->SetPosition({ 0,-10,0 });
 	object1->SetScale({ 0.5f,0.01f,0.5f });
 	object1->SetRotation({ 0.0f,0.0f,0.0f });
 	object1->Update();
 
-	object2->SetPosition(XMFLOAT3(shadowLightPos));
-	object2->SetScale({ 0.2f,0.1f,0.4f });
+	object2->SetPosition({-10, -5, 0});
+	object2->SetScale({ 0.01f,0.01f,0.01f });
 	object2->SetRotation({ 0,0,0 });
 	object2->Update();
 
@@ -169,10 +180,16 @@ void GameScene::Update()
 	sprite0->Update();
 
 	sprite1->SetAlpha(1.0f);
-	sprite1->SetScale({ 500.0f, 500.0 });
-	sprite1->SetPosition({ 0.0f, 100.0 });
+	sprite1->SetScale({ 100.0f, 100.0 });
+	sprite1->SetPosition({ 100.0f, 0.0 });
 	sprite1->Update();
 
+	sprite2->SetAlpha(1.0f);
+	sprite2->SetScale({ 100.0f, 100.0 });
+	sprite2->SetPosition({ 200.0f, 0.0 });
+	sprite2->Update();
+
+	fireParticle1->Update();
 }
 
 void GameScene::Draw()
@@ -191,12 +208,15 @@ void GameScene::Draw()
 	ImGui::InputFloat3("lightPos", shadowLightPos);
 	ImGui::End();*/
 
-	/*object0->Draw(dxCommon_->GetCommandList());
+	object0->Draw(dxCommon_->GetCommandList());
 	object1->Draw(dxCommon_->GetCommandList());
-	object2->Draw(dxCommon_->GetCommandList());*/
+	object2->Draw(dxCommon_->GetCommandList());
 
 	sprite0->Draw(dxCommon_->GetCommandList());
 	sprite1->Draw(dxCommon_->GetCommandList());
+	sprite2->Draw(dxCommon_->GetCommandList());
+
+	fireParticle1->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::Draw1()
