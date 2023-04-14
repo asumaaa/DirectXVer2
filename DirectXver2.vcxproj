@@ -149,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="2d\PostEffect.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="base\DXInput.cpp" />
     <ClCompile Include="base\FPS.cpp" />
@@ -173,6 +174,7 @@
     <ClCompile Include="SpotLight.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="2d\PostEffect.h" />
     <ClInclude Include="base\DirectXCommon.h" />
     <ClInclude Include="base\DXInput.h" />
     <ClInclude Include="base\FPS.h" />

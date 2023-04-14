@@ -114,13 +114,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	sprite2 = new Sprite;
 	sprite2->SetTextureNum(2);
 	sprite2->Initialize();
-
-	//パーティクル
-	fireParticle1 = new FireParticle;
-	fireParticle1->SetTextureNum(3,4);
-	fireParticle1->Initialize();
-	fireParticle1->SetPosition(XMFLOAT3({ 500,300,0 }));
-	fireParticle1->SetScale(XMFLOAT3({200,200,0}));
 }
 
 void GameScene::Update()
@@ -188,8 +181,6 @@ void GameScene::Update()
 	sprite2->SetScale({ 100.0f, 100.0 });
 	sprite2->SetPosition({ 200.0f, 0.0 });
 	sprite2->Update();
-
-	fireParticle1->Update();
 }
 
 void GameScene::Draw()
@@ -215,8 +206,6 @@ void GameScene::Draw()
 	sprite0->Draw(dxCommon_->GetCommandList());
 	sprite1->Draw(dxCommon_->GetCommandList());
 	sprite2->Draw(dxCommon_->GetCommandList());
-
-	fireParticle1->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::Draw1()

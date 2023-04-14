@@ -102,6 +102,9 @@
     <ClCompile Include="base\SpriteManager.cpp">
       <Filter>ソース ファイル\base</Filter>
     </ClCompile>
+    <ClCompile Include="2d\PostEffect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base\DirectXCommon.h">
@@ -169,6 +172,9 @@
     </ClInclude>
     <ClInclude Include="base\SpriteManager.h">
       <Filter>ヘッダー ファイル\base</Filter>
+    </ClInclude>
+    <ClInclude Include="2d\PostEffect.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

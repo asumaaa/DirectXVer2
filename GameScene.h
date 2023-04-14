@@ -49,8 +49,6 @@ private:
 	LightGroup* lightGroup0 = nullptr;
 	LightGroup* lightGroup1 = nullptr;
 
-	FireParticle* fireParticle1 = nullptr;
-
 	//スプライトマネージャー
 	SpriteManager* spriteManager = nullptr;
 
