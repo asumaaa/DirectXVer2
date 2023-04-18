@@ -80,17 +80,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		postEffect->SetPosition({ 0.0f, 0.0 });
 		postEffect->Update();
 
-		dxCommon->PreDraw();
-
 		// 4. 描画コマンド
+		
+		//レンダーテクスチャへの描画
+		postEffect->PreDrawScene(dxCommon->GetCommandList());
 		gameScene->Draw();
+		postEffect->PostDrawScene(dxCommon->GetCommandList());
 
-		//ポストエフェクト描画
+		//描画前処理
+		dxCommon->PreDraw();
+		//描画開始
 		postEffect->Draw(dxCommon->GetCommandList());
 
 		imGuiManager->End();
 		imGuiManager->Draw();
 
+		//描画後処理
 		dxCommon->PostDraw();
 	}
 

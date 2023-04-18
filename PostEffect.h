@@ -39,11 +39,21 @@ public:	//サブクラス
 	};
 
 public:	//メンバ関数
+	//初期化
 	void Initialize();
+	//更新
 	void Update();
+	//描画
     void Draw(ID3D12GraphicsCommandList* cmdList);
+	//ファイル読み込みでテクスチャバッファ作成
 	void LoadFile(int number, const wchar_t* fileName);
+	//パイプライン設定、作成
 	void CreateGraphicsPipeLine();
+
+	//描画前処理
+	void PreDrawScene(ID3D12GraphicsCommandList* cmdList);
+	//描画後処理
+	void PostDrawScene(ID3D12GraphicsCommandList* cmdList);
 
 public:	//静的メンバ関数
 	static void SetDevice(ID3D12Device* device) { PostEffect::device = device; }
@@ -67,6 +77,8 @@ private:	//静的メンバ変数
 	static ComPtr<ID3D12RootSignature>rootsignature;
 	//パイプラインステートオブジェクト
 	static ComPtr<ID3D12PipelineState>pipelinestate;
+	//画面クリアカラー
+	static const float clearColor[4];
 
 private:	//メンバ変数
 	//頂点バッファビュー
@@ -86,8 +98,15 @@ private:	//メンバ変数
 	ComPtr<ID3D12Resource>textureBuff;
 	//デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> srvHeap;
-	DirectX::TexMetadata metadata;
-	DirectX::ScratchImage scratchImg;
+	/*DirectX::TexMetadata metadata;
+	DirectX::ScratchImage scratchImg;*/
+
+	//深度バッファ
+	ComPtr<ID3D12Resource>depthBuff;
+	//RTV用デスクリプタヒープ
+	ComPtr<ID3D12DescriptorHeap>descHeapRTV;
+	//DSV用デスクリプタヒープ
+	ComPtr<ID3D12DescriptorHeap>descHeapDSV;
 
 private:
 	float rotation = 0;
