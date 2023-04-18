@@ -76,7 +76,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		//ポストエフェクト
 		postEffect->SetAlpha(1.0f);
-		postEffect->SetScale({ 500.0f, 500.0 });
+		postEffect->SetScale({ window_width * 0.5f, window_height * 0.5f });
 		postEffect->SetPosition({ 0.0f, 0.0 });
 		postEffect->Update();
 
