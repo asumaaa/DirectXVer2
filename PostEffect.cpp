@@ -130,91 +130,6 @@ void PostEffect::Initialize()
 	constMapTransform->mat = DirectX::XMMatrixIdentity();
 
 
-
-
-
-	////WICテクスチャのロード
-	//result = DirectX::LoadFromWICFile(
-	//	L"Resources/white1x1.png",
-	//	DirectX::WIC_FLAGS_NONE,
-	//	&metadata,
-	//	scratchImg
-	//);
-
-	//DirectX::ScratchImage mipChain{};
-
-	////ミップマップ生成
-	//result = DirectX::GenerateMipMaps(
-	//	scratchImg.GetImages(),
-	//	scratchImg.GetImageCount(),
-	//	scratchImg.GetMetadata(),
-	//	DirectX::TEX_FILTER_DEFAULT,
-	//	0,
-	//	mipChain
-	//);
-	//if (SUCCEEDED(result))
-	//{
-	//	scratchImg = std::move(mipChain);
-	//	metadata = scratchImg.GetMetadata();
-	//}
-
-	////読み込んだディフューズテクスチャをSRGBとして扱う
-	//metadata.format = DirectX::MakeSRGB(metadata.format);
-
-	////リソース設定
-	//D3D12_RESOURCE_DESC textureResourceDesc{};
-	//textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-	//textureResourceDesc.Format = metadata.format;
-	//textureResourceDesc.Width = metadata.width;
-	//textureResourceDesc.Height = (UINT)metadata.height;
-	//textureResourceDesc.DepthOrArraySize = (UINT)metadata.arraySize;
-	//textureResourceDesc.MipLevels = (UINT)metadata.mipLevels;
-	//textureResourceDesc.SampleDesc.Count = 1;
-
-	////テクスチャバッファ設定
-	//D3D12_HEAP_PROPERTIES textureHeapProp{};
-	//textureHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
-	//textureHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
-	//textureHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
-
-	////テクスチャバッファの生成
-	//result = device->CreateCommittedResource(
-	//	&textureHeapProp,
-	//	D3D12_HEAP_FLAG_NONE,
-	//	&textureResourceDesc,
-	//	D3D12_RESOURCE_STATE_GENERIC_READ,
-	//	nullptr,
-	//	IID_PPV_ARGS(&textureBuff)
-	//);
-
-	//for (size_t i = 0; i < metadata.mipLevels; i++)
-	//{
-	//	//ミップマップレベルを指定してイメージを取得
-	//	const DirectX::Image* img = scratchImg.GetImage(i, 0, 0);
-	//	//テクスチャバッファにデータ転送
-	//	result = textureBuff->WriteToSubresource(
-	//		(UINT)i,
-	//		nullptr,
-	//		img->pixels,
-	//		(UINT)img->rowPitch,
-	//		(UINT)img->slicePitch
-	//	);
-	//	assert(SUCCEEDED(result));
-	//}
-
-	////SRVヒープの先頭ハンドルを取得
-	//D3D12_CPU_DESCRIPTOR_HANDLE srvHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
-
-	////シェーダリソースビューの作成
-	//D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	//srvDesc.Format = textureResourceDesc.Format;
-	//srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	//srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-	//srvDesc.Texture2D.MipLevels = textureResourceDesc.MipLevels;
-
-	////ハンドルの指す位置にシェーダリソースビュー作成
-	//device->CreateShaderResourceView(textureBuff.Get(), &srvDesc, srvHandle);
-
 	//リソース設定
 	D3D12_RESOURCE_DESC textureResourceDesc = CD3DX12_RESOURCE_DESC::Tex2D(
 		DXGI_FORMAT_R8G8B8A8_UNORM_SRGB,
@@ -223,41 +138,44 @@ void PostEffect::Initialize()
 		1, 0, 1, 0,
 		D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET
 	);
-
 	CD3DX12_HEAP_PROPERTIES a0 = CD3DX12_HEAP_PROPERTIES(D3D12_CPU_PAGE_PROPERTY_WRITE_BACK, D3D12_MEMORY_POOL_L0);
 	CD3DX12_CLEAR_VALUE a1 = CD3DX12_CLEAR_VALUE(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB, clearColor);
-	//テクスチャバッファの生成
-	result = device->CreateCommittedResource(
-		&a0,
-		D3D12_HEAP_FLAG_NONE,
-		&textureResourceDesc,
-		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
-		&a1,
-		IID_PPV_ARGS(&textureBuff)
-	);
-	assert(SUCCEEDED(result));
-
-	//テクスチャ生成用設定
-	const UINT pixelCount = window_width * window_height;
-	const UINT rowPitch = sizeof(UINT) * window_width;
-	const UINT depthPitch = rowPitch * window_height;
-	//画像イメージ
-	UINT* img = new UINT[pixelCount];
-	for (int i = 0; i < pixelCount; i++)
+	for (int i = 0; i < textureNum; i++)
 	{
-		img[i] = 0xff0000ff;
-	}
+		//テクスチャバッファの生成
+		result = device->CreateCommittedResource(
+			&a0,
+			D3D12_HEAP_FLAG_NONE,
+			&textureResourceDesc,
+			D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+			&a1,
+			IID_PPV_ARGS(&textureBuff[i])
+		);
+		assert(SUCCEEDED(result));
 
-	//テクスチャバッファにデータ送信
-	result = textureBuff->WriteToSubresource(
-		0,
-		nullptr,
-		img,
-		rowPitch,
-		depthPitch
-	);
-	assert(SUCCEEDED(result));
-	delete[] img;
+
+		//テクスチャ生成用設定
+		const UINT pixelCount = window_width * window_height;
+		const UINT rowPitch = sizeof(UINT) * window_width;
+		const UINT depthPitch = rowPitch * window_height;
+		//画像イメージ
+		UINT* img = new UINT[pixelCount];
+		for (int j = 0; j < pixelCount; j++)
+		{
+			img[j] = 0xff0000ff;
+		}
+
+		//テクスチャバッファにデータ送信
+		result = textureBuff[i]->WriteToSubresource(
+			0,
+			nullptr,
+			img,
+			rowPitch,
+			depthPitch
+		);
+		assert(SUCCEEDED(result));
+		delete[] img;
+	}
 
 	//デスクリプタヒープの設定
 	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
@@ -276,13 +194,13 @@ void PostEffect::Initialize()
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
 	//ハンドルの指す位置にシェーダリソースビュー作成
-	device->CreateShaderResourceView(textureBuff.Get(), &srvDesc, srvHeap->GetCPUDescriptorHandleForHeapStart());
+	device->CreateShaderResourceView(textureBuff[1].Get(), &srvDesc, srvHeap->GetCPUDescriptorHandleForHeapStart());
 
 
 	//RTV用デスクリプタヒープ設定
 	D3D12_DESCRIPTOR_HEAP_DESC rtvDesc{};
 	rtvDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
-	rtvDesc.NumDescriptors = 1;
+	rtvDesc.NumDescriptors = 2;
 	//RTV用デスクリプタヒープを生成
 	result = device->CreateDescriptorHeap(&rtvDesc, IID_PPV_ARGS(&descHeapRTV));
 	assert(SUCCEEDED(result));
@@ -292,12 +210,17 @@ void PostEffect::Initialize()
 	D3D12_RENDER_TARGET_VIEW_DESC renderDesc{};
 	renderDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	renderDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
-	//デスクリプタヒープにRTV作成
-	device->CreateRenderTargetView(
-		textureBuff.Get(),
-		&renderDesc,
-		descHeapRTV->GetCPUDescriptorHandleForHeapStart()
-	);
+	for (int i = 0; i < textureNum; i++)
+	{
+		//デスクリプタヒープにRTV作成
+		device->CreateRenderTargetView(
+			textureBuff[i].Get(),
+			nullptr,
+			CD3DX12_CPU_DESCRIPTOR_HANDLE(
+				descHeapRTV->GetCPUDescriptorHandleForHeapStart(),i,
+				device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV))
+		);
+	}
 
 
 	//深度バッファリソースの設定
@@ -407,103 +330,6 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
 
 	//描画コマンド
 	cmdList->DrawInstanced(_countof(vertices), 1, 0, 0);
-}
-
-void PostEffect::LoadFile(int number, const wchar_t* fileName)
-{
-	HRESULT result;
-
-	/*DirectX::TexMetadata metadata{};
-	DirectX::ScratchImage scratchImg{};*/
-
-	////WICテクスチャのロード
-	//result = DirectX::LoadFromWICFile(
-	//	fileName,
-	//	DirectX::WIC_FLAGS_NONE,
-	//	&metadata[number],
-	//	scratchImg[number]
-	//);
-
-	//DirectX::ScratchImage mipChain{};
-
-	////ミップマップ生成
-	//result = DirectX::GenerateMipMaps(
-	//	scratchImg[number].GetImages(),
-	//	scratchImg[number].GetImageCount(),
-	//	scratchImg[number].GetMetadata(),
-	//	DirectX::TEX_FILTER_DEFAULT,
-	//	0,
-	//	mipChain
-	//);
-	//if (SUCCEEDED(result))
-	//{
-	//	scratchImg[number] = std::move(mipChain);
-	//	metadata[number] = scratchImg[number].GetMetadata();
-	//}
-
-	////読み込んだディフューズテクスチャをSRGBとして扱う
-	//metadata[number].format = DirectX::MakeSRGB(metadata[number].format);
-
-	////リソース設定
-	//D3D12_RESOURCE_DESC textureResourceDesc{};
-	//textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-	//textureResourceDesc.Format = metadata[number].format;
-	//textureResourceDesc.Width = metadata[number].width;
-	//textureResourceDesc.Height = (UINT)metadata[number].height;
-	//textureResourceDesc.DepthOrArraySize = (UINT)metadata[number].arraySize;
-	//textureResourceDesc.MipLevels = (UINT)metadata[number].mipLevels;
-	//textureResourceDesc.SampleDesc.Count = 1;
-
-	////テクスチャバッファ設定
-	//D3D12_HEAP_PROPERTIES textureHeapProp{};
-	//textureHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
-	//textureHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
-	//textureHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
-
-	////テクスチャバッファの生成
-	//result = device->CreateCommittedResource(
-	//	&textureHeapProp,
-	//	D3D12_HEAP_FLAG_NONE,
-	//	&textureResourceDesc,
-	//	D3D12_RESOURCE_STATE_GENERIC_READ,
-	//	nullptr,
-	//	IID_PPV_ARGS(&textureBuff)
-	//);
-
-	//for (size_t i = 0; i < metadata[number].mipLevels; i++)
-	//{
-	//	//ミップマップレベルを指定してイメージを取得
-	//	const DirectX::Image* img = scratchImg[number].GetImage(i, 0, 0);
-	//	//テクスチャバッファにデータ転送
-	//	result = textureBuff->WriteToSubresource(
-	//		(UINT)i,
-	//		nullptr,
-	//		img->pixels,
-	//		(UINT)img->rowPitch,
-	//		(UINT)img->slicePitch
-	//	);
-	//	assert(SUCCEEDED(result));
-	//}
-
-	////SRVヒープの先頭ハンドルを取得
-	//D3D12_CPU_DESCRIPTOR_HANDLE srvHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
-	////ハンドル1分のサイズ
-	//UINT incrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-
-	//if (number > 0)
-	//{
-	//	srvHandle.ptr += (incrementSize * number);
-	//}
-
-	////シェーダリソースビューの作成
-	//D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	//srvDesc.Format = textureResourceDesc.Format;
-	//srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	//srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-	//srvDesc.Texture2D.MipLevels = textureResourceDesc.MipLevels;
-
-	////ハンドルの指す位置にシェーダリソースビュー作成
-	//device->CreateShaderResourceView(textureBuff.Get(), &srvDesc, srvHandle);
 }
 
 void PostEffect::CreateGraphicsPipeLine()
@@ -685,30 +511,51 @@ void PostEffect::CreateGraphicsPipeLine()
 
 void PostEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdList)
 {
-	//リソースバリアを変更
-	CD3DX12_RESOURCE_BARRIER a0 = CD3DX12_RESOURCE_BARRIER::Transition(
-		textureBuff.Get(),
-		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
-		D3D12_RESOURCE_STATE_RENDER_TARGET
-	);
-	cmdList->ResourceBarrier(1,&a0);
+	for (int i = 0; i < textureNum; i++)
+	{
+		//リソースバリアを変更
+		CD3DX12_RESOURCE_BARRIER a0 = CD3DX12_RESOURCE_BARRIER::Transition(
+			textureBuff[i].Get(),
+			D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+			D3D12_RESOURCE_STATE_RENDER_TARGET
+		);
+		cmdList->ResourceBarrier(1, &a0);
+	}
 
 	//レンダーターゲットビュー用デスクリプタヒープのハンドルを取得
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = descHeapRTV->GetCPUDescriptorHandleForHeapStart();
+	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle[textureNum];
+	for (int i = 0; i < textureNum; i++)
+	{
+		rtvHandle[i]= CD3DX12_CPU_DESCRIPTOR_HANDLE(
+			descHeapRTV->GetCPUDescriptorHandleForHeapStart(),
+			i,
+			device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV)
+		);
+	}
+
 	//震度ステンシルビュー用デスクリプタヒープのハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = descHeapDSV->GetCPUDescriptorHandleForHeapStart();
 	//レンダーターゲットをセット
-	cmdList->OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
+	cmdList->OMSetRenderTargets(2, rtvHandle, false, &dsvHandle);
 
-	//ビューポートの設定
-	CD3DX12_VIEWPORT a1 = CD3DX12_VIEWPORT(0.0f, 0.0f, window_width, window_height);
-	cmdList->RSSetViewports(1, &a1);
-	//シザー矩形の設定
-	CD3DX12_RECT a2 = CD3DX12_RECT(0, 0, window_width, window_height);
-	cmdList->RSSetScissorRects(1, &a2);
+	//ビューポート
+	CD3DX12_VIEWPORT a1[textureNum];
+	//シザー矩形
+	CD3DX12_RECT a2[textureNum];
+	for (int i = 0; i < textureNum; i++)
+	{
+		a1[i] = CD3DX12_VIEWPORT(0.0f, 0.0f, window_width, window_height);
+		a2[i] = CD3DX12_RECT(0, 0, window_width, window_height);
+	}
+
+	cmdList->RSSetViewports(2, a1);
+	cmdList->RSSetScissorRects(2, a2);
 
 	//全画面クリア
-	cmdList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
+	for (int i = 0; i < textureNum; i++)
+	{
+		cmdList->ClearRenderTargetView(rtvHandle[i], clearColor, 0, nullptr);
+	}
 	//震度バッファのクリア
 	cmdList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 }
@@ -716,10 +563,13 @@ void PostEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdList)
 void PostEffect::PostDrawScene(ID3D12GraphicsCommandList* cmdList)
 {
 	//リソースバリアを変更
-	CD3DX12_RESOURCE_BARRIER a0 = CD3DX12_RESOURCE_BARRIER::Transition(
-		textureBuff.Get(),
-		D3D12_RESOURCE_STATE_RENDER_TARGET,
-		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE
-	);
-	cmdList->ResourceBarrier(1,&a0);
+	for (int i = 0; i < textureNum; i++)
+	{
+		CD3DX12_RESOURCE_BARRIER a0 = CD3DX12_RESOURCE_BARRIER::Transition(
+			textureBuff[i].Get(),
+			D3D12_RESOURCE_STATE_RENDER_TARGET,
+			D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE
+		);
+		cmdList->ResourceBarrier(1, &a0);
+	}
 }

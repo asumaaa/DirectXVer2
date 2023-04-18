@@ -18,7 +18,7 @@ private:	//エイリアス
 
 public:	 //定数
 	//SRVの最大個数
-	static const size_t kMaxSrvCount = 2056;
+	static const size_t textureNum = 2;
 
 public:	//サブクラス
 	//定数バッファ
@@ -45,8 +45,6 @@ public:	//メンバ関数
 	void Update();
 	//描画
     void Draw(ID3D12GraphicsCommandList* cmdList);
-	//ファイル読み込みでテクスチャバッファ作成
-	void LoadFile(int number, const wchar_t* fileName);
 	//パイプライン設定、作成
 	void CreateGraphicsPipeLine();
 
@@ -95,7 +93,7 @@ private:	//メンバ変数
 	//テクスチャの色
 	XMFLOAT4 color = { 1,1,1,1 };
 	//テクスチャバッファ
-	ComPtr<ID3D12Resource>textureBuff;
+	ComPtr<ID3D12Resource>textureBuff[textureNum];
 	//デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> srvHeap;
 	/*DirectX::TexMetadata metadata;

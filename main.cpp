@@ -80,6 +80,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		//ポストエフェクト
 		postEffect0->SetAlpha(1.0f);
+		postEffect0->SetColor({0.0f, 1.0f, 0.0f});
 		postEffect0->SetScale({ window_width * 0.5f, window_height * 0.5f });
 		postEffect0->SetPosition({ 0.0f, 0.0 });
 		postEffect0->Update();

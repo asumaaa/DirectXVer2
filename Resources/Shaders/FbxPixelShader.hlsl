@@ -18,8 +18,15 @@ SamplerState smp : register(s0);
 //	return shadecolor * texcoord;
 //}
 
-float4 main(VSOutput input) : SV_TARGET
+struct PSOutput {
+	float4 target0 : SV_TARGET0;
+	float4 target1 : SV_TARGET1;
+};
+
+PSOutput main(VSOutput input) : SV_TARGET
 {
+	PSOutput output;
+
 	//テクスチャマッピング
 	float4 texcoord = tex.Sample(smp,input.uv);
 	//Lambert反射
@@ -27,6 +34,10 @@ float4 main(VSOutput input) : SV_TARGET
 	float diffuse = saturate(dot(-light, input.normal));
 	float brightness = diffuse + 0.3f;
 	float4 shadecolor = float4(brightness, brightness, brightness, 1.0f);
+	//陰影とテクスチャの色を合成
+	output.target0 = shadecolor * texcoord;
+	output.target1 = float4(1 - (shadecolor * texcoord).rgb,1);
+	return output;
 
 	for (int i = 0; i < DIR_LIGHT_NUM; i++) {
 		if (dirLights[i].active) {
@@ -124,5 +135,5 @@ float4 main(VSOutput input) : SV_TARGET
 	}
 
 	//陰影とテクスチャの色を合成
-	return shadecolor * texcoord;
+	/*return shadecolor * texcoord;*/
 }
