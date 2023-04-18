@@ -196,6 +196,9 @@
     <None Include="Resources\Shaders\SpriteHeader.hlsli">
       <Filter>リソース ファイル\Shaders</Filter>
     </None>
+    <None Include="Resources\Shaders\PostEffectHeader.hlsli">
+      <Filter>リソース ファイル\Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\FbxPixelShader.hlsl">
@@ -220,6 +223,12 @@
       <Filter>リソース ファイル\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\SpriteVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\PostEffectPixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\PostEffectVertexShader.hlsl">
       <Filter>リソース ファイル\Shaders</Filter>
     </FxCompile>
   </ItemGroup>
