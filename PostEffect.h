@@ -69,8 +69,6 @@ private:	//静的メンバ変数
 	static ComPtr<ID3D12PipelineState>pipelinestate;
 
 private:	//メンバ変数
-	//使用するテクスチャの番号
-	int textureNum = 0;
 	//頂点バッファビュー
 	D3D12_VERTEX_BUFFER_VIEW vbView;
 	//頂点データ
@@ -85,11 +83,11 @@ private:	//メンバ変数
 	//テクスチャの色
 	XMFLOAT4 color = { 1,1,1,1 };
 	//テクスチャバッファ
-	std::array<Microsoft::WRL::ComPtr<ID3D12Resource>, kMaxSrvCount>textureBuff;
+	ComPtr<ID3D12Resource>textureBuff;
 	//デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> srvHeap;
-	std::vector<DirectX::TexMetadata> metadata;
-	std::vector<DirectX::ScratchImage> scratchImg;
+	DirectX::TexMetadata metadata;
+	DirectX::ScratchImage scratchImg;
 
 private:
 	float rotation = 0;

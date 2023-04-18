@@ -46,7 +46,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	PostEffect::SetDevice(dxCommon->GetDevice());
 	postEffect = new PostEffect;
 	postEffect->Initialize();
-	postEffect->LoadFile(0, L"Resources/white1x1.png");
+	/*postEffect->LoadFile(0, L"Resources/white1x1.png");*/
 	postEffect->CreateGraphicsPipeLine();
 
 	//ゲームシーン
