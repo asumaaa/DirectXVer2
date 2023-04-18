@@ -8,6 +8,7 @@
 #include "GameScene.h"
 #include "ImGuiManager.h"
 #include "imgui.h"
+#include "PostEffect.h"
 
 #include "Sprite.h"
 
@@ -40,6 +41,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//ライト静的初期化
 	LightGroup::StaticInitialize(dxCommon->GetDevice());
 
+	//ポストエフェクト
+	PostEffect* postEffect = nullptr;
+	PostEffect::SetDevice(dxCommon->GetDevice());
+	postEffect = new PostEffect;
+	postEffect->Initialize();
+	postEffect->LoadFile(0, L"Resources/white1x1.png");
+	postEffect->CreateGraphicsPipeLine();
+
 	//ゲームシーン
 	GameScene* gameScene = nullptr;
 	gameScene = new GameScene();
@@ -65,10 +74,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//ゲームシーン更新
 		gameScene->Update();
 
+		//ポストエフェクト
+		postEffect->SetAlpha(1.0f);
+		postEffect->SetScale({ 500.0f, 500.0 });
+		postEffect->SetPosition({ 0.0f, 0.0 });
+		postEffect->Update();
+
 		dxCommon->PreDraw();
 
 		// 4. 描画コマンド
 		gameScene->Draw();
+
+		//ポストエフェクト描画
+		postEffect->Draw(dxCommon->GetCommandList());
 
 		imGuiManager->End();
 		imGuiManager->Draw();
