@@ -168,6 +168,7 @@
     <ClCompile Include="light\PointLight.cpp" />
     <ClCompile Include="light\SpotLight.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MultiSpriteTest.cpp" />
     <ClCompile Include="particle\FireParticle.cpp" />
     <ClCompile Include="PostEffect.cpp" />
     <ClCompile Include="Shadow.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="light\LightGroup.h" />
     <ClInclude Include="light\PointLight.h" />
     <ClInclude Include="light\SpotLight.h" />
+    <ClInclude Include="MultiSpriteTest.h" />
     <ClInclude Include="particle\FireParticle.h" />
     <ClInclude Include="PostEffect.h" />
     <ClInclude Include="Shadow.h" />
@@ -209,6 +211,7 @@
   <ItemGroup>
     <None Include="FbxShadowHeader.hlsli" />
     <None Include="Resources\Shaders\FbxHeader.hlsli" />
+    <None Include="Resources\Shaders\MultiTestHeader.hlsli" />
     <None Include="Resources\Shaders\PostEffectHeader.hlsli" />
     <None Include="Resources\Shaders\ShaderHeader.hlsli" />
     <None Include="Resources\Shaders\SpriteHeader.hlsli" />
@@ -237,6 +240,18 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\FbxVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\MultiTestPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\MultiTestVertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>

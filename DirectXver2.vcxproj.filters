@@ -111,6 +111,9 @@
     <ClCompile Include="PostEffect.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="MultiSpriteTest.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base\DirectXCommon.h">
@@ -182,6 +185,9 @@
     <ClInclude Include="PostEffect.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="MultiSpriteTest.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\FbxHeader.hlsli">
@@ -197,6 +203,9 @@
       <Filter>リソース ファイル\Shaders</Filter>
     </None>
     <None Include="Resources\Shaders\PostEffectHeader.hlsli">
+      <Filter>リソース ファイル\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\MultiTestHeader.hlsli">
       <Filter>リソース ファイル\Shaders</Filter>
     </None>
   </ItemGroup>
@@ -229,6 +238,12 @@
       <Filter>リソース ファイル\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\PostEffectVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\MultiTestPixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\MultiTestVertexShader.hlsl">
       <Filter>リソース ファイル\Shaders</Filter>
     </FxCompile>
   </ItemGroup>

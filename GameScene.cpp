@@ -114,6 +114,15 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	sprite2 = new Sprite;
 	sprite2->SetTextureNum(2);
 	sprite2->Initialize();
+
+	//マルチレンダーターゲットのテスト
+	MultiSpriteTest::SetDevice(dxCommon->GetDevice());
+	MultiSpriteTest::SetSpriteManager(spriteManager);
+	MultiSpriteTest::CreateGraphicsPipeLine();
+
+	multiTest = new MultiSpriteTest;
+	multiTest->SetTextureNum(0);
+	multiTest->Initialize();
 }
 
 void GameScene::Update()
@@ -181,6 +190,12 @@ void GameScene::Update()
 	sprite2->SetScale({ 100.0f, 100.0 });
 	sprite2->SetPosition({ 200.0f, 0.0 });
 	sprite2->Update();
+
+	//マルチレンダーターゲットテスト
+	multiTest->SetAlpha(1.0f);
+	multiTest->SetScale({ 500.0f, 500.0 });
+	multiTest->SetPosition({ 200.0f, 0.0 });
+	multiTest->Update();
 }
 
 void GameScene::Draw()
@@ -206,6 +221,8 @@ void GameScene::Draw()
 	sprite0->Draw(dxCommon_->GetCommandList());
 	sprite1->Draw(dxCommon_->GetCommandList());
 	sprite2->Draw(dxCommon_->GetCommandList());
+
+	/*multiTest->Draw(dxCommon_->GetCommandList());*/
 }
 
 void GameScene::Draw1()
