@@ -9,6 +9,8 @@
 #include "ImGuiManager.h"
 #include "imgui.h"
 #include "PostEffect.h"
+#include "MonochromeEffect.h"
+#include "ReversalEffect.h"
 
 #include "Sprite.h"
 
@@ -41,17 +43,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//ライト静的初期化
 	LightGroup::StaticInitialize(dxCommon->GetDevice());
 
-	//ポストエフェクト
-	PostEffect* postEffect0 = nullptr;
-	PostEffect* postEffect1 = nullptr;
-	PostEffect::SetDevice(dxCommon->GetDevice());
-	postEffect0 = new PostEffect;
-	postEffect0->Initialize();
-	postEffect0->CreateGraphicsPipeLine();
+	//単色エフェクト
+	MonochromeEffect* monochromeEffect = nullptr;
+	MonochromeEffect::SetDevice(dxCommon->GetDevice());
+	monochromeEffect = new MonochromeEffect;
+	monochromeEffect->Initialize();
+	monochromeEffect->CreateGraphicsPipeLine();
 
-	postEffect1 = new PostEffect;
-	postEffect1->Initialize();
-	postEffect1->CreateGraphicsPipeLine();
+	//反転エフェクト
+	ReversalEffect* reversalEffect = nullptr;
+	ReversalEffect::SetDevice(dxCommon->GetDevice());
+	reversalEffect = new ReversalEffect;
+	reversalEffect->Initialize();
+	reversalEffect->CreateGraphicsPipeLine();
 
 	//ゲームシーン
 	GameScene* gameScene = nullptr;
@@ -78,34 +82,36 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//ゲームシーン更新
 		gameScene->Update();
 
-		//ポストエフェクト
-		postEffect0->SetAlpha(1.0f);
-		postEffect0->SetColor({1.0f,0.0f,0.0});
-		postEffect0->SetScale({ window_width * 0.5f, window_height * 0.5f });
-		postEffect0->SetPosition({ 0.0f, 0.0 });
-		postEffect0->Update();
+		//単色エフェクト
+		monochromeEffect->SetAlpha(1.0f);
+		monochromeEffect->SetColor({ 1.0f,1.0f,0.0 });
+		monochromeEffect->Update();
 
-		postEffect1->SetAlpha(1.0f);
-		postEffect1->SetScale({ window_width * 0.5f, window_height * 0.5f });
-		postEffect1->SetPosition({ window_width * 0.5f, window_height * 0.5f });
-		postEffect1->Update();
+		//反転エフェクト
+		reversalEffect->SetAlpha(1.0f);
+		reversalEffect->Update();
 
 		// 4. 描画コマンド
 		
 		//レンダーテクスチャへの描画
-		postEffect0->PreDrawScene(dxCommon->GetCommandList());
-		gameScene->Draw();
-		postEffect0->PostDrawScene(dxCommon->GetCommandList());
 
-		postEffect1->PreDrawScene(dxCommon->GetCommandList());
+		//単色エフェクト
+		monochromeEffect->PreDrawScene(dxCommon->GetCommandList());
 		gameScene->Draw();
-		postEffect1->PostDrawScene(dxCommon->GetCommandList());
+		monochromeEffect->PostDrawScene(dxCommon->GetCommandList());
+		//反転エフェクト
+		reversalEffect->PreDrawScene(dxCommon->GetCommandList());
+		gameScene->Draw();
+		reversalEffect->PostDrawScene(dxCommon->GetCommandList());
 
 		//描画前処理
 		dxCommon->PreDraw();
+
 		//描画開始
-		postEffect0->Draw(dxCommon->GetCommandList());
-		postEffect1->Draw(dxCommon->GetCommandList());
+		//単色エフェクト
+		//monochromeEffect->Draw(dxCommon->GetCommandList());
+		//単色エフェクト
+		reversalEffect->Draw(dxCommon->GetCommandList());
 
 		imGuiManager->End();
 		imGuiManager->Draw();

@@ -40,6 +40,12 @@
     <Filter Include="ヘッダー ファイル\particle">
       <UniqueIdentifier>{a979c98a-f096-410a-b6c3-4643d9e706c7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\2d">
+      <UniqueIdentifier>{327275f0-1b93-4ae3-8354-3b717f4000a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\2d">
+      <UniqueIdentifier>{3b2419d9-2a6c-4aaa-9b74-86db9adbe1c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -108,10 +114,16 @@
     <ClCompile Include="light\SpotLight.cpp">
       <Filter>ソース ファイル\light</Filter>
     </ClCompile>
-    <ClCompile Include="PostEffect.cpp">
+    <ClCompile Include="MultiSpriteTest.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="MultiSpriteTest.cpp">
+    <ClCompile Include="2d\MonochromeEffect.cpp">
+      <Filter>ソース ファイル\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="2d\PostEffect.cpp">
+      <Filter>ソース ファイル\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="ReversalEffect.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -182,10 +194,16 @@
     <ClInclude Include="particle\FireParticle.h">
       <Filter>ヘッダー ファイル\particle</Filter>
     </ClInclude>
-    <ClInclude Include="PostEffect.h">
+    <ClInclude Include="MultiSpriteTest.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="MultiSpriteTest.h">
+    <ClInclude Include="2d\MonochromeEffect.h">
+      <Filter>ヘッダー ファイル\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="2d\PostEffect.h">
+      <Filter>ヘッダー ファイル\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="ReversalEffect.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -206,6 +224,12 @@
       <Filter>リソース ファイル\Shaders</Filter>
     </None>
     <None Include="Resources\Shaders\MultiTestHeader.hlsli">
+      <Filter>リソース ファイル\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\MonochromeEffectHeader.hlsli">
+      <Filter>リソース ファイル\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\ReversalEffectHeader.hlsli">
       <Filter>リソース ファイル\Shaders</Filter>
     </None>
   </ItemGroup>
@@ -244,6 +268,18 @@
       <Filter>リソース ファイル\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\MultiTestVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\MonochromePixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\MonochromeVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ReversalPixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ReversalVertexShader.hlsl">
       <Filter>リソース ファイル\Shaders</Filter>
     </FxCompile>
   </ItemGroup>

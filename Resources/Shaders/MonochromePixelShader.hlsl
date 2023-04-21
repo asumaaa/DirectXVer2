@@ -1,4 +1,4 @@
-#include "PostEffectHeader.hlsli"
+#include "MonochromeEffectHeader.hlsli"
 
 texture2D<float4> tex0 : register(t0);
 texture2D<float4> tex1 : register(t1);
@@ -15,17 +15,13 @@ float4 main(VSOutput input) : SV_TARGET
 	float4 colortex0 = tex0.Sample(smp,input.uv);
 	float4 colortex1 = tex1.Sample(smp,input.uv);
 
-	float4 color = colortex0;
-	if (fmod(input.uv.y, 0.1f) < 0.05f) {
-		color = colortex1;
-	}
-
-	/*if (colortex0.w != 0)
+	//アルファ値が0でなければ指定の色に変更
+	if (colortex0.w != 0)
 	{
-		colortex0.x = 1;
-		colortex0.y = 0;
-		colortex0.z = 1;
-	}*/
+		colortex0.x = color.x;
+		colortex0.y = color.y;
+		colortex0.z = color.z;
+	}
 
 	return colortex0;
 }
