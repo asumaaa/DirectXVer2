@@ -14,6 +14,5 @@ float4 main(VSOutput input) : SV_TARGET
 	color.z = 1 - colortex0.z;
 	color.w = colortex0.w;
 
-
 	return color;
 }
