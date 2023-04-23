@@ -13,6 +13,7 @@
 #include "ReversalEffect.h"
 #include "BlurEffect.h"
 #include "MosaicEffect.h"
+#include "ChromaticAberrationEffect.h"
 
 #include "Sprite.h"
 
@@ -45,33 +46,40 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//ライト静的初期化
 	LightGroup::StaticInitialize(dxCommon->GetDevice());
 
-	//単色エフェクト
-	MonochromeEffect* monochromeEffect = nullptr;
-	MonochromeEffect::SetDevice(dxCommon->GetDevice());
-	monochromeEffect = new MonochromeEffect;
-	monochromeEffect->Initialize();
-	monochromeEffect->CreateGraphicsPipeLine();
+	////単色エフェクト
+	//MonochromeEffect* monochromeEffect = nullptr;
+	//MonochromeEffect::SetDevice(dxCommon->GetDevice());
+	//monochromeEffect = new MonochromeEffect;
+	//monochromeEffect->Initialize();
+	//monochromeEffect->CreateGraphicsPipeLine();
 
-	//反転エフェクト
-	ReversalEffect* reversalEffect = nullptr;
-	ReversalEffect::SetDevice(dxCommon->GetDevice());
-	reversalEffect = new ReversalEffect;
-	reversalEffect->Initialize();
-	reversalEffect->CreateGraphicsPipeLine();
+	////反転エフェクト
+	//ReversalEffect* reversalEffect = nullptr;
+	//ReversalEffect::SetDevice(dxCommon->GetDevice());
+	//reversalEffect = new ReversalEffect;
+	//reversalEffect->Initialize();
+	//reversalEffect->CreateGraphicsPipeLine();
 
-	//ぼかしエフェクト
-	BlurEffect* blurEffect = nullptr;
-	BlurEffect::SetDevice(dxCommon->GetDevice());
-	blurEffect = new BlurEffect;
-	blurEffect->Initialize();
-	blurEffect->CreateGraphicsPipeLine();
+	////ぼかしエフェクト
+	//BlurEffect* blurEffect = nullptr;
+	//BlurEffect::SetDevice(dxCommon->GetDevice());
+	//blurEffect = new BlurEffect;
+	//blurEffect->Initialize();
+	//blurEffect->CreateGraphicsPipeLine();
 
-	//モザイクエフェクト
-	MosaicEffect* mosaicEffect = nullptr;
-	MosaicEffect::SetDevice(dxCommon->GetDevice());
-	mosaicEffect = new MosaicEffect;
-	mosaicEffect->Initialize();
-	mosaicEffect->CreateGraphicsPipeLine();
+	////モザイクエフェクト
+	//MosaicEffect* mosaicEffect = nullptr;
+	//MosaicEffect::SetDevice(dxCommon->GetDevice());
+	//mosaicEffect = new MosaicEffect;
+	//mosaicEffect->Initialize();
+	//mosaicEffect->CreateGraphicsPipeLine();
+
+	//RGBずらし
+	ChromaticAberration* chromaticAberration = nullptr;
+	ChromaticAberration::SetDevice(dxCommon->GetDevice());
+	chromaticAberration = new ChromaticAberration;
+	chromaticAberration->Initialize();
+	chromaticAberration->CreateGraphicsPipeLine();
 
 	//ゲームシーン
 	GameScene* gameScene = nullptr;
@@ -98,45 +106,54 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//ゲームシーン更新
 		gameScene->Update();
 
-		//単色エフェクト
-		monochromeEffect->SetAlpha(1.0f);
-		monochromeEffect->SetColor({ 1.0f,1.0f,0.0 });
-		monochromeEffect->Update();
+		////単色エフェクト
+		//monochromeEffect->SetAlpha(1.0f);
+		//monochromeEffect->SetColor({ 1.0f,1.0f,0.0 });
+		//monochromeEffect->Update();
 
-		//反転エフェクト
-		reversalEffect->SetAlpha(1.0f);
-		reversalEffect->Update();
+		////反転エフェクト
+		//reversalEffect->SetAlpha(1.0f);
+		//reversalEffect->Update();
 
-		//ぼかしエフェクト
-		blurEffect->SetAlpha(1.0f);
-		blurEffect->SetResolution(20.0f);
-		blurEffect->Update();
+		////ぼかしエフェクト
+		//blurEffect->SetAlpha(1.0f);
+		//blurEffect->SetResolution(20.0f);
+		//blurEffect->Update();
 
-		//モザイクエフェクト
-		mosaicEffect->SetAlpha(1.0f);
-		mosaicEffect->SetResolution(20.0f);
-		mosaicEffect->Update();
+		////モザイクエフェクト
+		//mosaicEffect->SetAlpha(1.0f);
+		//mosaicEffect->SetResolution(20.0f);
+		//mosaicEffect->Update();
+
+		//RGBずらし
+		chromaticAberration->SetAlpha(1.0f);
+		chromaticAberration->SetStrength(0.05f);
+		chromaticAberration->Update();
 
 		// 4. 描画コマンド
 		
 		//レンダーテクスチャへの描画
 
-		//単色エフェクト
-		monochromeEffect->PreDrawScene(dxCommon->GetCommandList());
+		////単色エフェクト
+		//monochromeEffect->PreDrawScene(dxCommon->GetCommandList());
+		//gameScene->Draw();
+		//monochromeEffect->PostDrawScene(dxCommon->GetCommandList());
+		////反転エフェクト
+		//reversalEffect->PreDrawScene(dxCommon->GetCommandList());
+		//gameScene->Draw();
+		//reversalEffect->PostDrawScene(dxCommon->GetCommandList());
+		////ぼかしエフェクト
+		//blurEffect->PreDrawScene(dxCommon->GetCommandList());
+		//gameScene->Draw();
+		//blurEffect->PostDrawScene(dxCommon->GetCommandList());
+		////モザイクエフェクト
+		//mosaicEffect->PreDrawScene(dxCommon->GetCommandList());
+		//gameScene->Draw();
+		//mosaicEffect->PostDrawScene(dxCommon->GetCommandList());
+		//RGBずらし
+		chromaticAberration->PreDrawScene(dxCommon->GetCommandList());
 		gameScene->Draw();
-		monochromeEffect->PostDrawScene(dxCommon->GetCommandList());
-		//反転エフェクト
-		reversalEffect->PreDrawScene(dxCommon->GetCommandList());
-		gameScene->Draw();
-		reversalEffect->PostDrawScene(dxCommon->GetCommandList());
-		//ぼかしエフェクト
-		blurEffect->PreDrawScene(dxCommon->GetCommandList());
-		gameScene->Draw();
-		blurEffect->PostDrawScene(dxCommon->GetCommandList());
-		//モザイクエフェクト
-		mosaicEffect->PreDrawScene(dxCommon->GetCommandList());
-		gameScene->Draw();
-		mosaicEffect->PostDrawScene(dxCommon->GetCommandList());
+		chromaticAberration->PostDrawScene(dxCommon->GetCommandList());
 
 		//描画前処理
 		dxCommon->PreDraw();
@@ -148,8 +165,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//reversalEffect->Draw(dxCommon->GetCommandList());
 		////ぼかしエフェクト 
 		//blurEffect->Draw(dxCommon->GetCommandList());
-		//ぼかしエフェクト 
-		mosaicEffect->Draw(dxCommon->GetCommandList());
+		//モザイクエフェクト 
+		//mosaicEffect->Draw(dxCommon->GetCommandList());
+		//RGBずらし 
+		chromaticAberration->Draw(dxCommon->GetCommandList());
 
 		imGuiManager->End();
 		imGuiManager->Draw();

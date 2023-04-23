@@ -4,11 +4,6 @@ texture2D<float4> tex0 : register(t0);
 texture2D<float4> tex1 : register(t1);
 SamplerState smp : register(s0);
 
-float3 sampleBox(float2 uv,float resolution)
-{
-	return float3(0, 0, 0);
-}
-
 float4 main(VSOutput input) : SV_TARGET
 {
 	int x = input.uv.x * window.x;
