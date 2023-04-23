@@ -2,6 +2,8 @@
 cbuffer ConstBuff : register(b0)
 {
 	float4 color;
+	float resolution;
+	float2 window;
 };
 
 //•ÏŒ`s—ñ

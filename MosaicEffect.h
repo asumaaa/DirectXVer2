@@ -1,10 +1,11 @@
 #pragma once
 #include "d3dx12.h"
-#include "DirectXMath.h"
 #include "array"
-#include "SpriteManager.h"
+#include "DirectXMath.h"
+#include "DirectXTex.h"
+#include "vector"
 
-class MultiSpriteTest
+class MosaicEffect
 {
 private:	//エイリアス
 	//Microsoft::WRL::を省略
@@ -15,11 +16,20 @@ private:	//エイリアス
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 
+public:	 //定数
+	//SRVの最大個数
+	static const size_t kMaxSrvCount = 2056;
+
 public:	//サブクラス
 	//定数バッファ
 	struct ConstBuffMaterial
 	{
+		//色
 		XMFLOAT4 color;
+		//解像度
+		float resolution;
+		//ウィンドウ
+		XMFLOAT2 window;
 	};
 	//定数バッファ2
 	struct ConstBuffTransform
@@ -34,50 +44,48 @@ public:	//サブクラス
 	};
 
 public:	//メンバ関数
+	//初期化
 	void Initialize();
+	//更新
 	void Update();
+	//描画
 	void Draw(ID3D12GraphicsCommandList* cmdList);
+	//パイプライン設定、作成
+	void CreateGraphicsPipeLine();
 
-public:	//静的メンバ変数セッター
-	static void SetDevice(ID3D12Device* device) { MultiSpriteTest::device = device; }
-	static void SetSpriteManager(SpriteManager* spriteManager) { MultiSpriteTest::spriteManager = spriteManager; }
-	static void CreateGraphicsPipeLine();
+	//描画前処理
+	void PreDrawScene(ID3D12GraphicsCommandList* cmdList);
+	//描画後処理
+	void PostDrawScene(ID3D12GraphicsCommandList* cmdList);
+
+public:	//静的メンバ関数
+	static void SetDevice(ID3D12Device* device) { MosaicEffect::device = device; }
 
 public:	//セッター
 	//アルファ値
 	void SetAlpha(float alpha) { color.w = alpha; }
 	//色
 	void SetColor(XMFLOAT3 c) { color.x = c.x; color.y = c.y; color.z = c.z; }
-	//テクスチャの番号をセット
-	void SetTextureNum(int num) { textureNum = num; }
 	//座標
 	void SetPosition(XMFLOAT2 pos) { position = pos; }
 	//角度
 	void SetRotation(float rot) { rotation = rot; }
 	//スケール
 	void SetScale(XMFLOAT2 sca) { scale = sca; }
+	//解像度
+	void SetResolution(float re) { resolution = re; }
 
-public:	//ゲッター
-	//座標
-	XMFLOAT2 GetPosition() { return position; }
-	//角度
-	float GetRotation() { return rotation; }
-	//スケール
-	XMFLOAT2 GetScale() { return scale; }
-
-private:
+private:	//静的メンバ変数
 	//デバイス
 	static ID3D12Device* device;
-	//スプライトマネージャー
-	static SpriteManager* spriteManager;
 	//ルートシグネチャ
 	static ComPtr<ID3D12RootSignature>rootsignature;
 	//パイプラインステートオブジェクト
 	static ComPtr<ID3D12PipelineState>pipelinestate;
+	//画面クリアカラー
+	static const float clearColor[4];
 
 private:	//メンバ変数
-	//使用するテクスチャの番号
-	int textureNum = 0;
 	//頂点バッファビュー
 	D3D12_VERTEX_BUFFER_VIEW vbView;
 	//頂点データ
@@ -91,10 +99,24 @@ private:	//メンバ変数
 	ConstBuffTransform* constMapTransform = nullptr;
 	//テクスチャの色
 	XMFLOAT4 color = { 1,1,1,1 };
+	//テクスチャバッファ
+	ComPtr<ID3D12Resource>textureBuff;
+	//デスクリプタヒープ
+	ComPtr<ID3D12DescriptorHeap> srvHeap;
+
+	//深度バッファ
+	ComPtr<ID3D12Resource>depthBuff;
+	//RTV用デスクリプタヒープ
+	ComPtr<ID3D12DescriptorHeap>descHeapRTV;
+	//DSV用デスクリプタヒープ
+	ComPtr<ID3D12DescriptorHeap>descHeapDSV;
 
 private:
+	//解像度
+	float resolution = 10;
 	float rotation = 0;
 	XMFLOAT2 position = { 0,0 };
 	XMFLOAT2 scale = { 100.0f,100.0f };
+
 };
 

@@ -12,6 +12,7 @@
 #include "MonochromeEffect.h"
 #include "ReversalEffect.h"
 #include "BlurEffect.h"
+#include "MosaicEffect.h"
 
 #include "Sprite.h"
 
@@ -65,6 +66,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	blurEffect->Initialize();
 	blurEffect->CreateGraphicsPipeLine();
 
+	//モザイクエフェクト
+	MosaicEffect* mosaicEffect = nullptr;
+	MosaicEffect::SetDevice(dxCommon->GetDevice());
+	mosaicEffect = new MosaicEffect;
+	mosaicEffect->Initialize();
+	mosaicEffect->CreateGraphicsPipeLine();
+
 	//ゲームシーン
 	GameScene* gameScene = nullptr;
 	gameScene = new GameScene();
@@ -104,6 +112,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		blurEffect->SetResolution(20.0f);
 		blurEffect->Update();
 
+		//モザイクエフェクト
+		mosaicEffect->SetAlpha(1.0f);
+		mosaicEffect->SetResolution(20.0f);
+		mosaicEffect->Update();
+
 		// 4. 描画コマンド
 		
 		//レンダーテクスチャへの描画
@@ -120,6 +133,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		blurEffect->PreDrawScene(dxCommon->GetCommandList());
 		gameScene->Draw();
 		blurEffect->PostDrawScene(dxCommon->GetCommandList());
+		//モザイクエフェクト
+		mosaicEffect->PreDrawScene(dxCommon->GetCommandList());
+		gameScene->Draw();
+		mosaicEffect->PostDrawScene(dxCommon->GetCommandList());
 
 		//描画前処理
 		dxCommon->PreDraw();
@@ -129,8 +146,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//monochromeEffect->Draw(dxCommon->GetCommandList());
 		//反転エフェクト
 		//reversalEffect->Draw(dxCommon->GetCommandList());
+		////ぼかしエフェクト 
+		//blurEffect->Draw(dxCommon->GetCommandList());
 		//ぼかしエフェクト 
-		blurEffect->Draw(dxCommon->GetCommandList());
+		mosaicEffect->Draw(dxCommon->GetCommandList());
 
 		imGuiManager->End();
 		imGuiManager->Draw();

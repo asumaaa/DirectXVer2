@@ -1,4 +1,4 @@
-#include "MultiTestHeader.hlsli"
+#include "MosaicEffectHeader.hlsli"
 
 VSOutput main(float4 pos : POSITION, float2 uv : TEXCOORD)
 {

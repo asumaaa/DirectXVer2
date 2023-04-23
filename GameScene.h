@@ -13,8 +13,6 @@
 #include "SpriteManager.h"
 #include "FireParticle.h"
 
-#include "MultiSpriteTest.h"
-
 class GameScene
 {
 	//ƒƒ“ƒoŠÖ”
@@ -58,8 +56,6 @@ private:
 	Sprite* sprite0 = nullptr;
 	Sprite* sprite1 = nullptr;
 	Sprite* sprite2 = nullptr;
-
-	MultiSpriteTest* multiTest = nullptr;
 
 	float ambientColor0[3] = { 1,1,1 };
 	//Œõü•ûŒü‰Šú’l
