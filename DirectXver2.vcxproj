@@ -120,7 +120,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)base;$(ProjectDir);$(ProjectDir)fbx;$(ProjectDir)Resources;$(ProjectDir)Resources\Shaders;$(ProjectDir)particle;$(ProjectDir)light;$(ProjectDir)fbxsdk;$(ProjectDir)2d</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)base;$(ProjectDir);$(ProjectDir)fbx;$(ProjectDir)Resources;$(ProjectDir)Resources\Shaders;$(ProjectDir)particle;$(ProjectDir)light;$(ProjectDir)fbxsdk;$(ProjectDir)2d;$(ProjectDir)Resources\Shaders\Bulr;$(ProjectDir)Resources\Shaders\Monochrome;$(ProjectDir)Resources\Shaders\Mosaic;$(ProjectDir)Resources\Shaders\Reversal</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -137,7 +137,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)base;$(ProjectDir);$(ProjectDir)fbx;$(ProjectDir)Resources;$(ProjectDir)Resources\Shaders;$(ProjectDir)particle;$(ProjectDir)light;$(ProjectDir)fbxsdk;$(ProjectDir)2d</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)base;$(ProjectDir);$(ProjectDir)fbx;$(ProjectDir)Resources;$(ProjectDir)Resources\Shaders;$(ProjectDir)particle;$(ProjectDir)light;$(ProjectDir)fbxsdk;$(ProjectDir)2d;$(ProjectDir)Resources\Shaders\Bulr;$(ProjectDir)Resources\Shaders\Monochrome;$(ProjectDir)Resources\Shaders\Mosaic;$(ProjectDir)Resources\Shaders\Reversal</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -149,8 +149,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="2d\BlurEffect.cpp" />
     <ClCompile Include="2d\MonochromeEffect.cpp" />
+    <ClCompile Include="2d\MosaicEffect.cpp" />
     <ClCompile Include="2d\PostEffect.cpp" />
+    <ClCompile Include="2d\ReversalEffect.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="base\DXInput.cpp" />
     <ClCompile Include="base\FPS.cpp" />
@@ -160,7 +163,6 @@
     <ClCompile Include="base\Sprite.cpp" />
     <ClCompile Include="base\SpriteManager.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
-    <ClCompile Include="BlurEffect.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="fbx\FbxLoader.cpp" />
     <ClCompile Include="fbx\FbxModel.cpp" />
@@ -171,15 +173,16 @@
     <ClCompile Include="light\PointLight.cpp" />
     <ClCompile Include="light\SpotLight.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MosaicEffect.cpp" />
     <ClCompile Include="particle\FireParticle.cpp" />
-    <ClCompile Include="ReversalEffect.cpp" />
     <ClCompile Include="Shadow.cpp" />
     <ClCompile Include="ShadowMap.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="2d\BlurEffect.h" />
     <ClInclude Include="2d\MonochromeEffect.h" />
+    <ClInclude Include="2d\MosaicEffect.h" />
     <ClInclude Include="2d\PostEffect.h" />
+    <ClInclude Include="2d\ReversalEffect.h" />
     <ClInclude Include="base\DirectXCommon.h" />
     <ClInclude Include="base\DXInput.h" />
     <ClInclude Include="base\FPS.h" />
@@ -189,7 +192,6 @@
     <ClInclude Include="base\Sprite.h" />
     <ClInclude Include="base\SpriteManager.h" />
     <ClInclude Include="base\WinApp.h" />
-    <ClInclude Include="BlurEffect.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="fbx\FbxLoader.h" />
     <ClInclude Include="fbx\FbxModel.h" />
@@ -200,9 +202,7 @@
     <ClInclude Include="light\LightGroup.h" />
     <ClInclude Include="light\PointLight.h" />
     <ClInclude Include="light\SpotLight.h" />
-    <ClInclude Include="MosaicEffect.h" />
     <ClInclude Include="particle\FireParticle.h" />
-    <ClInclude Include="ReversalEffect.h" />
     <ClInclude Include="Shadow.h" />
     <ClInclude Include="ShadowMap.h" />
   </ItemGroup>
@@ -216,12 +216,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="FbxShadowHeader.hlsli" />
-    <None Include="Resources\Shaders\BlurEffectHeader.hlsli" />
+    <None Include="Resources\Shaders\Blur\BlurEffectHeader.hlsli" />
     <None Include="Resources\Shaders\FbxHeader.hlsli" />
-    <None Include="Resources\Shaders\MonochromeEffectHeader.hlsli" />
-    <None Include="Resources\Shaders\MosaicEffectHeader.hlsli" />
+    <None Include="Resources\Shaders\Monochrome\MonochromeEffectHeader.hlsli" />
+    <None Include="Resources\Shaders\Mosaic\MosaicEffectHeader.hlsli" />
     <None Include="Resources\Shaders\PostEffectHeader.hlsli" />
-    <None Include="Resources\Shaders\ReversalEffectHeader.hlsli" />
+    <None Include="Resources\Shaders\Reversal\ReversalEffectHeader.hlsli" />
     <None Include="Resources\Shaders\ShaderHeader.hlsli" />
     <None Include="Resources\Shaders\SpriteHeader.hlsli" />
   </ItemGroup>
@@ -242,13 +242,13 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\BlurPixelShader.hlsl">
+    <FxCompile Include="Resources\Shaders\Blur\BlurPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\BlurVertexShader.hlsl">
+    <FxCompile Include="Resources\Shaders\Blur\BlurVertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
@@ -266,25 +266,25 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\MonochromePixelShader.hlsl">
+    <FxCompile Include="Resources\Shaders\Monochrome\MonochromePixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\MonochromeVertexShader.hlsl">
+    <FxCompile Include="Resources\Shaders\Monochrome\MonochromeVertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\MosaicPixelShader.hlsl">
+    <FxCompile Include="Resources\Shaders\Mosaic\MosaicPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\MosaicVertexShader.hlsl">
+    <FxCompile Include="Resources\Shaders\Mosaic\MosaicVertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
@@ -308,13 +308,13 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\ReversalPixelShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+    <FxCompile Include="Resources\Shaders\Reversal\ReversalPixelShader.hlsl">
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\ReversalVertexShader.hlsl">
+    <FxCompile Include="Resources\Shaders\Reversal\ReversalVertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>

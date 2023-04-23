@@ -328,7 +328,7 @@ void MonochromeEffect::CreateGraphicsPipeLine()
 
 	//頂点シェーダの読み込み コンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/MonochromeVertexShader.hlsl",
+		L"Resources/Shaders/Monochrome/MonochromeVertexShader.hlsl",
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,
 		"main", "vs_5_0",
@@ -353,7 +353,7 @@ void MonochromeEffect::CreateGraphicsPipeLine()
 
 	//ピクセルシェーダの読み込み コンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/MonochromePixelShader.hlsl",
+		L"Resources/Shaders/Monochrome/MonochromePixelShader.hlsl",
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,
 		"main", "ps_5_0",

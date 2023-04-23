@@ -329,7 +329,7 @@ void ReversalEffect::CreateGraphicsPipeLine()
 
 	//頂点シェーダの読み込み コンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/ReversalVertexShader.hlsl",
+		L"Resources/Shaders/Reversal/ReversalVertexShader.hlsl",
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,
 		"main", "vs_5_0",
@@ -354,7 +354,7 @@ void ReversalEffect::CreateGraphicsPipeLine()
 
 	//ピクセルシェーダの読み込み コンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/ReversalPixelShader.hlsl",
+		L"Resources/Shaders/Reversal/ReversalPixelShader.hlsl",
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,
 		"main", "ps_5_0",

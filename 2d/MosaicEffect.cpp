@@ -1,4 +1,4 @@
-#include "BlurEffect.h"
+#include "MosaicEffect.h"
 #include "string.h"
 #include "WinApp.h"
 #include <d3dcompiler.h>
@@ -9,12 +9,12 @@
 
 using namespace Microsoft::WRL;
 
-ID3D12Device* BlurEffect::device = nullptr;
-ComPtr<ID3D12RootSignature>BlurEffect::rootsignature;
-ComPtr<ID3D12PipelineState>BlurEffect::pipelinestate;
-const float BlurEffect::clearColor[4] = { 0.25f,0.5f, 0.1f, 0.0f };
+ID3D12Device* MosaicEffect::device = nullptr;
+ComPtr<ID3D12RootSignature>MosaicEffect::rootsignature;
+ComPtr<ID3D12PipelineState>MosaicEffect::pipelinestate;
+const float MosaicEffect::clearColor[4] = { 0.25f,0.5f, 0.1f, 0.0f };
 
-void BlurEffect::Initialize()
+void MosaicEffect::Initialize()
 {
 	HRESULT result;
 
@@ -259,7 +259,7 @@ void BlurEffect::Initialize()
 	);
 }
 
-void BlurEffect::Update()
+void MosaicEffect::Update()
 {
 	std::copy(std::begin(vertices), std::end(vertices), vertMap);
 
@@ -292,7 +292,7 @@ void BlurEffect::Update()
 	constMapTransform->mat.r[3].m128_f32[1] = 1.0f - (position.y / window_height) * 2;
 }
 
-void BlurEffect::Draw(ID3D12GraphicsCommandList* cmdList)
+void MosaicEffect::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 
 	//パイプライン、ルートシグネチャをセット
@@ -322,7 +322,7 @@ void BlurEffect::Draw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->DrawInstanced(_countof(vertices), 1, 0, 0);
 }
 
-void BlurEffect::CreateGraphicsPipeLine()
+void MosaicEffect::CreateGraphicsPipeLine()
 {
 
 	HRESULT result;
@@ -333,7 +333,7 @@ void BlurEffect::CreateGraphicsPipeLine()
 
 	//頂点シェーダの読み込み コンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/BlurVertexShader.hlsl",
+		L"Resources/Shaders/Mosaic/MosaicVertexShader.hlsl",
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,
 		"main", "vs_5_0",
@@ -358,7 +358,7 @@ void BlurEffect::CreateGraphicsPipeLine()
 
 	//ピクセルシェーダの読み込み コンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/BlurPixelShader.hlsl",
+		L"Resources/Shaders/Mosaic/MosaicPixelShader.hlsl",
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,
 		"main", "ps_5_0",
@@ -500,7 +500,7 @@ void BlurEffect::CreateGraphicsPipeLine()
 	assert(SUCCEEDED(result));
 }
 
-void BlurEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdList)
+void MosaicEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdList)
 {
 	//リソースバリアを変更
 	CD3DX12_RESOURCE_BARRIER a0 = CD3DX12_RESOURCE_BARRIER::Transition(
@@ -530,7 +530,7 @@ void BlurEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdList)
 	cmdList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 }
 
-void BlurEffect::PostDrawScene(ID3D12GraphicsCommandList* cmdList)
+void MosaicEffect::PostDrawScene(ID3D12GraphicsCommandList* cmdList)
 {
 	//リソースバリアを変更
 	CD3DX12_RESOURCE_BARRIER a0 = CD3DX12_RESOURCE_BARRIER::Transition(
