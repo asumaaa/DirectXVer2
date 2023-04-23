@@ -160,6 +160,7 @@
     <ClCompile Include="base\Sprite.cpp" />
     <ClCompile Include="base\SpriteManager.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
+    <ClCompile Include="BlurEffect.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="fbx\FbxLoader.cpp" />
     <ClCompile Include="fbx\FbxModel.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="base\Sprite.h" />
     <ClInclude Include="base\SpriteManager.h" />
     <ClInclude Include="base\WinApp.h" />
+    <ClInclude Include="BlurEffect.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="fbx\FbxLoader.h" />
     <ClInclude Include="fbx\FbxModel.h" />
@@ -214,6 +216,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="FbxShadowHeader.hlsli" />
+    <None Include="Resources\Shaders\BlurEffectHeader.hlsli" />
     <None Include="Resources\Shaders\FbxHeader.hlsli" />
     <None Include="Resources\Shaders\MonochromeEffectHeader.hlsli" />
     <None Include="Resources\Shaders\MultiTestHeader.hlsli" />
@@ -237,6 +240,18 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\BlurPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\BlurVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\FbxPixelShader.hlsl">

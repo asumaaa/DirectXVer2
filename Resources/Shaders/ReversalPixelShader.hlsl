@@ -1,4 +1,4 @@
-#include "MonochromeEffectHeader.hlsli"
+#include "ReversalEffectHeader.hlsli"
 
 texture2D<float4> tex0 : register(t0);
 texture2D<float4> tex1 : register(t1);
@@ -12,7 +12,14 @@ float4 main(VSOutput input) : SV_TARGET
 	color.x = 1 - colortex0.x;
 	color.y = 1 - colortex0.y;
 	color.z = 1 - colortex0.z;
-	color.w = colortex0.w;
+	if (colortex0.x != 0)
+	{
+		color.w = colortex0.w;
+	}
+	else
+	{
+		color.w = 1;
+	}
 
 	return color;
 }

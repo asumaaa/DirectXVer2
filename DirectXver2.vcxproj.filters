@@ -126,6 +126,9 @@
     <ClCompile Include="ReversalEffect.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="BlurEffect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base\DirectXCommon.h">
@@ -206,6 +209,9 @@
     <ClInclude Include="ReversalEffect.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="BlurEffect.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\FbxHeader.hlsli">
@@ -230,6 +236,9 @@
       <Filter>リソース ファイル\Shaders</Filter>
     </None>
     <None Include="Resources\Shaders\ReversalEffectHeader.hlsli">
+      <Filter>リソース ファイル\Shaders</Filter>
+    </None>
+    <None Include="Resources\Shaders\BlurEffectHeader.hlsli">
       <Filter>リソース ファイル\Shaders</Filter>
     </None>
   </ItemGroup>
@@ -280,6 +289,12 @@
       <Filter>リソース ファイル\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\ReversalVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\BlurPixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\BlurVertexShader.hlsl">
       <Filter>リソース ファイル\Shaders</Filter>
     </FxCompile>
   </ItemGroup>

@@ -1,4 +1,4 @@
-#include "ReversalEffectHeader.hlsli"
+#include "BlurEffectHeader.hlsli"
 
 VSOutput main(float4 pos : POSITION, float2 uv : TEXCOORD)
 {
