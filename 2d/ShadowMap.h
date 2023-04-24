@@ -30,6 +30,8 @@ public:	//サブクラス
 		float resolution;
 		//ウィンドウ
 		XMFLOAT2 window;
+		//ライトのビュー
+		XMMATRIX lightvp;
 	};
 	//定数バッファ2
 	struct ConstBuffTransform
@@ -74,6 +76,8 @@ public:	//セッター
 	void SetScale(XMFLOAT2 sca) { scale = sca; }
 	//解像度
 	void SetResolution(float re) { resolution = re; }
+	//ビュー
+	void SetLightVP(XMMATRIX l) { lightVP = l; }
 
 private:	//静的メンバ変数
 	//デバイス
@@ -111,12 +115,24 @@ private:	//メンバ変数
 	//DSV用デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap>descHeapDSV;
 
+	//shadowMap用
+	////深度バッファ
+	//ComPtr<ID3D12Resource>shadowBuff;
+	////デスクリプタヒープ
+	//ComPtr<ID3D12DescriptorHeap>descHeapShadowBuff;
+	////デスクリプタヒープ
+	//ComPtr<ID3D12DescriptorHeap>descHeapShadowTex;
+
+	//深度値テクスチャ用
+	ComPtr<ID3D12DescriptorHeap>depthSRVHeap;
+
 private:
 	//解像度
 	float resolution = 10;
 	float rotation = 0;
 	XMFLOAT2 position = { 0,0 };
 	XMFLOAT2 scale = { 100.0f,100.0f };
-
+	//射影変換
+	XMMATRIX lightVP;
 };
 

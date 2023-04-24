@@ -180,7 +180,7 @@ void ShadowMap::Initialize()
 	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
 	srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 	srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-	srvHeapDesc.NumDescriptors = 1;
+	srvHeapDesc.NumDescriptors = 2;
 
 	//設定を元にSRV用デスクリプタヒープを生成
 	result = device->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
@@ -199,7 +199,7 @@ void ShadowMap::Initialize()
 	//RTV用デスクリプタヒープ設定
 	D3D12_DESCRIPTOR_HEAP_DESC rtvDesc{};
 	rtvDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
-	rtvDesc.NumDescriptors = 1;
+	rtvDesc.NumDescriptors = 2;
 	//RTV用デスクリプタヒープを生成
 	result = device->CreateDescriptorHeap(&rtvDesc, IID_PPV_ARGS(&descHeapRTV));
 	assert(SUCCEEDED(result));
@@ -217,46 +217,77 @@ void ShadowMap::Initialize()
 	);
 
 
-	//深度バッファリソースの設定
-	CD3DX12_RESOURCE_DESC depthDesc = CD3DX12_RESOURCE_DESC::Tex2D(
-		DXGI_FORMAT_D32_FLOAT,
-		window_width,
-		window_height,
-		1, 0,
-		1, 0,
-		D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL
-	);
-	CD3DX12_HEAP_PROPERTIES b0 = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
-	CD3DX12_CLEAR_VALUE b1 = CD3DX12_CLEAR_VALUE(DXGI_FORMAT_D32_FLOAT, 1.0f, 0);
-	//深度バッファの生成
+	//深度バッファの作成
+	D3D12_RESOURCE_DESC depthResDesc = {};
+	depthResDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	depthResDesc.Width = window_width;
+	depthResDesc.Height = window_height;
+	depthResDesc.DepthOrArraySize = 1;
+	depthResDesc.Format = DXGI_FORMAT_D32_FLOAT;
+	depthResDesc.SampleDesc.Count = 1;
+	depthResDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
+
+	//深度値用ヒープ設定
+	D3D12_HEAP_PROPERTIES depthHeapProp = {};
+	depthHeapProp.Type = D3D12_HEAP_TYPE_DEFAULT;
+	depthHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+	depthHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
+
+	//クリアバッファビュー
+	/*D3D12_CLEAR_VALUE depthClearValue = {};
+	depthClearValue.DepthStencil.Depth = 1.0f;
+	depthClearValue.Format = DXGI_FORMAT_D32_FLOAT;*/
+
 	result = device->CreateCommittedResource(
-		&b0,
+		&depthHeapProp,
 		D3D12_HEAP_FLAG_NONE,
-		&depthDesc,
+		&depthResDesc,
 		D3D12_RESOURCE_STATE_DEPTH_WRITE,
-		&b1,
+		nullptr,
 		IID_PPV_ARGS(&depthBuff)
 	);
 	assert(SUCCEEDED(result));
 
+	//でスクリプタ用設定
+	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc = {};
+	dsvHeapDesc.NumDescriptors = 2;
+	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
+	result = device->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&descHeapDSV));
 
-	//DSV用デスクリプタヒープ設定
-	D3D12_DESCRIPTOR_HEAP_DESC DescHeapDesc{};
-	DescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
-	DescHeapDesc.NumDescriptors = 1;
-	//DSV用デスクリプタヒープ
-	result = device->CreateDescriptorHeap(&DescHeapDesc, IID_PPV_ARGS(&descHeapDSV));
-	assert(SUCCEEDED(result));
-
-	//デスクリプタヒープにDSV作成
+	//深度ビュー作成
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
 	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
 	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+	dsvDesc.Flags = D3D12_DSV_FLAG_NONE;
 	device->CreateDepthStencilView(
 		depthBuff.Get(),
 		&dsvDesc,
 		descHeapDSV->GetCPUDescriptorHandleForHeapStart()
 	);
+	assert(SUCCEEDED(result));
+
+
+	//深度テクスチャ用ヒープ
+	D3D12_DESCRIPTOR_HEAP_DESC heapDesc = {};
+	heapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	heapDesc.NodeMask = 0;
+	heapDesc.NumDescriptors = 1;
+	heapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	result = device->CreateDescriptorHeap(
+		&heapDesc,
+		IID_PPV_ARGS(&depthSRVHeap)
+	);
+	assert(SUCCEEDED(result));
+
+	//シェーダリソースビューの作成
+	D3D12_SHADER_RESOURCE_VIEW_DESC sResDesc{};
+	sResDesc.Format = DXGI_FORMAT_R32_FLOAT;
+	sResDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	sResDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	sResDesc.Texture2D.MipLevels = 1;
+	device->CreateShaderResourceView(depthBuff.Get(), &sResDesc, 
+		depthSRVHeap->GetCPUDescriptorHandleForHeapStart());
+
 }
 
 void ShadowMap::Update()
@@ -268,6 +299,7 @@ void ShadowMap::Update()
 	constMapMaterial->window.x = window_width;
 	constMapMaterial->window.y = window_height;
 	constMapMaterial->resolution = resolution;
+	constMapMaterial->lightvp = lightVP;
 
 	//変形行列
 	//ワールド変換行列
@@ -314,9 +346,13 @@ void ShadowMap::Draw(ID3D12GraphicsCommandList* cmdList)
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap.Get()->GetGPUDescriptorHandleForHeapStart();
 
 	//SRVヒープの先頭にあるSRVをルートパラメータ1晩に設定
-	cmdList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+	cmdList->SetGraphicsRootDescriptorTable(2, srvGpuHandle);
+
+	cmdList->SetDescriptorHeaps(1, depthSRVHeap.GetAddressOf());
+	cmdList->SetGraphicsRootDescriptorTable(3, depthSRVHeap->GetGPUDescriptorHandleForHeapStart());
+
 	//定数バッファビューの設定コマンド
-	cmdList->SetGraphicsRootConstantBufferView(2, constBuffTransform->GetGPUVirtualAddress());
+	cmdList->SetGraphicsRootConstantBufferView(1, constBuffTransform->GetGPUVirtualAddress());
 
 	//描画コマンド
 	cmdList->DrawInstanced(_countof(vertices), 1, 0, 0);
@@ -412,6 +448,9 @@ void ShadowMap::CreateGraphicsPipeLine()
 	pipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;	//カリングしない
 	pipelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;	//ポリゴン内塗りつぶし
 	pipelineDesc.RasterizerState.DepthClipEnable = true;	//深度クリッピングを有効に
+	/*pipelineDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	pipelineDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;
+	pipelineDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;*/
 
 	//ブレンドステート
 	pipelineDesc.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
@@ -435,8 +474,9 @@ void ShadowMap::CreateGraphicsPipeLine()
 	pipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
 	//その他設定
-	pipelineDesc.NumRenderTargets = 1;	//描画対象は1
+	pipelineDesc.NumRenderTargets = 2;	//描画対象は1
 	pipelineDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;	//RGBA
+	pipelineDesc.RTVFormats[1] = DXGI_FORMAT_R8_UNORM;	//RGBA
 	pipelineDesc.SampleDesc.Count = 1;	//1ピクセルにつき1回サンプリング
 
 	//テクスチャサンプラーの設定
@@ -452,29 +492,39 @@ void ShadowMap::CreateGraphicsPipeLine()
 	samplerDesc.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 
 	//デスクリプタレンジの設定
-	D3D12_DESCRIPTOR_RANGE descriptorRange{};
-	descriptorRange.NumDescriptors = 1;
-	descriptorRange.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
-	descriptorRange.BaseShaderRegister = 0;
-	descriptorRange.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+	D3D12_DESCRIPTOR_RANGE descriptorRange0{};
+	descriptorRange0.NumDescriptors = 1;
+	descriptorRange0.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	descriptorRange0.BaseShaderRegister = 0;
+	descriptorRange0.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+	D3D12_DESCRIPTOR_RANGE descriptorRange1{};
+	descriptorRange1.NumDescriptors = 1;
+	descriptorRange1.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	descriptorRange1.BaseShaderRegister = 1;
 
 	//ルートパラメータの設定
-	D3D12_ROOT_PARAMETER rootParameter[3] = {};
+	D3D12_ROOT_PARAMETER rootParameter[4] = {};
 	//定数バッファ0番
 	rootParameter[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
 	rootParameter[0].Descriptor.ShaderRegister = 0;
 	rootParameter[0].Descriptor.RegisterSpace = 0;
 	rootParameter[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-	//テクスチャレジスタ0番
-	rootParameter[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-	rootParameter[1].DescriptorTable.pDescriptorRanges = &descriptorRange;
-	rootParameter[1].DescriptorTable.NumDescriptorRanges = 1;
-	rootParameter[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 	//定数バッファ1番
-	rootParameter[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-	rootParameter[2].Descriptor.ShaderRegister = 1;
-	rootParameter[2].Descriptor.RegisterSpace = 0;
+	rootParameter[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameter[1].Descriptor.ShaderRegister = 1;
+	rootParameter[1].Descriptor.RegisterSpace = 0;
+	rootParameter[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+	//テクスチャレジスタ0番
+	rootParameter[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParameter[2].DescriptorTable.pDescriptorRanges = &descriptorRange0;
+	rootParameter[2].DescriptorTable.NumDescriptorRanges = 1;
 	rootParameter[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+	//テクスチャレジスタ1番
+	rootParameter[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParameter[3].DescriptorTable.pDescriptorRanges = &descriptorRange1;
+	rootParameter[3].DescriptorTable.NumDescriptorRanges = 1;
+	rootParameter[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 
 	//ルートシグネチャの設定
 	D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc{};
@@ -489,7 +539,8 @@ void ShadowMap::CreateGraphicsPipeLine()
 	result = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0,
 		&rootSigBlob, &errorBlob);
 	assert(SUCCEEDED(result));
-	result = device->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(&rootsignature));
+	result = device->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
+		IID_PPV_ARGS(&rootsignature));
 	assert(SUCCEEDED(result));
 	rootSigBlob->Release();
 	//パイプラインにルートシグネチャをセット

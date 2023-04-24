@@ -112,6 +112,10 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	sprite2 = new Sprite;
 	sprite2->SetTextureNum(2);
 	sprite2->Initialize();
+
+	//ライト
+	light = new Light;
+	light->Initialize();
 }
 
 void GameScene::Update()
@@ -121,6 +125,9 @@ void GameScene::Update()
 	camera_->Update();
 	//コントローラー更新
 	dxInput->InputProcess();
+
+	//ライト
+	light->Update();
 
 	//ライト更新
 	lightGroup0->SetAmbientColor(XMFLOAT3(ambientColor0));
@@ -209,4 +216,9 @@ void GameScene::Draw()
 
 void GameScene::Draw1()
 {
+}
+
+DirectX::XMMATRIX GameScene::GetLightViewProjection()
+{
+	return light->GetMatViewProjection();
 }

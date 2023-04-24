@@ -1,26 +1,16 @@
 #include "ShadowMapHeader.hlsli"
 
 texture2D<float4> tex0 : register(t0);
-texture2D<float4> tex1 : register(t1);
+texture2D<float> tex1 : register(t1);
 SamplerState smp : register(s0);
 
 float4 main(VSOutput input) : SV_TARGET
 {
-	int x = input.uv.x * window.x;
-	int y = input.uv.y * window.y;
-	float uvX = x/ window.x;
-	float uvY = y/ window.y;
-	float4 addColor = float4(0, 0, 0, 0);
+	/*float shadow = tex1.Sample(smp,input.possm.xy);
+	float shadowA = (input.possm.z - 0.005f < shadow) ? 1.0f : 0.5f;	*/				
 
-	for (int i = 0; i < resolution; i++)
-	{
-		for (int j = 0; j < resolution; j++)
-		{
-			addColor += tex0.Sample(smp,float2(uvX + (i / window.x), uvY + (j / window.x))) /
-				(resolution * resolution);
-		}
-	}
+	float4 colortex0 = tex0.Sample(smp,input.uv)/* * shadowA*/;
+	float dep = pow(tex1.Sample(smp, input.uv), 20);
 
-	addColor.w *= color.w;
-	return addColor;
+	return float4(dep,dep,dep,1);
 }

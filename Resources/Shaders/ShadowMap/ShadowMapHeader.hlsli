@@ -4,6 +4,7 @@ cbuffer ConstBuff : register(b0)
 	float4 color;
 	float resolution;
 	float2 window;
+	matrix lightvp;
 };
 
 //ïœå`çsóÒ
@@ -19,4 +20,6 @@ struct VSOutput
 	float4 svpos : SV_POSITION;
 	//uv
 	float2 uv : TEXCOORD;
+
+	float4 possm : POSITON_SM;
 };

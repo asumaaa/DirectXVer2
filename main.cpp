@@ -14,6 +14,7 @@
 #include "BlurEffect.h"
 #include "MosaicEffect.h"
 #include "ChromaticAberrationEffect.h"
+#include "ShadowMap.h"
 
 #include "Sprite.h"
 
@@ -81,6 +82,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//chromaticAberration->Initialize();
 	//chromaticAberration->CreateGraphicsPipeLine();
 
+	//ShadowMap
+	ShadowMap* shadowMap = nullptr;
+	ShadowMap::SetDevice(dxCommon->GetDevice());
+	shadowMap = new ShadowMap;
+	shadowMap->Initialize();
+	shadowMap->CreateGraphicsPipeLine();
+
 	//ゲームシーン
 	GameScene* gameScene = nullptr;
 	gameScene = new GameScene();
@@ -130,6 +138,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//chromaticAberration->SetStrength(0);
 		//chromaticAberration->Update();
 
+		//shadowMap
+		shadowMap->SetAlpha(1.0f);
+		shadowMap->SetLightVP(gameScene->GetLightViewProjection());
+		shadowMap->Update();
+
 		// 4. 描画コマンド
 		
 		//レンダーテクスチャへの描画
@@ -154,6 +167,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//chromaticAberration->PreDrawScene(dxCommon->GetCommandList());
 		//gameScene->Draw();
 		//chromaticAberration->PostDrawScene(dxCommon->GetCommandList());
+		//shadowMap
+		shadowMap->PreDrawScene(dxCommon->GetCommandList());
+		gameScene->Draw();
+		shadowMap->PostDrawScene(dxCommon->GetCommandList());
 
 		//描画前処理
 		dxCommon->PreDraw();
@@ -169,6 +186,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//mosaicEffect->Draw(dxCommon->GetCommandList());
 		//RGBずらし 
 		/*chromaticAberration->Draw(dxCommon->GetCommandList());*/
+		//shadowMao
+		shadowMap->Draw(dxCommon->GetCommandList());
 
 		imGuiManager->End();
 		imGuiManager->Draw();

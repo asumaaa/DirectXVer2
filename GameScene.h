@@ -12,6 +12,7 @@
 #include "Sprite.h"
 #include "SpriteManager.h"
 #include "FireParticle.h"
+#include "Light.h"
 
 class GameScene
 {
@@ -25,6 +26,9 @@ public:
 	//描画
 	void Draw();
 	void Draw1();
+
+	//ゲッター
+	DirectX::XMMATRIX GetLightViewProjection();
 
 	//メンバ変数
 private:
@@ -48,6 +52,9 @@ private:
 	//ライト
 	LightGroup* lightGroup0 = nullptr;
 	LightGroup* lightGroup1 = nullptr;
+
+	//ライト
+	Light* light = nullptr;
 
 	//スプライトマネージャー
 	SpriteManager* spriteManager = nullptr;

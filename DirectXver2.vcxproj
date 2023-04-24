@@ -170,6 +170,7 @@
     <ClCompile Include="fbx\FbxModel.cpp" />
     <ClCompile Include="fbx\FbxObject3D.cpp" />
     <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="light\DirectionalLight.cpp" />
     <ClCompile Include="light\LightGroup.cpp" />
     <ClCompile Include="light\PointLight.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="fbx\FbxModel.h" />
     <ClInclude Include="fbx\FbxObject3D.h" />
     <ClInclude Include="GameScene.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="light\CircleShadow.h" />
     <ClInclude Include="light\DirectionalLight.h" />
     <ClInclude Include="light\LightGroup.h" />
