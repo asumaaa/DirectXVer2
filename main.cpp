@@ -74,12 +74,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//mosaicEffect->Initialize();
 	//mosaicEffect->CreateGraphicsPipeLine();
 
-	//RGBずらし
-	ChromaticAberration* chromaticAberration = nullptr;
-	ChromaticAberration::SetDevice(dxCommon->GetDevice());
-	chromaticAberration = new ChromaticAberration;
-	chromaticAberration->Initialize();
-	chromaticAberration->CreateGraphicsPipeLine();
+	////RGBずらし
+	//ChromaticAberration* chromaticAberration = nullptr;
+	//ChromaticAberration::SetDevice(dxCommon->GetDevice());
+	//chromaticAberration = new ChromaticAberration;
+	//chromaticAberration->Initialize();
+	//chromaticAberration->CreateGraphicsPipeLine();
 
 	//ゲームシーン
 	GameScene* gameScene = nullptr;
@@ -125,10 +125,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//mosaicEffect->SetResolution(20.0f);
 		//mosaicEffect->Update();
 
-		//RGBずらし
-		chromaticAberration->SetAlpha(1.0f);
-		chromaticAberration->SetStrength(0.05f);
-		chromaticAberration->Update();
+		////RGBずらし
+		//chromaticAberration->SetAlpha(1.0f);
+		//chromaticAberration->SetStrength(0);
+		//chromaticAberration->Update();
 
 		// 4. 描画コマンド
 		
@@ -150,10 +150,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//mosaicEffect->PreDrawScene(dxCommon->GetCommandList());
 		//gameScene->Draw();
 		//mosaicEffect->PostDrawScene(dxCommon->GetCommandList());
-		//RGBずらし
-		chromaticAberration->PreDrawScene(dxCommon->GetCommandList());
-		gameScene->Draw();
-		chromaticAberration->PostDrawScene(dxCommon->GetCommandList());
+		////RGBずらし
+		//chromaticAberration->PreDrawScene(dxCommon->GetCommandList());
+		//gameScene->Draw();
+		//chromaticAberration->PostDrawScene(dxCommon->GetCommandList());
 
 		//描画前処理
 		dxCommon->PreDraw();
@@ -168,7 +168,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//モザイクエフェクト 
 		//mosaicEffect->Draw(dxCommon->GetCommandList());
 		//RGBずらし 
-		chromaticAberration->Draw(dxCommon->GetCommandList());
+		/*chromaticAberration->Draw(dxCommon->GetCommandList());*/
 
 		imGuiManager->End();
 		imGuiManager->Draw();

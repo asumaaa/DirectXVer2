@@ -44,7 +44,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	lightGroup0->SetSpotLightActive(1, false);
 	lightGroup0->SetSpotLightActive(2, false);
 	/*lightGroup->SetCircleShadowActive(0, true);*/
-	lightGroup0->SetShadowActive(0, false);
 
 	//ライト生成
 	lightGroup1 = LightGroup::Create();
@@ -59,7 +58,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	lightGroup1->SetSpotLightActive(1, false);
 	lightGroup1->SetSpotLightActive(2, false);
 	///*lightGroup1->SetCircleShadowActive(0, true);*/
-	lightGroup1->SetShadowActive(0,true);
 
 	//FBX読み込み
 	FbxLoader::GetInstance()->Initialize(dxCommon_->GetDevice());
@@ -146,7 +144,6 @@ void GameScene::Update()
 	lightGroup1->SetAmbientColor(XMFLOAT3(ambientColor0));
 	lightGroup1->SetDirLightDir(0, XMVECTOR({ lightDir0[0],lightDir0[1], lightDir0[2],0 }));
 	lightGroup1->SetDirLightColor(0, XMFLOAT3(lightColor0));
-	lightGroup1->SetShadowLightPos(0, XMFLOAT3(shadowLightPos), camera_->GetTraget(), camera_->GetUp());
 	lightGroup1->Update();
 
 	//オブジェクト更新

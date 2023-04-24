@@ -61,6 +61,12 @@
     <Filter Include="リソース ファイル\Shaders\ChromaticAberration">
       <UniqueIdentifier>{467bcbdc-35e8-46a2-920a-b83a2b62300e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\Shaders\DepthOfField">
+      <UniqueIdentifier>{bb7c4e1f-1ad2-4f1d-963e-ea0c03c429b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\Shaders\ShadowMap">
+      <UniqueIdentifier>{6f5b8354-9b61-4a9e-a5de-5f17dec95271}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -99,14 +105,8 @@
     <ClCompile Include="Camera.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Shadow.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="base\ImGuiManager.cpp">
       <Filter>ソース ファイル\base</Filter>
-    </ClCompile>
-    <ClCompile Include="ShadowMap.cpp">
-      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="base\Sprite.cpp">
       <Filter>ソース ファイル\base</Filter>
@@ -147,6 +147,9 @@
     <ClCompile Include="2d\ChromaticAberrationEffect.cpp">
       <Filter>ソース ファイル\2d</Filter>
     </ClCompile>
+    <ClCompile Include="2d\ShadowMap.cpp">
+      <Filter>ソース ファイル\2d</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base\DirectXCommon.h">
@@ -182,14 +185,8 @@
     <ClInclude Include="Camera.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Shadow.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="base\ImGuiManager.h">
       <Filter>ヘッダー ファイル\base</Filter>
-    </ClInclude>
-    <ClInclude Include="ShadowMap.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="base\Sprite.h">
       <Filter>ヘッダー ファイル\base</Filter>
@@ -233,15 +230,15 @@
     <ClInclude Include="2d\ChromaticAberrationEffect.h">
       <Filter>ヘッダー ファイル\2d</Filter>
     </ClInclude>
+    <ClInclude Include="2d\ShadowMap.h">
+      <Filter>ヘッダー ファイル\2d</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\FbxHeader.hlsli">
       <Filter>リソース ファイル\Shaders</Filter>
     </None>
     <None Include="Resources\Shaders\ShaderHeader.hlsli">
-      <Filter>リソース ファイル\Shaders</Filter>
-    </None>
-    <None Include="FbxShadowHeader.hlsli">
       <Filter>リソース ファイル\Shaders</Filter>
     </None>
     <None Include="Resources\Shaders\SpriteHeader.hlsli">
@@ -265,6 +262,9 @@
     <None Include="Resources\Shaders\ChromaticAberration\ChromaticAberrationEffectHeader.hlsli">
       <Filter>リソース ファイル\Shaders\ChromaticAberration</Filter>
     </None>
+    <None Include="Resources\Shaders\ShadowMap\ShadowMapHeader.hlsli">
+      <Filter>リソース ファイル\Shaders\ShadowMap</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\FbxPixelShader.hlsl">
@@ -277,12 +277,6 @@
       <Filter>リソース ファイル\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\VertexShader.hlsl">
-      <Filter>リソース ファイル\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="FbxShadowVertexShader.hlsl">
-      <Filter>リソース ファイル\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="FbxShadowPixelShader.hlsl">
       <Filter>リソース ファイル\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\SpritePixelShader.hlsl">
@@ -326,6 +320,12 @@
     </FxCompile>
     <FxCompile Include="Resources\Shaders\ChromaticAberration\ChromaticAberrationVertexShader.hlsl">
       <Filter>リソース ファイル\Shaders\ChromaticAberration</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ShadowMap\ShadowMapPixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders\ShadowMap</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ShadowMap\ShadowMapVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders\ShadowMap</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

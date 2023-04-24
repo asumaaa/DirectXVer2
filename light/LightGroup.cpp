@@ -98,20 +98,6 @@ void LightGroup::TransferConstBuffer()
 			}
 		}
 
-		//‰e
-		for (int i = 0; i < ShadowNum; i++) {
-			// —LŒø‚È‚çÝ’è‚ð“]‘—
-			if (shadows[i].IsActive()) {
-				constMap->shadows[i].active = shadows[i].IsActive();
-				constMap->shadows[i].lightView = shadows[i].GetLightView();
-				constMap->shadows[i].lightViewProj = shadows[i].GetLightViewProj();
-			}
-			// –³Œø‚È‚çF‚ð0‚É
-			else {
-				constMap->shadows[i].active = 0;
-			}
-		}
-
 		constBuff->Unmap(0, nullptr);
 	}
 
@@ -275,40 +261,6 @@ void LightGroup::SetCircleShadowFactorAngle(int index, const XMFLOAT2& lightFact
 	assert(0 <= index && index < CircleShadowNum);
 
 	circleShadows[index].SetFactorAngle(lightFactorAngle);
-	dirty = true;
-}
-
-void LightGroup::SetShadowActive(int index, bool active)
-{
-	assert(0 <= index && index < ShadowNum);
-
-	shadows[index].SetActive(active);
-}
-
-void LightGroup::SetShadowLightPos(int index, XMFLOAT3 lightPos, XMFLOAT3 target, XMFLOAT3 up)
-{
-	assert(0 <= index && index < ShadowNum);
-
-	shadows[index].SetLightPos(lightPos,target,up);
-
-	dirty = true;
-}
-
-void LightGroup::SetShadowLightView(int index, XMMATRIX lightView)
-{
-	assert(0 <= index && index < ShadowNum);
-
-	shadows[index].SetLightView(lightView);
-
-	dirty = true;
-}
-
-void LightGroup::SetShadowLightViewProj(int index, XMMATRIX lightViewProj)
-{
-	assert(0 <= index && index < ShadowNum);
-
-	shadows[index].SetLightViewProj(lightViewProj);
-
 	dirty = true;
 }
 

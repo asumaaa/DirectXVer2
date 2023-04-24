@@ -8,7 +8,6 @@
 #include "PointLight.h"
 #include "SpotLight.h"
 #include "CircleShadow.h"
-#include "Shadow.h"
 
 class LightGroup
 {
@@ -41,8 +40,6 @@ public: // サブクラス
 		PointLight::ConstBufferData pointLights[PointLightNum];
 		//スポットライト
 		SpotLight::ConstBufferData spotLights[SpotLightNum];
-		//影用
-		Shadow::ConstBufferData shadows[ShadowNum];
 		//丸影用
 		CircleShadow::ConstBufferData circleShadows[CircleShadowNum];
 	};
@@ -108,15 +105,6 @@ public:	//メンバ関数
 	//丸影の減衰角度セット
 	void SetCircleShadowFactorAngle(int index, const XMFLOAT2& lightFactorAngle);
 
-	//影の有効フラグセット
-	void SetShadowActive(int index, bool active);
-	//影のライト座標セット
-	void SetShadowLightPos(int index, XMFLOAT3 lightPos, XMFLOAT3 target, XMFLOAT3 up);
-	//影のライトビュー座標
-	void SetShadowLightView(int index, XMMATRIX lightView);
-	//影の射影変換
-	void SetShadowLightViewProj(int index, XMMATRIX lightViewProj);
-
 	void Initialize();
 	void Update();
 	void Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParameterIndex);
@@ -136,7 +124,5 @@ private: // メンバ変数
 	SpotLight spotLights[SpotLightNum];
 	//丸影の配列
 	CircleShadow circleShadows[CircleShadowNum];
-	//影の配列
-	Shadow shadows[ShadowNum];
 };
 
