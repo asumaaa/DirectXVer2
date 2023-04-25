@@ -8,7 +8,6 @@
 #include "Camera.h"
 #include "FbxObject3d.h"
 #include "FbxModel.h"
-#include "LightGroup.h"
 #include "Sprite.h"
 #include "SpriteManager.h"
 #include "FireParticle.h"
@@ -48,10 +47,6 @@ private:
 	FbxModel* model1 = nullptr;
 	//FbxObject3D* object1 = nullptr;
 	FbxModel* model2 = nullptr;
-
-	//ライト
-	LightGroup* lightGroup0 = nullptr;
-	LightGroup* lightGroup1 = nullptr;
 
 	//ライト
 	Light* light = nullptr;

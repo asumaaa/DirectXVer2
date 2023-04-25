@@ -271,6 +271,9 @@
     <None Include="Resources\Shaders\ShadowMap\ShadowMapHeader.hlsli">
       <Filter>リソース ファイル\Shaders\ShadowMap</Filter>
     </None>
+    <None Include="Resources\Shaders\ShadowMap\shadowMap2Header.hlsli">
+      <Filter>リソース ファイル\Shaders\ShadowMap</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\FbxPixelShader.hlsl">
@@ -331,6 +334,12 @@
       <Filter>リソース ファイル\Shaders\ShadowMap</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\ShadowMap\ShadowMapVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders\ShadowMap</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ShadowMap\shadowMap2PixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders\ShadowMap</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ShadowMap\shadowMap2VertexShader.hlsl">
       <Filter>リソース ファイル\Shaders\ShadowMap</Filter>
     </FxCompile>
   </ItemGroup>

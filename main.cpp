@@ -44,9 +44,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	imGuiManager = new ImGuiManager();
 	imGuiManager->Initialize(winApp,dxCommon);
 
-	//ライト静的初期化
-	LightGroup::StaticInitialize(dxCommon->GetDevice());
-
 	////単色エフェクト
 	//MonochromeEffect* monochromeEffect = nullptr;
 	//MonochromeEffect::SetDevice(dxCommon->GetDevice());

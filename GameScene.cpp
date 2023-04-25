@@ -31,33 +31,9 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	camera_->SetTarget({ 0,0,0 });
 	camera_->SetEye({ 0, 5,-10 });
 
-	//ライト生成
-	lightGroup0 = LightGroup::Create();
-
-	lightGroup0->SetDirLightActive(0, true);
-	lightGroup0->SetDirLightActive(1, false);
-	lightGroup0->SetDirLightActive(2, false);
-	lightGroup0->SetPointLightActive(0, false);
-	lightGroup0->SetPointLightActive(1, false);
-	lightGroup0->SetPointLightActive(2, false);
-	lightGroup0->SetSpotLightActive(0, false);
-	lightGroup0->SetSpotLightActive(1, false);
-	lightGroup0->SetSpotLightActive(2, false);
-	/*lightGroup->SetCircleShadowActive(0, true);*/
-
-	//ライト生成
-	lightGroup1 = LightGroup::Create();
-
-	lightGroup1->SetDirLightActive(0, true);
-	lightGroup1->SetDirLightActive(1, false);
-	lightGroup1->SetDirLightActive(2, false);
-	lightGroup1->SetPointLightActive(0, false);
-	lightGroup1->SetPointLightActive(1, false);
-	lightGroup1->SetPointLightActive(2, false);
-	lightGroup1->SetSpotLightActive(0, false);
-	lightGroup1->SetSpotLightActive(1, false);
-	lightGroup1->SetSpotLightActive(2, false);
-	///*lightGroup1->SetCircleShadowActive(0, true);*/
+	//ライト
+	light = new Light;
+	light->Initialize();
 
 	//FBX読み込み
 	FbxLoader::GetInstance()->Initialize(dxCommon_->GetDevice());
@@ -69,7 +45,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	//デバイスをセット
 	FbxObject3D::SetDevice(dxCommon_->GetDevice());
 	FbxObject3D::SetCamera(camera_.get());
-	FbxObject3D::SetLightGroup(lightGroup0);
+	FbxObject3D::SetLight(light);
 	FbxObject3D::CreateGraphicsPipeline();
 
 	//オブジェクト初期化
@@ -112,10 +88,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	sprite2 = new Sprite;
 	sprite2->SetTextureNum(2);
 	sprite2->Initialize();
-
-	//ライト
-	light = new Light;
-	light->Initialize();
 }
 
 void GameScene::Update()
@@ -129,30 +101,6 @@ void GameScene::Update()
 	//ライト
 	light->Update();
 
-	//ライト更新
-	lightGroup0->SetAmbientColor(XMFLOAT3(ambientColor0));
-	lightGroup0->SetDirLightDir(0, XMVECTOR({ lightDir0[0],lightDir0[1], lightDir0[2],0 }));
-	lightGroup0->SetDirLightColor(0, XMFLOAT3(lightColor0));
-
-	/*lightGroup->SetPointLightPos(0, XMFLOAT3(pointLightPos0));
-	lightGroup->SetPointLightColor(0, XMFLOAT3(pointLightColor0));
-	lightGroup->SetPointLightAtten(0, XMFLOAT3(pointLightAtten0));*/
-
-	/*lightGroup->SetCircleShadowDir(0, XMVECTOR({ circleShadowDir[0],circleShadowDir[1], circleShadowDir[2],0 }));
-	lightGroup->SetCircleShadowCasterPos(0, XMFLOAT3({0,1,0}));
-	lightGroup->SetCircleShadowAtten(0, XMFLOAT3(circleShadowAtten));
-	lightGroup->SetCircleShadowFactorAngle(0, XMFLOAT2(circleShadowFactorAngle));*/
-
-	/*lightGroup0->SetShadowLightPos(0, XMFLOAT3(shadowLightPos), camera_->GetTraget(), camera_->GetUp());*/
-
-	lightGroup0->Update();
-
-	//ライト更新
-	lightGroup1->SetAmbientColor(XMFLOAT3(ambientColor0));
-	lightGroup1->SetDirLightDir(0, XMVECTOR({ lightDir0[0],lightDir0[1], lightDir0[2],0 }));
-	lightGroup1->SetDirLightColor(0, XMFLOAT3(lightColor0));
-	lightGroup1->Update();
-
 	//オブジェクト更新
 	rotation0.y += 0.02;
 	object0->SetPosition({ -5,3,0 });
@@ -160,7 +108,7 @@ void GameScene::Update()
 	object0->SetRotation(rotation0);
 	object0->Update();
 
-	object1->SetPosition({ 0,-10,0 });
+	object1->SetPosition({ 0,0,0 });
 	object1->SetScale({ 0.5f,0.01f,0.5f });
 	object1->SetRotation({ 0.0f,0.0f,0.0f });
 	object1->Update();
@@ -210,8 +158,6 @@ void GameScene::Draw()
 	sprite0->Draw(dxCommon_->GetCommandList());
 	sprite1->Draw(dxCommon_->GetCommandList());
 	sprite2->Draw(dxCommon_->GetCommandList());
-
-	/*multiTest->Draw(dxCommon_->GetCommandList());*/
 }
 
 void GameScene::Draw1()

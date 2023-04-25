@@ -9,7 +9,7 @@
 #include "d3dx12.h"
 #include "DirectXMath.h"
 #include "string.h"
-#include "LightGroup.h"
+#include "Light.h"
 
 class FbxObject3D
 {
@@ -32,6 +32,8 @@ public:
 		XMMATRIX viewproj;
 		XMMATRIX world;
 		XMFLOAT3 cameraPos;
+		XMMATRIX lightviewproj;
+		XMMATRIX shadow;
 	};
 	//定数バッファ用データ構造体(スキニング)
 	struct ConstBufferDataSkin
@@ -43,12 +45,12 @@ public:	//静的メンバ関数
 	//セッター
 	static void SetDevice(ID3D12Device* device) { FbxObject3D::device = device; }
 	static void SetCamera(Camera* camera) { FbxObject3D::camera = camera; }
-	static void SetLightGroup(LightGroup* lightGroup) { FbxObject3D::lightGroup = lightGroup; }
+	static void SetLight(Light* light) { FbxObject3D::light = light; }
 
 private://静的メンバ変数
 	static ID3D12Device* device;
 	static Camera* camera;
-	static LightGroup* lightGroup;
+	static Light* light;
 
 public://メンバ関数
 	//初期化

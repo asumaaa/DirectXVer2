@@ -12,5 +12,6 @@ float4 main(VSOutput input) : SV_TARGET
 	float4 colortex0 = tex0.Sample(smp,input.uv)/* * shadowA*/;
 	float dep = pow(tex1.Sample(smp, input.uv), 20);
 
-	return float4(dep,dep,dep,1);
+	/*return colortex0;*/
+	return float4(dep, dep, dep, 1);
 }

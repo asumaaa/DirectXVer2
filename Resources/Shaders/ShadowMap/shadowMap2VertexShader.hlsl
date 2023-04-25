@@ -1,4 +1,4 @@
-#include "FbxHeader.hlsli"
+#include "shadowMap2Header.hlsli"
 
 //スキニング後の頂点法線が入る
 struct SkinOutput
@@ -60,7 +60,7 @@ VSOutput main(VSInput input)
 	//ピクセルシェーダに渡す値
 	VSOutput output;
 	//行列による座標返還
-	output.svpos = mul(mul(viewproj, world), skinned.pos);
+	output.svpos = mul(mul(lightviewproj, world), skinned.pos);
 	//ワールド法線を次のステージに渡す
 	output.normal = wnormal.xyz;
 	//入力値をそのまま次のステージ渡す
