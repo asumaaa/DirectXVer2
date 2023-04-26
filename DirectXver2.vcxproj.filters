@@ -67,6 +67,9 @@
     <Filter Include="リソース ファイル\Shaders\ShadowMap">
       <UniqueIdentifier>{6f5b8354-9b61-4a9e-a5de-5f17dec95271}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\Shaders\Fbx">
+      <UniqueIdentifier>{0fc7fdbd-b252-4fd6-97b2-e891e962a173}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -241,9 +244,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Shaders\FbxHeader.hlsli">
-      <Filter>リソース ファイル\Shaders</Filter>
-    </None>
     <None Include="Resources\Shaders\ShaderHeader.hlsli">
       <Filter>リソース ファイル\Shaders</Filter>
     </None>
@@ -274,14 +274,17 @@
     <None Include="Resources\Shaders\ShadowMap\shadowMap2Header.hlsli">
       <Filter>リソース ファイル\Shaders\ShadowMap</Filter>
     </None>
+    <None Include="Resources\Shaders\Fbx\FbxHeader0.hlsli">
+      <Filter>リソース ファイル\Shaders\Fbx</Filter>
+    </None>
+    <None Include="Resources\Shaders\Fbx\FbxHeader1.hlsli">
+      <Filter>リソース ファイル\Shaders\Fbx</Filter>
+    </None>
+    <None Include="Resources\Shaders\Fbx\FbxHeader2.hlsli">
+      <Filter>リソース ファイル\Shaders\Fbx</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Resources\Shaders\FbxPixelShader.hlsl">
-      <Filter>リソース ファイル\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\FbxVertexShader.hlsl">
-      <Filter>リソース ファイル\Shaders</Filter>
-    </FxCompile>
     <FxCompile Include="Resources\Shaders\PixelShader.hlsl">
       <Filter>リソース ファイル\Shaders</Filter>
     </FxCompile>
@@ -341,6 +344,24 @@
     </FxCompile>
     <FxCompile Include="Resources\Shaders\ShadowMap\shadowMap2VertexShader.hlsl">
       <Filter>リソース ファイル\Shaders\ShadowMap</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Fbx\FbxPixelShader0.hlsl">
+      <Filter>リソース ファイル\Shaders\Fbx</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Fbx\FbxVertexShader0.hlsl">
+      <Filter>リソース ファイル\Shaders\Fbx</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Fbx\FbxPixelShader1.hlsl">
+      <Filter>リソース ファイル\Shaders\Fbx</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Fbx\FbxVertexShader1.hlsl">
+      <Filter>リソース ファイル\Shaders\Fbx</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Fbx\FbxPixelShader2.hlsl">
+      <Filter>リソース ファイル\Shaders\Fbx</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Fbx\FbxVertexShader2.hlsl">
+      <Filter>リソース ファイル\Shaders\Fbx</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

@@ -51,14 +51,18 @@ public:	//メンバ関数
 	//更新
 	void Update();
 	//描画
-	void Draw(ID3D12GraphicsCommandList* cmdList);
+	void Draw0(ID3D12GraphicsCommandList* cmdList);
+	void Draw1(ID3D12GraphicsCommandList* cmdList);
 	//パイプライン設定、作成
-	void CreateGraphicsPipeLine();
+	void CreateGraphicsPipeLine0();
+	void CreateGraphicsPipeLine1();
 
 	//描画前処理
-	void PreDrawScene(ID3D12GraphicsCommandList* cmdList);
+	void PreDrawScene0(ID3D12GraphicsCommandList* cmdList);
+	void PreDrawScene1(ID3D12GraphicsCommandList* cmdList);
 	//描画後処理
-	void PostDrawScene(ID3D12GraphicsCommandList* cmdList);
+	void PostDrawScene0(ID3D12GraphicsCommandList* cmdList);
+	void PostDrawScene1(ID3D12GraphicsCommandList* cmdList);
 
 public:	//静的メンバ関数
 	static void SetDevice(ID3D12Device* device) { ShadowMap::device = device; }
@@ -79,13 +83,18 @@ public:	//セッター
 	//ビュー
 	void SetLightVP(XMMATRIX l) { lightVP = l; }
 
+	//ゲッター
+	ID3D12DescriptorHeap* GetSRV() { return depthSRVHeap.Get(); }
+
 private:	//静的メンバ変数
 	//デバイス
 	static ID3D12Device* device;
 	//ルートシグネチャ
-	static ComPtr<ID3D12RootSignature>rootsignature;
+	static ComPtr<ID3D12RootSignature>rootsignature0;
+	static ComPtr<ID3D12RootSignature>rootsignature1;
 	//パイプラインステートオブジェクト
-	static ComPtr<ID3D12PipelineState>pipelinestate;
+	static ComPtr<ID3D12PipelineState>pipelinestate0;
+	static ComPtr<ID3D12PipelineState>pipelinestate1;
 	//画面クリアカラー
 	static const float clearColor[4];
 
@@ -114,17 +123,10 @@ private:	//メンバ変数
 	ComPtr<ID3D12DescriptorHeap>descHeapRTV;
 	//DSV用デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap>descHeapDSV;
-
-	//shadowMap用
-	////深度バッファ
-	//ComPtr<ID3D12Resource>shadowBuff;
-	////デスクリプタヒープ
-	//ComPtr<ID3D12DescriptorHeap>descHeapShadowBuff;
-	////デスクリプタヒープ
-	//ComPtr<ID3D12DescriptorHeap>descHeapShadowTex;
-
 	//深度値テクスチャ用
 	ComPtr<ID3D12DescriptorHeap>depthSRVHeap;
+	//shadowmap用深度バッファ ライト目線
+	ComPtr<ID3D12Resource>lightDepthBuff;
 
 private:
 	//解像度

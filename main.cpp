@@ -72,19 +72,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//mosaicEffect->Initialize();
 	//mosaicEffect->CreateGraphicsPipeLine();
 
-	////RGBずらし
-	//ChromaticAberration* chromaticAberration = nullptr;
-	//ChromaticAberration::SetDevice(dxCommon->GetDevice());
-	//chromaticAberration = new ChromaticAberration;
-	//chromaticAberration->Initialize();
-	//chromaticAberration->CreateGraphicsPipeLine();
+	//RGBずらし
+	ChromaticAberration* chromaticAberration = nullptr;
+	ChromaticAberration::SetDevice(dxCommon->GetDevice());
+	chromaticAberration = new ChromaticAberration;
+	chromaticAberration->Initialize();
+	chromaticAberration->CreateGraphicsPipeLine();
 
 	//ShadowMap
 	ShadowMap* shadowMap = nullptr;
 	ShadowMap::SetDevice(dxCommon->GetDevice());
 	shadowMap = new ShadowMap;
 	shadowMap->Initialize();
-	shadowMap->CreateGraphicsPipeLine();
+	shadowMap->CreateGraphicsPipeLine0();
+	shadowMap->CreateGraphicsPipeLine1();
 
 	//ゲームシーン
 	GameScene* gameScene = nullptr;
@@ -130,10 +131,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//mosaicEffect->SetResolution(20.0f);
 		//mosaicEffect->Update();
 
-		////RGBずらし
-		//chromaticAberration->SetAlpha(1.0f);
-		//chromaticAberration->SetStrength(0);
-		//chromaticAberration->Update();
+		//RGBずらし
+		chromaticAberration->SetAlpha(1.0f);
+		chromaticAberration->SetStrength(0.01);
+		chromaticAberration->Update();
 
 		//shadowMap
 		shadowMap->SetAlpha(1.0f);
@@ -161,13 +162,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//gameScene->Draw();
 		//mosaicEffect->PostDrawScene(dxCommon->GetCommandList());
 		////RGBずらし
-		//chromaticAberration->PreDrawScene(dxCommon->GetCommandList());
-		//gameScene->Draw();
-		//chromaticAberration->PostDrawScene(dxCommon->GetCommandList());
-		//shadowMap
-		shadowMap->PreDrawScene(dxCommon->GetCommandList());
+		/*chromaticAberration->PreDrawScene(dxCommon->GetCommandList());
+		gameScene->Draw1();
 		gameScene->Draw();
-		shadowMap->PostDrawScene(dxCommon->GetCommandList());
+		chromaticAberration->PostDrawScene(dxCommon->GetCommandList());*/
+		//shadowMap
+		shadowMap->PreDrawScene0(dxCommon->GetCommandList());
+		gameScene->Draw0();
+		shadowMap->PostDrawScene0(dxCommon->GetCommandList());
+		shadowMap->Draw0(dxCommon->GetCommandList());
+
+		shadowMap->PreDrawScene1(dxCommon->GetCommandList());
+		gameScene->Draw1();
+		shadowMap->PostDrawScene1(dxCommon->GetCommandList());
+		/*shadowMap->Draw1(dxCommon->GetCommandList());*/
+		//ゲームシーンにSRVを渡す
+		gameScene->SetSRV(shadowMap->GetSRV());
 
 		//描画前処理
 		dxCommon->PreDraw();
@@ -184,7 +194,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//RGBずらし 
 		/*chromaticAberration->Draw(dxCommon->GetCommandList());*/
 		//shadowMao
-		shadowMap->Draw(dxCommon->GetCommandList());
+
+		/*shadowMap->Draw1(dxCommon->GetCommandList());*/
+		gameScene->Draw();
 
 		imGuiManager->End();
 		imGuiManager->Draw();

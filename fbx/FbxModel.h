@@ -118,6 +118,9 @@ public:
 	void CreateBuffers(ID3D12Device* device);
 	//描画
 	void Draw(ID3D12GraphicsCommandList* cmdList);
+	//ポストエフェクト用
+	void Draw0(ID3D12GraphicsCommandList* cmdList);
+	void Draw1(ID3D12GraphicsCommandList* cmdList);
 	//モデルの変形行列のゲッター
 	const XMMATRIX& GetModelTransform() { return meshNode->globalTransform; }
 

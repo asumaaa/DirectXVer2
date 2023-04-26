@@ -46,7 +46,9 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	FbxObject3D::SetDevice(dxCommon_->GetDevice());
 	FbxObject3D::SetCamera(camera_.get());
 	FbxObject3D::SetLight(light);
-	FbxObject3D::CreateGraphicsPipeline();
+	FbxObject3D::CreateGraphicsPipeline0();
+	FbxObject3D::CreateGraphicsPipeline1();
+	FbxObject3D::CreateGraphicsPipeline2();
 
 	//オブジェクト初期化
 	object0 = new FbxObject3D;
@@ -99,6 +101,7 @@ void GameScene::Update()
 	dxInput->InputProcess();
 
 	//ライト
+	light->SetEye({-10.0f,10.0f,10.0f});
 	light->Update();
 
 	//オブジェクト更新
@@ -108,12 +111,12 @@ void GameScene::Update()
 	object0->SetRotation(rotation0);
 	object0->Update();
 
-	object1->SetPosition({ 0,0,0 });
-	object1->SetScale({ 0.5f,0.01f,0.5f });
+	object1->SetPosition({ 0,-5,0 });
+	object1->SetScale({ 1.0f,0.01f,1.0f });
 	object1->SetRotation({ 0.0f,0.0f,0.0f });
 	object1->Update();
 
-	object2->SetPosition({-10, -5, 0});
+	object2->SetPosition({0, -3, 0});
 	object2->SetScale({ 0.01f,0.01f,0.01f });
 	object2->SetRotation({ 0,0,0 });
 	object2->Update();
@@ -151,17 +154,46 @@ void GameScene::Draw()
 	ImGui::InputFloat3("lightPos", shadowLightPos);
 	ImGui::End();*/
 
-	object0->Draw(dxCommon_->GetCommandList());
-	object1->Draw(dxCommon_->GetCommandList());
-	object2->Draw(dxCommon_->GetCommandList());
+	/*object0->Draw0(dxCommon_->GetCommandList());*/
+	/*object0->Draw1(dxCommon_->GetCommandList());*/
+	/*object1->Draw0(dxCommon_->GetCommandList());*/
+	/*object1->Draw1(dxCommon_->GetCommandList());*/
+	/*object2->Draw0(dxCommon_->GetCommandList());*/
+	/*object2->Draw1(dxCommon_->GetCommandList());*/
+
+	Draw2();
+}
+
+void GameScene::Draw0()
+{
+	//object0->Draw0(dxCommon_->GetCommandList());
+	object2->Draw0(dxCommon_->GetCommandList());
+	object1->Draw0(dxCommon_->GetCommandList());
+}
+
+void GameScene::Draw1()
+{
+	//object0->Draw1(dxCommon_->GetCommandList());
+	object2->Draw1(dxCommon_->GetCommandList());
+	object1->Draw1(dxCommon_->GetCommandList());
+}
+
+void GameScene::Draw2()
+{
+	//object0->Draw2(dxCommon_->GetCommandList());
+	object2->Draw2(dxCommon_->GetCommandList());
+	object1->Draw2(dxCommon_->GetCommandList());
 
 	sprite0->Draw(dxCommon_->GetCommandList());
 	sprite1->Draw(dxCommon_->GetCommandList());
 	sprite2->Draw(dxCommon_->GetCommandList());
 }
 
-void GameScene::Draw1()
+void GameScene::SetSRV(ID3D12DescriptorHeap* SRV)
 {
+	object0->SetSRV(SRV);
+	object1->SetSRV(SRV);
+	object2->SetSRV(SRV);
 }
 
 DirectX::XMMATRIX GameScene::GetLightViewProjection()
