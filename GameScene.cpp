@@ -101,12 +101,12 @@ void GameScene::Update()
 	dxInput->InputProcess();
 
 	//ライト
-	light->SetEye({-10.0f,10.0f,10.0f});
+	light->SetEye({0.0f,50.0f,50.0f});
 	light->Update();
 
 	//オブジェクト更新
 	rotation0.y += 0.02;
-	object0->SetPosition({ -5,3,0 });
+	object0->SetPosition({ -3,5,4 });
 	object0->SetScale({ 0.1f,0.1f,0.4f });
 	object0->SetRotation(rotation0);
 	object0->Update();
@@ -166,21 +166,21 @@ void GameScene::Draw()
 
 void GameScene::Draw0()
 {
-	//object0->Draw0(dxCommon_->GetCommandList());
+	object0->Draw0(dxCommon_->GetCommandList());
 	object2->Draw0(dxCommon_->GetCommandList());
 	object1->Draw0(dxCommon_->GetCommandList());
 }
 
 void GameScene::Draw1()
 {
-	//object0->Draw1(dxCommon_->GetCommandList());
+	object0->Draw1(dxCommon_->GetCommandList());
 	object2->Draw1(dxCommon_->GetCommandList());
 	object1->Draw1(dxCommon_->GetCommandList());
 }
 
 void GameScene::Draw2()
 {
-	//object0->Draw2(dxCommon_->GetCommandList());
+	object0->Draw2(dxCommon_->GetCommandList());
 	object2->Draw2(dxCommon_->GetCommandList());
 	object1->Draw2(dxCommon_->GetCommandList());
 

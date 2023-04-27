@@ -29,19 +29,18 @@ PSOutput main(VSOutput input) : SV_TARGET
 	//影テクスチャ
 	float depthFromLight = tex2.Sample(smp, shadowUV);
 	float shadowWeight = 1.0f;
-	if (depthFromLight < posFromLightVP.z - 0.0001)
+	if (depthFromLight < posFromLightVP.z - 0.005 && depthFromLight > 0.01)
 	{
 		shadowWeight = 0.2f;
 	}
 
-	/*float dep0 = pow(tex1.Sample(smp, input.uv), 20);*/
 
 	//陰影とテクスチャの色を合成
 	output.target0 = shadecolor * texcoord;
-	/*output.target0 = float4(dep0, dep0, dep0, 1);*/
-	output.target1 = float4(1 - (shadecolor * texcoord).rgb, 1);
+	//影を合成
 	output.target0.x *= shadowWeight;
 	output.target0.y *= shadowWeight;
 	output.target0.z *= shadowWeight;
+	output.target1 = float4(1,1,1,1);
 	return output;
 }

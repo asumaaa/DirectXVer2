@@ -170,12 +170,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		shadowMap->PreDrawScene0(dxCommon->GetCommandList());
 		gameScene->Draw0();
 		shadowMap->PostDrawScene0(dxCommon->GetCommandList());
-		shadowMap->Draw0(dxCommon->GetCommandList());
 
 		shadowMap->PreDrawScene1(dxCommon->GetCommandList());
 		gameScene->Draw1();
 		shadowMap->PostDrawScene1(dxCommon->GetCommandList());
-		/*shadowMap->Draw1(dxCommon->GetCommandList());*/
 		//ゲームシーンにSRVを渡す
 		gameScene->SetSRV(shadowMap->GetSRV());
 
