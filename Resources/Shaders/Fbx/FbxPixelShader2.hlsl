@@ -29,7 +29,7 @@ PSOutput main(VSOutput input) : SV_TARGET
 	//影テクスチャ
 	float depthFromLight = tex2.Sample(smp, shadowUV);
 	float shadowWeight = 1.0f;
-	if (depthFromLight < posFromLightVP.z - 0.005 && depthFromLight > 0.01)
+	if (depthFromLight < posFromLightVP.z - 0.005 && shadowUV.y != 0)
 	{
 		shadowWeight = 0.2f;
 	}
