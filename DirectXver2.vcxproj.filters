@@ -277,13 +277,7 @@
     <None Include="Resources\Shaders\ShadowMap\ShadowMapHeader.hlsli">
       <Filter>リソース ファイル\Shaders\ShadowMap</Filter>
     </None>
-    <None Include="Resources\Shaders\ShadowMap\shadowMap2Header.hlsli">
-      <Filter>リソース ファイル\Shaders\ShadowMap</Filter>
-    </None>
     <None Include="Resources\Shaders\Fbx\FbxHeader0.hlsli">
-      <Filter>リソース ファイル\Shaders\Fbx</Filter>
-    </None>
-    <None Include="Resources\Shaders\Fbx\FbxHeader1.hlsli">
       <Filter>リソース ファイル\Shaders\Fbx</Filter>
     </None>
     <None Include="Resources\Shaders\Fbx\FbxHeader2.hlsli">
@@ -348,22 +342,10 @@
     <FxCompile Include="Resources\Shaders\ShadowMap\ShadowMapVertexShader.hlsl">
       <Filter>リソース ファイル\Shaders\ShadowMap</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\Shaders\ShadowMap\shadowMap2PixelShader.hlsl">
-      <Filter>リソース ファイル\Shaders\ShadowMap</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\ShadowMap\shadowMap2VertexShader.hlsl">
-      <Filter>リソース ファイル\Shaders\ShadowMap</Filter>
-    </FxCompile>
     <FxCompile Include="Resources\Shaders\Fbx\FbxPixelShader0.hlsl">
       <Filter>リソース ファイル\Shaders\Fbx</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\Fbx\FbxVertexShader0.hlsl">
-      <Filter>リソース ファイル\Shaders\Fbx</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\Fbx\FbxPixelShader1.hlsl">
-      <Filter>リソース ファイル\Shaders\Fbx</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\Fbx\FbxVertexShader1.hlsl">
       <Filter>リソース ファイル\Shaders\Fbx</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\Fbx\FbxPixelShader2.hlsl">

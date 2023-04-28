@@ -46,9 +46,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	FbxObject3D::SetDevice(dxCommon_->GetDevice());
 	FbxObject3D::SetCamera(camera_.get());
 	FbxObject3D::SetLight(light);
-	FbxObject3D::CreateGraphicsPipeline0();
-	FbxObject3D::CreateGraphicsPipeline1();
-	FbxObject3D::CreateGraphicsPipeline2();
+	FbxObject3D::CreateGraphicsPipelineLightView();
+	FbxObject3D::CreateGraphicsPipeline();
 
 	//オブジェクト初期化
 	for (int i = 0; i < verticalTreeNum; i++)
@@ -133,34 +132,25 @@ void GameScene::Draw()
 	/*object2->Draw0(dxCommon_->GetCommandList());*/
 	/*object2->Draw1(dxCommon_->GetCommandList());*/
 
-	Draw2();
+	DrawFBX();
 }
 
-void GameScene::Draw0()
+void GameScene::DrawFBXLightView()
 {
 	for (std::unique_ptr<FbxObject3D>& object : objectTree)
 	{
-		object->Draw0(dxCommon_->GetCommandList());
+		object->DrawLightView(dxCommon_->GetCommandList());
 	}
-	object1->Draw0(dxCommon_->GetCommandList());
+	object1->DrawLightView(dxCommon_->GetCommandList());
 }
 
-void GameScene::Draw1()
+void GameScene::DrawFBX()
 {
 	for (std::unique_ptr<FbxObject3D>& object : objectTree)
 	{
-		object->Draw1(dxCommon_->GetCommandList());
+		object->Draw(dxCommon_->GetCommandList());
 	}
-	object1->Draw1(dxCommon_->GetCommandList());
-}
-
-void GameScene::Draw2()
-{
-	for (std::unique_ptr<FbxObject3D>& object : objectTree)
-	{
-		object->Draw2(dxCommon_->GetCommandList());
-	}
-	object1->Draw2(dxCommon_->GetCommandList());
+	object1->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::SetSRV(ID3D12DescriptorHeap* SRV)

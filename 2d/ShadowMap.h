@@ -59,10 +59,8 @@ public:	//メンバ関数
 
 	//描画前処理
 	void PreDrawScene0(ID3D12GraphicsCommandList* cmdList);
-	void PreDrawScene1(ID3D12GraphicsCommandList* cmdList);
 	//描画後処理
 	void PostDrawScene0(ID3D12GraphicsCommandList* cmdList);
-	void PostDrawScene1(ID3D12GraphicsCommandList* cmdList);
 
 public:	//静的メンバ関数
 	static void SetDevice(ID3D12Device* device) { ShadowMap::device = device; }
@@ -91,10 +89,8 @@ private:	//静的メンバ変数
 	static ID3D12Device* device;
 	//ルートシグネチャ
 	static ComPtr<ID3D12RootSignature>rootsignature0;
-	static ComPtr<ID3D12RootSignature>rootsignature1;
 	//パイプラインステートオブジェクト
 	static ComPtr<ID3D12PipelineState>pipelinestate0;
-	static ComPtr<ID3D12PipelineState>pipelinestate1;
 	//画面クリアカラー
 	static const float clearColor[4];
 

@@ -24,9 +24,8 @@ public:
 	void Update();
 	//描画
 	void Draw();
-	void Draw0();
-	void Draw1();
-	void Draw2();
+	void DrawFBXLightView();
+	void DrawFBX();
 	
 	//セッター
 	void SetSRV(ID3D12DescriptorHeap* SRV);
