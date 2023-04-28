@@ -125,13 +125,6 @@ void GameScene::Draw()
 	ImGui::InputFloat3("lightPos", shadowLightPos);
 	ImGui::End();*/
 
-	/*object0->Draw0(dxCommon_->GetCommandList());*/
-	/*object0->Draw1(dxCommon_->GetCommandList());*/
-	/*object1->Draw0(dxCommon_->GetCommandList());*/
-	/*object1->Draw1(dxCommon_->GetCommandList());*/
-	/*object2->Draw0(dxCommon_->GetCommandList());*/
-	/*object2->Draw1(dxCommon_->GetCommandList());*/
-
 	DrawFBX();
 }
 
