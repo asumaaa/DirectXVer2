@@ -38,7 +38,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	//FBX読み込み
 	FbxLoader::GetInstance()->Initialize(dxCommon_->GetDevice());
 	//モデル名を指定してファイル読み込み
-	model0 = FbxLoader::GetInstance()->LoadModelFromFile("key", "Resources/key.png");
+	model0 = FbxLoader::GetInstance()->LoadModelFromFile("Tree", "Resources/key.png");
 	model1 = FbxLoader::GetInstance()->LoadModelFromFile("cube", "Resources/toriko.png");
 	model2 = FbxLoader::GetInstance()->LoadModelFromFile("Walking", "Resources/white1x1.png");
 
@@ -101,18 +101,19 @@ void GameScene::Update()
 	dxInput->InputProcess();
 
 	//ライト
-	light->SetEye({0.0f,50.0f,50.0f});
+	light->SetEye({ -25.0f,25.0f,25.0f });
+	light->SetTarget({0.0f,0.0f,0.0f});
 	light->Update();
 
 	//オブジェクト更新
 	rotation0.y += 0.02;
-	object0->SetPosition({ -3,5,4 });
-	object0->SetScale({ 0.1f,0.1f,0.4f });
+	object0->SetPosition({ -3,0,4 });
+	object0->SetScale({ 1.0f,1.0f,1.0f });
 	object0->SetRotation(rotation0);
 	object0->Update();
 
 	object1->SetPosition({ 0,-5,0 });
-	object1->SetScale({ 1.0f,0.01f,1.0f });
+	object1->SetScale({ 0.5f,0.01f,0.5f });
 	object1->SetRotation({ 0.0f,0.0f,0.0f });
 	object1->Update();
 
