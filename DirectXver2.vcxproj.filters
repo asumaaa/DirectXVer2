@@ -70,6 +70,9 @@
     <Filter Include="リソース ファイル\Shaders\Fbx">
       <UniqueIdentifier>{0fc7fdbd-b252-4fd6-97b2-e891e962a173}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\Shaders\Sprite">
+      <UniqueIdentifier>{ab6110c7-1521-480e-a756-730415e71740}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -133,9 +136,6 @@
       <Filter>ソース ファイル\light</Filter>
     </ClCompile>
     <ClCompile Include="2d\MonochromeEffect.cpp">
-      <Filter>ソース ファイル\2d</Filter>
-    </ClCompile>
-    <ClCompile Include="2d\PostEffect.cpp">
       <Filter>ソース ファイル\2d</Filter>
     </ClCompile>
     <ClCompile Include="2d\BlurEffect.cpp">
@@ -224,9 +224,6 @@
     <ClInclude Include="2d\MonochromeEffect.h">
       <Filter>ヘッダー ファイル\2d</Filter>
     </ClInclude>
-    <ClInclude Include="2d\PostEffect.h">
-      <Filter>ヘッダー ファイル\2d</Filter>
-    </ClInclude>
     <ClInclude Include="2d\BlurEffect.h">
       <Filter>ヘッダー ファイル\2d</Filter>
     </ClInclude>
@@ -251,12 +248,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\ShaderHeader.hlsli">
-      <Filter>リソース ファイル\Shaders</Filter>
-    </None>
-    <None Include="Resources\Shaders\SpriteHeader.hlsli">
-      <Filter>リソース ファイル\Shaders</Filter>
-    </None>
-    <None Include="Resources\Shaders\PostEffectHeader.hlsli">
       <Filter>リソース ファイル\Shaders</Filter>
     </None>
     <None Include="Resources\Shaders\Blur\BlurEffectHeader.hlsli">
@@ -286,24 +277,15 @@
     <None Include="Resources\Shaders\DepthOfField\DepthOfFieldHeader.hlsli">
       <Filter>リソース ファイル\Shaders\DepthOfField</Filter>
     </None>
+    <None Include="Resources\Shaders\Sprite\SpriteHeader.hlsli">
+      <Filter>リソース ファイル\Shaders\Sprite</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\PixelShader.hlsl">
       <Filter>リソース ファイル\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\VertexShader.hlsl">
-      <Filter>リソース ファイル\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\SpritePixelShader.hlsl">
-      <Filter>リソース ファイル\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\SpriteVertexShader.hlsl">
-      <Filter>リソース ファイル\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\PostEffectPixelShader.hlsl">
-      <Filter>リソース ファイル\Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\PostEffectVertexShader.hlsl">
       <Filter>リソース ファイル\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\Blur\BlurPixelShader.hlsl">
@@ -359,6 +341,12 @@
     </FxCompile>
     <FxCompile Include="Resources\Shaders\DepthOfField\DepthOfFieldVertexShader.hlsl">
       <Filter>リソース ファイル\Shaders\DepthOfField</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Sprite\SpritePixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Sprite</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Sprite\SpriteVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Sprite</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

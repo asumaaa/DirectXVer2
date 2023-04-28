@@ -216,7 +216,7 @@ void Sprite::CreateGraphicsPipeLine()
 
 	//頂点シェーダの読み込み コンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/SpriteVertexShader.hlsl",
+		L"Resources/Shaders/Sprite/SpriteVertexShader.hlsl",
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,
 		"main", "vs_5_0",
@@ -241,7 +241,7 @@ void Sprite::CreateGraphicsPipeLine()
 
 	//ピクセルシェーダの読み込み コンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/SpritePixelShader.hlsl",
+		L"Resources/Shaders/Sprite/SpritePixelShader.hlsl",
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,
 		"main", "ps_5_0",

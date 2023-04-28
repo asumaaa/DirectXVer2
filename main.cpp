@@ -8,7 +8,6 @@
 #include "GameScene.h"
 #include "ImGuiManager.h"
 #include "imgui.h"
-#include "PostEffect.h"
 #include "MonochromeEffect.h"
 #include "ReversalEffect.h"
 #include "BlurEffect.h"
