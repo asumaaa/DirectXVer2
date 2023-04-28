@@ -15,6 +15,7 @@
 #include "MosaicEffect.h"
 #include "ChromaticAberrationEffect.h"
 #include "ShadowMap.h"
+#include "DepthOfField.h"
 
 #include "Sprite.h"
 
@@ -44,40 +45,40 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	imGuiManager = new ImGuiManager();
 	imGuiManager->Initialize(winApp,dxCommon);
 
-	//単色エフェクト
-	MonochromeEffect* monochromeEffect = nullptr;
-	MonochromeEffect::SetDevice(dxCommon->GetDevice());
-	monochromeEffect = new MonochromeEffect;
-	monochromeEffect->Initialize();
-	monochromeEffect->CreateGraphicsPipeLine();
+	////単色エフェクト
+	//MonochromeEffect* monochromeEffect = nullptr;
+	//MonochromeEffect::SetDevice(dxCommon->GetDevice());
+	//monochromeEffect = new MonochromeEffect;
+	//monochromeEffect->Initialize();
+	//monochromeEffect->CreateGraphicsPipeLine();
 
-	//反転エフェクト
-	ReversalEffect* reversalEffect = nullptr;
-	ReversalEffect::SetDevice(dxCommon->GetDevice());
-	reversalEffect = new ReversalEffect;
-	reversalEffect->Initialize();
-	reversalEffect->CreateGraphicsPipeLine();
+	////反転エフェクト
+	//ReversalEffect* reversalEffect = nullptr;
+	//ReversalEffect::SetDevice(dxCommon->GetDevice());
+	//reversalEffect = new ReversalEffect;
+	//reversalEffect->Initialize();
+	//reversalEffect->CreateGraphicsPipeLine();
 
 	//ぼかしエフェクト
-	BlurEffect* blurEffect = nullptr;
+	/*BlurEffect* blurEffect = nullptr;
 	BlurEffect::SetDevice(dxCommon->GetDevice());
 	blurEffect = new BlurEffect;
 	blurEffect->Initialize();
-	blurEffect->CreateGraphicsPipeLine();
+	blurEffect->CreateGraphicsPipeLine();*/
 
-	//モザイクエフェクト
-	MosaicEffect* mosaicEffect = nullptr;
-	MosaicEffect::SetDevice(dxCommon->GetDevice());
-	mosaicEffect = new MosaicEffect;
-	mosaicEffect->Initialize();
-	mosaicEffect->CreateGraphicsPipeLine();
+	////モザイクエフェクト
+	//MosaicEffect* mosaicEffect = nullptr;
+	//MosaicEffect::SetDevice(dxCommon->GetDevice());
+	//mosaicEffect = new MosaicEffect;
+	//mosaicEffect->Initialize();
+	//mosaicEffect->CreateGraphicsPipeLine();
 
-	//RGBずらし
-	ChromaticAberration* chromaticAberration = nullptr;
-	ChromaticAberration::SetDevice(dxCommon->GetDevice());
-	chromaticAberration = new ChromaticAberration;
-	chromaticAberration->Initialize();
-	chromaticAberration->CreateGraphicsPipeLine();
+	////RGBずらし
+	//ChromaticAberration* chromaticAberration = nullptr;
+	//ChromaticAberration::SetDevice(dxCommon->GetDevice());
+	//chromaticAberration = new ChromaticAberration;
+	//chromaticAberration->Initialize();
+	//chromaticAberration->CreateGraphicsPipeLine();
 
 	//ShadowMap
 	ShadowMap* shadowMap = nullptr;
@@ -86,6 +87,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	shadowMap->Initialize();
 	shadowMap->CreateGraphicsPipeLine0();
 	shadowMap->CreateGraphicsPipeLine1();
+
+	//被写界深度
+	DepthOfField* depthOfField = nullptr;
+	DepthOfField::SetDevice(dxCommon->GetDevice());
+	depthOfField = new DepthOfField;
+	depthOfField->Initialize();
+	depthOfField->CreateGraphicsPipeLine();
+
 
 	//ゲームシーン
 	GameScene* gameScene = nullptr;
@@ -111,35 +120,43 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		//ゲームシーン更新
 
-		//単色エフェクト
-		monochromeEffect->SetAlpha(1.0f);
-		monochromeEffect->SetColor({ 1.0f,1.0f,0.0 });
-		monochromeEffect->Update();
+		////単色エフェクト
+		//monochromeEffect->SetAlpha(1.0f);
+		//monochromeEffect->SetColor({ 1.0f,1.0f,0.0 });
+		//monochromeEffect->Update();
 
-		//反転エフェクト
-		reversalEffect->SetAlpha(1.0f);
-		reversalEffect->Update();
+		////反転エフェクト
+		//reversalEffect->SetAlpha(1.0f);
+		//reversalEffect->Update();
 
 		//ぼかしエフェクト
-		blurEffect->SetAlpha(1.0f);
+		/*blurEffect->SetAlpha(1.0f);
 		blurEffect->SetResolution(20.0f);
-		blurEffect->Update();
+		blurEffect->Update();*/
 
-		//モザイクエフェクト
-		mosaicEffect->SetAlpha(1.0f);
-		mosaicEffect->SetResolution(10.0f);
-		mosaicEffect->Update();
+		////モザイクエフェクト
+		//mosaicEffect->SetAlpha(1.0f);
+		//mosaicEffect->SetResolution(10.0f);
+		//mosaicEffect->Update();
 
-		//RGBずらし
-		chromaticAberration->SetAlpha(1.0f);
-		chromaticAberration->SetStrength(0.01);
-		chromaticAberration->Update();
+		////RGBずらし
+		//chromaticAberration->SetAlpha(1.0f);
+		//chromaticAberration->SetStrength(0.01);
+		//chromaticAberration->Update();
 
 		//shadowMap
 		shadowMap->SetAlpha(1.0f);
 		shadowMap->SetLightVP(gameScene->GetLightViewProjection());
 		shadowMap->Update();
 
+		////被写界深度
+		//depthOfField->SetAlpha(1.0f);
+		//depthOfField->SetFocus(0.1f);
+		//depthOfField->SetFNumber(0.1f);
+		//depthOfField->SetStrength(20.0f);
+		//depthOfField->Update();
+
+		//ゲームシーン
 		gameScene->Update();
 
 		// 4. 描画コマンド
@@ -150,10 +167,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		shadowMap->PreDrawScene0(dxCommon->GetCommandList());
 		gameScene->Draw0();
 		shadowMap->PostDrawScene0(dxCommon->GetCommandList());
+		shadowMap->Draw0(dxCommon->GetCommandList());
 
-		shadowMap->PreDrawScene1(dxCommon->GetCommandList());
+		/*shadowMap->PreDrawScene1(dxCommon->GetCommandList());
 		gameScene->Draw1();
-		shadowMap->PostDrawScene1(dxCommon->GetCommandList());
+		shadowMap->PostDrawScene1(dxCommon->GetCommandList());*/
 		//ゲームシーンにSRVを渡す
 		gameScene->SetSRV(shadowMap->GetSRV());
 
@@ -165,10 +183,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//reversalEffect->PreDrawScene(dxCommon->GetCommandList());
 		//gameScene->Draw();
 		//reversalEffect->PostDrawScene(dxCommon->GetCommandList());
-		////ぼかしエフェクト
-		//blurEffect->PreDrawScene(dxCommon->GetCommandList());
-		//gameScene->Draw();
-		//blurEffect->PostDrawScene(dxCommon->GetCommandList());
+		//ぼかしエフェクト
+		/*blurEffect->PreDrawScene(dxCommon->GetCommandList());
+		gameScene->Draw();
+		blurEffect->PostDrawScene(dxCommon->GetCommandList());*/
 		////モザイクエフェクト
 		//mosaicEffect->PreDrawScene(dxCommon->GetCommandList());
 		//gameScene->Draw();
@@ -177,6 +195,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//chromaticAberration->PreDrawScene(dxCommon->GetCommandList());
 		//gameScene->Draw();
 		//chromaticAberration->PostDrawScene(dxCommon->GetCommandList());
+		//被写界深度
+		/*depthOfField->PreDrawScene(dxCommon->GetCommandList());
+		gameScene->Draw();
+		depthOfField->PostDrawScene(dxCommon->GetCommandList());*/
 
 		//描画前処理
 		dxCommon->PreDraw();
@@ -192,10 +214,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/*mosaicEffect->Draw(dxCommon->GetCommandList());*/
 		//RGBずらし 
 		/*chromaticAberration->Draw(dxCommon->GetCommandList());*/
-		//shadowMao
-
-		/*shadowMap->Draw1(dxCommon->GetCommandList());*/
+		//被写界深度
+		/*depthOfField->Draw(dxCommon->GetCommandList());*/
+	
 		gameScene->Draw();
+		/*shadowMap->Draw1(dxCommon->GetCommandList());*/
 
 		imGuiManager->End();
 		imGuiManager->Draw();

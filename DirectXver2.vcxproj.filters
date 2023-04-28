@@ -289,6 +289,9 @@
     <None Include="Resources\Shaders\Fbx\FbxHeader2.hlsli">
       <Filter>リソース ファイル\Shaders\Fbx</Filter>
     </None>
+    <None Include="Resources\Shaders\DepthOfField\DepthOfFieldHeader.hlsli">
+      <Filter>リソース ファイル\Shaders\DepthOfField</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\PixelShader.hlsl">
@@ -368,6 +371,12 @@
     </FxCompile>
     <FxCompile Include="Resources\Shaders\Fbx\FbxVertexShader2.hlsl">
       <Filter>リソース ファイル\Shaders\Fbx</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\DepthOfField\DepthOfFieldPixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders\DepthOfField</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\DepthOfField\DepthOfFieldVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders\DepthOfField</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

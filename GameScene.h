@@ -43,13 +43,24 @@ private:
 	std::unique_ptr<Camera> camera_;
 
 	//fbx
-	FbxModel* model0 = nullptr;
-	FbxObject3D* object0 = nullptr;
-	FbxObject3D* object1 = nullptr;
-	FbxObject3D* object2 = nullptr;
+	//木
+	FbxModel* modelTree = nullptr;
+	std::list<std::unique_ptr<FbxObject3D>> objectTree;
+	//木の数
+	size_t verticalTreeNum = 3;
+	size_t horizonTreeNum = 6;
+	//木の幅
+	float verticalTreeWidth = 10.0f;
+	float horizonTreeWidth = 9.0f;
+	size_t treeNum = verticalTreeNum * horizonTreeNum;
+	//木の変形行列
+	XMFLOAT3 treeScale = { 1.0f,1.0f,1.0f };
+	XMFLOAT3 treeRotation = { 0.0f,0.0f,0.0f };
+	XMFLOAT3 treePosition = { 0.0f,0.0f,0.0f };
 
+	//床
 	FbxModel* model1 = nullptr;
-	//FbxObject3D* object1 = nullptr;
+	FbxObject3D* object1 = nullptr;
 	FbxModel* model2 = nullptr;
 
 	//ライト
@@ -57,26 +68,6 @@ private:
 
 	//スプライトマネージャー
 	SpriteManager* spriteManager = nullptr;
-
-	//スプライト
-	Sprite* sprite0 = nullptr;
-	Sprite* sprite1 = nullptr;
-	Sprite* sprite2 = nullptr;
-
-	float ambientColor0[3] = { 1,1,1 };
-	//光線方向初期値
-	float lightDir0[3] = { 0,0,1 };
-	float lightColor0[3] = { 0,0,0 };
-
-	float pointLightPos0[3] = { 0,7,0 };
-	float pointLightColor0[3] = { 1,1,1 };
-	float pointLightAtten0[3] = {0.3f,0.05f,0.0f};
-
-	float circleShadowDir[3] = { 1,-1,0 };
-	float circleShadowAtten[3] = { 0.5f,0.6f,0.0f };
-	float circleShadowFactorAngle[2] = { 0.0f,0.5f };
-
-	float shadowLightPos[3] = { 3,5,3 };
 
 	//変形行列
 	DirectX::XMFLOAT3 position = { 0.0f,0.0f,0.0f };

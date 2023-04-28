@@ -14,9 +14,9 @@ float4 main(VSOutput input) : SV_TARGET
 	float dep0 = pow(tex1.Sample(smp, input.uv), 20);
 	float dep1 = pow(tex2.Sample(smp, input.uv), 20);
 
-	return float4(dep1, dep1, dep1, 1);
+	/*return float4(dep1, dep1, dep1, 1);*/
 
 	
-	/*return colortex0;*/
+	return colortex0;
 	return colortex0;
 }
