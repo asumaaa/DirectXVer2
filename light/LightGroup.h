@@ -24,7 +24,7 @@ private: // エイリアス
 public: // 定数
 	static const int DirLightNum = 3;
 	static const int PointLightNum = 3;
-	static const int SpotLightNum = 3;
+	static const int SpotLightNum = 1;
 	static const int CircleShadowNum = 1;
 	static const int ShadowNum = 1;
 

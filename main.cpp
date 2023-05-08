@@ -147,12 +147,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		shadowMap->SetLightVP(gameScene->GetLightViewProjection());
 		shadowMap->Update();
 
-		////被写界深度
-		//depthOfField->SetAlpha(1.0f);
-		//depthOfField->SetFocus(0.1f);
-		//depthOfField->SetFNumber(0.1f);
-		//depthOfField->SetStrength(20.0f);
-		//depthOfField->Update();
+		//被写界深度
+		depthOfField->SetAlpha(1.0f);
+		depthOfField->SetFocus(0.1f);
+		depthOfField->SetFNumber(0.1f);
+		depthOfField->SetStrength(50.0f);
+		depthOfField->Update();
 
 		//ゲームシーン
 		gameScene->Update();
@@ -189,9 +189,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//gameScene->Draw();
 		//chromaticAberration->PostDrawScene(dxCommon->GetCommandList());
 		//被写界深度
-		/*depthOfField->PreDrawScene(dxCommon->GetCommandList());
+		depthOfField->PreDrawScene(dxCommon->GetCommandList());
 		gameScene->Draw();
-		depthOfField->PostDrawScene(dxCommon->GetCommandList());*/
+		depthOfField->PostDrawScene(dxCommon->GetCommandList());
 
 		//描画前処理
 		dxCommon->PreDraw();
@@ -208,9 +208,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//RGBずらし 
 		/*chromaticAberration->Draw(dxCommon->GetCommandList());*/
 		//被写界深度
-		/*depthOfField->Draw(dxCommon->GetCommandList());*/
+		depthOfField->Draw(dxCommon->GetCommandList());
 	
-		gameScene->Draw();
+		/*gameScene->Draw();*/
 
 		imGuiManager->End();
 		imGuiManager->Draw();

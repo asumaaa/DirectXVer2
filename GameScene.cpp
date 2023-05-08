@@ -31,13 +31,18 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	camera_->SetTarget({ 0,0,0 });
 	camera_->SetEye({ 0, 10,-20 });
 
-	//ライト
+	//ライト(影)
 	light = new Light;
 	light->Initialize();
+
+	//ライト
+	LightGroup::StaticInitialize(dxCommon_->GetDevice());
+	lightGroup = LightGroup::Create();
 
 	//FBX読み込み
 	FbxLoader::GetInstance()->Initialize(dxCommon_->GetDevice());
 	//モデル名を指定してファイル読み込み
+	modelStone = FbxLoader::GetInstance()->LoadModelFromFile("Stone", "Resources/white1x1.png");
 	modelTree = FbxLoader::GetInstance()->LoadModelFromFile("Tree", "Resources/white1x1.png");
 	model1 = FbxLoader::GetInstance()->LoadModelFromFile("cube", "Resources/grassFiled.png");
 	model2 = FbxLoader::GetInstance()->LoadModelFromFile("Walking", "Resources/white1x1.png");
@@ -46,27 +51,38 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	FbxObject3D::SetDevice(dxCommon_->GetDevice());
 	FbxObject3D::SetCamera(camera_.get());
 	FbxObject3D::SetLight(light);
+	FbxObject3D::SetLightGroup(lightGroup);
 	FbxObject3D::CreateGraphicsPipelineLightView();
 	FbxObject3D::CreateGraphicsPipeline();
 
 	//オブジェクト初期化
-	for (int i = 0; i < verticalTreeNum; i++)
+	//石
+	for (int i = 0; i < verticalStoneNum; i++)
 	{
-		for (int j = 0; j < horizonTreeNum; j++)
+		for (int j = 0; j < horizonStoneNum; j++)
 		{
 			std::unique_ptr<FbxObject3D>newObject = std::make_unique<FbxObject3D>();
 			newObject->Initialize();
-			newObject->SetModel(modelTree);
+			newObject->SetModel(modelStone);
 
-			newObject->SetPosition({ j * horizonTreeWidth - (horizonTreeWidth * horizonTreeNum) / 2, 0.0f,
-				i * verticalTreeWidth - (verticalTreeWidth * verticalTreeNum) / 2 });
-			newObject->SetScale(treeScale);
-			newObject->SetRotation(treeRotation);
+			newObject->SetPosition({ j * horizonStoneWidth - (horizonStoneWidth * horizonStoneNum) / 2, 1.5f,
+				i * verticalStoneWidth - (verticalStoneWidth * verticalStoneNum) / 2 });
+			newObject->SetScale(stoneScale);
+			newObject->SetRotation(stoneRotation);
 
-			objectTree.push_back(std::move(newObject));
+			objectStone.push_back(std::move(newObject));
 		}
 	}
 
+	//木
+	objectTree = new FbxObject3D;
+	objectTree->Initialize();
+	objectTree->SetModel(modelTree);
+	objectTree->SetPosition(treePosition);
+	objectTree->SetRotation(treeRotation);
+	objectTree->SetScale(treeScale);
+
+	//キューブ
 	object1 = new FbxObject3D;
 	object1->Initialize();
 	object1->SetModel(model1);
@@ -85,22 +101,35 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 void GameScene::Update()
 {
 	//カメラ更新
-	camera_->SetEye({0.0f,10.0f,5.0f});
+	camera_->SetEye({ 0.0f,10.0f,5.0f });
 	camera_->DebugUpdate();
 	camera_->Update();
 	//コントローラー更新
 	dxInput->InputProcess();
 
 	//ライト
-	light->SetEye({ -25.0f,25.0f,25.0f });
-	light->SetTarget({0.0f,0.0f,0.0f});
+	light->SetEye(XMFLOAT3(lightPos));
+	light->SetTarget(XMFLOAT3(lightTarget));
+	light->SetDir(XMFLOAT3(lightDir));
 	light->Update();
 
+	//ライト
+	lightGroup->SetAmbientColor(XMFLOAT3(1, 1, 1));
+	lightGroup->SetDirLightActive(0, false);
+	lightGroup->SetDirLightActive(1, false);
+	lightGroup->SetDirLightActive(2, false);
+	lightGroup->Update();
+
 	//オブジェクト更新
-	for (std::unique_ptr<FbxObject3D>& object : objectTree)
+	for (std::unique_ptr<FbxObject3D>& object : objectStone)
 	{
 		object->Update();
 	}
+
+	//木
+	treeRotation.y += 0.02f;
+	objectTree->SetRotation(treeRotation);
+	objectTree->Update();
 
 	//オブジェクト更新
 	object1->SetPosition({ -3,0,4 });
@@ -111,47 +140,46 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
-	/*ImGui::Begin("Light");
-	ImGui::SetWindowPos(ImVec2(0, 0));
-	ImGui::SetWindowSize(ImVec2(500, 500));
-	ImGui::ColorEdit3("ambientColor", ambientColor0, ImGuiColorEditFlags_Float);
-	ImGui::InputFloat3("lightDir0",lightDir0);
-	ImGui::ColorEdit3("lightColor0", lightColor0, ImGuiColorEditFlags_Float);
-	ImGui::InputFloat3("circleShadowDir", circleShadowDir);
-	ImGui::InputFloat3("circleShadowAtten", circleShadowAtten);
-	ImGui::ColorEdit3("pointLightColor", pointLightColor0, ImGuiColorEditFlags_Float);
-	ImGui::InputFloat3("pointLightPos", pointLightPos0);
-	ImGui::InputFloat3("pointLightAtten", pointLightAtten0);
-	ImGui::InputFloat3("lightPos", shadowLightPos);
-	ImGui::End();*/
+	//ImGui::Begin("Light");
+	//ImGui::SetWindowPos(ImVec2(0, 0));
+	//ImGui::SetWindowSize(ImVec2(500, 150));
+	///*ImGui::InputFloat3("lightDir", lightDir);*/
+	//ImGui::InputFloat3("lightTarget", lightTarget);
+	//ImGui::InputFloat3("lightPos", lightPos);
+	///*ImGui::InputFloat3("lightAtten", lightAtten);
+	//ImGui::InputFloat2("lightFactorAngle", lightFactorAngle);*/
+	//ImGui::End();
 
 	DrawFBX();
 }
 
 void GameScene::DrawFBXLightView()
 {
-	for (std::unique_ptr<FbxObject3D>& object : objectTree)
+	for (std::unique_ptr<FbxObject3D>& object : objectStone)
 	{
 		object->DrawLightView(dxCommon_->GetCommandList());
 	}
 	object1->DrawLightView(dxCommon_->GetCommandList());
+	objectTree->DrawLightView(dxCommon_->GetCommandList());
 }
 
 void GameScene::DrawFBX()
 {
-	for (std::unique_ptr<FbxObject3D>& object : objectTree)
+	for (std::unique_ptr<FbxObject3D>& object : objectStone)
 	{
 		object->Draw(dxCommon_->GetCommandList());
 	}
 	object1->Draw(dxCommon_->GetCommandList());
+	objectTree->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::SetSRV(ID3D12DescriptorHeap* SRV)
 {
-	for (std::unique_ptr<FbxObject3D>& object : objectTree)
+	for (std::unique_ptr<FbxObject3D>& object : objectStone)
 	{
 		object->SetSRV(SRV);
 	}
+	objectTree->SetSRV(SRV);
 	object1->SetSRV(SRV);
 }
 

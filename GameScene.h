@@ -12,6 +12,9 @@
 #include "SpriteManager.h"
 #include "FireParticle.h"
 #include "Light.h"
+#include "LightGroup.h"
+
+#define PI 3.1415
 
 class GameScene
 {
@@ -42,28 +45,45 @@ private:
 	std::unique_ptr<Camera> camera_;
 
 	//fbx
+	//石
+	FbxModel* modelStone = nullptr;
+	std::list<std::unique_ptr<FbxObject3D>> objectStone;
+	//石の数
+	size_t verticalStoneNum = 6;
+	size_t horizonStoneNum = 6;
+	//石の幅
+	float verticalStoneWidth = 10.0f;
+	float horizonStoneWidth = 9.0f;
+	size_t treeNum = verticalStoneNum * horizonStoneNum;
+	//石の変形行列
+	XMFLOAT3 stoneScale = { 2.0f,2.0f,2.0f };
+	XMFLOAT3 stoneRotation = { 1.5f * PI,0.0f,0.0f };
+	XMFLOAT3 stonePosition = { 0.0f,0.0f,0.0f };
+
 	//木
 	FbxModel* modelTree = nullptr;
-	std::list<std::unique_ptr<FbxObject3D>> objectTree;
-	//木の数
-	size_t verticalTreeNum = 3;
-	size_t horizonTreeNum = 6;
-	//木の幅
-	float verticalTreeWidth = 10.0f;
-	float horizonTreeWidth = 9.0f;
-	size_t treeNum = verticalTreeNum * horizonTreeNum;
+	FbxObject3D* objectTree = nullptr;
 	//木の変形行列
-	XMFLOAT3 treeScale = { 1.0f,1.0f,1.0f };
+	XMFLOAT3 treePosition = { 0.0f,2.0f,5.0f };
 	XMFLOAT3 treeRotation = { 0.0f,0.0f,0.0f };
-	XMFLOAT3 treePosition = { 0.0f,0.0f,0.0f };
+	XMFLOAT3 treeScale = {1.0f,1.0f,1.0f };
 
 	//床
 	FbxModel* model1 = nullptr;
 	FbxObject3D* object1 = nullptr;
 	FbxModel* model2 = nullptr;
 
-	//ライト
+	//ライト 影用
 	Light* light = nullptr;
+	float lightDir[3] = {0.0f,-1.0f , -1.0f};
+	float lightPos[3] = {0.0f,25.0f,25.0f};
+	float lightTarget[3] = { 0.0f,0.0f,0.0f };
+	float lightFactorAngle[2] = { 20.0f,30.0f, };
+	float lightAtten[3] = {0.0f,0.0f,0.0f};
+
+	//ライト
+	LightGroup* lightGroup = nullptr;
+	float lightManagerDir[3] = { 0.0f,-1.0f , 1.0f };
 
 	//スプライトマネージャー
 	SpriteManager* spriteManager = nullptr;

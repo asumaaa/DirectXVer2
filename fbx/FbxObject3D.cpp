@@ -15,6 +15,7 @@ ComPtr<ID3D12PipelineState>FbxObject3D::pipelinestate2;
 ID3D12Device* FbxObject3D::device = nullptr;
 Camera* FbxObject3D::camera = nullptr;
 Light* FbxObject3D::light = nullptr;
+LightGroup* FbxObject3D::lightGroup = nullptr;
 
 void FbxObject3D::Initialize()
 {
@@ -165,6 +166,8 @@ void FbxObject3D::Draw(ID3D12GraphicsCommandList* cmdList)
 	//定数バッファビューをセット
 	cmdList->SetGraphicsRootConstantBufferView(0, constBuffTransform->GetGPUVirtualAddress());
 	cmdList->SetGraphicsRootConstantBufferView(2, constBuffSkin->GetGPUVirtualAddress());
+	//ライト描画
+	lightGroup->Draw(cmdList, 5);
 
 	//深度値をセット
 	cmdList->SetDescriptorHeaps(1, &depthSRV);
@@ -496,7 +499,7 @@ void FbxObject3D::CreateGraphicsPipeline()
 	descriptorRange2.BaseShaderRegister = 2;
 
 	// ルートパラメータ
-	CD3DX12_ROOT_PARAMETER rootparams[5];
+	CD3DX12_ROOT_PARAMETER rootparams[6];
 	// CBV（座標変換行列用）
 	rootparams[0].InitAsConstantBufferView(0, 0, D3D12_SHADER_VISIBILITY_ALL);
 	// SRV（テクスチャ）
@@ -513,6 +516,8 @@ void FbxObject3D::CreateGraphicsPipeline()
 	rootparams[4].DescriptorTable.pDescriptorRanges = &descriptorRange2;
 	rootparams[4].DescriptorTable.NumDescriptorRanges = 1;
 	rootparams[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+	//定数バッファ(ライト)
+	rootparams[5].InitAsConstantBufferView(4, 0, D3D12_SHADER_VISIBILITY_ALL);
 
 	// スタティックサンプラー
 	CD3DX12_STATIC_SAMPLER_DESC samplerDesc = CD3DX12_STATIC_SAMPLER_DESC(0);

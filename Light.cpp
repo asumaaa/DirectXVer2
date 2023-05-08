@@ -10,7 +10,7 @@ void Light::Initialize()
 	//);
 
 	matProjection_ = XMMatrixOrthographicLH(
-		40,40,1.0f,100.0f);
+		80,80,1.0f,200.0f);
 
 	//çsóÒåvéZ
 	matView_ = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));

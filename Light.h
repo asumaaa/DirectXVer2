@@ -3,6 +3,7 @@
 #include "Input.h"
 #include "DXInput.h"
 #include "WinApp.h"
+#include "FbxModel.h"
 
 using namespace DirectX;
 
@@ -19,6 +20,7 @@ public:
 	void SetTarget(XMFLOAT3 pos) {target_ = pos;}
 	void SetEye(XMFLOAT3 pos) { eye_ = pos; }
 	void SetColor(XMFLOAT4 col) { color = col; }
+	void SetDir(XMFLOAT3 d) { dir = d; }
 	XMFLOAT3 GetEye() { return eye_; };
 	XMFLOAT3 GetTraget() { return target_; };
 	XMFLOAT3 GetUp() { return up_; };
