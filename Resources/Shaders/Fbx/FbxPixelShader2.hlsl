@@ -100,6 +100,9 @@ PSOutput main(VSOutput input) : SV_TARGET
 	//}
 	
 	//陰影とテクスチャの色を合成
+	texcoord.x *= 0.5f;
+	texcoord.y *= 0.5f;
+	texcoord.z *= 0.5f;
 	output.target0 = shadecolor * texcoord;
 	//影を合成
 	output.target0.x *= shadowWeight;

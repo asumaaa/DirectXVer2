@@ -13,6 +13,8 @@
 #include "FireParticle.h"
 #include "Light.h"
 #include "LightGroup.h"
+#include "VolumeLightModel.h"
+#include "VolumeLightObject.h"
 
 #define PI 3.1415
 
@@ -49,8 +51,8 @@ private:
 	FbxModel* modelStone = nullptr;
 	std::list<std::unique_ptr<FbxObject3D>> objectStone;
 	//石の数
-	size_t verticalStoneNum = 6;
-	size_t horizonStoneNum = 6;
+	size_t verticalStoneNum = 12;
+	size_t horizonStoneNum = 4;
 	//石の幅
 	float verticalStoneWidth = 10.0f;
 	float horizonStoneWidth = 9.0f;
@@ -84,6 +86,13 @@ private:
 	//ライト
 	LightGroup* lightGroup = nullptr;
 	float lightManagerDir[3] = { 0.0f,-1.0f , 1.0f };
+
+	//ボリュームライト
+	std::unique_ptr <VolumeLightModel> volumeLightModel;
+	std::unique_ptr <VolumeLightObject> volumeLightObject;
+	float volumeLightPos[3] = { 0.0f,5.0f,-10.0f };
+	float volumeLightScale[3] = { 4.0f,4.0f,4.0f };
+	float volumeLightRotation[3] = { 0.0f,0.0f,0.0f };
 
 	//スプライトマネージャー
 	SpriteManager* spriteManager = nullptr;

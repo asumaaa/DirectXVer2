@@ -73,6 +73,12 @@
     <Filter Include="リソース ファイル\Shaders\Sprite">
       <UniqueIdentifier>{ab6110c7-1521-480e-a756-730415e71740}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\Shaders\VolumeLight">
+      <UniqueIdentifier>{17a41289-5383-4e7b-9f9d-8d170971a6dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\Shaders\Fog">
+      <UniqueIdentifier>{f2f2e7e2-b7f6-4153-92d6-ca3381bb7719}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -157,6 +163,15 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="2d\DepthOfField.cpp">
+      <Filter>ソース ファイル\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="VolumeLightModel.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="VolumeLightObject.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="2d\Fog.cpp">
       <Filter>ソース ファイル\2d</Filter>
     </ClCompile>
   </ItemGroup>
@@ -245,6 +260,15 @@
     <ClInclude Include="2d\DepthOfField.h">
       <Filter>ヘッダー ファイル\2d</Filter>
     </ClInclude>
+    <ClInclude Include="VolumeLightModel.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="VolumeLightObject.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="2d\Fog.h">
+      <Filter>ヘッダー ファイル\2d</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\ShaderHeader.hlsli">
@@ -279,6 +303,12 @@
     </None>
     <None Include="Resources\Shaders\Sprite\SpriteHeader.hlsli">
       <Filter>リソース ファイル\Shaders\Sprite</Filter>
+    </None>
+    <None Include="Resources\Shaders\VolumeLight\VolumeLightHeader.hlsli">
+      <Filter>リソース ファイル\Shaders\VolumeLight</Filter>
+    </None>
+    <None Include="Resources\Shaders\Fog\FogHeader.hlsli">
+      <Filter>リソース ファイル\Shaders\Fog</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -347,6 +377,18 @@
     </FxCompile>
     <FxCompile Include="Resources\Shaders\Sprite\SpriteVertexShader.hlsl">
       <Filter>リソース ファイル\Shaders\Sprite</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\VolumeLight\VolumeLightPixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders\VolumeLight</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\VolumeLight\VolumeLightVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders\VolumeLight</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Fog\FogPixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Fog</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Fog\FogVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Fog</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

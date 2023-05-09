@@ -15,6 +15,7 @@
 #include "ChromaticAberrationEffect.h"
 #include "ShadowMap.h"
 #include "DepthOfField.h"
+#include "Fog.h"
 
 #include "Sprite.h"
 
@@ -87,12 +88,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	shadowMap->CreateGraphicsPipeLine0();
 
 	//被写界深度
-	DepthOfField* depthOfField = nullptr;
-	DepthOfField::SetDevice(dxCommon->GetDevice());
-	depthOfField = new DepthOfField;
-	depthOfField->Initialize();
-	depthOfField->CreateGraphicsPipeLine();
+	//DepthOfField* depthOfField = nullptr;
+	//DepthOfField::SetDevice(dxCommon->GetDevice());
+	//depthOfField = new DepthOfField;
+	//depthOfField->Initialize();
+	//depthOfField->CreateGraphicsPipeLine();
 
+	//Fog
+	Fog* fog = nullptr;
+	Fog::SetDevice(dxCommon->GetDevice());
+	fog = new Fog;
+	fog->Initialize();
+	fog->CreateGraphicsPipeLine0();
 
 	//ゲームシーン
 	GameScene* gameScene = nullptr;
@@ -148,11 +155,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		shadowMap->Update();
 
 		//被写界深度
-		depthOfField->SetAlpha(1.0f);
+		/*depthOfField->SetAlpha(1.0f);
 		depthOfField->SetFocus(0.1f);
 		depthOfField->SetFNumber(0.1f);
 		depthOfField->SetStrength(50.0f);
-		depthOfField->Update();
+		depthOfField->Update();*/
+
+		//Fog
+		fog->SetAlpha(1.0f);
+		fog->SetStrength(3.0f);
+		fog->SetStartDepth(0.1f);
+		fog->Update();
 
 		//ゲームシーン
 		gameScene->Update();
@@ -189,9 +202,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//gameScene->Draw();
 		//chromaticAberration->PostDrawScene(dxCommon->GetCommandList());
 		//被写界深度
-		depthOfField->PreDrawScene(dxCommon->GetCommandList());
+		/*depthOfField->PreDrawScene(dxCommon->GetCommandList());
 		gameScene->Draw();
-		depthOfField->PostDrawScene(dxCommon->GetCommandList());
+		depthOfField->PostDrawScene(dxCommon->GetCommandList());*/
+		//fog
+		fog->PreDrawScene(dxCommon->GetCommandList());
+		gameScene->Draw();
+		fog->PostDrawScene(dxCommon->GetCommandList());
 
 		//描画前処理
 		dxCommon->PreDraw();
@@ -208,7 +225,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//RGBずらし 
 		/*chromaticAberration->Draw(dxCommon->GetCommandList());*/
 		//被写界深度
-		depthOfField->Draw(dxCommon->GetCommandList());
+		/*depthOfField->Draw(dxCommon->GetCommandList());*/
+		//fog
+		fog->Draw(dxCommon->GetCommandList());
 	
 		/*gameScene->Draw();*/
 

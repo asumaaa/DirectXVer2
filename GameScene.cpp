@@ -39,10 +39,26 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	LightGroup::StaticInitialize(dxCommon_->GetDevice());
 	lightGroup = LightGroup::Create();
 
+	//ボリュームライト
+	VolumeLightModel* newLightModel = new VolumeLightModel();
+	newLightModel->CreateBuffers(dxCommon_->GetDevice());
+	volumeLightModel.reset(newLightModel);
+	volumeLightModel->SetImageData(XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
+
+	VolumeLightObject::SetDevice(dxCommon_->GetDevice());
+	VolumeLightObject::SetCamera(camera_.get());
+	VolumeLightObject::SetInput(input);
+	VolumeLightObject::CreateGraphicsPipeline();
+
+	VolumeLightObject* newLightObject = new VolumeLightObject();
+	newLightObject->Initialize();
+	newLightObject->SetModel(volumeLightModel.get());
+	volumeLightObject.reset(newLightObject);
+
 	//FBX読み込み
 	FbxLoader::GetInstance()->Initialize(dxCommon_->GetDevice());
 	//モデル名を指定してファイル読み込み
-	modelStone = FbxLoader::GetInstance()->LoadModelFromFile("Stone", "Resources/white1x1.png");
+	modelStone = FbxLoader::GetInstance()->LoadModelFromFile("Tree", "Resources/white1x1.png");
 	modelTree = FbxLoader::GetInstance()->LoadModelFromFile("Tree", "Resources/white1x1.png");
 	model1 = FbxLoader::GetInstance()->LoadModelFromFile("cube", "Resources/grassFiled.png");
 	model2 = FbxLoader::GetInstance()->LoadModelFromFile("Walking", "Resources/white1x1.png");
@@ -65,10 +81,10 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 			newObject->Initialize();
 			newObject->SetModel(modelStone);
 
-			newObject->SetPosition({ j * horizonStoneWidth - (horizonStoneWidth * horizonStoneNum) / 2, 1.5f,
+			newObject->SetPosition({ j * horizonStoneWidth - (horizonStoneWidth * horizonStoneNum) / 2, 0.0f,
 				i * verticalStoneWidth - (verticalStoneWidth * verticalStoneNum) / 2 });
-			newObject->SetScale(stoneScale);
-			newObject->SetRotation(stoneRotation);
+			newObject->SetScale(treeScale);
+			newObject->SetRotation(treeRotation);
 
 			objectStone.push_back(std::move(newObject));
 		}
@@ -120,9 +136,18 @@ void GameScene::Update()
 	lightGroup->SetDirLightActive(2, false);
 	lightGroup->Update();
 
+	//ボリュームライト
+	volumeLightModel->Update();
+	volumeLightObject->SetPosition(XMFLOAT3(volumeLightPos));
+	volumeLightObject->SetRotation(XMFLOAT3(volumeLightRotation));
+	volumeLightObject->SetScale(XMFLOAT3(volumeLightScale));
+	volumeLightObject->Update();
+
 	//オブジェクト更新
 	for (std::unique_ptr<FbxObject3D>& object : objectStone)
 	{
+		object->SetScale(treeScale);
+		object->SetRotation(treeRotation);
 		object->Update();
 	}
 
@@ -151,6 +176,7 @@ void GameScene::Draw()
 	//ImGui::End();
 
 	DrawFBX();
+	volumeLightObject->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::DrawFBXLightView()
