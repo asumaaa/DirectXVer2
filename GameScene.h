@@ -51,8 +51,8 @@ private:
 	FbxModel* modelStone = nullptr;
 	std::list<std::unique_ptr<FbxObject3D>> objectStone;
 	//êŒÇÃêî
-	size_t verticalStoneNum = 12;
-	size_t horizonStoneNum = 4;
+	size_t verticalStoneNum = 10;
+	size_t horizonStoneNum = 10;
 	//êŒÇÃïù
 	float verticalStoneWidth = 10.0f;
 	float horizonStoneWidth = 9.0f;
@@ -68,7 +68,7 @@ private:
 	//ñÿÇÃïœå`çsóÒ
 	XMFLOAT3 treePosition = { 0.0f,2.0f,5.0f };
 	XMFLOAT3 treeRotation = { 0.0f,0.0f,0.0f };
-	XMFLOAT3 treeScale = {1.0f,1.0f,1.0f };
+	XMFLOAT3 treeScale = {5.0f,5.0f,5.0f };
 
 	//è∞
 	FbxModel* model1 = nullptr;

@@ -22,6 +22,8 @@ float4 main(VSOutput input) : SV_TARGET
 	}
 	//アルファ値合成
 	colortex0.w *= color.w;
+
+	/*return float4(dep0, dep0, dep0, 1);*/
 	
 	return colortex0;
 }

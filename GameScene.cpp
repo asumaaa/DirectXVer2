@@ -58,7 +58,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	//FBX読み込み
 	FbxLoader::GetInstance()->Initialize(dxCommon_->GetDevice());
 	//モデル名を指定してファイル読み込み
-	modelStone = FbxLoader::GetInstance()->LoadModelFromFile("Tree", "Resources/white1x1.png");
+	modelStone = FbxLoader::GetInstance()->LoadModelFromFile("Stone", "Resources/white1x1.png");
 	modelTree = FbxLoader::GetInstance()->LoadModelFromFile("Tree", "Resources/white1x1.png");
 	model1 = FbxLoader::GetInstance()->LoadModelFromFile("cube", "Resources/grassFiled.png");
 	model2 = FbxLoader::GetInstance()->LoadModelFromFile("Walking", "Resources/white1x1.png");
@@ -79,11 +79,11 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 		{
 			std::unique_ptr<FbxObject3D>newObject = std::make_unique<FbxObject3D>();
 			newObject->Initialize();
-			newObject->SetModel(modelStone);
+			newObject->SetModel(modelTree);
 
-			newObject->SetPosition({ j * horizonStoneWidth - (horizonStoneWidth * horizonStoneNum) / 2, 0.0f,
-				i * verticalStoneWidth - (verticalStoneWidth * verticalStoneNum) / 2 });
-			newObject->SetScale(treeScale);
+			newObject->SetPosition({ j * horizonStoneWidth - (horizonStoneWidth * horizonStoneNum) / 2 + (i / 2 * 3),
+				0.0f,i * verticalStoneWidth/* - (verticalStoneWidth * verticalStoneNum) / 2*/ });
+			newObject->SetScale(XMFLOAT3(treeScale));
 			newObject->SetRotation(treeRotation);
 
 			objectStone.push_back(std::move(newObject));
@@ -146,19 +146,18 @@ void GameScene::Update()
 	//オブジェクト更新
 	for (std::unique_ptr<FbxObject3D>& object : objectStone)
 	{
-		object->SetScale(treeScale);
+		/*object->SetScale(treeScale);*/
 		object->SetRotation(treeRotation);
 		object->Update();
 	}
 
 	//木
-	treeRotation.y += 0.02f;
 	objectTree->SetRotation(treeRotation);
 	objectTree->Update();
 
 	//オブジェクト更新
 	object1->SetPosition({ -3,0,4 });
-	object1->SetScale({ 1.0f,0.001f,1.0f });
+	object1->SetScale({ 5.0f,0.001f,5.0f });
 	object1->SetRotation({0,0,0});
 	object1->Update();
 }
@@ -176,7 +175,7 @@ void GameScene::Draw()
 	//ImGui::End();
 
 	DrawFBX();
-	volumeLightObject->Draw(dxCommon_->GetCommandList());
+	/*volumeLightObject->Draw(dxCommon_->GetCommandList());*/
 }
 
 void GameScene::DrawFBXLightView()
