@@ -58,7 +58,7 @@ VSOutput main(VSInput input)
 	float4 wpos = mul(world, skinned.pos);
 	wpos = mul(world, wpos);
 	//ピクセルシェーダに渡す値
-	VSOutput output;
+	VSOutput output; 
 	//行列による座標返還
 	output.svpos = mul(mul(viewproj, world), skinned.pos);
 	//ワールド法線を次のステージに渡す
