@@ -62,13 +62,22 @@ private:
 	XMFLOAT3 stoneRotation = { 1.5f * PI,0.0f,0.0f };
 	XMFLOAT3 stonePosition = { 0.0f,0.0f,0.0f };
 
-	//木
-	FbxModel* modelTree = nullptr;
-	FbxObject3D* objectTree = nullptr;
+	//木のモデル
+	FbxModel* modelTree0 = nullptr;
+	FbxModel* modelTree1 = nullptr;
+	FbxModel* modelTree2 = nullptr;
+	//木のオブジェクト
+	std::list<std::unique_ptr<FbxObject3D>> objectTree0;
+	std::list<std::unique_ptr<FbxObject3D>> objectTree1;
+	std::list<std::unique_ptr<FbxObject3D>> objectTree2;
+	//木の数
+	size_t tree0Num = 5;
+	size_t tree1Num = 5;
+	size_t tree2Num = 5;
 	//木の変形行列
-	XMFLOAT3 treePosition = { 0.0f,2.0f,5.0f };
-	XMFLOAT3 treeRotation = { 0.0f,0.0f,0.0f };
-	XMFLOAT3 treeScale = {5.0f,5.0f,5.0f };
+	XMFLOAT3 tree0Position = { 0.0f,2.0f,5.0f };
+	XMFLOAT3 tree0Rotation = { 0.0f,0.0f,0.0f };
+	XMFLOAT3 tree0Scale = {5.0f,5.0f,5.0f };
 
 	//床
 	FbxModel* model1 = nullptr;

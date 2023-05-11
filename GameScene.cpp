@@ -59,7 +59,9 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	FbxLoader::GetInstance()->Initialize(dxCommon_->GetDevice());
 	//モデル名を指定してファイル読み込み
 	modelStone = FbxLoader::GetInstance()->LoadModelFromFile("Stone", "Resources/white1x1.png");
-	modelTree = FbxLoader::GetInstance()->LoadModelFromFile("Tree", "Resources/white1x1.png");
+	modelTree0 = FbxLoader::GetInstance()->LoadModelFromFile("Tree", "Resources/white1x1.png");
+	modelTree1 = FbxLoader::GetInstance()->LoadModelFromFile("Tree1", "Resources/white1x1.png");
+	modelTree2 = FbxLoader::GetInstance()->LoadModelFromFile("Tree2", "Resources/white1x1.png");
 	model1 = FbxLoader::GetInstance()->LoadModelFromFile("cube", "Resources/grassFiled.png");
 	model2 = FbxLoader::GetInstance()->LoadModelFromFile("Walking", "Resources/white1x1.png");
 
@@ -79,24 +81,29 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 		{
 			std::unique_ptr<FbxObject3D>newObject = std::make_unique<FbxObject3D>();
 			newObject->Initialize();
-			newObject->SetModel(modelTree);
+			newObject->SetModel(modelTree0);
 
 			newObject->SetPosition({ j * horizonStoneWidth - (horizonStoneWidth * horizonStoneNum) / 2 + (i / 2 * 3),
 				0.0f,i * verticalStoneWidth/* - (verticalStoneWidth * verticalStoneNum) / 2*/ });
-			newObject->SetScale(XMFLOAT3(treeScale));
-			newObject->SetRotation(treeRotation);
+			newObject->SetScale(XMFLOAT3(tree0Scale));
+			newObject->SetRotation(tree0Rotation);
 
 			objectStone.push_back(std::move(newObject));
 		}
 	}
 
-	//木
-	objectTree = new FbxObject3D;
-	objectTree->Initialize();
-	objectTree->SetModel(modelTree);
-	objectTree->SetPosition(treePosition);
-	objectTree->SetRotation(treeRotation);
-	objectTree->SetScale(treeScale);
+	for (int i = 0; i < tree1Num; i++)
+	{
+		std::unique_ptr<FbxObject3D>newObject = std::make_unique<FbxObject3D>();
+		newObject->Initialize();
+		newObject->SetModel(modelTree1);
+
+		newObject->SetPosition(XMFLOAT3(1,1,1));
+		newObject->SetScale(XMFLOAT3(tree0Scale));
+		newObject->SetRotation(XMFLOAT3(-0.5 * PI, 0, 0));
+
+		objectTree1.push_back(std::move(newObject));
+	}
 
 	//キューブ
 	object1 = new FbxObject3D;
@@ -146,14 +153,13 @@ void GameScene::Update()
 	//オブジェクト更新
 	for (std::unique_ptr<FbxObject3D>& object : objectStone)
 	{
-		/*object->SetScale(treeScale);*/
-		object->SetRotation(treeRotation);
 		object->Update();
 	}
-
-	//木
-	objectTree->SetRotation(treeRotation);
-	objectTree->Update();
+	//Tree1
+	for (std::unique_ptr<FbxObject3D>& object : objectTree1)
+	{
+		object->Update();
+	}
 
 	//オブジェクト更新
 	object1->SetPosition({ -3,0,4 });
@@ -180,31 +186,41 @@ void GameScene::Draw()
 
 void GameScene::DrawFBXLightView()
 {
-	for (std::unique_ptr<FbxObject3D>& object : objectStone)
+	/*for (std::unique_ptr<FbxObject3D>& object : objectStone)
+	{
+		object->DrawLightView(dxCommon_->GetCommandList());
+	}*/
+	//Tree1
+	for (std::unique_ptr<FbxObject3D>& object : objectTree1)
 	{
 		object->DrawLightView(dxCommon_->GetCommandList());
 	}
 	object1->DrawLightView(dxCommon_->GetCommandList());
-	objectTree->DrawLightView(dxCommon_->GetCommandList());
 }
 
 void GameScene::DrawFBX()
 {
-	for (std::unique_ptr<FbxObject3D>& object : objectStone)
+	/*for (std::unique_ptr<FbxObject3D>& object : objectStone)
+	{
+		object->Draw(dxCommon_->GetCommandList());
+	}*/
+	for (std::unique_ptr<FbxObject3D>& object : objectTree1)
 	{
 		object->Draw(dxCommon_->GetCommandList());
 	}
 	object1->Draw(dxCommon_->GetCommandList());
-	objectTree->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::SetSRV(ID3D12DescriptorHeap* SRV)
 {
-	for (std::unique_ptr<FbxObject3D>& object : objectStone)
+	/*for (std::unique_ptr<FbxObject3D>& object : objectStone)
+	{
+		object->SetSRV(SRV);
+	}*/
+	for (std::unique_ptr<FbxObject3D>& object : objectTree1)
 	{
 		object->SetSRV(SRV);
 	}
-	objectTree->SetSRV(SRV);
 	object1->SetSRV(SRV);
 }
 
