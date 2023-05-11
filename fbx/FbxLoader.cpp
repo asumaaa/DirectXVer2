@@ -285,6 +285,27 @@ void FbxLoader::ParseMaterial(FbxModel* model, FbxNode* fbxNode)
                 model->diffuse.y = (float)diffuse.Get()[1];
                 model->diffuse.z = (float)diffuse.Get()[2];
             }
+
+            else if (material->GetClassId().Is(FbxSurfacePhong::ClassId))
+            {
+                FbxSurfacePhong* phong = static_cast<FbxSurfacePhong*>(material);
+                //環境光係数
+                FbxPropertyT<FbxDouble3>ambient = phong->Ambient;
+                model->ambient.x = (float)ambient.Get()[0];
+                model->ambient.y = (float)ambient.Get()[1];
+                model->ambient.z = (float)ambient.Get()[2];
+                //拡散反射光係数
+                FbxPropertyT<FbxDouble3>diffuse = phong->Diffuse;
+                model->diffuse.x = (float)diffuse.Get()[0];
+                model->diffuse.y = (float)diffuse.Get()[1];
+                model->diffuse.z = (float)diffuse.Get()[2];
+                //鏡面反射光
+                FbxPropertyT<FbxDouble3>specular = phong->Specular;
+                model->specular.x = (float)specular.Get()[0];
+                model->specular.y = (float)specular.Get()[1];
+                model->specular.z = (float)specular.Get()[2];
+            }
+
             LoadTexture(model, textureName);
             //ディフューズテクスチャを取り出す
             //const FbxProperty diffuseProperty = material->FindProperty(FbxSurfaceMaterial::sDiffuse);

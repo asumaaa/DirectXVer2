@@ -15,6 +15,7 @@
 #include "LightGroup.h"
 #include "VolumeLightModel.h"
 #include "VolumeLightObject.h"
+#include "FbxObject3DDemo.h"
 
 #define PI 3.1415
 
@@ -47,33 +48,12 @@ private:
 	std::unique_ptr<Camera> camera_;
 
 	//fbx
-	//石
-	FbxModel* modelStone = nullptr;
-	std::list<std::unique_ptr<FbxObject3D>> objectStone;
-	//石の数
-	size_t verticalStoneNum = 10;
-	size_t horizonStoneNum = 10;
-	//石の幅
-	float verticalStoneWidth = 10.0f;
-	float horizonStoneWidth = 9.0f;
-	size_t treeNum = verticalStoneNum * horizonStoneNum;
-	//石の変形行列
-	XMFLOAT3 stoneScale = { 2.0f,2.0f,2.0f };
-	XMFLOAT3 stoneRotation = { 1.5f * PI,0.0f,0.0f };
-	XMFLOAT3 stonePosition = { 0.0f,0.0f,0.0f };
-
-	//木
-	FbxModel* modelTree = nullptr;
-	FbxObject3D* objectTree = nullptr;
-	//木の変形行列
-	XMFLOAT3 treePosition = { 0.0f,2.0f,5.0f };
-	XMFLOAT3 treeRotation = { 0.0f,0.0f,0.0f };
-	XMFLOAT3 treeScale = {5.0f,5.0f,5.0f };
-
-	//床
-	FbxModel* model1 = nullptr;
-	FbxObject3D* object1 = nullptr;
-	FbxModel* model2 = nullptr;
+	//CG5用球
+	FbxModel* modelDemo0 = nullptr;
+	FbxObject3DDemo* objectDemo0 = nullptr;
+	XMFLOAT3 demo0Position = { 0.0f,0.0f,0.0f };
+	XMFLOAT3 demo0Rotation = { 0.0f,0.0f,0.0f };
+	XMFLOAT3 demo0Scale = { 1.0f,1.0f,1.0f };
 
 	//ライト 影用
 	Light* light = nullptr;
@@ -86,13 +66,6 @@ private:
 	//ライト
 	LightGroup* lightGroup = nullptr;
 	float lightManagerDir[3] = { 0.0f,-1.0f , 1.0f };
-
-	//ボリュームライト
-	std::unique_ptr <VolumeLightModel> volumeLightModel;
-	std::unique_ptr <VolumeLightObject> volumeLightObject;
-	float volumeLightPos[3] = { 0.0f,5.0f,-10.0f };
-	float volumeLightScale[3] = { 4.0f,4.0f,4.0f };
-	float volumeLightRotation[3] = { 0.0f,0.0f,0.0f };
 
 	//スプライトマネージャー
 	SpriteManager* spriteManager = nullptr;

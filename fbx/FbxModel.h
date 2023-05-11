@@ -76,6 +76,8 @@ private:
 	DirectX::XMFLOAT3 ambient = { 1,1,1 };
 	//ディフューズ係数
 	DirectX::XMFLOAT3 diffuse = { 1,1,1 };
+	//スペキュラー係数
+	DirectX::XMFLOAT3 specular = {1,1,1 };
 	//テクスチャメタデータ
 	DirectX::TexMetadata metadata = {};
 	//スクラッチイメージ
@@ -123,6 +125,10 @@ public:
 	void Draw1(ID3D12GraphicsCommandList* cmdList);
 	//モデルの変形行列のゲッター
 	const XMMATRIX& GetModelTransform() { return meshNode->globalTransform; }
+	//マテリアルのゲッター
+	DirectX::XMFLOAT3 GetAmbient() { return ambient; }
+	DirectX::XMFLOAT3 GetDiffuse() { return diffuse; }
+	DirectX::XMFLOAT3 GetSpecular() { return specular; }
 
 	ComPtr<ID3D12Resource> GetTexBuff() { return texBuff; }
 

@@ -171,65 +171,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		gameScene->Update();
 
 		// 4. 描画コマンド
-		
-		//レンダーテクスチャへの描画
-
-		//shadowMap
-		shadowMap->PreDrawScene0(dxCommon->GetCommandList());
-		gameScene->DrawFBXLightView();
-		shadowMap->PostDrawScene0(dxCommon->GetCommandList());
-		//ゲームシーンにSRVを渡す
-		gameScene->SetSRV(shadowMap->GetSRV());
-
-		//単色エフェクト
-		//monochromeEffect->PreDrawScene(dxCommon->GetCommandList());
-		//gameScene->Draw();
-		//monochromeEffect->PostDrawScene(dxCommon->GetCommandList());
-		////反転エフェクト
-		//reversalEffect->PreDrawScene(dxCommon->GetCommandList());
-		//gameScene->Draw();
-		//reversalEffect->PostDrawScene(dxCommon->GetCommandList());
-		//ぼかしエフェクト
-		/*blurEffect->PreDrawScene(dxCommon->GetCommandList());
-		gameScene->Draw();
-		blurEffect->PostDrawScene(dxCommon->GetCommandList());*/
-		////モザイクエフェクト
-		//mosaicEffect->PreDrawScene(dxCommon->GetCommandList());
-		//gameScene->Draw();
-		//mosaicEffect->PostDrawScene(dxCommon->GetCommandList());
-		//////RGBずらし
-		//chromaticAberration->PreDrawScene(dxCommon->GetCommandList());
-		//gameScene->Draw();
-		//chromaticAberration->PostDrawScene(dxCommon->GetCommandList());
-		//被写界深度
-		/*depthOfField->PreDrawScene(dxCommon->GetCommandList());
-		gameScene->Draw();
-		depthOfField->PostDrawScene(dxCommon->GetCommandList());*/
-		//fog
-		fog->PreDrawScene(dxCommon->GetCommandList());
-		gameScene->Draw();
-		fog->PostDrawScene(dxCommon->GetCommandList());
 
 		//描画前処理
 		dxCommon->PreDraw();
-
-		//描画開始
-		//単色エフェクト
-		/*monochromeEffect->Draw(dxCommon->GetCommandList());*/
-		//反転エフェクト
-		/*reversalEffect->Draw(dxCommon->GetCommandList());*/
-		////ぼかしエフェクト 
-		/*blurEffect->Draw(dxCommon->GetCommandList());*/
-		//モザイクエフェクト 
-		/*mosaicEffect->Draw(dxCommon->GetCommandList());*/
-		//RGBずらし 
-		/*chromaticAberration->Draw(dxCommon->GetCommandList());*/
-		//被写界深度
-		/*depthOfField->Draw(dxCommon->GetCommandList());*/
-		//fog
-		fog->Draw(dxCommon->GetCommandList());
 	
-		/*gameScene->Draw();*/
+		gameScene->Draw();
 
 		imGuiManager->End();
 		imGuiManager->Draw();

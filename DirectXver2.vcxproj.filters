@@ -79,6 +79,9 @@
     <Filter Include="リソース ファイル\Shaders\Fog">
       <UniqueIdentifier>{f2f2e7e2-b7f6-4153-92d6-ca3381bb7719}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\Shaders\FbxDemo">
+      <UniqueIdentifier>{f7ba73fb-bbbf-4d47-bcdd-9b6865be36d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -173,6 +176,9 @@
     </ClCompile>
     <ClCompile Include="2d\Fog.cpp">
       <Filter>ソース ファイル\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="fbx\FbxObject3DDemo.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -269,6 +275,9 @@
     <ClInclude Include="2d\Fog.h">
       <Filter>ヘッダー ファイル\2d</Filter>
     </ClInclude>
+    <ClInclude Include="fbx\FbxObject3DDemo.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\ShaderHeader.hlsli">
@@ -309,6 +318,9 @@
     </None>
     <None Include="Resources\Shaders\Fog\FogHeader.hlsli">
       <Filter>リソース ファイル\Shaders\Fog</Filter>
+    </None>
+    <None Include="Resources\Shaders\FbxDemo\FbxDemoHeader.hlsli">
+      <Filter>リソース ファイル\Shaders\FbxDemo</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -389,6 +401,12 @@
     </FxCompile>
     <FxCompile Include="Resources\Shaders\Fog\FogVertexShader.hlsl">
       <Filter>リソース ファイル\Shaders\Fog</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\FbxDemo\FbxDemoPixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders\FbxDemo</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\FbxDemo\FbxDemoVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders\FbxDemo</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

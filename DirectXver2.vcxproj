@@ -120,7 +120,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)base;$(ProjectDir);$(ProjectDir)fbx;$(ProjectDir)Resources;$(ProjectDir)Resources\Shaders;$(ProjectDir)particle;$(ProjectDir)light;$(ProjectDir)fbxsdk;$(ProjectDir)2d;$(ProjectDir)Resources\Shaders\Bulr;$(ProjectDir)Resources\Shaders\Monochrome;$(ProjectDir)Resources\Shaders\Mosaic;$(ProjectDir)Resources\Shaders\Reversal;$(ProjectDir)Resources\Shaders\ChromaticAberration;$(ProjectDir)Resources\Shaders\DepthOfField;$(ProjectDir)Resources\Shaders\ShadowMap;$(ProjectDir)Resources\Shaders\Fbx;$(ProjectDir)Resources\Shaders\Sprite;$(ProjectDir)Resources\Shaders\VolumeLight;$(ProjectDir)Resources\Shaders\Fog</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)base;$(ProjectDir);$(ProjectDir)fbx;$(ProjectDir)Resources;$(ProjectDir)Resources\Shaders;$(ProjectDir)particle;$(ProjectDir)light;$(ProjectDir)fbxsdk;$(ProjectDir)2d;$(ProjectDir)Resources\Shaders\Bulr;$(ProjectDir)Resources\Shaders\Monochrome;$(ProjectDir)Resources\Shaders\Mosaic;$(ProjectDir)Resources\Shaders\Reversal;$(ProjectDir)Resources\Shaders\ChromaticAberration;$(ProjectDir)Resources\Shaders\DepthOfField;$(ProjectDir)Resources\Shaders\ShadowMap;$(ProjectDir)Resources\Shaders\Fbx;$(ProjectDir)Resources\Shaders\Sprite;$(ProjectDir)Resources\Shaders\VolumeLight;$(ProjectDir)Resources\Shaders\Fog;$(ProjectDir)Resources\Shaders\FbxDemo</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -137,7 +137,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)base;$(ProjectDir);$(ProjectDir)fbx;$(ProjectDir)Resources;$(ProjectDir)Resources\Shaders;$(ProjectDir)particle;$(ProjectDir)light;$(ProjectDir)fbxsdk;$(ProjectDir)2d;$(ProjectDir)Resources\Shaders\Bulr;$(ProjectDir)Resources\Shaders\Monochrome;$(ProjectDir)Resources\Shaders\Mosaic;$(ProjectDir)Resources\Shaders\Reversal;$(ProjectDir)Resources\Shaders\ChromaticAberration;$(ProjectDir)Resources\Shaders\DepthOfField;$(ProjectDir)Resources\Shaders\ShadowMap;$(ProjectDir)Resources\Shaders\Fbx;$(ProjectDir)Resources\Shaders\Sprite;$(ProjectDir)Resources\Shaders\VolumeLight;$(ProjectDir)Resources\Shaders\Fog</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)base;$(ProjectDir);$(ProjectDir)fbx;$(ProjectDir)Resources;$(ProjectDir)Resources\Shaders;$(ProjectDir)particle;$(ProjectDir)light;$(ProjectDir)fbxsdk;$(ProjectDir)2d;$(ProjectDir)Resources\Shaders\Bulr;$(ProjectDir)Resources\Shaders\Monochrome;$(ProjectDir)Resources\Shaders\Mosaic;$(ProjectDir)Resources\Shaders\Reversal;$(ProjectDir)Resources\Shaders\ChromaticAberration;$(ProjectDir)Resources\Shaders\DepthOfField;$(ProjectDir)Resources\Shaders\ShadowMap;$(ProjectDir)Resources\Shaders\Fbx;$(ProjectDir)Resources\Shaders\Sprite;$(ProjectDir)Resources\Shaders\VolumeLight;$(ProjectDir)Resources\Shaders\Fog;$(ProjectDir)Resources\Shaders\FbxDemo</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -170,6 +170,7 @@
     <ClCompile Include="fbx\FbxLoader.cpp" />
     <ClCompile Include="fbx\FbxModel.cpp" />
     <ClCompile Include="fbx\FbxObject3D.cpp" />
+    <ClCompile Include="fbx\FbxObject3DDemo.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="light\DirectionalLight.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="fbx\FbxLoader.h" />
     <ClInclude Include="fbx\FbxModel.h" />
     <ClInclude Include="fbx\FbxObject3D.h" />
+    <ClInclude Include="fbx\FbxObject3DDemo.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="light\CircleShadow.h" />
@@ -226,6 +228,7 @@
     <None Include="Resources\Shaders\Blur\BlurEffectHeader.hlsli" />
     <None Include="Resources\Shaders\ChromaticAberration\ChromaticAberrationEffectHeader.hlsli" />
     <None Include="Resources\Shaders\DepthOfField\DepthOfFieldHeader.hlsli" />
+    <None Include="Resources\Shaders\FbxDemo\FbxDemoHeader.hlsli" />
     <None Include="Resources\Shaders\Fbx\FbxHeader0.hlsli" />
     <None Include="Resources\Shaders\Fbx\FbxHeader2.hlsli" />
     <None Include="Resources\Shaders\Fog\FogHeader.hlsli" />
@@ -269,6 +272,18 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\DepthOfField\DepthOfFieldVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\FbxDemo\FbxDemoPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\FbxDemo\FbxDemoVertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
