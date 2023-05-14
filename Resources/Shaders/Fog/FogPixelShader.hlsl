@@ -20,10 +20,6 @@ float4 main(VSOutput input) : SV_TARGET
 		colortex0.y += c;
 		colortex0.z += c;
 	}
-	//アルファ値合成
-	colortex0.x *= 1.0f;
-	colortex0.y *= 1.0f;
-	colortex0.z *= 0.0f;
 
 	colortex0.w *= color.w;
 
