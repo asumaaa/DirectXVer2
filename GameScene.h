@@ -15,6 +15,7 @@
 #include "LightGroup.h"
 #include "VolumeLightModel.h"
 #include "VolumeLightObject.h"
+#include "CSVLoader.h"
 
 #define PI 3.1415
 
@@ -66,22 +67,26 @@ private:
 	FbxModel* modelTree0 = nullptr;
 	FbxModel* modelTree1 = nullptr;
 	FbxModel* modelTree2 = nullptr;
+	FbxModel* modelTree3 = nullptr;
 	//木のオブジェクト
 	std::list<std::unique_ptr<FbxObject3D>> objectTree0;
 	std::list<std::unique_ptr<FbxObject3D>> objectTree1;
 	std::list<std::unique_ptr<FbxObject3D>> objectTree2;
 	//木の数
 	size_t tree0Num = 5;
-	size_t tree1Num = 5;
+	size_t tree1Num = 10;
 	size_t tree2Num = 5;
 	//木の変形行列
 	XMFLOAT3 tree0Position = { 0.0f,2.0f,5.0f };
 	XMFLOAT3 tree0Rotation = { 0.0f,0.0f,0.0f };
 	XMFLOAT3 tree0Scale = {5.0f,5.0f,5.0f };
 
+	CSVLoader *tree1csv = nullptr;
+
 	//床
 	FbxModel* model1 = nullptr;
 	FbxObject3D* object1 = nullptr;
+	FbxObject3D* object2 = nullptr;
 	FbxModel* model2 = nullptr;
 
 	//ライト 影用

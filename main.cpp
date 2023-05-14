@@ -163,7 +163,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		//Fog
 		fog->SetAlpha(1.0f);
-		fog->SetStrength(2.0f);
+		fog->SetStrength(1.0f);
 		fog->SetStartDepth(0.2f);
 		fog->Update();
 

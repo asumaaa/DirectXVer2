@@ -60,8 +60,9 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	//モデル名を指定してファイル読み込み
 	modelStone = FbxLoader::GetInstance()->LoadModelFromFile("Stone", "Resources/white1x1.png");
 	modelTree0 = FbxLoader::GetInstance()->LoadModelFromFile("Tree", "Resources/white1x1.png");
-	modelTree1 = FbxLoader::GetInstance()->LoadModelFromFile("Tree1", "Resources/white1x1.png");
+	modelTree1 = FbxLoader::GetInstance()->LoadModelFromFile("Tree1", "Resources/black.png");
 	modelTree2 = FbxLoader::GetInstance()->LoadModelFromFile("Tree2", "Resources/white1x1.png");
+	modelTree3 = FbxLoader::GetInstance()->LoadModelFromFile("Tree3", "Resources/black.png");
 	model1 = FbxLoader::GetInstance()->LoadModelFromFile("cube", "Resources/grassFiled.png");
 	model2 = FbxLoader::GetInstance()->LoadModelFromFile("Walking", "Resources/white1x1.png");
 
@@ -92,15 +93,28 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 		}
 	}
 
+	tree1csv = new CSVLoader;
+	tree1csv->SetObjectNum(tree1Num);
+	/*tree1csv->LoadCSV("Resources/Tree1.csv");*/
+
 	for (int i = 0; i < tree1Num; i++)
 	{
 		std::unique_ptr<FbxObject3D>newObject = std::make_unique<FbxObject3D>();
 		newObject->Initialize();
-		newObject->SetModel(modelTree1);
+		newObject->SetModel(modelTree3);
 
-		newObject->SetPosition(XMFLOAT3(1,1,1));
-		newObject->SetScale(XMFLOAT3(tree0Scale));
-		newObject->SetRotation(XMFLOAT3(-0.5 * PI, 0, 0));
+		if (i == 0)newObject->SetPosition(XMFLOAT3(-2, 0, -1));
+		if (i == 1)newObject->SetPosition(XMFLOAT3(-12, 0, 3));
+		if (i == 2)newObject->SetPosition(XMFLOAT3(6, 0, 3));
+		if (i == 3)newObject->SetPosition(XMFLOAT3(3, 0, 4));
+		if (i == 4)newObject->SetPosition(XMFLOAT3(16, 0, 6));
+		if (i == 5)newObject->SetPosition(XMFLOAT3(-16, 0, 6));
+		if (i == 6)newObject->SetPosition(XMFLOAT3(-14, 0, 10));
+		if (i == 7)newObject->SetPosition(XMFLOAT3(9, 0, 10));
+		if (i == 8)newObject->SetPosition(XMFLOAT3(-8, 0, 14));
+		if (i == 9)newObject->SetPosition(XMFLOAT3(8, 0, 14));
+		newObject->SetScale(XMFLOAT3(1.4f,0.8f,0.8f));
+		newObject->SetRotation(XMFLOAT3(-0.5 * PI, -0.5 * PI, 0));
 
 		objectTree1.push_back(std::move(newObject));
 	}
@@ -109,6 +123,9 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	object1 = new FbxObject3D;
 	object1->Initialize();
 	object1->SetModel(model1);
+	object2 = new FbxObject3D;
+	object2->Initialize();
+	object2->SetModel(model1);
 
 	//スプライトマネージャー
 	SpriteManager::SetDevice(dxCommon->GetDevice());
@@ -166,6 +183,11 @@ void GameScene::Update()
 	object1->SetScale({ 5.0f,0.001f,5.0f });
 	object1->SetRotation({0,0,0});
 	object1->Update();
+
+	object2->SetPosition({ -3,-10,60 });
+	object2->SetScale({ 5.0f,30.0f,0.1f });
+	object2->SetRotation({ 0,0,0 });
+	object2->Update();
 }
 
 void GameScene::Draw()
@@ -196,6 +218,7 @@ void GameScene::DrawFBXLightView()
 		object->DrawLightView(dxCommon_->GetCommandList());
 	}
 	object1->DrawLightView(dxCommon_->GetCommandList());
+	object2->DrawLightView(dxCommon_->GetCommandList());
 }
 
 void GameScene::DrawFBX()
@@ -209,6 +232,7 @@ void GameScene::DrawFBX()
 		object->Draw(dxCommon_->GetCommandList());
 	}
 	object1->Draw(dxCommon_->GetCommandList());
+	object2->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::SetSRV(ID3D12DescriptorHeap* SRV)
@@ -222,6 +246,7 @@ void GameScene::SetSRV(ID3D12DescriptorHeap* SRV)
 		object->SetSRV(SRV);
 	}
 	object1->SetSRV(SRV);
+	object2->SetSRV(SRV);
 }
 
 DirectX::XMMATRIX GameScene::GetLightViewProjection()
