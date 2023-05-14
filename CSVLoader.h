@@ -1,16 +1,12 @@
 #pragma once
-#include "d3dx12.h"
 #include "array"
 #include "DirectXMath.h"
-#include "DirectXTex.h"
 #include "vector"
 #include "string"
 
 class CSVLoader
 {
 private:	//エイリアス
-	//Microsoft::WRL::を省略
-	template<class T>using ComPtr = Microsoft::WRL::ComPtr<T>;
 	//DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
@@ -18,8 +14,15 @@ private:	//エイリアス
 	using XMMATRIX = DirectX::XMMATRIX;
 
 public:
-	void SetObjectNum(float num);
-	void LoadCSV(const std::string textureName);
+	//csvファイルを読み込んで変数に代入する
+	void LoadCSV(const std::string fileName);
+
+	void Draw();
+
+	//ゲッター
+	XMFLOAT3 GetPosition(int num) { return position[num]; };
+	XMFLOAT3 GetRotation(int num) { return rotation[num]; };
+	XMFLOAT3 GetScale(int num) { return scale[num]; };
 
 private:
 	//読み込むオブジェクトの数
@@ -29,4 +32,3 @@ private:
 	std::vector<XMFLOAT3> rotation;
 	std::vector<XMFLOAT3> scale;
 };
-

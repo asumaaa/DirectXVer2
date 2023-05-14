@@ -3,31 +3,56 @@
 #include "sstream"
 #include "stdio.h"
 
-void CSVLoader::SetObjectNum(float num)
+void CSVLoader::LoadCSV(const std::string fileName)
 {
-	objectNum = num;
-	position.resize(objectNum);	
-	rotation.resize(objectNum);
-	scale.resize(objectNum);
-}
+	position.clear();
+	scale.clear();
+	rotation.clear();
 
-void CSVLoader::LoadCSV(const std::string textureName)
-{
-	//ファイル読み込み
-	std::stringstream posList;	//文字列
-	std::vector<DirectX::XMFLOAT3>obstaclePos;
 	//ファイルを開く
 	std::ifstream file;
-	file.open("textureName");
-	//ファイルの内容をコピー
-	posList << file.rdbuf();
-	//ファイルを閉じる
-	file.close();
+	file.open(fileName);
+	assert(!file.fail());
 
 	std::string line;
 
 	//ファイルから障害物の場所を読み込み
-	while (getline(posList, line, '/'))
+	while (getline(file, line))
 	{
+		//1行分の文字列をストリームに変換して解析しやすくする
+		std::istringstream line_stream(line);
+
+		std::string key;
+		getline(line_stream, key, ' ');
+
+
+		if (key == "position")
+		{
+			DirectX::XMFLOAT3 pos1;
+			line_stream >> pos1.x;
+			line_stream >> pos1.y;
+			line_stream >> pos1.z;
+			position.emplace_back(pos1);
+		}
+
+		if (key == "rotation")
+		{
+			DirectX::XMFLOAT3 rot1;
+			line_stream >> rot1.x;
+			line_stream >> rot1.y;
+			line_stream >> rot1.z;
+			rotation.emplace_back(rot1);
+		}
+
+		if (key == "scale")
+		{
+			DirectX::XMFLOAT3 scale1;
+			line_stream >> scale1.x;
+			line_stream >> scale1.y;
+			line_stream >> scale1.z;
+			scale.emplace_back(scale1);
+		}
 	}
+	//ファイルを閉じる
+	file.close();
 }

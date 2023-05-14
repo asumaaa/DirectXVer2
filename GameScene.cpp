@@ -74,28 +74,9 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	FbxObject3D::CreateGraphicsPipelineLightView();
 	FbxObject3D::CreateGraphicsPipeline();
 
-	//オブジェクト初期化
-	//石
-	for (int i = 0; i < verticalStoneNum; i++)
-	{
-		for (int j = 0; j < horizonStoneNum; j++)
-		{
-			std::unique_ptr<FbxObject3D>newObject = std::make_unique<FbxObject3D>();
-			newObject->Initialize();
-			newObject->SetModel(modelTree0);
-
-			newObject->SetPosition({ j * horizonStoneWidth - (horizonStoneWidth * horizonStoneNum) / 2 + (i / 2 * 3),
-				0.0f,i * verticalStoneWidth/* - (verticalStoneWidth * verticalStoneNum) / 2*/ });
-			newObject->SetScale(XMFLOAT3(tree0Scale));
-			newObject->SetRotation(tree0Rotation);
-
-			objectStone.push_back(std::move(newObject));
-		}
-	}
-
+	//ファイル読み込み
 	tree1csv = new CSVLoader;
-	tree1csv->SetObjectNum(tree1Num);
-	/*tree1csv->LoadCSV("Resources/Tree1.csv");*/
+	tree1csv->LoadCSV("Resources/Tree1.csv");
 
 	for (int i = 0; i < tree1Num; i++)
 	{
@@ -103,18 +84,9 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 		newObject->Initialize();
 		newObject->SetModel(modelTree3);
 
-		if (i == 0)newObject->SetPosition(XMFLOAT3(-2, 0, -1));
-		if (i == 1)newObject->SetPosition(XMFLOAT3(-12, 0, 3));
-		if (i == 2)newObject->SetPosition(XMFLOAT3(6, 0, 3));
-		if (i == 3)newObject->SetPosition(XMFLOAT3(3, 0, 4));
-		if (i == 4)newObject->SetPosition(XMFLOAT3(16, 0, 6));
-		if (i == 5)newObject->SetPosition(XMFLOAT3(-16, 0, 6));
-		if (i == 6)newObject->SetPosition(XMFLOAT3(-14, 0, 10));
-		if (i == 7)newObject->SetPosition(XMFLOAT3(9, 0, 10));
-		if (i == 8)newObject->SetPosition(XMFLOAT3(-8, 0, 14));
-		if (i == 9)newObject->SetPosition(XMFLOAT3(8, 0, 14));
-		newObject->SetScale(XMFLOAT3(1.4f,0.8f,0.8f));
-		newObject->SetRotation(XMFLOAT3(-0.5 * PI, -0.5 * PI, 0));
+		newObject->SetPosition(tree1csv->GetPosition(i));
+		newObject->SetScale(tree1csv->GetScale(i));
+		newObject->SetRotation(tree1csv->GetRotation(i));
 
 		objectTree1.push_back(std::move(newObject));
 	}
@@ -167,12 +139,20 @@ void GameScene::Update()
 	volumeLightObject->SetScale(XMFLOAT3(volumeLightScale));
 	volumeLightObject->Update();
 
-	//オブジェクト更新
-	for (std::unique_ptr<FbxObject3D>& object : objectStone)
-	{
-		object->Update();
-	}
 	//Tree1
+	//スペースキーでファイル読み込み更新
+	if(input_->TriggerKey(DIK_SPACE))
+	{
+		tree1csv->LoadCSV("Resources/Tree1.csv");
+		int i = 0;
+		for (std::unique_ptr<FbxObject3D>& object : objectTree1)
+		{
+			object->SetPosition(tree1csv->GetPosition(i));
+			object->SetScale(tree1csv->GetScale(i));
+			object->SetRotation(tree1csv->GetRotation(i));
+			i++;
+		}
+	}
 	for (std::unique_ptr<FbxObject3D>& object : objectTree1)
 	{
 		object->Update();
@@ -203,15 +183,10 @@ void GameScene::Draw()
 	//ImGui::End();
 
 	DrawFBX();
-	/*volumeLightObject->Draw(dxCommon_->GetCommandList());*/
 }
 
 void GameScene::DrawFBXLightView()
 {
-	/*for (std::unique_ptr<FbxObject3D>& object : objectStone)
-	{
-		object->DrawLightView(dxCommon_->GetCommandList());
-	}*/
 	//Tree1
 	for (std::unique_ptr<FbxObject3D>& object : objectTree1)
 	{
@@ -223,10 +198,6 @@ void GameScene::DrawFBXLightView()
 
 void GameScene::DrawFBX()
 {
-	/*for (std::unique_ptr<FbxObject3D>& object : objectStone)
-	{
-		object->Draw(dxCommon_->GetCommandList());
-	}*/
 	for (std::unique_ptr<FbxObject3D>& object : objectTree1)
 	{
 		object->Draw(dxCommon_->GetCommandList());
@@ -237,10 +208,6 @@ void GameScene::DrawFBX()
 
 void GameScene::SetSRV(ID3D12DescriptorHeap* SRV)
 {
-	/*for (std::unique_ptr<FbxObject3D>& object : objectStone)
-	{
-		object->SetSRV(SRV);
-	}*/
 	for (std::unique_ptr<FbxObject3D>& object : objectTree1)
 	{
 		object->SetSRV(SRV);

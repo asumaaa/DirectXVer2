@@ -50,7 +50,6 @@ private:
 	//fbx
 	//Î
 	FbxModel* modelStone = nullptr;
-	std::list<std::unique_ptr<FbxObject3D>> objectStone;
 	//Î‚Ì”
 	size_t verticalStoneNum = 10;
 	size_t horizonStoneNum = 10;
@@ -74,7 +73,7 @@ private:
 	std::list<std::unique_ptr<FbxObject3D>> objectTree2;
 	//–Ø‚Ì”
 	size_t tree0Num = 5;
-	size_t tree1Num = 10;
+	size_t tree1Num = 9;
 	size_t tree2Num = 5;
 	//–Ø‚Ì•ÏŒ`s—ñ
 	XMFLOAT3 tree0Position = { 0.0f,2.0f,5.0f };
