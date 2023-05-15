@@ -42,7 +42,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	//FBX読み込み
 	FbxLoader::GetInstance()->Initialize(dxCommon_->GetDevice());
 	//モデル名を指定してファイル読み込み
-	modelDemo0 = FbxLoader::GetInstance()->LoadModelFromFile("SpherePBR", "Resources/white1x1.png");
+	modelDemo0 = FbxLoader::GetInstance()->LoadModelFromFile("SpherePBR", "Resources/toriko.png");
 
 	//デバイスをセット
 	FbxObject3DDemo::SetDevice(dxCommon_->GetDevice());
@@ -93,6 +93,7 @@ void GameScene::Update()
 	lightGroup->Update();
 
 	//木
+	objectDemo0->SetColor(XMFLOAT3(lightColor));
 	objectDemo0->SetRotation(demo0Rotation);
 	objectDemo0->SetPosition(demo0Position);
 	objectDemo0->SetScale(demo0Scale);
@@ -101,15 +102,11 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
-	//ImGui::Begin("Light");
-	//ImGui::SetWindowPos(ImVec2(0, 0));
-	//ImGui::SetWindowSize(ImVec2(500, 150));
-	///*ImGui::InputFloat3("lightDir", lightDir);*/
-	//ImGui::InputFloat3("lightTarget", lightTarget);
-	//ImGui::InputFloat3("lightPos", lightPos);
-	///*ImGui::InputFloat3("lightAtten", lightAtten);
-	//ImGui::InputFloat2("lightFactorAngle", lightFactorAngle);*/
-	//ImGui::End();
+	ImGui::Begin("Light");
+	ImGui::SetWindowPos(ImVec2(0, 0));
+	ImGui::SetWindowSize(ImVec2(500, 150));
+	ImGui::ColorEdit3("LightColor", lightColor);
+	ImGui::End();
 
 	DrawFBX();
 }

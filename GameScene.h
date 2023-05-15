@@ -54,6 +54,8 @@ private:
 	XMFLOAT3 demo0Position = { 0.0f,0.0f,0.0f };
 	XMFLOAT3 demo0Rotation = { 0.0f,0.0f,0.0f };
 	XMFLOAT3 demo0Scale = { 1.0f,1.0f,1.0f };
+	//ライトの色
+	float lightColor[3] = { 1.0f,0.5f,0.5f };
 
 	//ライト 影用
 	Light* light = nullptr;

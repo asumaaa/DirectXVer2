@@ -6,19 +6,13 @@ cbuffer cbuff0 : register(b0)
 	matrix viewproj;	//ビュープロジェクション行列
 	matrix world;	//ワールド行列
 	float3 cameraPos;	//カメラ座標
+	float3 color;
 };
 
 cbuffer skinning:register(b3)	//ボーンのスキニング行列が入る
 {
 	matrix matSkinning[MAX_BONES];
 };
-
-cbuffer cbuff4 : register(b4)
-{
-	float3 ambient;
-	float3 diffuse;
-	float3 specular;
-}
 
 //バーテックスバッファの入力
 struct VSInput

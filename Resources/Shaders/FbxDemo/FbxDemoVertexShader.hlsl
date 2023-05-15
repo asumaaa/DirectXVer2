@@ -68,6 +68,8 @@ VSOutput main(VSInput input)
 
 	output.pos = skinned.pos;
 
+	output.worldpos = mul(world, skinned.pos);
+
 	//ƒ[ƒ‹ƒhÀ•Wx
 	return output;
 }

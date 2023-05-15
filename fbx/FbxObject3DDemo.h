@@ -33,18 +33,12 @@ public:
 		XMMATRIX viewproj;
 		XMMATRIX world;
 		XMFLOAT3 cameraPos;
+		XMFLOAT3 color;
 	};
 	//定数バッファ用データ構造体(スキニング)
 	struct ConstBufferDataSkin
 	{
 		XMMATRIX bones[MAX_BONES];
-	};
-
-	struct ConstBuffMaterial
-	{
-		XMFLOAT3 ambient;
-		XMFLOAT3 diffuse;
-		XMFLOAT3 specular;
 	};
 
 public:	//静的メンバ関数
@@ -77,6 +71,7 @@ public://メンバ関数
 	void SetPosition(XMFLOAT3 pos) { position = pos; }
 	void SetRotation(XMFLOAT3 rot) { rotation = rot; }
 	void SetScale(XMFLOAT3 sca) { scale = sca; }
+	void SetColor(XMFLOAT3 c) { color = c; }
 
 private://メンバ変数
 	//定数バッファ
@@ -98,12 +93,14 @@ private:
 	//モデル
 	FbxModel* model = nullptr;
 
+	//色
+	XMFLOAT3 color = { 1.0f,1.0f,1.0f };
+
 	//スペキュラー係数
 	XMFLOAT3 specular = {0.1f,0.0f,0.0f};
 
 	//定数バッファ
 	ComPtr<ID3D12Resource>constBuffSkin;
-	ComPtr<ID3D12Resource>constBuffMaterial;
 
 	//1フレームの時間
 	FbxTime frameTime;
