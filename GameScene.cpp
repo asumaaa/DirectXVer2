@@ -114,6 +114,7 @@ void GameScene::Update()
 {
 	//カメラ更新
 	camera_->SetEye({ 0.0f,10.0f,5.0f });
+	camera_->SetTarget({ 0.0f,10.0f,0.0f });
 	camera_->DebugUpdate();
 	camera_->Update();
 	//コントローラー更新
