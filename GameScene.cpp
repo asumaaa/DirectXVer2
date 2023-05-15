@@ -73,7 +73,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 void GameScene::Update()
 {
 	//カメラ更新
-	camera_->SetEye({ 0.0f,10.0f,5.0f });
+	camera_->SetEye({ 0.0f,10.0f,3.0f });
 	camera_->DebugUpdate();
 	camera_->Update();
 	//コントローラー更新

@@ -64,7 +64,7 @@ private:
 	XMFLOAT3 up_ = { 0, 1, 0 };
 
 	//ターゲットまでの距離
-	float DebugTargetDistance = 20.0f;
+	float DebugTargetDistance = 5.0f;
 	//加算用
 	float DebugChangeRot = PI;
 	float DebugChangeRot2 = 0.5f;
