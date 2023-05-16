@@ -79,6 +79,9 @@
     <Filter Include="リソース ファイル\Shaders\Fog">
       <UniqueIdentifier>{f2f2e7e2-b7f6-4153-92d6-ca3381bb7719}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\Shaders\Vignette">
+      <UniqueIdentifier>{b3013511-7a7f-4302-9a33-7ac45a070e35}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -176,6 +179,9 @@
     </ClCompile>
     <ClCompile Include="CSVLoader.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="2d\Vignette.cpp">
+      <Filter>ソース ファイル\2d</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -275,6 +281,9 @@
     <ClInclude Include="CSVLoader.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="2d\Vignette.h">
+      <Filter>ヘッダー ファイル\2d</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\ShaderHeader.hlsli">
@@ -315,6 +324,9 @@
     </None>
     <None Include="Resources\Shaders\Fog\FogHeader.hlsli">
       <Filter>リソース ファイル\Shaders\Fog</Filter>
+    </None>
+    <None Include="Resources\Shaders\Vignette\VignetteHeader.hlsli">
+      <Filter>リソース ファイル\Shaders\Vignette</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -395,6 +407,12 @@
     </FxCompile>
     <FxCompile Include="Resources\Shaders\Fog\FogVertexShader.hlsl">
       <Filter>リソース ファイル\Shaders\Fog</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Vignette\VignettePixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Vignette</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Vignette\VignetteVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Vignette</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

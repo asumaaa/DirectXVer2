@@ -16,6 +16,7 @@
 #include "ShadowMap.h"
 #include "DepthOfField.h"
 #include "Fog.h"
+#include "Vignette.h"
 
 #include "Sprite.h"
 
@@ -101,6 +102,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	fog->Initialize();
 	fog->CreateGraphicsPipeLine0();
 
+	//Vignette
+	Vignette* vignette = nullptr;
+	Vignette::SetDevice(dxCommon->GetDevice());
+	vignette = new Vignette;
+	vignette->Initialize();
+	vignette->CreateGraphicsPipeLine();
+
 	//ゲームシーン
 	GameScene* gameScene = nullptr;
 	gameScene = new GameScene();
@@ -167,6 +175,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		fog->SetStartDepth(0.2f);
 		fog->Update();
 
+		//vignette
+		vignette->SetAlpha(1.0f);
+		vignette->SetStrength(0.1f);
+		vignette->Update();
+
 		//ゲームシーン
 		gameScene->Update();
 
@@ -210,6 +223,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		gameScene->Draw();
 		fog->PostDrawScene(dxCommon->GetCommandList());
 
+		//被写界深度
+		vignette->PreDrawScene(dxCommon->GetCommandList());
+		fog->Draw(dxCommon->GetCommandList());
+		vignette->PostDrawScene(dxCommon->GetCommandList());
+
 		//描画前処理
 		dxCommon->PreDraw();
 
@@ -227,7 +245,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//被写界深度
 		/*depthOfField->Draw(dxCommon->GetCommandList());*/
 		//fog
-		fog->Draw(dxCommon->GetCommandList());
+		/*fog->Draw(dxCommon->GetCommandList());*/
+
+		//vignette
+		vignette->Draw(dxCommon->GetCommandList());
 	
 		/*gameScene->Draw();*/
 
