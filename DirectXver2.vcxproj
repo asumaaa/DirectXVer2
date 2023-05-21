@@ -179,6 +179,7 @@
     <ClCompile Include="light\PointLight.cpp" />
     <ClCompile Include="light\SpotLight.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="mathOriginal.cpp" />
     <ClCompile Include="particle\FireParticle.cpp" />
     <ClCompile Include="VolumeLightModel.cpp" />
     <ClCompile Include="VolumeLightObject.cpp" />
@@ -214,6 +215,7 @@
     <ClInclude Include="light\LightGroup.h" />
     <ClInclude Include="light\PointLight.h" />
     <ClInclude Include="light\SpotLight.h" />
+    <ClInclude Include="mathOriginal.h" />
     <ClInclude Include="particle\FireParticle.h" />
     <ClInclude Include="VolumeLightModel.h" />
     <ClInclude Include="VolumeLightObject.h" />
