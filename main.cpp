@@ -147,9 +147,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		//ぼかしエフェクト
 		blurEffect->SetAlpha(1.0f);
-		/*blurEffect->SetStrength(*blurStrength);
 		blurEffect->SetWidthStrength(*blurWidthStrength);
-		blurEffect->SetHeightStrength(*blurHeightStrength);*/
+		blurEffect->SetHeightStrength(*blurHeightStrength);
 		blurEffect->Update();
 
 		////モザイクエフェクト

@@ -2,9 +2,9 @@
 cbuffer ConstBuff : register(b0)
 {
 	float4 color;
-	float strength;
-	float2 window;
+	/*float strength;*/
 	float2 strengthWeight;
+	float2 window;
 };
 
 //•ÏŒ`s—ñ

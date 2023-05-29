@@ -267,8 +267,9 @@ void BlurEffect::Update()
 	constMapMaterial->color = color;
 	constMapMaterial->window.x = window_width;
 	constMapMaterial->window.y = window_height;
-	constMapMaterial->strength = strength;
-	constMapMaterial->strengthWeight = XMFLOAT2(widthStrength,heightStrength);
+	/*constMapMaterial->strength = strength;*/
+	constMapMaterial->strengthWeight.x = widthStrength;
+	constMapMaterial->strengthWeight.y = heightStrength;
 
 	//変形行列
 	//ワールド変換行列
