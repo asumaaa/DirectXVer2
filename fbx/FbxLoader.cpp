@@ -64,6 +64,7 @@ FbxModel* FbxLoader::LoadModelFromFile(const string modelName, const string text
     //モデル生成
     FbxModel* model = new FbxModel();
     model->name = modelName;
+    model->fileName = modelName;
     //FBXノードの数を取得
     int nodeCount = fbxScene->GetNodeCount();
     //あらかじめ必要分のメモリを確保することで、アドレスがずれるのを予防

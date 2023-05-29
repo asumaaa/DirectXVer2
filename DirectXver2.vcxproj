@@ -173,6 +173,7 @@
     <ClCompile Include="fbx\FbxModel.cpp" />
     <ClCompile Include="fbx\FbxObject3D.cpp" />
     <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="JSONLoader.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="light\DirectionalLight.cpp" />
     <ClCompile Include="light\LightGroup.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="base\FPS.h" />
     <ClInclude Include="base\ImGuiManager.h" />
     <ClInclude Include="base\Input.h" />
+    <ClInclude Include="base\json.hpp" />
     <ClInclude Include="base\Message.h" />
     <ClInclude Include="base\Sprite.h" />
     <ClInclude Include="base\SpriteManager.h" />
@@ -209,6 +211,7 @@
     <ClInclude Include="fbx\FbxModel.h" />
     <ClInclude Include="fbx\FbxObject3D.h" />
     <ClInclude Include="GameScene.h" />
+    <ClInclude Include="JSONLoader.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="light\CircleShadow.h" />
     <ClInclude Include="light\DirectionalLight.h" />

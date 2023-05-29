@@ -29,7 +29,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	newCamera->Initialize();
 	camera_.reset(newCamera);
 	camera_->SetTarget({ 0,0,0 });
-	camera_->SetEye({ 0, 10,-20 });
+	camera_->SetEye({ 0, 0,-20 });
 
 	//ライト(影)
 	light = new Light;
@@ -63,7 +63,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	modelTree1 = FbxLoader::GetInstance()->LoadModelFromFile("Tree1", "Resources/black.png");
 	modelTree2 = FbxLoader::GetInstance()->LoadModelFromFile("Tree2", "Resources/white1x1.png");
 	modelTree3 = FbxLoader::GetInstance()->LoadModelFromFile("Tree3", "Resources/black.png");
-	model1 = FbxLoader::GetInstance()->LoadModelFromFile("cube", "Resources/grassFiled.png");
+	model1 = FbxLoader::GetInstance()->LoadModelFromFile("Cube", "Resources/toriko.png");
 	model2 = FbxLoader::GetInstance()->LoadModelFromFile("Walking", "Resources/white1x1.png");
 
 	//デバイスをセット
@@ -78,26 +78,28 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	tree1csv = new CSVLoader;
 	tree1csv->LoadCSV("Resources/Tree1.csv");
 
-	for (int i = 0; i < tree1Num; i++)
+	//レベルエディタ
+	jsonLoader = new JSONLoader();
+	jsonLoader->LoadFile("Resources/untitled.json");
+
+	for (int i = 0; i < objectNum; i++)
 	{
 		std::unique_ptr<FbxObject3D>newObject = std::make_unique<FbxObject3D>();
 		newObject->Initialize();
-		newObject->SetModel(modelTree3);
 
-		newObject->SetPosition(tree1csv->GetPosition(i));
-		newObject->SetScale(tree1csv->GetScale(i));
-		newObject->SetRotation(tree1csv->GetRotation(i));
+		if (jsonLoader->GetFileName(i) == "Cube")
+		{
+			newObject->SetModel(model1);
+		}
 
-		objectTree1.push_back(std::move(newObject));
+		newObject->SetPosition(jsonLoader->GetPosition(i));
+		newObject->SetScale(jsonLoader->GetScale(i));
+		newObject->SetRotation(jsonLoader->GetRotation(i));
+
+		object.push_back(std::move(newObject));
 	}
 
 	//キューブ
-	object1 = new FbxObject3D;
-	object1->Initialize();
-	object1->SetModel(model1);
-	object2 = new FbxObject3D;
-	object2->Initialize();
-	object2->SetModel(model1);
 
 	//スプライトマネージャー
 	SpriteManager::SetDevice(dxCommon->GetDevice());
@@ -114,7 +116,7 @@ void GameScene::Update()
 {
 	//カメラ更新
 	camera_->SetEye({ 0.0f,10.0f,5.0f });
-	camera_->SetTarget({ 0.0f,10.0f,0.0f });
+	camera_->SetTarget({ 0.0f,0.0f,0.0f });
 	camera_->DebugUpdate();
 	camera_->Update();
 	//コントローラー更新
@@ -140,35 +142,27 @@ void GameScene::Update()
 	volumeLightObject->SetScale(XMFLOAT3(volumeLightScale));
 	volumeLightObject->Update();
 
-	//Tree1
+	//レベルエディタ
+	jsonLoader = new JSONLoader();
+	jsonLoader->LoadFile("Resources/untitled.json");
+
 	//スペースキーでファイル読み込み更新
 	if(input_->TriggerKey(DIK_SPACE))
 	{
-		tree1csv->LoadCSV("Resources/Tree1.csv");
+		jsonLoader->LoadFile("Resources/untitled.json");
 		int i = 0;
-		for (std::unique_ptr<FbxObject3D>& object : objectTree1)
+		for (std::unique_ptr<FbxObject3D>& object0 : object)
 		{
-			object->SetPosition(tree1csv->GetPosition(i));
-			object->SetScale(tree1csv->GetScale(i));
-			object->SetRotation(tree1csv->GetRotation(i));
+			object0->SetPosition(jsonLoader->GetPosition(i));
+			object0->SetScale(jsonLoader->GetScale(i));
+			object0->SetRotation(jsonLoader->GetRotation(i));
 			i++;
 		}
 	}
-	for (std::unique_ptr<FbxObject3D>& object : objectTree1)
+	for (std::unique_ptr<FbxObject3D>& object0 : object)
 	{
-		object->Update();
+		object0->Update();
 	}
-
-	//オブジェクト更新
-	object1->SetPosition({ -3,0,4 });
-	object1->SetScale({ 5.0f,0.001f,5.0f });
-	object1->SetRotation({0,0,0});
-	object1->Update();
-
-	object2->SetPosition({ -3,-10,60 });
-	object2->SetScale({ 5.0f,30.0f,0.1f });
-	object2->SetRotation({ 0,0,0 });
-	object2->Update();
 }
 
 void GameScene::Draw()
@@ -189,32 +183,27 @@ void GameScene::Draw()
 void GameScene::DrawFBXLightView()
 {
 	//Tree1
-	for (std::unique_ptr<FbxObject3D>& object : objectTree1)
+
+	for (std::unique_ptr<FbxObject3D>& object0 : object)
 	{
-		object->DrawLightView(dxCommon_->GetCommandList());
+		object0->DrawLightView(dxCommon_->GetCommandList());
 	}
-	object1->DrawLightView(dxCommon_->GetCommandList());
-	object2->DrawLightView(dxCommon_->GetCommandList());
 }
 
 void GameScene::DrawFBX()
 {
-	for (std::unique_ptr<FbxObject3D>& object : objectTree1)
+	for (std::unique_ptr<FbxObject3D>& object0 : object)
 	{
-		object->Draw(dxCommon_->GetCommandList());
+		object0->Draw(dxCommon_->GetCommandList());
 	}
-	object1->Draw(dxCommon_->GetCommandList());
-	object2->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::SetSRV(ID3D12DescriptorHeap* SRV)
 {
-	for (std::unique_ptr<FbxObject3D>& object : objectTree1)
+	for (std::unique_ptr<FbxObject3D>& object0 : object)
 	{
-		object->SetSRV(SRV);
+		object0->SetSRV(SRV);
 	}
-	object1->SetSRV(SRV);
-	object2->SetSRV(SRV);
 }
 
 DirectX::XMMATRIX GameScene::GetLightViewProjection()

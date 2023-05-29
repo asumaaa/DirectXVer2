@@ -68,6 +68,8 @@ public:
 	std::vector<unsigned short>indices;
 
 private:
+	//ファイルの名前
+	std::string fileName;
 	///モデル名
 	std::string name;
 	//ノード配列
@@ -123,6 +125,7 @@ public:
 	void Draw1(ID3D12GraphicsCommandList* cmdList);
 	//モデルの変形行列のゲッター
 	const XMMATRIX& GetModelTransform() { return meshNode->globalTransform; }
+	std::string GetFileName() { return fileName; }
 
 	ComPtr<ID3D12Resource> GetTexBuff() { return texBuff; }
 

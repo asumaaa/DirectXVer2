@@ -61,11 +61,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//reversalEffect->CreateGraphicsPipeLine();
 
 	//ぼかしエフェクト
-	/*BlurEffect* blurEffect = nullptr;
+	BlurEffect* blurEffect = nullptr;
 	BlurEffect::SetDevice(dxCommon->GetDevice());
 	blurEffect = new BlurEffect;
 	blurEffect->Initialize();
-	blurEffect->CreateGraphicsPipeLine();*/
+	blurEffect->CreateGraphicsPipeLine();
+	float blurStrength[1] = { 5.0f };
+	float blurWidthStrength[1] = { 10.0f };
+	float blurHeightStrength[1] = { 10.0f };
 
 	////モザイクエフェクト
 	//MosaicEffect* mosaicEffect = nullptr;
@@ -143,9 +146,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//reversalEffect->Update();
 
 		//ぼかしエフェクト
-		/*blurEffect->SetAlpha(1.0f);
-		blurEffect->SetResolution(20.0f);
-		blurEffect->Update();*/
+		blurEffect->SetAlpha(1.0f);
+		/*blurEffect->SetStrength(*blurStrength);
+		blurEffect->SetWidthStrength(*blurWidthStrength);
+		blurEffect->SetHeightStrength(*blurHeightStrength);*/
+		blurEffect->Update();
 
 		////モザイクエフェクト
 		//mosaicEffect->SetAlpha(1.0f);
@@ -203,9 +208,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//gameScene->Draw();
 		//reversalEffect->PostDrawScene(dxCommon->GetCommandList());
 		//ぼかしエフェクト
-		/*blurEffect->PreDrawScene(dxCommon->GetCommandList());
+		blurEffect->PreDrawScene(dxCommon->GetCommandList());
 		gameScene->Draw();
-		blurEffect->PostDrawScene(dxCommon->GetCommandList());*/
+		blurEffect->PostDrawScene(dxCommon->GetCommandList());
 		////モザイクエフェクト
 		//mosaicEffect->PreDrawScene(dxCommon->GetCommandList());
 		//gameScene->Draw();
@@ -223,7 +228,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		gameScene->Draw();
 		fog->PostDrawScene(dxCommon->GetCommandList());
 
-		//被写界深度
+		//ビネット
 		vignette->PreDrawScene(dxCommon->GetCommandList());
 		fog->Draw(dxCommon->GetCommandList());
 		vignette->PostDrawScene(dxCommon->GetCommandList());
@@ -237,7 +242,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//反転エフェクト
 		/*reversalEffect->Draw(dxCommon->GetCommandList());*/
 		////ぼかしエフェクト 
-		/*blurEffect->Draw(dxCommon->GetCommandList());*/
+		blurEffect->Draw(dxCommon->GetCommandList());
 		//モザイクエフェクト 
 		/*mosaicEffect->Draw(dxCommon->GetCommandList());*/
 		//RGBずらし 
@@ -248,9 +253,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/*fog->Draw(dxCommon->GetCommandList());*/
 
 		//vignette
-		vignette->Draw(dxCommon->GetCommandList());
+		/*vignette->Draw(dxCommon->GetCommandList());*/
 	
 		/*gameScene->Draw();*/
+
+		//ImGui
+		ImGui::Begin("blur");
+		ImGui::SetWindowPos(ImVec2(0, 0));
+		ImGui::SetWindowSize(ImVec2(500, 150));
+		/*ImGui::InputFloat3("lightDir", lightDir);*/
+		ImGui::InputFloat("blur Strength", blurStrength);
+		ImGui::InputFloat("blur Width Strength", blurWidthStrength);
+		ImGui::InputFloat("blur Height Strength", blurHeightStrength);
+		ImGui::End();
 
 		imGuiManager->End();
 		imGuiManager->Draw();

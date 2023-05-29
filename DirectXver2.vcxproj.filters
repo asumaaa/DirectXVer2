@@ -43,9 +43,6 @@
     <Filter Include="ソース ファイル\2d">
       <UniqueIdentifier>{327275f0-1b93-4ae3-8354-3b717f4000a4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\2d">
-      <UniqueIdentifier>{3b2419d9-2a6c-4aaa-9b74-86db9adbe1c0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="リソース ファイル\Shaders\Blur">
       <UniqueIdentifier>{cf2c983d-d3fb-4904-b2f9-15c4f25da02c}</UniqueIdentifier>
     </Filter>
@@ -81,6 +78,9 @@
     </Filter>
     <Filter Include="リソース ファイル\Shaders\Vignette">
       <UniqueIdentifier>{b3013511-7a7f-4302-9a33-7ac45a070e35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\2d">
+      <UniqueIdentifier>{3b2419d9-2a6c-4aaa-9b74-86db9adbe1c0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -186,6 +186,9 @@
     <ClCompile Include="mathOriginal.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="JSONLoader.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base\DirectXCommon.h">
@@ -288,6 +291,12 @@
       <Filter>ヘッダー ファイル\2d</Filter>
     </ClInclude>
     <ClInclude Include="mathOriginal.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="base\json.hpp">
+      <Filter>ヘッダー ファイル\base</Filter>
+    </ClInclude>
+    <ClInclude Include="JSONLoader.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

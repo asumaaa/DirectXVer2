@@ -16,6 +16,7 @@
 #include "VolumeLightModel.h"
 #include "VolumeLightObject.h"
 #include "CSVLoader.h"
+#include "JSONLoader.h"
 
 #define PI 3.1415
 
@@ -50,17 +51,6 @@ private:
 	//fbx
 	//石
 	FbxModel* modelStone = nullptr;
-	//石の数
-	size_t verticalStoneNum = 10;
-	size_t horizonStoneNum = 10;
-	//石の幅
-	float verticalStoneWidth = 10.0f;
-	float horizonStoneWidth = 9.0f;
-	size_t treeNum = verticalStoneNum * horizonStoneNum;
-	//石の変形行列
-	XMFLOAT3 stoneScale = { 2.0f,2.0f,2.0f };
-	XMFLOAT3 stoneRotation = { 1.5f * PI,0.0f,0.0f };
-	XMFLOAT3 stonePosition = { 0.0f,0.0f,0.0f };
 
 	//木のモデル
 	FbxModel* modelTree0 = nullptr;
@@ -68,24 +58,12 @@ private:
 	FbxModel* modelTree2 = nullptr;
 	FbxModel* modelTree3 = nullptr;
 	//木のオブジェクト
-	std::list<std::unique_ptr<FbxObject3D>> objectTree0;
-	std::list<std::unique_ptr<FbxObject3D>> objectTree1;
-	std::list<std::unique_ptr<FbxObject3D>> objectTree2;
-	//木の数
-	size_t tree0Num = 5;
-	size_t tree1Num = 9;
-	size_t tree2Num = 5;
-	//木の変形行列
-	XMFLOAT3 tree0Position = { 0.0f,2.0f,5.0f };
-	XMFLOAT3 tree0Rotation = { 0.0f,0.0f,0.0f };
-	XMFLOAT3 tree0Scale = {5.0f,5.0f,5.0f };
+	/*std::list<std::unique_ptr<FbxObject3D>> objectTree0;*/
 
 	CSVLoader *tree1csv = nullptr;
 
 	//床
 	FbxModel* model1 = nullptr;
-	FbxObject3D* object1 = nullptr;
-	FbxObject3D* object2 = nullptr;
 	FbxModel* model2 = nullptr;
 
 	//ライト 影用
@@ -115,4 +93,11 @@ private:
 	DirectX::XMFLOAT3 rotation0 = { 0.0f,0.0f,0.0f };
 	DirectX::XMFLOAT3 scale = { 0.010f,0.010f,0.010f };
 	DirectX::XMFLOAT3 rotation1 = { 0.0f,0.0f,0.0f };
+
+	//レベルエディタ
+	JSONLoader* jsonLoader = nullptr;
+	//オブジェクト
+	std::list<std::unique_ptr<FbxObject3D>> object;
+	//オブジェクトの数
+	size_t objectNum = 3;
 };

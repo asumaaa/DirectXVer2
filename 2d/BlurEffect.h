@@ -27,7 +27,7 @@ public:	//サブクラス
 		//色
 		XMFLOAT4 color;
 		//解像度
-		float resolution;
+		float strength;
 		//ウィンドウ
 		XMFLOAT2 window;
 	};
@@ -73,7 +73,9 @@ public:	//セッター
 	//スケール
 	void SetScale(XMFLOAT2 sca) { scale = sca; }
 	//解像度
-	void SetResolution(float re) { resolution = re; }
+	void SetStrength(float re) { strength = re / 100; }
+	void SetWidthStrength(float re) { widthStrength = re; }
+	void SetHeightStrength(float re) { heightStrength = re; }
 
 private:	//静的メンバ変数
 	//デバイス
@@ -113,7 +115,9 @@ private:	//メンバ変数
 
 private:
 	//解像度
-	float resolution = 10;
+	float strength = 0.05;
+	float widthStrength = 10;
+	float heightStrength = 10;
 	float rotation = 0;
 	XMFLOAT2 position = { 0,0 };
 	XMFLOAT2 scale = { 100.0f,100.0f };
