@@ -30,6 +30,7 @@ public:	//サブクラス
 		float strength;
 		//ウィンドウ
 		XMFLOAT2 window;
+		XMFLOAT2 strengthWeight;
 	};
 	//定数バッファ2
 	struct ConstBuffTransform

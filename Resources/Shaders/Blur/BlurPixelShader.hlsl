@@ -17,10 +17,7 @@ float4 main(VSOutput input) : SV_TARGET
 	float y = input.uv.y * window.y;
 	float uvX = x/ window.x;
 	float uvY = y/ window.y;
-	//float4 addColor = float4(0, 0, 0, 0);
-	/*float4 colortex0 = tex0.Sample(smp, input.uv);*/
 	float totalWeight = 0.0f;
-	float sigma = 0.005f; 
 	float4 color = float4(0,0,0,0);
 
 	for (int i = 0; i < 10; i++)
@@ -29,7 +26,7 @@ float4 main(VSOutput input) : SV_TARGET
 		{
 			float2 pickUV = float2(uvX + (i / window.x), uvY + (j / window.y));
 			float4 colortex0 = tex0.Sample(smp, pickUV);
-			float weight = Gaussian(input.uv, pickUV, sigma);	//重み取得
+			float weight = Gaussian(input.uv, pickUV, strength);	//重み取得
 			if (colortex0.w != 0)color += tex0.Sample(smp, pickUV) * weight;	//Gaussianで取得した重みに色をかける
 			totalWeight += weight;						//かけた重み分の合計値を控えておく
 		}

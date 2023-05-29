@@ -4,6 +4,7 @@ cbuffer ConstBuff : register(b0)
 	float4 color;
 	float strength;
 	float2 window;
+	float2 strengthWeight;
 };
 
 //•ÏŒ`s—ñ

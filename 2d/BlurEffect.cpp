@@ -268,6 +268,7 @@ void BlurEffect::Update()
 	constMapMaterial->window.x = window_width;
 	constMapMaterial->window.y = window_height;
 	constMapMaterial->strength = strength;
+	constMapMaterial->strengthWeight = XMFLOAT2(widthStrength,heightStrength);
 
 	//変形行列
 	//ワールド変換行列
