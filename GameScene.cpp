@@ -72,7 +72,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	FbxObject3D::SetLight(light);
 	FbxObject3D::SetLightGroup(lightGroup);
 	FbxObject3D::CreateGraphicsPipelineLightView();
-	FbxObject3D::CreateGraphicsPipeline();
+	FbxObject3D::CreateGraphicsPipeline0();
+	FbxObject3D::CreateGraphicsPipeline1();
 
 	//ÉtÉ@ÉCÉãì«Ç›çûÇ›
 	tree1csv = new CSVLoader;
@@ -192,9 +193,13 @@ void GameScene::DrawFBXLightView()
 
 void GameScene::DrawFBX()
 {
+	int i = 0;
 	for (std::unique_ptr<FbxObject3D>& object0 : object)
 	{
-		object0->Draw(dxCommon_->GetCommandList());
+
+		if(i < 2)object0->Draw(dxCommon_->GetCommandList());
+		else { object0->DrawStandard(dxCommon_->GetCommandList()); }
+		i++;
 	}
 }
 

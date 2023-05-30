@@ -66,7 +66,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	blurEffect = new BlurEffect;
 	blurEffect->Initialize();
 	blurEffect->CreateGraphicsPipeLine();
-	float blurStrength[1] = { 5.0f };
 	float blurWidthStrength[1] = { 10.0f };
 	float blurHeightStrength[1] = { 10.0f };
 
@@ -241,7 +240,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//反転エフェクト
 		/*reversalEffect->Draw(dxCommon->GetCommandList());*/
 		////ぼかしエフェクト 
-		blurEffect->Draw(dxCommon->GetCommandList());
+		//blurEffect->Draw(dxCommon->GetCommandList());
 		//モザイクエフェクト 
 		/*mosaicEffect->Draw(dxCommon->GetCommandList());*/
 		//RGBずらし 
@@ -252,19 +251,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/*fog->Draw(dxCommon->GetCommandList());*/
 
 		//vignette
-		/*vignette->Draw(dxCommon->GetCommandList());*/
+		vignette->Draw(dxCommon->GetCommandList());
 	
 		/*gameScene->Draw();*/
 
 		//ImGui
-		ImGui::Begin("blur");
+		/*ImGui::Begin("blur");
 		ImGui::SetWindowPos(ImVec2(0, 0));
 		ImGui::SetWindowSize(ImVec2(500, 150));
-		/*ImGui::InputFloat3("lightDir", lightDir);*/
-		ImGui::InputFloat("blur Strength", blurStrength);
 		ImGui::InputFloat("blur Width Strength", blurWidthStrength);
 		ImGui::InputFloat("blur Height Strength", blurHeightStrength);
-		ImGui::End();
+		ImGui::End();*/
 
 		imGuiManager->End();
 		imGuiManager->Draw();

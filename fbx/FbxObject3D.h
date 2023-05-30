@@ -34,6 +34,7 @@ public:
 		XMMATRIX world;
 		XMFLOAT3 cameraPos;
 		XMMATRIX lightviewproj;
+		float alpha;
 	};
 	//定数バッファ用データ構造体(スキニング)
 	struct ConstBufferDataSkin
@@ -62,28 +63,37 @@ public://メンバ関数
 	//描画
 	void DrawLightView(ID3D12GraphicsCommandList* cmdList);
 	void Draw(ID3D12GraphicsCommandList* cmdList);
+	void DrawStandard(ID3D12GraphicsCommandList* cmdList);	//影なし描画をする場合
 	//モデルのセット
 	void SetModel(FbxModel* model) { this->model = model; }
 	//グラフィックスパイプラインの生成
 	static void CreateGraphicsPipelineLightView();
-	static void CreateGraphicsPipeline();
+	static void CreateGraphicsPipeline0();
+	static void CreateGraphicsPipeline1();
 	//アニメーション開始
 	void PlayAnimation();
+	//アニメーション停止
+	void StopAnimation();
+	//アニメーション再開
+	void RestartAnimation();
 
 	//セッター
 	void SetPosition(XMFLOAT3 pos) { position = pos; }
 	void SetRotation(XMFLOAT3 rot) { rotation = rot; }
 	void SetScale(XMFLOAT3 sca) { scale = sca; }
 	void SetSRV(ID3D12DescriptorHeap* SRV) { depthSRV = SRV; }
+	void SetAlpha(float f) { alpha = f; }
 
 private://メンバ変数
 	//定数バッファ
 	ComPtr<ID3D12Resource>constBuffTransform;
 	//ルートシグネチャ
 	static ComPtr<ID3D12RootSignature>rootsignature0;
+	static ComPtr<ID3D12RootSignature>rootsignature1;
 	static ComPtr<ID3D12RootSignature>rootsignature2;
 	//パイプラインステートオブジェクト
 	static ComPtr<ID3D12PipelineState>pipelinestate0;
+	static ComPtr<ID3D12PipelineState>pipelinestate1;
 	static ComPtr<ID3D12PipelineState>pipelinestate2;
 
 private:
@@ -114,4 +124,6 @@ private:
 	FbxTime currentTime;
 	//アニメーション再生中
 	bool isPlay = false;
+
+	float alpha = 1.0f;
 };

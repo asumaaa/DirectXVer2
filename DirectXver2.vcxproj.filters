@@ -343,6 +343,9 @@
     <None Include="Resources\Shaders\Vignette\VignetteHeader.hlsli">
       <Filter>リソース ファイル\Shaders\Vignette</Filter>
     </None>
+    <None Include="Resources\Shaders\Fbx\FbxHeader1.hlsli">
+      <Filter>リソース ファイル\Shaders\Fbx</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shaders\PixelShader.hlsl">
@@ -428,6 +431,12 @@
     </FxCompile>
     <FxCompile Include="Resources\Shaders\Vignette\VignetteVertexShader.hlsl">
       <Filter>リソース ファイル\Shaders\Vignette</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Fbx\FbxPixelShader1.hlsl">
+      <Filter>リソース ファイル\Shaders\Fbx</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Fbx\FbxVertexShader1.hlsl">
+      <Filter>リソース ファイル\Shaders\Fbx</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
