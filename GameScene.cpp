@@ -39,32 +39,25 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	LightGroup::StaticInitialize(dxCommon_->GetDevice());
 	lightGroup = LightGroup::Create();
 
-	//ボリュームライト
-	VolumeLightModel* newLightModel = new VolumeLightModel();
-	newLightModel->CreateBuffers(dxCommon_->GetDevice());
-	volumeLightModel.reset(newLightModel);
-	volumeLightModel->SetImageData(XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));
-
-	VolumeLightObject::SetDevice(dxCommon_->GetDevice());
-	VolumeLightObject::SetCamera(camera_.get());
-	VolumeLightObject::SetInput(input);
-	VolumeLightObject::CreateGraphicsPipeline();
-
-	VolumeLightObject* newLightObject = new VolumeLightObject();
-	newLightObject->Initialize();
-	newLightObject->SetModel(volumeLightModel.get());
-	volumeLightObject.reset(newLightObject);
-
-	//FBX読み込み
+	//FBXローダー初期化
 	FbxLoader::GetInstance()->Initialize(dxCommon_->GetDevice());
 	//モデル名を指定してファイル読み込み
-	modelStone = FbxLoader::GetInstance()->LoadModelFromFile("Stone", "Resources/white1x1.png");
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Stone", "Resources/white1x1.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree", "Resources/white1x1.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree1", "Resources/black.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree2", "Resources/white1x1.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree3", "Resources/black.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Cube", "Resources/toriko.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Walking", "Resources/white1x1.png"));
+
+	//モデル名を指定してファイル読み込み
+	/*modelStone = FbxLoader::GetInstance()->LoadModelFromFile("Stone", "Resources/white1x1.png");
 	modelTree0 = FbxLoader::GetInstance()->LoadModelFromFile("Tree", "Resources/white1x1.png");
 	modelTree1 = FbxLoader::GetInstance()->LoadModelFromFile("Tree1", "Resources/black.png");
 	modelTree2 = FbxLoader::GetInstance()->LoadModelFromFile("Tree2", "Resources/white1x1.png");
 	modelTree3 = FbxLoader::GetInstance()->LoadModelFromFile("Tree3", "Resources/black.png");
 	model1 = FbxLoader::GetInstance()->LoadModelFromFile("Cube", "Resources/toriko.png");
-	model2 = FbxLoader::GetInstance()->LoadModelFromFile("Walking", "Resources/white1x1.png");
+	model2 = FbxLoader::GetInstance()->LoadModelFromFile("Walking", "Resources/white1x1.png");*/
 
 	//デバイスをセット
 	FbxObject3D::SetDevice(dxCommon_->GetDevice());
@@ -85,13 +78,19 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	for (int i = 0; i < objectNum; i++)
 	{
 		std::unique_ptr<FbxObject3D>newObject = std::make_unique<FbxObject3D>();
+		//オブジェクト初期化
 		newObject->Initialize();
 
-		if (jsonLoader->GetFileName(i) == "Cube")
+		//モデルセット
+		for (std::unique_ptr<FbxModel>& model : models)
 		{
-			newObject->SetModel(model1);
+			if (jsonLoader->GetFileName(i) == model->GetFileName())
+			{
+				newObject->SetModel(model.get());
+			}
 		}
 
+		//配置
 		newObject->SetPosition(jsonLoader->GetPosition(i));
 		newObject->SetScale(jsonLoader->GetScale(i));
 		newObject->SetRotation(jsonLoader->GetRotation(i));
@@ -134,13 +133,6 @@ void GameScene::Update()
 	lightGroup->SetDirLightActive(1, false);
 	lightGroup->SetDirLightActive(2, false);
 	lightGroup->Update();
-
-	//ボリュームライト
-	volumeLightModel->Update();
-	volumeLightObject->SetPosition(XMFLOAT3(volumeLightPos));
-	volumeLightObject->SetRotation(XMFLOAT3(volumeLightRotation));
-	volumeLightObject->SetScale(XMFLOAT3(volumeLightScale));
-	volumeLightObject->Update();
 
 	//レベルエディタ
 	jsonLoader = new JSONLoader();

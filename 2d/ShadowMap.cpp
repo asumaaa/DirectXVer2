@@ -625,13 +625,13 @@ void ShadowMap::CreateGraphicsPipeLine0()
 
 void ShadowMap::PreDrawScene0(ID3D12GraphicsCommandList* cmdList)
 {
-	////リソースバリアを変更
-	//CD3DX12_RESOURCE_BARRIER a0 = CD3DX12_RESOURCE_BARRIER::Transition(
-	//	textureBuff.Get(),
-	//	D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
-	//	D3D12_RESOURCE_STATE_RENDER_TARGET
-	//);
-	//cmdList->ResourceBarrier(1, &a0);
+	//リソースバリアを変更
+	CD3DX12_RESOURCE_BARRIER a0 = CD3DX12_RESOURCE_BARRIER::Transition(
+		textureBuff.Get(),
+		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+		D3D12_RESOURCE_STATE_RENDER_TARGET
+	);
+	cmdList->ResourceBarrier(1, &a0);
 
 	//レンダーターゲットビュー用デスクリプタヒープのハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = descHeapRTV->GetCPUDescriptorHandleForHeapStart();
@@ -648,6 +648,9 @@ void ShadowMap::PreDrawScene0(ID3D12GraphicsCommandList* cmdList)
 	CD3DX12_RECT a2 = CD3DX12_RECT(0, 0, window_width, window_height);
 	cmdList->RSSetScissorRects(1, &a2);
 
+
+	/*float clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	cmdList->ClearRenderTargetView(rtvHandle, clearColor,0,nullptr);*/
 	//震度バッファのクリア
 	cmdList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 }
@@ -661,4 +664,6 @@ void ShadowMap::PostDrawScene0(ID3D12GraphicsCommandList* cmdList)
 		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE
 	);
 	cmdList->ResourceBarrier(1, &a0);
+	//震度バッファのクリア
+	/*cmdList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);*/
 }

@@ -49,22 +49,17 @@ private:
 	std::unique_ptr<Camera> camera_;
 
 	//fbx
-	//石
-	FbxModel* modelStone = nullptr;
+	std::list<std::unique_ptr<FbxModel>> models;
+	size_t modelNum = 7;
 
-	//木のモデル
-	FbxModel* modelTree0 = nullptr;
-	FbxModel* modelTree1 = nullptr;
-	FbxModel* modelTree2 = nullptr;
-	FbxModel* modelTree3 = nullptr;
-	//木のオブジェクト
-	/*std::list<std::unique_ptr<FbxObject3D>> objectTree0;*/
+	//レベルエディタ
+	JSONLoader* jsonLoader = nullptr;
+	//オブジェクト
+	std::list<std::unique_ptr<FbxObject3D>> object;
+	//オブジェクトの数
+	size_t objectNum = 3;
 
 	CSVLoader *tree1csv = nullptr;
-
-	//床
-	FbxModel* model1 = nullptr;
-	FbxModel* model2 = nullptr;
 
 	//ライト 影用
 	Light* light = nullptr;
@@ -93,11 +88,4 @@ private:
 	DirectX::XMFLOAT3 rotation0 = { 0.0f,0.0f,0.0f };
 	DirectX::XMFLOAT3 scale = { 0.010f,0.010f,0.010f };
 	DirectX::XMFLOAT3 rotation1 = { 0.0f,0.0f,0.0f };
-
-	//レベルエディタ
-	JSONLoader* jsonLoader = nullptr;
-	//オブジェクト
-	std::list<std::unique_ptr<FbxObject3D>> object;
-	//オブジェクトの数
-	size_t objectNum = 3;
 };

@@ -196,7 +196,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		gameScene->DrawFBXLightView();
 		shadowMap->PostDrawScene0(dxCommon->GetCommandList());
 		//ゲームシーンにSRVを渡す
-		gameScene->SetSRV(shadowMap->GetSRV());
+		/*gameScene->SetSRV(shadowMap->GetSRV());*/
 
 		//単色エフェクト
 		//monochromeEffect->PreDrawScene(dxCommon->GetCommandList());
@@ -207,9 +207,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//gameScene->Draw();
 		//reversalEffect->PostDrawScene(dxCommon->GetCommandList());
 		//ぼかしエフェクト
-		blurEffect->PreDrawScene(dxCommon->GetCommandList());
+		/*blurEffect->PreDrawScene(dxCommon->GetCommandList());
 		gameScene->Draw();
-		blurEffect->PostDrawScene(dxCommon->GetCommandList());
+		blurEffect->PostDrawScene(dxCommon->GetCommandList());*/
 		////モザイクエフェクト
 		//mosaicEffect->PreDrawScene(dxCommon->GetCommandList());
 		//gameScene->Draw();
@@ -223,14 +223,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		gameScene->Draw();
 		depthOfField->PostDrawScene(dxCommon->GetCommandList());*/
 		//fog
-		fog->PreDrawScene(dxCommon->GetCommandList());
-		gameScene->Draw();
-		fog->PostDrawScene(dxCommon->GetCommandList());
+		//fog->PreDrawScene(dxCommon->GetCommandList());
+		//gameScene->Draw();
+		//fog->PostDrawScene(dxCommon->GetCommandList());
 
-		//ビネット
-		vignette->PreDrawScene(dxCommon->GetCommandList());
-		fog->Draw(dxCommon->GetCommandList());
-		vignette->PostDrawScene(dxCommon->GetCommandList());
+		////ビネット
+		//vignette->PreDrawScene(dxCommon->GetCommandList());
+		//fog->Draw(dxCommon->GetCommandList());
+		//vignette->PostDrawScene(dxCommon->GetCommandList());
 
 		//描画前処理
 		dxCommon->PreDraw();
@@ -241,7 +241,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//反転エフェクト
 		/*reversalEffect->Draw(dxCommon->GetCommandList());*/
 		////ぼかしエフェクト 
-		blurEffect->Draw(dxCommon->GetCommandList());
+		/*blurEffect->Draw(dxCommon->GetCommandList());*/
 		//モザイクエフェクト 
 		/*mosaicEffect->Draw(dxCommon->GetCommandList());*/
 		//RGBずらし 
@@ -257,14 +257,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		/*gameScene->Draw();*/
 
 		//ImGui
-		ImGui::Begin("blur");
-		ImGui::SetWindowPos(ImVec2(0, 0));
-		ImGui::SetWindowSize(ImVec2(500, 150));
-		/*ImGui::InputFloat3("lightDir", lightDir);*/
-		ImGui::InputFloat("blur Strength", blurStrength);
-		ImGui::InputFloat("blur Width Strength", blurWidthStrength);
-		ImGui::InputFloat("blur Height Strength", blurHeightStrength);
-		ImGui::End();
+		//ImGui::Begin("blur");
+		//ImGui::SetWindowPos(ImVec2(0, 0));
+		//ImGui::SetWindowSize(ImVec2(500, 150));
+		///*ImGui::InputFloat3("lightDir", lightDir);*/
+		//ImGui::InputFloat("blur Strength", blurStrength);
+		//ImGui::InputFloat("blur Width Strength", blurWidthStrength);
+		//ImGui::InputFloat("blur Height Strength", blurHeightStrength);
+		//ImGui::End();
 
 		imGuiManager->End();
 		imGuiManager->Draw();
