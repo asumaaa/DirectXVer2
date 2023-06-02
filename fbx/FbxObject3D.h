@@ -121,6 +121,8 @@ private:
 	Collider collider;
 	//コライダーのオブジェクト
 	std::unique_ptr<ColliderCubeObject>colliderCubeObject;
+	//コライダーの中心と座標の差分
+	XMFLOAT3 colliderPos = {0.0f,0.0f,0.0f};
 
 	//定数バッファ
 	ComPtr<ID3D12Resource>constBuffSkin;

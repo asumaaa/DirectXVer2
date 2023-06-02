@@ -26,8 +26,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	Camera* newCamera = new Camera();
 	newCamera->Initialize();
 	camera_.reset(newCamera);
-	camera_->SetTarget({ 0,0,0 });
-	camera_->SetEye({ 0, 0,-20 });
+	camera_->SetEye({ 0.0f,10.0f,5.0f });
+	camera_->SetTarget({ 0.0f,0.0f,0.0f });
 
 	//ライト(影)
 	Light* newLight = new Light();
@@ -48,6 +48,14 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	ColliderCubeObject::SetCamera(camera_.get());
 	ColliderCubeObject::SetInput(input_);
 	ColliderCubeObject::CreateGraphicsPipeline();
+
+	//プレイヤー
+	Player::SetCamera(camera_.get());
+	Player::SetInput(input);
+	/*Player::SetDXInput()*/
+	Player* newPlayer = new Player();
+	newPlayer->Initialize();
+	player.reset(newPlayer);
 
 	//FBXローダー初期化
 	FbxLoader::GetInstance()->Initialize(dxCommon_->GetDevice());
@@ -96,6 +104,13 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 		newObject->SetCollider(jsonLoader->GetColliderData(i));
 
 		object.push_back(std::move(newObject));
+
+		//プレイヤーのオブジェクトがあったら
+		if (jsonLoader->GetFileName(i) == "player")
+		{
+			player->SetObject(object.back().get());
+			/*object.pop_back();*/
+		}
 	}
 
 	//スプライトマネージャー
@@ -124,8 +139,6 @@ void GameScene::Finalize()
 void GameScene::Update()
 {
 	//カメラ更新
-	camera_->SetEye({ 0.0f,10.0f,5.0f });
-	camera_->SetTarget({ 0.0f,0.0f,0.0f });
 	camera_->DebugUpdate();
 	camera_->Update();
 	//コントローラー更新
@@ -143,6 +156,9 @@ void GameScene::Update()
 	lightGroup->SetDirLightActive(1, false);
 	lightGroup->SetDirLightActive(2, false);
 	lightGroup->Update();
+
+	//プレイヤー
+	player->Update();
 
 	//スペースキーでファイル読み込み更新
 	if(input_->TriggerKey(DIK_SPACE))

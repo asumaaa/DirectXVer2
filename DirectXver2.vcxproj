@@ -186,6 +186,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mathOriginal.cpp" />
     <ClCompile Include="particle\FireParticle.cpp" />
+    <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\BlurEffect.h" />
@@ -224,6 +225,7 @@
     <ClInclude Include="light\SpotLight.h" />
     <ClInclude Include="mathOriginal.h" />
     <ClInclude Include="particle\FireParticle.h" />
+    <ClInclude Include="Player.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">

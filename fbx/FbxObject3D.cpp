@@ -138,13 +138,14 @@ void FbxObject3D::Update()
 
 	//コライダー更新
 	ColliderUpdate();
+	colliderCubeObject->Update();
 }
 
 void FbxObject3D::ColliderUpdate()
 {
 	//コライダー
-	colliderCubeObject->SetPosition(XMFLOAT3(position.x + collider.center.x, 
-		position.y + collider.center.y, position.z + collider.center.z));
+	colliderCubeObject->SetPosition(XMFLOAT3(position.x - colliderPos.x, 
+		position.y - colliderPos.y, position.z - colliderPos.z));
 	colliderCubeObject->SetScale(collider.scale);
 	colliderCubeObject->SetRotation(collider.rotation);
 	colliderCubeObject->Update();
@@ -597,6 +598,10 @@ void FbxObject3D::SetCollider(ColliderData colliderData)
 {
 	collider.type = colliderData.type;
 	collider.scale = colliderData.scale;
-	collider.center = colliderData.center;
 	collider.rotation = colliderData.rotation;
+	collider.center = colliderData.center;
+
+	colliderPos.x = position.x - colliderData.center.x;
+	colliderPos.y = position.y - colliderData.center.y;
+	colliderPos.z = position.z - colliderData.center.z;
 }

@@ -16,6 +16,7 @@
 #include "CSVLoader.h"
 #include "ColliderCubeModel.h"
 #include "ColliderCubeObject.h"
+#include "Player.h"
 
 class GameScene
 {
@@ -80,5 +81,7 @@ private:
 
 	////コライダーのモデル
 	std::unique_ptr<ColliderCubeModel> colliderCubeModel;
-	//std::unique_ptr<ColliderCubeObject> colliderCubeObject;
+
+	//プレイヤー
+	std::unique_ptr<Player> player;
 };

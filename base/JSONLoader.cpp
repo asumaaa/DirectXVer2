@@ -57,17 +57,17 @@ void JSONLoader::LoadFile(const std::string fileName)
 			objectData1.position.y = (float)transform["translation"][2];
 			objectData1.position.z = (float)transform["translation"][1];
 			// 回転角
-			objectData1.rotation.x = (float)transform["rotation"][1] - 90.0f;	//BlenderだとZ軸が上になるので合せている
+			objectData1.rotation.x = (float)transform["rotation"][0];
 			objectData1.rotation.y = (float)transform["rotation"][2];
-			objectData1.rotation.z = (float)transform["rotation"][0];
+			objectData1.rotation.z = (float)transform["rotation"][1];
 			//弧度法に変換
 			objectData1.rotation.x *= 1.0f / 360.0f * (2.0f * PI);
 			objectData1.rotation.y *= 1.0f / 360.0f * (2.0f * PI);
 			objectData1.rotation.z *= 1.0f / 360.0f * (2.0f * PI);
 			// スケーリング
-			objectData1.scale.x = (float)transform["scale"][1];
+			objectData1.scale.x = (float)transform["scale"][0];
 			objectData1.scale.y = (float)transform["scale"][2];
-			objectData1.scale.z = (float)transform["scale"][0];
+			objectData1.scale.z = (float)transform["scale"][1];
 
 			// コライダーのパラメータ読み込み
 			nlohmann::json& collider = object["collider"];
@@ -79,13 +79,13 @@ void JSONLoader::LoadFile(const std::string fileName)
 			colliderData1.center.y = (float)collider["center"][2];
 			colliderData1.center.z = (float)collider["center"][1];
 			//コライダーのサイズ
-			colliderData1.scale.x = (float)collider["size"][1];
+			colliderData1.scale.x = (float)collider["size"][0];
 			colliderData1.scale.y = (float)collider["size"][2];
-			colliderData1.scale.z = -(float)collider["size"][0];
+			colliderData1.scale.z = -(float)collider["size"][1];
 			//コライダーの回転角
-			colliderData1.rotation.x = (float)transform["rotation"][1];
+			colliderData1.rotation.x = (float)transform["rotation"][0];
 			colliderData1.rotation.y = (float)transform["rotation"][2];
-			colliderData1.rotation.z = (float)transform["rotation"][0];
+			colliderData1.rotation.z = (float)transform["rotation"][1];
 			//弧度法に変換
 			colliderData1.rotation.x *= 1.0f / 360.0f * (2.0f * PI);
 			colliderData1.rotation.y *= 1.0f / 360.0f * (2.0f * PI);

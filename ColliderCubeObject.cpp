@@ -34,7 +34,7 @@ void ColliderCubeObject::Update()
 	XMMATRIX matScale, matRot, matTrans;
 
 	//スケール、回転、平行移動行列の計算
-	matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
+	matScale = XMMatrixScaling(scale.x * 2, scale.y * 2, scale.z * 2);
 	matRot = XMMatrixIdentity();
 	matRot *= XMMatrixRotationZ(rotation.z);
 	matRot *= XMMatrixRotationX(rotation.x);
