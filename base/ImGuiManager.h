@@ -18,8 +18,8 @@ public:
 
 
 private:
-	WinApp* winApp_;
-	DirectXCommon* dxCommon_;
+	WinApp* winApp_ = nullptr;
+	DirectXCommon* dxCommon_ = nullptr;
 
 	//SRV用デスクリプタヒープ
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap>srvHeap_;

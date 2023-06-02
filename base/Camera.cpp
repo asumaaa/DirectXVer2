@@ -73,29 +73,29 @@ void Camera::DebugUpdate()
 	//視点座標を変更
 	if (input->PushKey(DIK_LEFT))
 	{
-		DebugChangeRot -= rot;
+		DebugChangeRot -= (float)rot;
 	}
 	if (input->PushKey(DIK_RIGHT))
 	{
-		DebugChangeRot += rot;
+		DebugChangeRot += (float)rot;
 	}
 	if (input->PushKey(DIK_UP))
 	{
-		DebugChangeRot2 -= rot;
+		DebugChangeRot2 -= (float)rot;
 	}
 	if (input->PushKey(DIK_DOWN))
 	{
-		DebugChangeRot2 += rot;
+		DebugChangeRot2 += (float)rot;
 	}
 
 	//ターゲットまでの距離を変更
 	if (input->PushKey(DIK_O))
 	{
-		DebugTargetDistance -= 0.2;
+		DebugTargetDistance -= 0.2f;
 	}
 	if (input->PushKey(DIK_P))
 	{
-		DebugTargetDistance += 0.2;
+		DebugTargetDistance += 0.2f;
 	}
 
 	//視点座標に代入

@@ -9,6 +9,7 @@ void JSONLoader::LoadFile(const std::string fileName)
 {
 	//オブジェクトデータリセット
 	objectData.clear();
+	colliderData.clear();
 
 	//ファイルを開く
 	std::ifstream file;
@@ -31,6 +32,8 @@ void JSONLoader::LoadFile(const std::string fileName)
 
 	//オブジェクトデータ格納用インスタンスを生成
 	ObjectData objectData1;
+	//コライダーデータ格納用インスタンスを生成
+	ColliderData colliderData1;
 
 	// "objects"の全オブジェクトを走査
 	for (nlohmann::json& object : jsonFileList["objects"]) {
@@ -50,11 +53,11 @@ void JSONLoader::LoadFile(const std::string fileName)
 			// トランスフォームのパラメータ読み込み
 			nlohmann::json& transform = object["transform"];
 			// 平行移動
-			objectData1.position.x = (float)transform["translation"][1];
+			objectData1.position.x = (float)transform["translation"][0];
 			objectData1.position.y = (float)transform["translation"][2];
-			objectData1.position.z = -(float)transform["translation"][0];
+			objectData1.position.z = (float)transform["translation"][1];
 			// 回転角
-			objectData1.rotation.x = (float)transform["rotation"][1];
+			objectData1.rotation.x = (float)transform["rotation"][1] - 90.0f;	//BlenderだとZ軸が上になるので合せている
 			objectData1.rotation.y = (float)transform["rotation"][2];
 			objectData1.rotation.z = (float)transform["rotation"][0];
 			//弧度法に変換
@@ -66,7 +69,27 @@ void JSONLoader::LoadFile(const std::string fileName)
 			objectData1.scale.y = (float)transform["scale"][2];
 			objectData1.scale.z = (float)transform["scale"][0];
 
-			// TODO: コライダーのパラメータ読み込み
+			// コライダーのパラメータ読み込み
+			nlohmann::json& collider = object["collider"];
+
+			// コライダーの種類
+			colliderData1.type = collider["type"];
+			//コライダーの中心
+			colliderData1.center.x = (float)collider["center"][0];
+			colliderData1.center.y = (float)collider["center"][2];
+			colliderData1.center.z = (float)collider["center"][1];
+			//コライダーのサイズ
+			colliderData1.scale.x = (float)collider["size"][1];
+			colliderData1.scale.y = (float)collider["size"][2];
+			colliderData1.scale.z = -(float)collider["size"][0];
+			//コライダーの回転角
+			colliderData1.rotation.x = (float)transform["rotation"][1];
+			colliderData1.rotation.y = (float)transform["rotation"][2];
+			colliderData1.rotation.z = (float)transform["rotation"][0];
+			//弧度法に変換
+			colliderData1.rotation.x *= 1.0f / 360.0f * (2.0f * PI);
+			colliderData1.rotation.y *= 1.0f / 360.0f * (2.0f * PI);
+			colliderData1.rotation.z *= 1.0f / 360.0f * (2.0f * PI);
 
 			// TODO: オブジェクト走査を再帰関数にまとめ、再帰呼出で枝を走査する
 			/*if (object.contains("children")) {
@@ -75,6 +98,11 @@ void JSONLoader::LoadFile(const std::string fileName)
 
 			//オブジェクトデータに代入
 			objectData.push_back(objectData1);
+			//コライダーデータに代入
+			colliderData.push_back(colliderData1);
+
+			//オブジェクトの数を増やす
+			objectNum++;
 		}
 	}
 }

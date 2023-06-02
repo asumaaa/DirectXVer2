@@ -82,6 +82,9 @@
     <Filter Include="ヘッダー ファイル\2d">
       <UniqueIdentifier>{3b2419d9-2a6c-4aaa-9b74-86db9adbe1c0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\Shaders\ColliderCube">
+      <UniqueIdentifier>{0b852e2f-178b-44c4-83db-766d8497e7dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -116,9 +119,6 @@
     </ClCompile>
     <ClCompile Include="fbx\FbxObject3D.cpp">
       <Filter>ソース ファイル\fbx</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="base\ImGuiManager.cpp">
       <Filter>ソース ファイル\base</Filter>
@@ -162,23 +162,11 @@
     <ClCompile Include="2d\ShadowMap.cpp">
       <Filter>ソース ファイル\2d</Filter>
     </ClCompile>
-    <ClCompile Include="Light.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="2d\DepthOfField.cpp">
       <Filter>ソース ファイル\2d</Filter>
     </ClCompile>
-    <ClCompile Include="VolumeLightModel.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="VolumeLightObject.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="2d\Fog.cpp">
       <Filter>ソース ファイル\2d</Filter>
-    </ClCompile>
-    <ClCompile Include="CSVLoader.cpp">
-      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="2d\Vignette.cpp">
       <Filter>ソース ファイル\2d</Filter>
@@ -186,7 +174,22 @@
     <ClCompile Include="mathOriginal.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="JSONLoader.cpp">
+    <ClCompile Include="light\Light.cpp">
+      <Filter>ソース ファイル\light</Filter>
+    </ClCompile>
+    <ClCompile Include="base\CSVLoader.cpp">
+      <Filter>ソース ファイル\base</Filter>
+    </ClCompile>
+    <ClCompile Include="base\JSONLoader.cpp">
+      <Filter>ソース ファイル\base</Filter>
+    </ClCompile>
+    <ClCompile Include="base\Camera.cpp">
+      <Filter>ソース ファイル\base</Filter>
+    </ClCompile>
+    <ClCompile Include="ColliderCubeModel.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ColliderCubeObject.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -220,9 +223,6 @@
     </ClInclude>
     <ClInclude Include="fbx\FbxObject3D.h">
       <Filter>ヘッダー ファイル\fbx</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="base\ImGuiManager.h">
       <Filter>ヘッダー ファイル\base</Filter>
@@ -269,23 +269,11 @@
     <ClInclude Include="2d\ShadowMap.h">
       <Filter>ヘッダー ファイル\2d</Filter>
     </ClInclude>
-    <ClInclude Include="Light.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="2d\DepthOfField.h">
       <Filter>ヘッダー ファイル\2d</Filter>
     </ClInclude>
-    <ClInclude Include="VolumeLightModel.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="VolumeLightObject.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="2d\Fog.h">
       <Filter>ヘッダー ファイル\2d</Filter>
-    </ClInclude>
-    <ClInclude Include="CSVLoader.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="2d\Vignette.h">
       <Filter>ヘッダー ファイル\2d</Filter>
@@ -296,7 +284,22 @@
     <ClInclude Include="base\json.hpp">
       <Filter>ヘッダー ファイル\base</Filter>
     </ClInclude>
-    <ClInclude Include="JSONLoader.h">
+    <ClInclude Include="light\Light.h">
+      <Filter>ヘッダー ファイル\light</Filter>
+    </ClInclude>
+    <ClInclude Include="base\CSVLoader.h">
+      <Filter>ヘッダー ファイル\base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\JSONLoader.h">
+      <Filter>ヘッダー ファイル\base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\Camera.h">
+      <Filter>ヘッダー ファイル\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="ColliderCubeModel.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ColliderCubeObject.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -342,6 +345,9 @@
     </None>
     <None Include="Resources\Shaders\Vignette\VignetteHeader.hlsli">
       <Filter>リソース ファイル\Shaders\Vignette</Filter>
+    </None>
+    <None Include="Resources\Shaders\ColliderCube\ColliderCubeHeader.hlsli">
+      <Filter>リソース ファイル\Shaders\ColliderCube</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -428,6 +434,12 @@
     </FxCompile>
     <FxCompile Include="Resources\Shaders\Vignette\VignetteVertexShader.hlsl">
       <Filter>リソース ファイル\Shaders\Vignette</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ColliderCube\ColliderCubePixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders\ColliderCube</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ColliderCube\ColliderCubeVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders\ColliderCube</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

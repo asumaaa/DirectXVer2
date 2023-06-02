@@ -61,14 +61,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//reversalEffect->CreateGraphicsPipeLine();
 
 	//ぼかしエフェクト
-	BlurEffect* blurEffect = nullptr;
+	/*BlurEffect* blurEffect = nullptr;
 	BlurEffect::SetDevice(dxCommon->GetDevice());
 	blurEffect = new BlurEffect;
 	blurEffect->Initialize();
 	blurEffect->CreateGraphicsPipeLine();
 	float blurStrength[1] = { 5.0f };
 	float blurWidthStrength[1] = { 10.0f };
-	float blurHeightStrength[1] = { 10.0f };
+	float blurHeightStrength[1] = { 10.0f };*/
 
 	////モザイクエフェクト
 	//MosaicEffect* mosaicEffect = nullptr;
@@ -99,18 +99,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//depthOfField->CreateGraphicsPipeLine();
 
 	//Fog
-	Fog* fog = nullptr;
-	Fog::SetDevice(dxCommon->GetDevice());
-	fog = new Fog;
-	fog->Initialize();
-	fog->CreateGraphicsPipeLine0();
+	//Fog* fog = nullptr;
+	//Fog::SetDevice(dxCommon->GetDevice());
+	//fog = new Fog;
+	//fog->Initialize();
+	//fog->CreateGraphicsPipeLine0();
 
-	//Vignette
-	Vignette* vignette = nullptr;
-	Vignette::SetDevice(dxCommon->GetDevice());
-	vignette = new Vignette;
-	vignette->Initialize();
-	vignette->CreateGraphicsPipeLine();
+	////Vignette
+	//Vignette* vignette = nullptr;
+	//Vignette::SetDevice(dxCommon->GetDevice());
+	//vignette = new Vignette;
+	//vignette->Initialize();
+	//vignette->CreateGraphicsPipeLine();
 
 	//ゲームシーン
 	GameScene* gameScene = nullptr;
@@ -146,10 +146,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//reversalEffect->Update();
 
 		//ぼかしエフェクト
-		blurEffect->SetAlpha(1.0f);
+		/*blurEffect->SetAlpha(1.0f);
 		blurEffect->SetWidthStrength(*blurWidthStrength);
 		blurEffect->SetHeightStrength(*blurHeightStrength);
-		blurEffect->Update();
+		blurEffect->Update();*/
 
 		////モザイクエフェクト
 		//mosaicEffect->SetAlpha(1.0f);
@@ -174,29 +174,29 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		depthOfField->Update();*/
 
 		//Fog
-		fog->SetAlpha(1.0f);
-		fog->SetStrength(1.0f);
-		fog->SetStartDepth(0.2f);
-		fog->Update();
+		//fog->SetAlpha(1.0f);
+		//fog->SetStrength(1.0f);
+		//fog->SetStartDepth(0.2f);
+		//fog->Update();
 
-		//vignette
-		vignette->SetAlpha(1.0f);
-		vignette->SetStrength(0.1f);
-		vignette->Update();
+		////vignette
+		//vignette->SetAlpha(1.0f);
+		//vignette->SetStrength(0.1f);
+		//vignette->Update();
 
 		//ゲームシーン
 		gameScene->Update();
 
-		// 4. 描画コマンド
-		
-		//レンダーテクスチャへの描画
+		//// 4. 描画コマンド
+		//
+		////レンダーテクスチャへの描画
 
 		//shadowMap
 		shadowMap->PreDrawScene0(dxCommon->GetCommandList());
 		gameScene->DrawFBXLightView();
 		shadowMap->PostDrawScene0(dxCommon->GetCommandList());
 		//ゲームシーンにSRVを渡す
-		/*gameScene->SetSRV(shadowMap->GetSRV());*/
+		gameScene->SetSRV(shadowMap->GetSRV());
 
 		//単色エフェクト
 		//monochromeEffect->PreDrawScene(dxCommon->GetCommandList());
@@ -254,7 +254,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//vignette
 		/*vignette->Draw(dxCommon->GetCommandList());*/
 	
-		/*gameScene->Draw();*/
+		gameScene->Draw();
 
 		//ImGui
 		//ImGui::Begin("blur");
@@ -273,11 +273,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		dxCommon->PostDraw();
 	}
 
+
 	fps->FpsControlEnd();
 
 	dxCommon->EndImgui();
 
 	imGuiManager->Finalize();
+	gameScene->Finalize();
+
+	delete shadowMap;
+	delete imGuiManager;
 
 	//ウィンドウクラスを登録解除
 	winApp->deleteWindow();

@@ -120,14 +120,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)base;$(ProjectDir);$(ProjectDir)fbx;$(ProjectDir)Resources;$(ProjectDir)Resources\Shaders;$(ProjectDir)particle;$(ProjectDir)light;$(ProjectDir)fbxsdk;$(ProjectDir)2d;$(ProjectDir)Resources\Shaders\Bulr;$(ProjectDir)Resources\Shaders\Monochrome;$(ProjectDir)Resources\Shaders\Mosaic;$(ProjectDir)Resources\Shaders\Reversal;$(ProjectDir)Resources\Shaders\ChromaticAberration;$(ProjectDir)Resources\Shaders\DepthOfField;$(ProjectDir)Resources\Shaders\ShadowMap;$(ProjectDir)Resources\Shaders\Fbx;$(ProjectDir)Resources\Shaders\Sprite;$(ProjectDir)Resources\Shaders\VolumeLight;$(ProjectDir)Resources\Shaders\Fog;$(ProjectDir)Resources\Shaders\Vignette</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)base;$(ProjectDir);$(ProjectDir)fbx;$(ProjectDir)Resources;$(ProjectDir)Resources\Shaders;$(ProjectDir)particle;$(ProjectDir)light;$(ProjectDir)fbxsdk;$(ProjectDir)2d;$(ProjectDir)Resources\Shaders\Bulr;$(ProjectDir)Resources\Shaders\Monochrome;$(ProjectDir)Resources\Shaders\Mosaic;$(ProjectDir)Resources\Shaders\Reversal;$(ProjectDir)Resources\Shaders\ChromaticAberration;$(ProjectDir)Resources\Shaders\DepthOfField;$(ProjectDir)Resources\Shaders\ShadowMap;$(ProjectDir)Resources\Shaders\Fbx;$(ProjectDir)Resources\Shaders\Sprite;$(ProjectDir)Resources\Shaders\VolumeLight;$(ProjectDir)Resources\Shaders\Fog;$(ProjectDir)Resources\Shaders\Vignette;$(ProjectDir)Resources\Shaders\ColliderCube</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <DisableSpecificWarnings>4099;26495;26451;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>libfbxsdk-md.lib;libxml2-md.lib;zlib-md.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -138,8 +138,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)base;$(ProjectDir);$(ProjectDir)fbx;$(ProjectDir)Resources;$(ProjectDir)Resources\Shaders;$(ProjectDir)particle;$(ProjectDir)light;$(ProjectDir)fbxsdk;$(ProjectDir)2d;$(ProjectDir)Resources\Shaders\Bulr;$(ProjectDir)Resources\Shaders\Monochrome;$(ProjectDir)Resources\Shaders\Mosaic;$(ProjectDir)Resources\Shaders\Reversal;$(ProjectDir)Resources\Shaders\ChromaticAberration;$(ProjectDir)Resources\Shaders\DepthOfField;$(ProjectDir)Resources\Shaders\ShadowMap;$(ProjectDir)Resources\Shaders\Fbx;$(ProjectDir)Resources\Shaders\Sprite;$(ProjectDir)Resources\Shaders\VolumeLight;$(ProjectDir)Resources\Shaders\Fog;$(ProjectDir)Resources\Shaders\Vignette</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)base;$(ProjectDir);$(ProjectDir)fbx;$(ProjectDir)Resources;$(ProjectDir)Resources\Shaders;$(ProjectDir)particle;$(ProjectDir)light;$(ProjectDir)fbxsdk;$(ProjectDir)2d;$(ProjectDir)Resources\Shaders\Bulr;$(ProjectDir)Resources\Shaders\Monochrome;$(ProjectDir)Resources\Shaders\Mosaic;$(ProjectDir)Resources\Shaders\Reversal;$(ProjectDir)Resources\Shaders\ChromaticAberration;$(ProjectDir)Resources\Shaders\DepthOfField;$(ProjectDir)Resources\Shaders\ShadowMap;$(ProjectDir)Resources\Shaders\Fbx;$(ProjectDir)Resources\Shaders\Sprite;$(ProjectDir)Resources\Shaders\VolumeLight;$(ProjectDir)Resources\Shaders\Fog;$(ProjectDir)Resources\Shaders\Vignette;$(ProjectDir)Resources\Shaders\ColliderCube</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <DisableSpecificWarnings>4099;26495;26451;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -147,7 +148,6 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>libfbxsdk-mt.lib;libxml2-mt.lib;zlib-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -160,32 +160,32 @@
     <ClCompile Include="2d\ReversalEffect.cpp" />
     <ClCompile Include="2d\ShadowMap.cpp" />
     <ClCompile Include="2d\Vignette.cpp" />
+    <ClCompile Include="base\Camera.cpp" />
+    <ClCompile Include="base\CSVLoader.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="base\DXInput.cpp" />
     <ClCompile Include="base\FPS.cpp" />
     <ClCompile Include="base\ImGuiManager.cpp" />
     <ClCompile Include="base\Input.cpp" />
+    <ClCompile Include="base\JSONLoader.cpp" />
     <ClCompile Include="base\Message.cpp" />
     <ClCompile Include="base\Sprite.cpp" />
     <ClCompile Include="base\SpriteManager.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="CSVLoader.cpp" />
+    <ClCompile Include="ColliderCubeModel.cpp" />
+    <ClCompile Include="ColliderCubeObject.cpp" />
     <ClCompile Include="fbx\FbxLoader.cpp" />
     <ClCompile Include="fbx\FbxModel.cpp" />
     <ClCompile Include="fbx\FbxObject3D.cpp" />
     <ClCompile Include="GameScene.cpp" />
-    <ClCompile Include="JSONLoader.cpp" />
-    <ClCompile Include="Light.cpp" />
     <ClCompile Include="light\DirectionalLight.cpp" />
+    <ClCompile Include="light\Light.cpp" />
     <ClCompile Include="light\LightGroup.cpp" />
     <ClCompile Include="light\PointLight.cpp" />
     <ClCompile Include="light\SpotLight.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mathOriginal.cpp" />
     <ClCompile Include="particle\FireParticle.cpp" />
-    <ClCompile Include="VolumeLightModel.cpp" />
-    <ClCompile Include="VolumeLightObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\BlurEffect.h" />
@@ -197,33 +197,33 @@
     <ClInclude Include="2d\ReversalEffect.h" />
     <ClInclude Include="2d\ShadowMap.h" />
     <ClInclude Include="2d\Vignette.h" />
+    <ClInclude Include="base\Camera.h" />
+    <ClInclude Include="base\CSVLoader.h" />
     <ClInclude Include="base\DirectXCommon.h" />
     <ClInclude Include="base\DXInput.h" />
     <ClInclude Include="base\FPS.h" />
     <ClInclude Include="base\ImGuiManager.h" />
     <ClInclude Include="base\Input.h" />
     <ClInclude Include="base\json.hpp" />
+    <ClInclude Include="base\JSONLoader.h" />
     <ClInclude Include="base\Message.h" />
     <ClInclude Include="base\Sprite.h" />
     <ClInclude Include="base\SpriteManager.h" />
     <ClInclude Include="base\WinApp.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="CSVLoader.h" />
+    <ClInclude Include="ColliderCubeModel.h" />
+    <ClInclude Include="ColliderCubeObject.h" />
     <ClInclude Include="fbx\FbxLoader.h" />
     <ClInclude Include="fbx\FbxModel.h" />
     <ClInclude Include="fbx\FbxObject3D.h" />
     <ClInclude Include="GameScene.h" />
-    <ClInclude Include="JSONLoader.h" />
-    <ClInclude Include="Light.h" />
     <ClInclude Include="light\CircleShadow.h" />
     <ClInclude Include="light\DirectionalLight.h" />
+    <ClInclude Include="light\Light.h" />
     <ClInclude Include="light\LightGroup.h" />
     <ClInclude Include="light\PointLight.h" />
     <ClInclude Include="light\SpotLight.h" />
     <ClInclude Include="mathOriginal.h" />
     <ClInclude Include="particle\FireParticle.h" />
-    <ClInclude Include="VolumeLightModel.h" />
-    <ClInclude Include="VolumeLightObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
@@ -236,6 +236,7 @@
   <ItemGroup>
     <None Include="Resources\Shaders\Blur\BlurEffectHeader.hlsli" />
     <None Include="Resources\Shaders\ChromaticAberration\ChromaticAberrationEffectHeader.hlsli" />
+    <None Include="Resources\Shaders\ColliderCube\ColliderCubeHeader.hlsli" />
     <None Include="Resources\Shaders\DepthOfField\DepthOfFieldHeader.hlsli" />
     <None Include="Resources\Shaders\Fbx\FbxHeader0.hlsli" />
     <None Include="Resources\Shaders\Fbx\FbxHeader2.hlsli" />
@@ -269,6 +270,18 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\ChromaticAberration\ChromaticAberrationVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ColliderCube\ColliderCubePixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\ColliderCube\ColliderCubeVertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>

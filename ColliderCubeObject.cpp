@@ -1,15 +1,19 @@
-#include "VolumeLightObject.h"
+#include "ColliderCubeObject.h"
+
 #include <d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
 
-ComPtr<ID3D12RootSignature>VolumeLightObject::rootsignature;
-ComPtr<ID3D12PipelineState>VolumeLightObject::pipelinestate;
+using namespace Microsoft::WRL;
+using namespace DirectX;
 
-ID3D12Device* VolumeLightObject::device = nullptr;
-Camera* VolumeLightObject::camera = nullptr;
-Input* VolumeLightObject::input = nullptr;
+ComPtr<ID3D12RootSignature>ColliderCubeObject::rootsignature;
+ComPtr<ID3D12PipelineState>ColliderCubeObject::pipelinestate;
 
-void VolumeLightObject::Initialize()
+ID3D12Device* ColliderCubeObject::device = nullptr;
+Camera* ColliderCubeObject::camera = nullptr;
+Input* ColliderCubeObject::input = nullptr;
+
+void ColliderCubeObject::Initialize()
 {
 	HRESULT result;
 	//定数バッファの生成
@@ -25,7 +29,7 @@ void VolumeLightObject::Initialize()
 	);
 }
 
-void VolumeLightObject::Update()
+void ColliderCubeObject::Update()
 {
 	XMMATRIX matScale, matRot, matTrans;
 
@@ -61,36 +65,11 @@ void VolumeLightObject::Update()
 	}
 }
 
-void VolumeLightObject::Move()
+void ColliderCubeObject::Move()
 {
-	//ASDWでXY、ZXでZ軸を移動
-	/*if (input->PushKey(DIK_D))
-	{
-		position.x += 0.1;
-	}
-	if (input->PushKey(DIK_A))
-	{
-		position.x -= 0.1;
-	}
-	if (input->PushKey(DIK_W))
-	{
-		position.y += 0.1;
-	}
-	if (input->PushKey(DIK_S))
-	{
-		position.y -= 0.1;
-	}
-	if (input->PushKey(DIK_Z))
-	{
-		position.z += 0.1;
-	}
-	if (input->PushKey(DIK_X))
-	{
-		position.z -= 0.1;
-	}*/
 }
 
-void VolumeLightObject::Draw(ID3D12GraphicsCommandList* cmdList)
+void ColliderCubeObject::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	//モデルの割り当てがなければ描画市内
 	if (model == nullptr)
@@ -111,7 +90,7 @@ void VolumeLightObject::Draw(ID3D12GraphicsCommandList* cmdList)
 	model->Draw(cmdList);
 }
 
-void VolumeLightObject::CreateGraphicsPipeline()
+void ColliderCubeObject::CreateGraphicsPipeline()
 {
 	HRESULT result = S_FALSE;
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
@@ -122,7 +101,7 @@ void VolumeLightObject::CreateGraphicsPipeline()
 
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/VolumeLight/VolumeLightVertexShader.hlsl",     // シェーダファイル名
+		L"Resources/Shaders/ColliderCube/ColliderCubeVertexShader.hlsl",     // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "vs_5_0",    // エントリーポイント名、シェーダーモデル指定
@@ -145,7 +124,7 @@ void VolumeLightObject::CreateGraphicsPipeline()
 
 	// ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/VolumeLight/VolumeLightPixelShader.hlsl",   // シェーダファイル名
+		L"Resources/Shaders/ColliderCube/ColliderCubePixelShader.hlsl",   // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "ps_5_0",    // エントリーポイント名、シェーダーモデル指定
@@ -195,8 +174,8 @@ void VolumeLightObject::CreateGraphicsPipeline()
 	// ラスタライザステート
 	gpipeline.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
 	gpipeline.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
-	/*gpipeline.RasterizerState.FillMode = D3D12_FILL_MODE_WIREFRAME;*/
-	gpipeline.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
+	gpipeline.RasterizerState.FillMode = D3D12_FILL_MODE_WIREFRAME;
+	/*gpipeline.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;*/
 	// デプスステンシルステート
 	gpipeline.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
 

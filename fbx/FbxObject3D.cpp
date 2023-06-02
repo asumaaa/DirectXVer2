@@ -16,6 +16,7 @@ ID3D12Device* FbxObject3D::device = nullptr;
 Camera* FbxObject3D::camera = nullptr;
 Light* FbxObject3D::light = nullptr;
 LightGroup* FbxObject3D::lightGroup = nullptr;
+std::unique_ptr<ColliderCubeModel>FbxObject3D::colliderCubeModel;
 
 void FbxObject3D::Initialize()
 {
@@ -52,6 +53,17 @@ void FbxObject3D::Initialize()
 		constMapSkin->bones[i] = XMMatrixIdentity();
 	}
 	constBuffSkin->Unmap(0, nullptr);
+
+	//コライダー
+	ColliderInitialize();
+}
+
+void FbxObject3D::ColliderInitialize()
+{
+	ColliderCubeObject* newCubeObject = new ColliderCubeObject();
+	newCubeObject->Initialize();
+	newCubeObject->SetModel(colliderCubeModel.get());
+	colliderCubeObject.reset(newCubeObject);
 }
 
 void FbxObject3D::Update()
@@ -124,6 +136,18 @@ void FbxObject3D::Update()
 		constBuffTransform->Unmap(0, nullptr);
 	}
 
+	//コライダー更新
+	ColliderUpdate();
+}
+
+void FbxObject3D::ColliderUpdate()
+{
+	//コライダー
+	colliderCubeObject->SetPosition(XMFLOAT3(position.x + collider.center.x, 
+		position.y + collider.center.y, position.z + collider.center.z));
+	colliderCubeObject->SetScale(collider.scale);
+	colliderCubeObject->SetRotation(collider.rotation);
+	colliderCubeObject->Update();
 }
 
 
@@ -186,6 +210,11 @@ void FbxObject3D::Draw(ID3D12GraphicsCommandList* cmdList)
 	//cmdList->SetGraphicsRootDescriptorTable(1, descHeapSRV->GetGPUDescriptorHandleForHeapStart());
 
 	model->Draw1(cmdList);
+}
+
+void FbxObject3D::DrawCollider(ID3D12GraphicsCommandList* cmdList)
+{
+	colliderCubeObject->Draw(cmdList);
 }
 
 
@@ -469,7 +498,7 @@ void FbxObject3D::CreateGraphicsPipeline()
 	gpipeline.BlendState.RenderTarget[0] = blenddesc;
 
 	// 深度バッファのフォーマット
-	gpipeline.DSVFormat = DXGI_FORMAT_R32_FLOAT;
+	gpipeline.DSVFormat = DXGI_FORMAT_D32_FLOAT;
 
 	// 頂点レイアウトの設定
 	gpipeline.InputLayout.pInputElementDescs = inputLayout;
@@ -562,4 +591,12 @@ void FbxObject3D::PlayAnimation()
 	currentTime = startTime;
 	//再生中状態にする
 	isPlay = true;
+}
+
+void FbxObject3D::SetCollider(ColliderData colliderData)
+{
+	collider.type = colliderData.type;
+	collider.scale = colliderData.scale;
+	collider.center = colliderData.center;
+	collider.rotation = colliderData.rotation;
 }

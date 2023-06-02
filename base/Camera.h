@@ -11,18 +11,6 @@ using namespace DirectX;
 class Camera
 {
 public:
-	static enum Mode
-	{
-		forward,
-		right,
-		backward,
-		left,
-	};
-	static enum ApproachMode
-	{
-		Max,
-		Min,
-	};
 
 public:
 	//シングルトンインスタンス
@@ -56,9 +44,9 @@ private:
 	//コントローラー
 	static DXInput* dxInput;
 	//射影変換
-	XMMATRIX matProjection_;
+	XMMATRIX matProjection_ = XMMatrixIdentity();
 	//ビュー変換行列
-	XMMATRIX matView_;
+	XMMATRIX matView_ = XMMatrixIdentity();
 	XMFLOAT3 eye_ = { 0, 20, -100 };
 	XMFLOAT3 target_ = { 0, 0, 0 };
 	XMFLOAT3 up_ = { 0, 1, 0 };
@@ -66,7 +54,7 @@ private:
 	//ターゲットまでの距離
 	float DebugTargetDistance = 20.0f;
 	//加算用
-	float DebugChangeRot = PI;
+	float DebugChangeRot = (float)PI;
 	float DebugChangeRot2 = 0.5f;
 	float DebugChangeDistance = 0.0f;
 };

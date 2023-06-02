@@ -13,12 +13,9 @@
 #include "FireParticle.h"
 #include "Light.h"
 #include "LightGroup.h"
-#include "VolumeLightModel.h"
-#include "VolumeLightObject.h"
 #include "CSVLoader.h"
-#include "JSONLoader.h"
-
-#define PI 3.1415
+#include "ColliderCubeModel.h"
+#include "ColliderCubeObject.h"
 
 class GameScene
 {
@@ -26,7 +23,10 @@ class GameScene
 public:
 	GameScene();
 	~GameScene();
+	//初期化
 	void Initialize(DirectXCommon* dxCommon, Input* input);
+	//終了時
+	void Finalize();
 	//更新
 	void Update();
 	//描画
@@ -50,19 +50,15 @@ private:
 
 	//fbx
 	std::list<std::unique_ptr<FbxModel>> models;
-	size_t modelNum = 7;
 
 	//レベルエディタ
-	JSONLoader* jsonLoader = nullptr;
+	std::unique_ptr<JSONLoader> jsonLoader;
+
 	//オブジェクト
 	std::list<std::unique_ptr<FbxObject3D>> object;
-	//オブジェクトの数
-	size_t objectNum = 3;
-
-	CSVLoader *tree1csv = nullptr;
 
 	//ライト 影用
-	Light* light = nullptr;
+	std::unique_ptr<Light> light;
 	float lightDir[3] = {0.0f,-1.0f , -1.0f};
 	float lightPos[3] = {0.0f,25.0f,25.0f};
 	float lightTarget[3] = { 0.0f,0.0f,0.0f };
@@ -70,22 +66,19 @@ private:
 	float lightAtten[3] = {0.0f,0.0f,0.0f};
 
 	//ライト
-	LightGroup* lightGroup = nullptr;
+	std::unique_ptr<LightGroup> lightGroup;
 	float lightManagerDir[3] = { 0.0f,-1.0f , 1.0f };
 
-	//ボリュームライト
-	std::unique_ptr <VolumeLightModel> volumeLightModel;
-	std::unique_ptr <VolumeLightObject> volumeLightObject;
-	float volumeLightPos[3] = { 0.0f,5.0f,-10.0f };
-	float volumeLightScale[3] = { 4.0f,4.0f,4.0f };
-	float volumeLightRotation[3] = { 0.0f,0.0f,0.0f };
-
 	//スプライトマネージャー
-	SpriteManager* spriteManager = nullptr;
+	std::unique_ptr <SpriteManager> spriteManager;
 
 	//変形行列
 	DirectX::XMFLOAT3 position = { 0.0f,0.0f,0.0f };
 	DirectX::XMFLOAT3 rotation0 = { 0.0f,0.0f,0.0f };
 	DirectX::XMFLOAT3 scale = { 0.010f,0.010f,0.010f };
 	DirectX::XMFLOAT3 rotation1 = { 0.0f,0.0f,0.0f };
+
+	////コライダーのモデル
+	std::unique_ptr<ColliderCubeModel> colliderCubeModel;
+	//std::unique_ptr<ColliderCubeObject> colliderCubeObject;
 };

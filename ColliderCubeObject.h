@@ -1,14 +1,10 @@
-#include "VolumeLightModel.h"
+#pragma once
+#include "ColliderCubeModel.h"
 #include "Camera.h"
-#include "windows.h"
-#include "wrl.h"
-#include "d3d12.h"
-#include "d3dx12.h"
-#include "DirectXMath.h"
 #include "string.h"
 #include "input.h"
 
-class VolumeLightObject
+class ColliderCubeObject
 {
 private:	//エイリアス
 	//Microsoft::WRL::を省略
@@ -28,9 +24,9 @@ public://サブクラス
 	};
 public:	//静的メンバ関数
 	//セッター
-	static void SetDevice(ID3D12Device* device) { VolumeLightObject::device = device; }
-	static void SetCamera(Camera* camera) { VolumeLightObject::camera = camera; }
-	static void SetInput(Input* input) { VolumeLightObject::input = input; }
+	static void SetDevice(ID3D12Device* device) { ColliderCubeObject::device = device; }
+	static void SetCamera(Camera* camera) { ColliderCubeObject::camera = camera; }
+	static void SetInput(Input* input) { ColliderCubeObject::input = input; }
 
 private://静的メンバ変数
 	static ID3D12Device* device;
@@ -47,7 +43,7 @@ public://メンバ関数
 	//描画
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 	//モデルのセット
-	void SetModel(VolumeLightModel* model) { this->model = model; }
+	void SetModel(ColliderCubeModel* model) { this->model = model; }
 	//グラフィックスパイプラインの生成
 	static void CreateGraphicsPipeline();
 	//セッター
@@ -77,5 +73,6 @@ private:
 	//ローカルワールド変換行列
 	XMMATRIX matWorld;
 	//モデル
-	VolumeLightModel* model = nullptr;
+	ColliderCubeModel* model = nullptr;
 };
+

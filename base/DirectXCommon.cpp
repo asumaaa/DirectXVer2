@@ -19,7 +19,6 @@ DirectXCommon::~DirectXCommon()
 void DirectXCommon::Initialize(WinApp* winApp)
 {
 	winApp_ = winApp;
-	HRESULT result;
 
 	//デバイス初期化
 	InitializeDevice();

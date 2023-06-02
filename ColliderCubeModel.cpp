@@ -1,12 +1,12 @@
-#include "VolumeLightModel.h"
+#include "ColliderCubeModel.h"
 
-void VolumeLightModel::CreateBuffers(ID3D12Device* device)
+void ColliderCubeModel::CreateBuffers(ID3D12Device* device)
 {
 	HRESULT result;
 
 	//頂点、インデックスサイズ設定
-	vertices.resize(16);
-	indices.resize(24);
+	vertices.resize(24);
+	indices.resize(36);
 
 	//頂点データ生成
 	CreateVertex();
@@ -183,33 +183,42 @@ void VolumeLightModel::CreateBuffers(ID3D12Device* device)
 	);
 }
 
-void VolumeLightModel::CreateVertex()
+void ColliderCubeModel::CreateVertex()
 {
 	//球体一つの基礎サイズ
-	XMFLOAT3 size = { 1.0f,1.0f,10.0f };
-	float a = sqrt(2);
+	XMFLOAT3 size = { 1.0f,1.0f,1.0f };
 	//頂点データ
 	VertexPosNormalUv v[] = {
-		//右上
-		{{			 0,			 0,		  0},{},{0.0f,0.5f} },	//0
-		{{		size.x,			 0,	 size.z},{},{1.0f,1.0f} },	//1 
-		{{	size.x / a,	size.y / a,	 size.z},{},{1.0f,0.5f} },	//2 
-		{{			 0,		size.y,	 size.z},{},{1.0f,0.0f} },	//3
-		//左上
-		{{			0,			 0,		  0},{},{0.0f,0.5f} },	//4
-		{{			0,		size.y,	 size.z},{},{1.0f,1.0f} },	//5 
-		{{-size.x / a,	size.y / a,	 size.z},{},{1.0f,0.5f} },	//6 
-		{{	  -size.x,			 0,	 size.z},{},{1.0f,0.0f} },	//7
-		//左下
-		{{			0,			  0,		  0},{},{0.0f,0.5f} },	//8
-		{{	  -size.x,	  		  0,	 size.z},{},{1.0f,1.0f} },	//9 
-		{{-size.x / a,	-size.y / a,	 size.z},{},{1.0f,0.5f} },	//10 
-		{{			0,		-size.y,	 size.z},{},{1.0f,0.0f} },	//11
-		//右下
-		{{			0,			 0,		  0},{},{0.0f,0.5f} },	//12
-		{{			0,		-size.y,	 size.z},{},{1.0f,1.0f} },	//13
-		{{ size.x / a,	-size.y / a,	 size.z},{},{1.0f,0.5f} },	//14 
-		{{	   size.x,			 0,	 size.z},{},{1.0f,0.0f} },	//15
+		//前
+		{{-size.x / 2,-size.y / 2,-size.z / 2},{},{0.0f,1.0f} },	//0
+		{{-size.x / 2, size.y / 2,-size.z / 2},{},{0.0f,0.0f} },	//1 
+		{{ size.x / 2,-size.y / 2,-size.z / 2},{},{1.0f,1.0f} },	//2 
+		{{ size.x / 2, size.y / 2,-size.z / 2},{},{1.0f,0.0f} },	//3
+		//後				 	   
+		{{ size.x / 2,-size.y / 2, size.z / 2},{},{0.0f,1.0f} },	//4
+		{{ size.x / 2, size.y / 2, size.z / 2},{},{0.0f,0.0f} },	//5
+		{{-size.x / 2,-size.y / 2, size.z / 2},{},{1.0f,1.0f} },	//6
+		{{-size.x / 2, size.y / 2, size.z / 2},{},{1.0f,0.0f} },	//7
+		//左				 	    
+		{{-size.x / 2,-size.y / 2,-size.z / 2},{},{0.0f,1.0f} },	//8
+		{{-size.x / 2,-size.y / 2, size.z / 2},{},{0.0f,0.0f} },	//9
+		{{-size.x / 2, size.y / 2,-size.z / 2},{},{1.0f,1.0f} },	//10
+		{{-size.x / 2, size.y / 2, size.z / 2},{},{1.0f,0.0f} },	//11
+		//右				 	    
+		{{ size.x / 2,-size.y / 2,-size.z / 2},{},{0.0f,1.0f} },	//12
+		{{ size.x / 2,-size.y / 2, size.z / 2},{},{0.0f,0.0f} },	//13
+		{{ size.x / 2, size.y / 2,-size.z / 2},{},{1.0f,1.0f} },	//14
+		{{ size.x / 2, size.y / 2, size.z / 2},{},{1.0f,0.0f} },	//15
+		//下					  	
+		{{-size.x / 2,-size.y / 2, size.z / 2},{},{0.0f,1.0f} },	//16
+		{{-size.x / 2,-size.y / 2,-size.z / 2},{},{0.0f,0.0f} },	//17
+		{{ size.x / 2,-size.y / 2, size.z / 2},{},{1.0f,1.0f} },	//18
+		{{ size.x / 2,-size.y / 2,-size.z / 2},{},{1.0f,0.0f} },	//19
+		//上				 	    
+		{{-size.x / 2, size.y / 2,-size.z / 2},{},{0.0f,1.0f} },	//20
+		{{-size.x / 2, size.y / 2, size.z / 2},{},{0.0f,0.0f} },	//21
+		{{ size.x / 2, size.y / 2,-size.z / 2},{},{1.0f,1.0f} },	//22
+		{{ size.x / 2, size.y / 2, size.z / 2},{},{1.0f,0.0f} },	//23
 	};
 	//インデックスデータ
 	unsigned short in[] =
@@ -217,25 +226,31 @@ void VolumeLightModel::CreateVertex()
 
 		//前
 		0,1,2,	//三角形1つ目
-		0,2,3,	//三角形2つ目
+		2,1,3,	//三角形2つ目
 		//後
 		4,5,6,
-		4,6,7,
+		6,5,7,
 		//左
 		8,9,10,
-		8,10,11,
+		10,9,11,
 		//右
 		12,13,14,
-		12,14,15,
+		14,13,15,
+		//下
+		16,17,18,
+		18,17,19,
+		//上
+		20,21,22,
+		22,21,23,
 	};
 
 	//頂点座標、uv座標、インデックスデータを代入
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < 24; i++)
 	{
 		vertices[i] = v[i];
 	}
 
-	for (int i = 0; i < 24; i++)
+	for (int i = 0; i < 36; i++)
 	{
 		indices[i] = in[i];
 	}
@@ -265,7 +280,7 @@ void VolumeLightModel::CreateVertex()
 	}
 }
 
-void VolumeLightModel::SetImageData(XMFLOAT4 color)
+void ColliderCubeModel::SetImageData(XMFLOAT4 color)
 {
 	HRESULT result;
 	for (size_t i = 0; i < imageDataCount; i++)
@@ -285,8 +300,10 @@ void VolumeLightModel::SetImageData(XMFLOAT4 color)
 	);
 }
 
-void VolumeLightModel::Update()
+void ColliderCubeModel::Update()
 {
+	//-----この上に頂点の更新処理を書く-----
+
 	HRESULT result;
 	//頂点データ全体のサイズ
 	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUv)) * vertices.size();
@@ -305,7 +322,7 @@ void VolumeLightModel::Update()
 	vertBuff->Unmap(0, nullptr);
 }
 
-void VolumeLightModel::Draw(ID3D12GraphicsCommandList* cmdList)
+void ColliderCubeModel::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	//頂点バッファをセット
 	cmdList->IASetVertexBuffers(0, 1, &vbView);
