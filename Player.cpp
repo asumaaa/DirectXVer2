@@ -40,6 +40,16 @@ void Player::Move()
 	position.z += input->PushKey(DIK_W) * 0.2f;
 }
 
+void Player::SetObject(FbxObject3D* object)
+{
+	//引数のオブジェクトをセット
+	Player::object.reset(object);
+
+	position = object->GetPosition();
+	rotation = object->GetRotation();
+	scale = object->GetScale();
+}
+
 void Player::SetSRV(ID3D12DescriptorHeap* SRV)
 {
 	object->SetSRV(SRV);

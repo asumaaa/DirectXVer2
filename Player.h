@@ -31,7 +31,7 @@ public:
 	void Move();
 
 	//セッター
-	void SetObject(FbxObject3D* object) { Player::object.reset(object); }
+	void SetObject(FbxObject3D* object);
 	void SetSRV(ID3D12DescriptorHeap* SRV);
 
 	//ゲッター

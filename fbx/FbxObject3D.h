@@ -96,6 +96,11 @@ public://メンバ関数
 	void SetSRV(ID3D12DescriptorHeap* SRV) { depthSRV = SRV; }
 	void SetCollider(ColliderData colliderData);
 
+	//ゲッター
+	XMFLOAT3 GetPosition() { return position; }
+	XMFLOAT3 GetRotation() { return rotation; }
+	XMFLOAT3 GetScale() { return scale; }
+
 private://メンバ変数
 	//定数バッファ
 	ComPtr<ID3D12Resource>constBuffTransform;
