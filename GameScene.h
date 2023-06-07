@@ -34,6 +34,7 @@ public:
 	void Draw();
 	void DrawFBXLightView();
 	void DrawFBX();
+	void DrawCollider();
 	
 	//セッター
 	void SetSRV(ID3D12DescriptorHeap* SRV);

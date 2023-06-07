@@ -12,7 +12,7 @@
 #include "Light.h"
 #include "LightGroup.h"
 #include "JSONLoader.h"
-#include "ColliderCUbeObject.h"
+#include "ColliderCubeObject.h"
 
 class FbxObject3D
 {

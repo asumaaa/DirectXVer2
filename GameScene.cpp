@@ -60,13 +60,13 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	//FBXローダー初期化
 	FbxLoader::GetInstance()->Initialize(dxCommon_->GetDevice());
 	//モデル名を指定してファイル読み込み
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Stone", "Resources/white1x1.png"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree", "Resources/white1x1.png"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree1", "Resources/black.png"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree2", "Resources/white1x1.png"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree3", "Resources/black.png"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Cube", "Resources/toriko.png"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("player", "Resources/white1x1.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Stone", "Resources/pictures/white1x1.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree", "Resources/pictures/white1x1.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree1", "Resources/pictures/black.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree2", "Resources/pictures/white1x1.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree3", "Resources/pictures/black.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Cube", "Resources/pictures/toriko.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("player", "Resources/pictures/white1x1.png"));
 
 	//デバイスをセット
 	FbxObject3D::SetDevice(dxCommon_->GetDevice());
@@ -117,11 +117,11 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	SpriteManager::SetDevice(dxCommon->GetDevice());
 	SpriteManager* newSpriteManager = new SpriteManager();
 	newSpriteManager->Initialize();
-	newSpriteManager->LoadFile(0,L"Resources/toriko.png");
-	newSpriteManager->LoadFile(1, L"Resources/toriko2.png");
-	newSpriteManager->LoadFile(2, L"Resources/GourmetSpyzer.png");
-	newSpriteManager->LoadFile(3, L"Resources/orange.png");
-	newSpriteManager->LoadFile(4,L"Resources/red.png");
+	newSpriteManager->LoadFile(0,L"Resources/pictures/toriko.png");
+	newSpriteManager->LoadFile(1, L"Resources/pictures/toriko2.png");
+	newSpriteManager->LoadFile(2, L"Resources/pictures/GourmetSpyzer.png");
+	newSpriteManager->LoadFile(3, L"Resources/pictures/orange.png");
+	newSpriteManager->LoadFile(4,L"Resources/pictures/red.png");
 	spriteManager.reset(newSpriteManager);
 }
 
@@ -191,6 +191,9 @@ void GameScene::Draw()
 	//ImGui::InputFloat2("lightFactorAngle", lightFactorAngle);*/
 	//ImGui::End();
 
+	//コライダーの描画
+	DrawCollider();
+	//FBXの描画
 	DrawFBX();
 }
 
@@ -207,6 +210,13 @@ void GameScene::DrawFBX()
 	for (std::unique_ptr<FbxObject3D>& object0 : object)
 	{
 		object0->Draw(dxCommon_->GetCommandList());
+	}
+}
+
+void GameScene::DrawCollider()
+{
+	for (std::unique_ptr<FbxObject3D>& object0 : object)
+	{
 		object0->DrawCollider(dxCommon_->GetCommandList());
 	}
 }
