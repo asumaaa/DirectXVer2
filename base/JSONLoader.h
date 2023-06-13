@@ -6,28 +6,6 @@
 #include "string"
 #include "list"
 
-struct ObjectData {
-	// ファイル名
-	std::string fileName;
-	// 平行移動
-	DirectX::XMFLOAT3 position;
-	// 回転角
-	DirectX::XMFLOAT3 rotation;
-	// スケーリング
-	DirectX::XMFLOAT3 scale;
-};
-
-struct ColliderData {
-	// コライダーの種類
-	std::string type;
-	// スケーリング
-	DirectX::XMFLOAT3 scale;
-	// 回転角
-	DirectX::XMFLOAT3 rotation;
-	//中心
-	DirectX::XMFLOAT3 center;
-};
-
 class JSONLoader
 {
 private:	//エイリアス
@@ -36,6 +14,33 @@ private:	//エイリアス
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
+
+public:	//サブクラス
+	struct ObjectData {
+		// ファイル名
+		std::string fileName;
+		//オブジェクトの名前
+		std::string objectName;
+		// 平行移動
+		DirectX::XMFLOAT3 position;
+		// 回転角
+		DirectX::XMFLOAT3 rotation;
+		// スケーリング
+		DirectX::XMFLOAT3 scale;
+	};
+
+	struct ColliderData {
+		// コライダーの種類
+		std::string type;
+		//オブジェクトの名前
+		std::string objectName;
+		// スケーリング
+		DirectX::XMFLOAT3 scale;
+		// 回転角
+		DirectX::XMFLOAT3 rotation;
+		//中心
+		DirectX::XMFLOAT3 center;
+	};
 
 	//メンバ関数
 public:

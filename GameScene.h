@@ -14,9 +14,12 @@
 #include "Light.h"
 #include "LightGroup.h"
 #include "CSVLoader.h"
+#include "Player.h"
 #include "ColliderCubeModel.h"
 #include "ColliderCubeObject.h"
-#include "Player.h"
+#include "ColliderSphereModel.h"
+#include "ColliderSphereObject.h"
+#include "ColliderManager.h"
 
 class GameScene
 {
@@ -30,6 +33,7 @@ public:
 	void Finalize();
 	//更新
 	void Update();
+	void UpdateCollider();
 	//描画
 	void Draw();
 	void DrawFBXLightView();
@@ -80,9 +84,13 @@ private:
 	DirectX::XMFLOAT3 scale = { 0.010f,0.010f,0.010f };
 	DirectX::XMFLOAT3 rotation1 = { 0.0f,0.0f,0.0f };
 
-	////コライダーのモデル
-	std::unique_ptr<ColliderCubeModel> colliderCubeModel;
-
 	//プレイヤー
 	std::unique_ptr<Player> player;
+
+	//コライダーのモデル
+	std::unique_ptr<ColliderCubeModel>colliderCubeModel;
+	std::unique_ptr<ColliderSphereModel>colliderSphereModel;
+
+	//コライダー
+	std::unique_ptr<ColliderManager> colliderManager;
 };

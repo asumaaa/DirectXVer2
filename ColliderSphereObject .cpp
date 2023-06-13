@@ -12,6 +12,7 @@ ComPtr<ID3D12PipelineState>ColliderSphereObject::pipelinestate;
 ID3D12Device* ColliderSphereObject::device = nullptr;
 Camera* ColliderSphereObject::camera = nullptr;
 Input* ColliderSphereObject::input = nullptr;
+ColliderSphereModel* ColliderSphereObject::model = nullptr;
 
 void ColliderSphereObject::Initialize()
 {
@@ -61,6 +62,7 @@ void ColliderSphereObject::Update()
 		constMap->viewproj = matViewProjection;
 		constMap->world = matWorld;
 		constMap->cameraPos = cameraPos;
+		constMap->color = color;
 		constBuffTransform->Unmap(0, nullptr);
 	}
 }
@@ -82,7 +84,7 @@ void ColliderSphereObject::Draw(ID3D12GraphicsCommandList* cmdList)
 	//ルートシグネチャの設定
 	cmdList->SetGraphicsRootSignature(rootsignature.Get());
 	//プリミティブ形状の設定
-	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
 	//定数バッファビューをセット
 	cmdList->SetGraphicsRootConstantBufferView(0, constBuffTransform->GetGPUVirtualAddress());
 

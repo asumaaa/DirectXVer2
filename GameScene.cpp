@@ -47,7 +47,24 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	ColliderCubeObject::SetDevice(dxCommon_->GetDevice());
 	ColliderCubeObject::SetCamera(camera_.get());
 	ColliderCubeObject::SetInput(input_);
+	ColliderCubeObject::SetModel(colliderCubeModel.get());
 	ColliderCubeObject::CreateGraphicsPipeline();
+
+	//コライダーの球
+	ColliderSphereModel* newSphereModel = new ColliderSphereModel();
+	newSphereModel->CreateBuffers(dxCommon_->GetDevice());
+	colliderSphereModel.reset(newSphereModel);
+	ColliderSphereObject::SetDevice(dxCommon_->GetDevice());
+	ColliderSphereObject::SetCamera(camera_.get());
+	ColliderSphereObject::SetInput(input_);
+	ColliderSphereObject::SetModel(colliderSphereModel.get());
+	ColliderSphereObject::CreateGraphicsPipeline();
+
+	//コライダーマネージャー
+	ColliderManager* newColliderManager = new ColliderManager();
+	newColliderManager->SetColliderCubeModel(colliderCubeModel.get());
+	newColliderManager->SetColliderSphereModel(colliderSphereModel.get());
+	colliderManager.reset(newColliderManager);
 
 	//プレイヤー
 	Player::SetCamera(camera_.get());
@@ -73,7 +90,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	FbxObject3D::SetCamera(camera_.get());
 	FbxObject3D::SetLight(light.get());
 	FbxObject3D::SetLightGroup(lightGroup.get());
-	FbxObject3D::SetColliderCubeModel(colliderCubeModel.get());
 	FbxObject3D::CreateGraphicsPipelineLightView();
 	FbxObject3D::CreateGraphicsPipeline();
 
@@ -97,11 +113,10 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 			}
 		}
 
-		//配置
-		newObject->SetPosition(jsonLoader->GetPosition(i));
-		newObject->SetScale(jsonLoader->GetScale(i));
-		newObject->SetRotation(jsonLoader->GetRotation(i));
-		newObject->SetCollider(jsonLoader->GetColliderData(i));
+		//オブジェクトの配置
+		newObject->SetObjectData(jsonLoader->GetObjectData(i));
+		//コライダーの配置
+		newObject->SetColliderData(jsonLoader->GetColliderData(i));
 
 		object.push_back(std::move(newObject));
 
@@ -111,6 +126,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 			player->SetObject(object.back().get());
 			/*object.pop_back();*/
 		}
+		//コライダーのセット
+		colliderManager->SetCollider(jsonLoader->GetColliderData(i));
 	}
 
 	//スプライトマネージャー
@@ -177,6 +194,19 @@ void GameScene::Update()
 	{
 		object0->Update();
 	}
+
+	//コライダー更新
+	UpdateCollider();
+}
+
+void GameScene::UpdateCollider()
+{
+	colliderManager->PreUpdate();
+	for (std::unique_ptr<FbxObject3D>& object0 : object)
+	{
+		colliderManager->CheckCollider(object0->GetColliderData(), object0->GetColliderData());
+	}
+	colliderManager->PostUpdate();
 }
 
 void GameScene::Draw()
@@ -215,10 +245,7 @@ void GameScene::DrawFBX()
 
 void GameScene::DrawCollider()
 {
-	for (std::unique_ptr<FbxObject3D>& object0 : object)
-	{
-		object0->DrawCollider(dxCommon_->GetCommandList());
-	}
+	colliderManager->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::SetSRV(ID3D12DescriptorHeap* SRV)

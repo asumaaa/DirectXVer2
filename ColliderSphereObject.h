@@ -1,14 +1,13 @@
 #pragma once
-#include "ColliderCubeModel.h"
+#include "ColliderSphereModel.h"
 #include "Camera.h"
 #include "string.h"
 #include "input.h"
 
-class ColliderCubeObject
+class ColliderSphereObject
 {
 private:	//エイリアス
 	//Microsoft::WRL::を省略
-	template<class T>using ComPtr = Microsoft::WRL::ComPtr<T>;
 	//DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
@@ -21,17 +20,20 @@ public://サブクラス
 		XMMATRIX viewproj;
 		XMMATRIX world;
 		XMFLOAT3 cameraPos;
+		XMFLOAT4 color;
 	};
 public:	//静的メンバ関数
 	//セッター
-	static void SetDevice(ID3D12Device* device) { ColliderCubeObject::device = device; }
-	static void SetCamera(Camera* camera) { ColliderCubeObject::camera = camera; }
-	static void SetInput(Input* input) { ColliderCubeObject::input = input; }
+	static void SetDevice(ID3D12Device* device) { ColliderSphereObject::device = device; }
+	static void SetCamera(Camera* camera) { ColliderSphereObject::camera = camera; }
+	static void SetInput(Input* input) { ColliderSphereObject::input = input; }
+	static void SetModel(ColliderSphereModel* model) { ColliderSphereObject::model = model; }
 
 private://静的メンバ変数
 	static ID3D12Device* device;
 	static Camera* camera;
 	static Input* input;
+	static ColliderSphereModel* model;
 
 public://メンバ関数
 	//初期化
@@ -42,14 +44,13 @@ public://メンバ関数
 	void Move();
 	//描画
 	void Draw(ID3D12GraphicsCommandList* cmdList);
-	//モデルのセット
-	void SetModel(ColliderCubeModel* model) { this->model = model; }
 	//グラフィックスパイプラインの生成
 	static void CreateGraphicsPipeline();
 	//セッター
 	void SetPosition(XMFLOAT3 pos) { position = pos; }
 	void SetScale(XMFLOAT3 sca) { scale = sca; }
 	void SetRotation(XMFLOAT3 rot) { rotation = rot; }
+	void SetColor(XMFLOAT4 color) { this->color = color; }
 	//ゲッター
 	XMFLOAT3 GetPosition() { return position; }
 	XMFLOAT3 GetRotation() { return rotation; }
@@ -72,7 +73,7 @@ private:
 	XMFLOAT3 position = { 0,0,0 };
 	//ローカルワールド変換行列
 	XMMATRIX matWorld;
-	//モデル
-	ColliderCubeModel* model = nullptr;
+	//色
+	XMFLOAT4 color = { 1,1,1,1 };
 };
 

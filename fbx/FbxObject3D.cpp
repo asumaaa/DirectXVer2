@@ -16,7 +16,6 @@ ID3D12Device* FbxObject3D::device = nullptr;
 Camera* FbxObject3D::camera = nullptr;
 Light* FbxObject3D::light = nullptr;
 LightGroup* FbxObject3D::lightGroup = nullptr;
-std::unique_ptr<ColliderCubeModel>FbxObject3D::colliderCubeModel;
 
 void FbxObject3D::Initialize()
 {
@@ -54,16 +53,6 @@ void FbxObject3D::Initialize()
 	}
 	constBuffSkin->Unmap(0, nullptr);
 
-	//コライダー
-	ColliderInitialize();
-}
-
-void FbxObject3D::ColliderInitialize()
-{
-	ColliderCubeObject* newCubeObject = new ColliderCubeObject();
-	newCubeObject->Initialize();
-	newCubeObject->SetModel(colliderCubeModel.get());
-	colliderCubeObject.reset(newCubeObject);
 }
 
 void FbxObject3D::Update()
@@ -137,18 +126,13 @@ void FbxObject3D::Update()
 	}
 
 	//コライダー更新
-	ColliderUpdate();
-	colliderCubeObject->Update();
+	UpdateCollider();
 }
 
-void FbxObject3D::ColliderUpdate()
+void FbxObject3D::UpdateCollider()
 {
-	//コライダー
-	colliderCubeObject->SetPosition(XMFLOAT3(position.x - colliderPos.x, 
-		position.y - colliderPos.y, position.z - colliderPos.z));
-	colliderCubeObject->SetScale(collider.scale);
-	colliderCubeObject->SetRotation(collider.rotation);
-	colliderCubeObject->Update();
+	FbxObject3D::colliderData.center = position;
+	FbxObject3D::colliderData.rotation = rotation;
 }
 
 
@@ -212,12 +196,6 @@ void FbxObject3D::Draw(ID3D12GraphicsCommandList* cmdList)
 
 	model->Draw1(cmdList);
 }
-
-void FbxObject3D::DrawCollider(ID3D12GraphicsCommandList* cmdList)
-{
-	colliderCubeObject->Draw(cmdList);
-}
-
 
 void FbxObject3D::CreateGraphicsPipelineLightView()
 {
@@ -594,14 +572,20 @@ void FbxObject3D::PlayAnimation()
 	isPlay = true;
 }
 
-void FbxObject3D::SetCollider(ColliderData colliderData)
+void FbxObject3D::SetObjectData(JSONLoader::ObjectData objectData)
 {
-	collider.type = colliderData.type;
-	collider.scale = colliderData.scale;
-	collider.rotation = colliderData.rotation;
-	collider.center = colliderData.center;
+	position = objectData.position;
+	scale = objectData.scale;
+	rotation = objectData.rotation;
+	fileName = objectData.fileName;
+	objectName = objectData.objectName;
+}
 
-	colliderPos.x = position.x - colliderData.center.x;
-	colliderPos.y = position.y - colliderData.center.y;
-	colliderPos.z = position.z - colliderData.center.z;
+void FbxObject3D::SetColliderData(JSONLoader::ColliderData colliderData)
+{
+	FbxObject3D::colliderData.type = colliderData.type;
+	FbxObject3D::colliderData.objectName = colliderData.objectName;
+	FbxObject3D::colliderData.scale = colliderData.scale;
+	FbxObject3D::colliderData.rotation = colliderData.rotation;
+	FbxObject3D::colliderData.center = colliderData.center;
 }

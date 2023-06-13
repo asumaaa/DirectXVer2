@@ -12,6 +12,7 @@ ComPtr<ID3D12PipelineState>ColliderCubeObject::pipelinestate;
 ID3D12Device* ColliderCubeObject::device = nullptr;
 Camera* ColliderCubeObject::camera = nullptr;
 Input* ColliderCubeObject::input = nullptr;
+ColliderCubeModel* ColliderCubeObject::model = nullptr;
 
 void ColliderCubeObject::Initialize()
 {
@@ -61,6 +62,7 @@ void ColliderCubeObject::Update()
 		constMap->viewproj = matViewProjection;
 		constMap->world = matWorld;
 		constMap->cameraPos = cameraPos;
+		constMap->color = color;
 		constBuffTransform->Unmap(0, nullptr);
 	}
 }

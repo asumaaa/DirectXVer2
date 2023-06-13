@@ -12,7 +12,6 @@
 #include "Light.h"
 #include "LightGroup.h"
 #include "JSONLoader.h"
-#include "ColliderCubeObject.h"
 
 class FbxObject3D
 {
@@ -43,17 +42,6 @@ public:
 		XMMATRIX bones[MAX_BONES];
 	};
 
-	struct Collider {
-		// コライダーの種類
-		std::string type;
-		// スケーリング
-		XMFLOAT3 scale;
-		//中心
-		XMFLOAT3 center;
-		//回転
-		XMFLOAT3 rotation;
-	};
-
 public:	//静的メンバ関数
 	//セッター
 	static void SetDevice(ID3D12Device* device) { FbxObject3D::device = device; }
@@ -66,26 +54,21 @@ private://静的メンバ変数
 	static Camera* camera;
 	static Light* light;
 	static LightGroup* lightGroup;
-	//コライダーのモデル
-	static std::unique_ptr<ColliderCubeModel>colliderCubeModel;
 
 public://メンバ関数
 	//初期化
 	void Initialize();
-	void ColliderInitialize();
 	//更新
 	void Update();
-	void ColliderUpdate();
+	void UpdateCollider();
 	//描画
 	void DrawLightView(ID3D12GraphicsCommandList* cmdList);
 	void Draw(ID3D12GraphicsCommandList* cmdList);
-	void DrawCollider(ID3D12GraphicsCommandList* cmdList);
 	//モデルのセット
 	void SetModel(FbxModel* model) { this->model = model; }
 	//グラフィックスパイプラインの生成
 	static void CreateGraphicsPipelineLightView();
 	static void CreateGraphicsPipeline();
-	static void SetColliderCubeModel(ColliderCubeModel *colliderCubeModel) { FbxObject3D::colliderCubeModel.reset(colliderCubeModel); };
 	//アニメーション開始
 	void PlayAnimation();
 
@@ -94,12 +77,16 @@ public://メンバ関数
 	void SetRotation(XMFLOAT3 rot) { rotation = rot; }
 	void SetScale(XMFLOAT3 sca) { scale = sca; }
 	void SetSRV(ID3D12DescriptorHeap* SRV) { depthSRV = SRV; }
-	void SetCollider(ColliderData colliderData);
+	void SetObjectData(JSONLoader::ObjectData objectData);
+	void SetColliderData(JSONLoader::ColliderData colliderData);
 
 	//ゲッター
 	XMFLOAT3 GetPosition() { return position; }
 	XMFLOAT3 GetRotation() { return rotation; }
 	XMFLOAT3 GetScale() { return scale; }
+	std::string GetFileName() { return fileName; }
+	std::string GetObjectName() { return objectName; }
+	JSONLoader::ColliderData GetColliderData() { return colliderData; }
 
 private://メンバ変数
 	//定数バッファ
@@ -122,10 +109,6 @@ private:
 	XMMATRIX matWorld;
 	//モデル
 	FbxModel* model = nullptr;
-	//コライダー
-	Collider collider;
-	//コライダーのオブジェクト
-	std::unique_ptr<ColliderCubeObject>colliderCubeObject;
 	//コライダーの中心と座標の差分
 	XMFLOAT3 colliderPos = {0.0f,0.0f,0.0f};
 
@@ -145,4 +128,12 @@ private:
 	FbxTime currentTime;
 	//アニメーション再生中
 	bool isPlay = false;
+
+	//ファイルの名前
+	std::string fileName;
+	//オブジェクトの名前
+	std::string objectName;
+
+	//コライダー
+	JSONLoader::ColliderData colliderData;
 };

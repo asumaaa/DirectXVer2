@@ -1,12 +1,14 @@
 #include "ColliderSphereModel.h"
+#include "math.h"
+#define PI 3.1415
 
 void ColliderSphereModel::CreateBuffers(ID3D12Device* device)
 {
 	HRESULT result;
 
 	//頂点、インデックスサイズ設定
-	vertices.resize(24);
-	indices.resize(36);
+	vertices.resize(divNum*divNum);
+	indices.resize(divNum * divNum * 4 - divNum * 2);
 
 	//頂点データ生成
 	CreateVertex();
@@ -185,98 +187,78 @@ void ColliderSphereModel::CreateBuffers(ID3D12Device* device)
 
 void ColliderSphereModel::CreateVertex()
 {
-	//球体一つの基礎サイズ
-	XMFLOAT3 size = { 1.0f,1.0f,1.0f };
-	//頂点データ
-	VertexPosNormalUv v[] = {
-		//前
-		{{-size.x / 2,-size.y / 2,-size.z / 2},{},{0.0f,1.0f} },	//0
-		{{-size.x / 2, size.y / 2,-size.z / 2},{},{0.0f,0.0f} },	//1 
-		{{ size.x / 2,-size.y / 2,-size.z / 2},{},{1.0f,1.0f} },	//2 
-		{{ size.x / 2, size.y / 2,-size.z / 2},{},{1.0f,0.0f} },	//3
-		//後				 	   
-		{{ size.x / 2,-size.y / 2, size.z / 2},{},{0.0f,1.0f} },	//4
-		{{ size.x / 2, size.y / 2, size.z / 2},{},{0.0f,0.0f} },	//5
-		{{-size.x / 2,-size.y / 2, size.z / 2},{},{1.0f,1.0f} },	//6
-		{{-size.x / 2, size.y / 2, size.z / 2},{},{1.0f,0.0f} },	//7
-		//左				 	    
-		{{-size.x / 2,-size.y / 2,-size.z / 2},{},{0.0f,1.0f} },	//8
-		{{-size.x / 2,-size.y / 2, size.z / 2},{},{0.0f,0.0f} },	//9
-		{{-size.x / 2, size.y / 2,-size.z / 2},{},{1.0f,1.0f} },	//10
-		{{-size.x / 2, size.y / 2, size.z / 2},{},{1.0f,0.0f} },	//11
-		//右				 	    
-		{{ size.x / 2,-size.y / 2,-size.z / 2},{},{0.0f,1.0f} },	//12
-		{{ size.x / 2,-size.y / 2, size.z / 2},{},{0.0f,0.0f} },	//13
-		{{ size.x / 2, size.y / 2,-size.z / 2},{},{1.0f,1.0f} },	//14
-		{{ size.x / 2, size.y / 2, size.z / 2},{},{1.0f,0.0f} },	//15
-		//下					  	
-		{{-size.x / 2,-size.y / 2, size.z / 2},{},{0.0f,1.0f} },	//16
-		{{-size.x / 2,-size.y / 2,-size.z / 2},{},{0.0f,0.0f} },	//17
-		{{ size.x / 2,-size.y / 2, size.z / 2},{},{1.0f,1.0f} },	//18
-		{{ size.x / 2,-size.y / 2,-size.z / 2},{},{1.0f,0.0f} },	//19
-		//上				 	    
-		{{-size.x / 2, size.y / 2,-size.z / 2},{},{0.0f,1.0f} },	//20
-		{{-size.x / 2, size.y / 2, size.z / 2},{},{0.0f,0.0f} },	//21
-		{{ size.x / 2, size.y / 2,-size.z / 2},{},{1.0f,1.0f} },	//22
-		{{ size.x / 2, size.y / 2, size.z / 2},{},{1.0f,0.0f} },	//23
-	};
-	//インデックスデータ
-	unsigned short in[] =
-	{
+	indices.clear();
+	vertices.clear();
 
-		//前
-		0,1,2,	//三角形1つ目
-		2,1,3,	//三角形2つ目
-		//後
-		4,5,6,
-		6,5,7,
-		//左
-		8,9,10,
-		10,9,11,
-		//右
-		12,13,14,
-		14,13,15,
-		//下
-		16,17,18,
-		18,17,19,
-		//上
-		20,21,22,
-		22,21,23,
-	};
+	//球体の半径
+	float r = 0.5f;
+	//頂点データ配列
+	vector<VertexPosNormalUv>v;
+	//頂点インデックス配列
+	vector<unsigned short>in;
+	//横1分の角度
+	float verticalAngle = (float)PI / divNum * 2;
+	//縦1分の角度
+	float horizonAngle = (float)PI / divNum;
+	//現在の横の位置
+	float verticalDiv = 0;
+	//現在の縦の位置
+	float horizonDiv = 0;
+
+
+	//球体の頂点データを代入
+	for (int i = 0; i < divNum * divNum; i++)
+	{
+		if (i <= divNum)
+		{
+			verticalDiv = i;
+			horizonDiv = 0;
+		}
+		else
+		{
+			verticalDiv = i % divNum;
+			horizonDiv = (float)((int)i / (int)divNum);
+		}
+		VertexPosNormalUv v2;
+		v2.pos = XMFLOAT3(
+			r * cos(verticalAngle * verticalDiv) * sin(horizonAngle * horizonDiv),
+			r * sin(horizonAngle * horizonDiv + PI / 2),
+			r * sin(verticalAngle * verticalDiv) * sin(horizonAngle * horizonDiv));
+		v2.normal = XMFLOAT3(0, 0, 0);
+		v2.uv = XMFLOAT2(0, 0);
+
+		v.push_back(v2);
+	}
+
+	//球体のインデックスデータを代入
+	for (int i = 0; i < divNum * divNum; i++)
+	{
+		if (i % divNum == divNum - 1 || i == divNum - 1)
+		{
+			in.push_back(i);
+			in.push_back(i - divNum + 1);
+		}
+		else
+		{
+			in.push_back(i);
+			in.push_back(i + 1);
+		}
+	}
+	for (int i = 0; i < divNum * divNum - divNum; i++)
+	{
+		in.push_back(i);
+		in.push_back(i + divNum);
+	}
 
 	//頂点座標、uv座標、インデックスデータを代入
-	for (int i = 0; i < 24; i++)
+	for (int i = 0; i < divNum * divNum; i++)
 	{
-		vertices[i] = v[i];
+		vertices.push_back(v[i]);
 	}
 
-	for (int i = 0; i < 36; i++)
+	for (int i = 0; i < divNum * divNum * 4 - divNum * 2; i++)
 	{
-		indices[i] = in[i];
-	}
-
-	//法線の計算
-	for (int i = 0; i < indices.size() / 3; i++)
-	{//三角形1つごとに計算していく
-		//三角形のインデックスを取り出して、一時的な変数に入れる
-		unsigned short indices0 = indices[i * 3 + 0];
-		unsigned short indices1 = indices[i * 3 + 1];
-		unsigned short indices2 = indices[i * 3 + 2];
-		//三角形を構成する頂点座標をベクトルに代入
-		XMVECTOR p0 = XMLoadFloat3(&vertices[indices0].pos);
-		XMVECTOR p1 = XMLoadFloat3(&vertices[indices1].pos);
-		XMVECTOR p2 = XMLoadFloat3(&vertices[indices2].pos);
-		//p0→p1ベクトル、p0→p2ベクトルを計算　(ベクトルの減算)
-		XMVECTOR v1 = DirectX::XMVectorSubtract(p1, p0);
-		XMVECTOR v2 = DirectX::XMVectorSubtract(p2, p0);
-		//外積は両方から垂直なベクトル
-		XMVECTOR normal = DirectX::XMVector3Cross(v1, v2);
-		//正規化
-		normal = DirectX::XMVector3Normalize(normal);
-		//求めた法線を頂点データに代入
-		DirectX::XMStoreFloat3(&vertices[indices0].normal, normal);
-		DirectX::XMStoreFloat3(&vertices[indices1].normal, normal);
-		DirectX::XMStoreFloat3(&vertices[indices2].normal, normal);
+		indices.push_back(in[i]);
 	}
 }
 

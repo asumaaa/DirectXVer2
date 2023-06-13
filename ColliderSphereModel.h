@@ -12,7 +12,6 @@ class ColliderSphereModel
 {
 private:	//エイリアス
 	//Microsoft::WRL::を省略
-	template<class T>using ComPtr = Microsoft::WRL::ComPtr<T>;
 	//DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
@@ -41,14 +40,23 @@ public:
 	struct VertexPosNormalUv
 	{
 		XMFLOAT3 pos;	//座標
-		XMFLOAT3 normal;	//法線ベクトル
-		XMFLOAT2 uv;	//uv座標
-		VertexPosNormalUv* parent = nullptr;	//uv座標
+		XMFLOAT3 normal = XMFLOAT3(0, 0, 0);	//法線ベクトル
+		XMFLOAT2 uv = XMFLOAT2(0, 0);	//uv座標
+
+		/*VertexPosNormalUv(XMFLOAT3 p)
+		{
+			this->pos = p;
+			this->normal = XMFLOAT3(0, 0, 0);
+			this->uv = XMFLOAT2(0, 0);
+		}*/
 	};
 	//頂点データ配列
 	vector<VertexPosNormalUv>vertices;
 	//頂点インデックス配列
 	vector<unsigned short>indices;
+private:
+	//球体の分割数 多くするほど重くなる
+	size_t divNum = 8;
 private:
 	//頂点バッファ
 	ComPtr<ID3D12Resource> vertBuff;

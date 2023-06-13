@@ -45,6 +45,12 @@ void JSONLoader::LoadFile(const std::string fileName)
 		//MESH
 		if (type.compare("MESH") == 0) {
 
+			if (object.contains("name")) {
+				// オブジェクト名
+				objectData1.objectName = object["name"];
+				colliderData1.objectName = object["name"];
+			}
+
 			if (object.contains("file_name")) {
 				// ファイル名
 				objectData1.fileName = object["file_name"];
