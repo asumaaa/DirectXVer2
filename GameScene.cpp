@@ -60,6 +60,16 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	ColliderSphereObject::SetModel(colliderSphereModel.get());
 	ColliderSphereObject::CreateGraphicsPipeline();
 
+	//コライダーの平面
+	ColliderPlaneModel* newPlaneModel = new ColliderPlaneModel();
+	newPlaneModel->CreateBuffers(dxCommon_->GetDevice());
+	colliderPlaneModel.reset(newPlaneModel);
+	ColliderPlaneObject::SetDevice(dxCommon_->GetDevice());
+	ColliderPlaneObject::SetCamera(camera_.get());
+	ColliderPlaneObject::SetInput(input_);
+	ColliderPlaneObject::SetModel(colliderPlaneModel.get());
+	ColliderPlaneObject::CreateGraphicsPipeline();
+
 	//コライダーマネージャー
 	ColliderManager* newColliderManager = new ColliderManager();
 	newColliderManager->SetColliderCubeModel(colliderCubeModel.get());
@@ -74,10 +84,17 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	newPlayer->Initialize();
 	player.reset(newPlayer);
 
+	//平面
+	/*Plane::SetCamera(camera_.get());
+	Plane::SetInput(input);*/
+	/*Plane* newPlane = new Plane();
+	newPlane->Initialize();
+	plane.reset(newPlane);*/
+
 	//FBXローダー初期化
 	FbxLoader::GetInstance()->Initialize(dxCommon_->GetDevice());
 	//モデル名を指定してファイル読み込み
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Stone", "Resources/pictures/white1x1.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("plane", "Resources/pictures/white1x1.png"));
 	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree", "Resources/pictures/white1x1.png"));
 	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree1", "Resources/pictures/black.png"));
 	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree2", "Resources/pictures/white1x1.png"));
@@ -126,6 +143,12 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 			player->SetObject(object.back().get());
 			/*object.pop_back();*/
 		}
+		//平面のオブジェクトがあったら
+	/*	if (jsonLoader->GetFileName(i) == "plane")
+		{
+			plane->SetObject(object.back().get());
+		}*/
+
 		//コライダーのセット
 		colliderManager->SetCollider(jsonLoader->GetColliderData(i));
 	}
@@ -177,6 +200,9 @@ void GameScene::Update()
 	//プレイヤー
 	player->Update();
 
+	//平面
+	/*plane->Update();*/
+
 	//スペースキーでファイル読み込み更新
 	if(input_->TriggerKey(DIK_SPACE))
 	{
@@ -201,11 +227,25 @@ void GameScene::Update()
 
 void GameScene::UpdateCollider()
 {
+	//事前処理
 	colliderManager->PreUpdate();
+
+	//平面との判定
 	for (std::unique_ptr<FbxObject3D>& object0 : object)
 	{
-		colliderManager->CheckCollider(object0->GetColliderData(), object0->GetColliderData());
+		if (object0->GetFileName() == "player")
+		{
+			for (std::unique_ptr<FbxObject3D>& object1 : object)
+			{
+				if (object1->GetFileName() == "plane")
+				{
+					colliderManager->CheckCollider(object0->GetColliderData(), object1->GetColliderData());
+				}
+			}
+		}
 	}
+
+	//後処理
 	colliderManager->PostUpdate();
 }
 

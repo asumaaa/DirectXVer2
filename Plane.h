@@ -2,7 +2,7 @@
 #include "DirectXMath.h"
 #include "FbxObject3D.h"
 
-class Player
+class Plane
 {
 private:	//エイリアス
 	//Microsoft::WRL::を省略
@@ -15,9 +15,9 @@ private:	//エイリアス
 	//メンバ関数
 public:
 	//静的メンバ関数
-	static void SetCamera(Camera* camera) { Player::camera = camera; }
-	static void SetInput(Input* input) { Player::input = input; }
-	static void SetDXInput(DXInput* dxInput) { Player::dxInput = dxInput; }
+	static void SetCamera(Camera* camera) { Plane::camera = camera; }
+	static void SetInput(Input* input) { Plane::input = input; }
+	static void SetDXInput(DXInput* dxInput) { Plane::dxInput = dxInput; }
 
 	//初期化
 	void Initialize();
@@ -27,13 +27,8 @@ public:
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 	void DrawLightView(ID3D12GraphicsCommandList* cmdList);
 
-	//挙動関連
-	//挙動全般
+	//移動
 	void Move();
-	//落下
-	void UpdateGravity();
-	//ジャンプ
-	void UpdateJump();
 
 	//セッター
 	void SetObject(FbxObject3D* object);
@@ -57,35 +52,13 @@ private:
 public:
 
 	//オブジェクト
-	std::unique_ptr<FbxObject3D>object;
+	std::list<std::unique_ptr<FbxObject3D>>object;
 
-	//変形行列
-	//平行移動
+	//座標
 	XMFLOAT3 position = {0.0f,0.0f,0.0f};
 	//回転
 	XMFLOAT3 rotation = {0.0f,0.0f,0.0f};
 	//サイズ
 	XMFLOAT3 scale = {1.0f,1.0f,1.0f};
-
-
-	//当たり判定関連
-	//接地フラグ
-	bool groundFlag = false;
-
-
-	//挙動関連
-	
-	//落下
-	//落下ベクトル
-	XMFLOAT3 fallVelocity = { 0.0f,0.0f,0.0f };
-	//落下タイマー
-	float fallTimer = 0.0f;
-	//落下最大値までにかかる時間
-	float fallTime = 1.0f;
-	//1フレームあたりの落下量
-	float fallFrame = 1.0f / 60.0f;
-
-	//ジャンプ
-	float jumpHeight = 0.3;
 };
 

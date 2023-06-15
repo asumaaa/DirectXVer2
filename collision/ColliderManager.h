@@ -1,26 +1,36 @@
 #pragma once
-#include "ColliderCubeModel.h"
 #include "ColliderCubeObject.h"
-#include "ColliderSphereModel.h"
 #include "ColliderSphereObject.h"
+#include "ColliderPlaneObject.h"
 #include "JSONLoader.h"
 
 class ColliderManager
 {
-private:	//サブクラス
+public:	//サブクラス
+	//コライダー描画用
 	struct Collider 
 	{
 		JSONLoader::ColliderData colliderData;
 		ColliderCubeObject* colliderCubeObject = nullptr;
 		ColliderSphereObject* colliderSphereObject = nullptr;
+		ColliderPlaneObject* colliderPlaneObject = nullptr;
 		//描画フラグ
 		bool drawFlag = false;
+	};
+
+	//OBB 判定計算用
+	struct OBB
+	{
+		XMFLOAT3 c;	//中心点
+		XMFLOAT3 u[3];	//XYZの各座標軸の傾きを表すベクトル
+		XMFLOAT3 e;	//OBBの各座標軸に沿った長さの半分
 	};
 
 public:	//静的メンバ関数
 	void SetCollider(JSONLoader::ColliderData colliderData);
 	void SetColliderCubeModel(ColliderCubeModel* colliderModel) { ColliderManager::colliderCubeModel = colliderModel; }
 	void SetColliderSphereModel(ColliderSphereModel* colliderModel) { ColliderManager::colliderSphereModel = colliderModel; };
+	void SetColliderPlaneModel(ColliderPlaneModel* colliderModel) { ColliderManager::colliderPlaneModel = colliderModel; };
 
 public:	//メンバ関数
 	//初期化
@@ -33,18 +43,26 @@ public:	//メンバ関数
 
 	//判定
 	bool CheckCollider(JSONLoader::ColliderData colliderData0, JSONLoader::ColliderData colliderData1);
+	//平面と球体
+	bool CheckPlaneSphere(JSONLoader::ColliderData colliderPlane, JSONLoader::ColliderData colliderSphere);
+	//平面とボックス
+	bool CheckPlaneBox(JSONLoader::ColliderData colliderPlane, JSONLoader::ColliderData colliderBox);
+
+	//ColliderDataクラスからOBBを返す関数	Box,平面のみ対応
+	OBB GetObbFromColliderData(JSONLoader::ColliderData colliderData);
+	//色を変える関数
+	void ChangeHitColor(JSONLoader::ColliderData colliderData);
 
 private:	//メンバ関数
 	//モデル
 	ColliderCubeModel*colliderCubeModel;
-	ColliderSphereModel*colliderSphereModel;
-	//オブジェクト
-	/*std::list<std::unique_ptr<ColliderCubeObject>>colliderCubeObject;
-	std::list<std::unique_ptr<ColliderSphereObject>>colliderSphereObject;*/
+	ColliderSphereModel* colliderSphereModel;
+	ColliderPlaneModel*colliderPlaneModel;
 	//コライダー
 	std::list<std::unique_ptr<Collider>>collider;
 
 	//当たっていないときの色
 	XMFLOAT4 noHitColor = { 0,0,1,1 };
+	XMFLOAT4 isHitColor = { 0,1,0,1 };
 };
 

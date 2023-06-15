@@ -65,7 +65,7 @@ void JSONLoader::LoadFile(const std::string fileName)
 			// 回転角
 			objectData1.rotation.x = (float)transform["rotation"][0];
 			objectData1.rotation.y = (float)transform["rotation"][2];
-			objectData1.rotation.z = (float)transform["rotation"][1];
+			objectData1.rotation.z = -(float)transform["rotation"][1];
 			//弧度法に変換
 			objectData1.rotation.x *= 1.0f / 360.0f * (2.0f * PI);
 			objectData1.rotation.y *= 1.0f / 360.0f * (2.0f * PI);
@@ -91,7 +91,7 @@ void JSONLoader::LoadFile(const std::string fileName)
 			//コライダーの回転角
 			colliderData1.rotation.x = (float)transform["rotation"][0];
 			colliderData1.rotation.y = (float)transform["rotation"][2];
-			colliderData1.rotation.z = (float)transform["rotation"][1];
+			colliderData1.rotation.z = -(float)transform["rotation"][1];
 			//弧度法に変換
 			colliderData1.rotation.x *= 1.0f / 360.0f * (2.0f * PI);
 			colliderData1.rotation.y *= 1.0f / 360.0f * (2.0f * PI);

@@ -15,10 +15,9 @@
 #include "LightGroup.h"
 #include "CSVLoader.h"
 #include "Player.h"
-#include "ColliderCubeModel.h"
 #include "ColliderCubeObject.h"
-#include "ColliderSphereModel.h"
 #include "ColliderSphereObject.h"
+#include "ColliderPlaneObject.h"
 #include "ColliderManager.h"
 
 class GameScene
@@ -86,10 +85,14 @@ private:
 
 	//プレイヤー
 	std::unique_ptr<Player> player;
+	
+	//平面
+	/*std::unique_ptr<Plane> plane;*/
 
 	//コライダーのモデル
 	std::unique_ptr<ColliderCubeModel>colliderCubeModel;
 	std::unique_ptr<ColliderSphereModel>colliderSphereModel;
+	std::unique_ptr<ColliderPlaneModel>colliderPlaneModel;
 
 	//コライダー
 	std::unique_ptr<ColliderManager> colliderManager;
