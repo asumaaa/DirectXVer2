@@ -1,4 +1,6 @@
 #include "mathOriginal.h"
+#include "cmath"
+#include "Matrix4.h"
 
 float easeOutQuart(float x)
 {
@@ -111,4 +113,23 @@ float LenSegOnSeparateAxis(DirectX::XMFLOAT3 Sep, DirectX::XMFLOAT3 e1, DirectX:
 	float r2 = fabs(dot(Sep, e2));
 	float r3 = fabs(dot(Sep, e3));
 	return r1 + r2 + r3;
+}
+
+DirectX::XMFLOAT3 rollRotation(DirectX::XMFLOAT3 vector, DirectX::XMFLOAT3 rotation)
+{
+	Matrix4 matRotX, matRotY, matRotZ;
+	matRotX = rotationX(rotation.x);
+	matRotY = rotationY(rotation.y);
+	matRotZ = rotationZ(rotation.z);
+
+	matRotZ *= matRotX;
+	matRotZ *= matRotY;
+
+	DirectX::XMFLOAT3 v;
+
+	v.x = vector.x * matRotZ.m[0][0] + vector.y * matRotZ.m[1][0] + vector.z * matRotZ.m[2][0];
+	v.y = vector.x * matRotZ.m[0][1] + vector.y * matRotZ.m[1][1] + vector.z * matRotZ.m[2][1];
+	v.z = vector.x * matRotZ.m[0][2] + vector.y * matRotZ.m[1][2] + vector.z * matRotZ.m[2][2];
+
+	return v;
 }

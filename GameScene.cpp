@@ -172,7 +172,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 		if (jsonLoader->GetFileName(i) == "enemy")
 		{
 			enemy->SetObject(object.back().get());
-			/*object.pop_back();*/
 		}
 		//平面のオブジェクトがあったら
 	/*	if (jsonLoader->GetFileName(i) == "plane")
@@ -230,15 +229,6 @@ void GameScene::Update()
 
 	//プレイヤー
 	player->Update();
-	
-	//プレイヤーの弾
-	//エンターキーでショットフラグを立てる
-	/*if (input_->TriggerKey(DIK_RETURN))
-	{
-		playerBullet->SetShotFlag(true);
-		playerBullet->SetBullet(player->GetPosition(), XMFLOAT3(0.0f, 0.0f, 1.0f));
-	}
-	playerBullet->Update();*/
 
 	//敵
 	enemy->Update();
@@ -340,7 +330,7 @@ void GameScene::DrawFBXLightView()
 		object0->DrawLightView(dxCommon_->GetCommandList());
 	}
 
-	//プレイヤーの弾
+	//プレイヤー
 	player->DrawLightView(dxCommon_->GetCommandList());
 }
 
@@ -350,7 +340,7 @@ void GameScene::DrawFBX()
 	{
 		object0->Draw(dxCommon_->GetCommandList());
 	}
-	//プレイヤーの弾
+	//プレイヤー
 	player->Draw(dxCommon_->GetCommandList());
 }
 
@@ -365,7 +355,7 @@ void GameScene::SetSRV(ID3D12DescriptorHeap* SRV)
 	{
 		object0->SetSRV(SRV);
 	}
-	//プレイヤーの弾
+	//プレイヤー
 	player->SetSRV(SRV);
 }
 

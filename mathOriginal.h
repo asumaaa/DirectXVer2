@@ -52,5 +52,7 @@ DirectX::XMFLOAT3 normalize(DirectX::XMFLOAT3 v);
 //•ª—£²‚É“Š‰e‚³‚ê‚½²¬•ª‚©‚ç“Š‰eü•ª’·‚ğZo
 float LenSegOnSeparateAxis(DirectX::XMFLOAT3 Sep, DirectX::XMFLOAT3 e1, 
 	DirectX::XMFLOAT3 e2, DirectX::XMFLOAT3 e3 = { 0,0,0 });
+//velocity‚ÌŒü‚«‚Érotation‚ğ‡‚í‚¹‚é
+DirectX::XMFLOAT3 rollRotation(DirectX::XMFLOAT3 vector,DirectX::XMFLOAT3 rotation);
 
 #pragma endregion

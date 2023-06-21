@@ -33,6 +33,8 @@ public:
 	//挙動関連
 	//挙動全般
 	void Move();
+	//キー操作
+	void KeyControl();
 	//落下
 	void UpdateGravity();
 	//ジャンプ
@@ -77,7 +79,10 @@ public:
 	XMFLOAT3 rotation = {0.0f,0.0f,0.0f};
 	//サイズ
 	XMFLOAT3 scale = {1.0f,1.0f,1.0f};
-
+	//進行ベクトル
+	XMFLOAT3 posVelocity = { 0.0f,0.0f,0.0f };
+	//角度ベクトル
+	XMFLOAT3 rotVelocity = { 0.0f,0.0f,0.0f };
 
 	//当たり判定関連
 	//接地フラグ
@@ -100,6 +105,7 @@ public:
 	float jumpHeight = 0.4;
 
 	//スピード
-	float speed = 0.15f;
+	float posSpeed = 0.15f;
+	float rotSpeed = (float)PI * 1.0f / 45.0f;
 };
 

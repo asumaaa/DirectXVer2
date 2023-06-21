@@ -196,6 +196,7 @@
     <ClCompile Include="light\SpotLight.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mathOriginal.cpp" />
+    <ClCompile Include="Matrix4.cpp" />
     <ClCompile Include="particle\FireParticle.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -245,6 +246,7 @@
     <ClInclude Include="light\PointLight.h" />
     <ClInclude Include="light\SpotLight.h" />
     <ClInclude Include="mathOriginal.h" />
+    <ClInclude Include="Matrix4.h" />
     <ClInclude Include="particle\FireParticle.h" />
   </ItemGroup>
   <ItemGroup>

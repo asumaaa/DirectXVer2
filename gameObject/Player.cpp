@@ -36,8 +36,10 @@ void Player::UpdateBullet()
 {
 	if (input->TriggerKey(DIK_RETURN))
 	{
+		//ショットフラグを立てる
 		bullet->SetShotFlag(true);
-		bullet->SetBullet(position, XMFLOAT3(0.0f, 0.0f, 1.0f));
+		//弾生成場所とvelocityをセット
+		bullet->SetBullet(position, posVelocity);
 	}
 	bullet->Update();
 }
@@ -59,11 +61,25 @@ void Player::Move()
 
 	//重力更新
 	UpdateGravity();
+	
+	//キー操作
+	KeyControl();
+}
 
-	position.x -= input->PushKey(DIK_A) * speed;
-	position.x += input->PushKey(DIK_D) * speed;
-	position.z -= input->PushKey(DIK_S) * speed;
-	position.z += input->PushKey(DIK_W) * speed;
+void Player::KeyControl()
+{
+	//AROWキーで角度変更
+	rotVelocity.y = (input->PushKey(DIK_LEFT) - input->PushKey(DIK_RIGHT)) * rotSpeed;
+	//角度ベクトルを加算
+	rotation = rotation + rotVelocity;
+
+	//ASDWで移動
+	posVelocity.x = (input->PushKey(DIK_D) - input->PushKey(DIK_A)) * posSpeed;
+	posVelocity.z = (input->PushKey(DIK_W) - input->PushKey(DIK_S)) * posSpeed;
+	//進行ベクトルを回転
+	posVelocity = rollRotation(posVelocity, rotation);
+	//進行ベクトルを加算
+	position = position + posVelocity;
 }
 
 void Player::UpdateGravity()
@@ -89,9 +105,7 @@ void Player::UpdateGravity()
 	fallVelocity.y = -(GAcceleration * fallTimer);
 
 	//座標に落下ベクトルを加算
-	position.x += fallVelocity.x;
-	position.y += fallVelocity.y;
-	position.z += fallVelocity.z;
+	position = position + fallVelocity;
 }
 
 void Player::UpdateJump()
