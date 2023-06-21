@@ -13,9 +13,18 @@ void Player::Initialize()
 
 void Player::Update()
 {
+	//弾更新
+	UpdateBullet();
+
 	//動く
 	Move();
 
+	//オブジェクト更新
+	UpdateObject();
+}
+
+void Player::UpdateObject()
+{
 	object->SetPosition(position);
 	object->SetRotation(rotation);
 	object->SetScale(scale);
@@ -23,30 +32,38 @@ void Player::Update()
 	object->Update();
 }
 
+void Player::UpdateBullet()
+{
+	if (input->TriggerKey(DIK_RETURN))
+	{
+		bullet->SetShotFlag(true);
+		bullet->SetBullet(position, XMFLOAT3(0.0f, 0.0f, 1.0f));
+	}
+	bullet->Update();
+}
+
 void Player::Draw(ID3D12GraphicsCommandList* cmdList)
 {
-	object->Draw(cmdList);
+	bullet->Draw(cmdList);
 }
 
 void Player::DrawLightView(ID3D12GraphicsCommandList* cmdList)
 {
-	object->DrawLightView(cmdList);
+	bullet->DrawLightView(cmdList);
 }
 
 void Player::Move()
 {
-	////ジャンプ更新
-	//UpdateJump();
+	//ジャンプ更新
+	UpdateJump();
 
-	////重力更新
-	//UpdateGravity();
+	//重力更新
+	UpdateGravity();
 
-	position.x -= input->PushKey(DIK_A) * 0.1f;
-	position.x += input->PushKey(DIK_D) * 0.1f;
-	position.y -= input->PushKey(DIK_Z) * 0.1f;
-	position.y += input->PushKey(DIK_X) * 0.1f;
-	position.z -= input->PushKey(DIK_S) * 0.1f;
-	position.z += input->PushKey(DIK_W) * 0.1f;
+	position.x -= input->PushKey(DIK_A) * speed;
+	position.x += input->PushKey(DIK_D) * speed;
+	position.z -= input->PushKey(DIK_S) * speed;
+	position.z += input->PushKey(DIK_W) * speed;
 }
 
 void Player::UpdateGravity()
@@ -79,13 +96,21 @@ void Player::UpdateGravity()
 
 void Player::UpdateJump()
 {
-	//スペースキーでジャンプ
-	if (input->TriggerKey(DIK_SPACE))
+	//接地していたら
+	if (groundFlag == true)
 	{
-		groundFlag = false;
-		fallTimer = -jumpHeight;
-		fallVelocity = XMFLOAT3(0.0f, 0.0f, 0.0f);
+		//スペースキーでジャンプ
+		if (input->TriggerKey(DIK_SPACE))
+		{
+			groundFlag = false;
+			fallTimer = -jumpHeight;
+			fallVelocity = XMFLOAT3(0.0f, 0.0f, 0.0f);
+		}
 	}
+}
+
+void Player::UpdateAttack()
+{
 }
 
 void Player::SetObject(FbxObject3D* object)
@@ -100,5 +125,17 @@ void Player::SetObject(FbxObject3D* object)
 
 void Player::SetSRV(ID3D12DescriptorHeap* SRV)
 {
-	object->SetSRV(SRV);
+	bullet->SetSRV(SRV);
+}
+
+void Player::HitPlane()
+{
+	//接地フラグを立てる
+	groundFlag = true;
+
+	//めり込まなくなるまで加算
+	position.y += 0.1f;
+
+	//オブジェクト更新
+	UpdateObject();
 }

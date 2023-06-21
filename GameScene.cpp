@@ -20,6 +20,19 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	this->dxCommon_ = dxCommon;
 	this->input_ = input;
 
+	//FBXローダー初期化
+	FbxLoader::GetInstance()->Initialize(dxCommon_->GetDevice());
+	//モデル名を指定してファイル読み込み
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("plane", "Resources/pictures/white1x1.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree", "Resources/pictures/white1x1.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree1", "Resources/pictures/black.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree2", "Resources/pictures/white1x1.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree3", "Resources/pictures/black.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Cube", "Resources/pictures/toriko.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("player", "Resources/pictures/white1x1.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("enemy", "Resources/pictures/toriko.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("playerBullet", "Resources/pictures/white1x1.png"));
+
 	//カメラ初期化
 	Camera::SetInput(input_);
 	Camera::SetDXInput(dxInput);
@@ -76,13 +89,36 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	newColliderManager->SetColliderSphereModel(colliderSphereModel.get());
 	colliderManager.reset(newColliderManager);
 
+	//プレイヤーの弾
+	PlayerBullet::SetCamera(camera_.get());
+	PlayerBullet::SetInput(input);
+	PlayerBullet* newPlayerBullet = new PlayerBullet();
+	//モデルセット
+	for (std::unique_ptr<FbxModel>& model : models)
+	{
+		if (model->GetFileName() == "playerBullet")
+		{
+			newPlayerBullet->SetModel(model.get());
+		}
+	}
+	newPlayerBullet->Initialize();
+	playerBullet.reset(newPlayerBullet);
+
 	//プレイヤー
 	Player::SetCamera(camera_.get());
 	Player::SetInput(input);
 	/*Player::SetDXInput()*/
 	Player* newPlayer = new Player();
 	newPlayer->Initialize();
+	newPlayer->SetBullet(playerBullet.get());
 	player.reset(newPlayer);
+
+	//敵
+	Enemy::SetCamera(camera_.get());
+	Enemy::SetInput(input);
+	Enemy* newEnemy = new Enemy();
+	newEnemy->Initialize();
+	enemy.reset(newEnemy);
 
 	//平面
 	/*Plane::SetCamera(camera_.get());
@@ -90,17 +126,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	/*Plane* newPlane = new Plane();
 	newPlane->Initialize();
 	plane.reset(newPlane);*/
-
-	//FBXローダー初期化
-	FbxLoader::GetInstance()->Initialize(dxCommon_->GetDevice());
-	//モデル名を指定してファイル読み込み
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("plane", "Resources/pictures/white1x1.png"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree", "Resources/pictures/white1x1.png"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree1", "Resources/pictures/black.png"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree2", "Resources/pictures/white1x1.png"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree3", "Resources/pictures/black.png"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Cube", "Resources/pictures/toriko.png"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("player", "Resources/pictures/white1x1.png"));
 
 	//デバイスをセット
 	FbxObject3D::SetDevice(dxCommon_->GetDevice());
@@ -143,6 +168,12 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 			player->SetObject(object.back().get());
 			/*object.pop_back();*/
 		}
+		//敵のオブジェクトがあったら
+		if (jsonLoader->GetFileName(i) == "enemy")
+		{
+			enemy->SetObject(object.back().get());
+			/*object.pop_back();*/
+		}
 		//平面のオブジェクトがあったら
 	/*	if (jsonLoader->GetFileName(i) == "plane")
 		{
@@ -179,7 +210,7 @@ void GameScene::Finalize()
 void GameScene::Update()
 {
 	//カメラ更新
-	camera_->DebugUpdate();
+	camera_->UpdatePlayer(player->GetPosition());
 	camera_->Update();
 	//コントローラー更新
 	dxInput->InputProcess();
@@ -199,6 +230,18 @@ void GameScene::Update()
 
 	//プレイヤー
 	player->Update();
+	
+	//プレイヤーの弾
+	//エンターキーでショットフラグを立てる
+	/*if (input_->TriggerKey(DIK_RETURN))
+	{
+		playerBullet->SetShotFlag(true);
+		playerBullet->SetBullet(player->GetPosition(), XMFLOAT3(0.0f, 0.0f, 1.0f));
+	}
+	playerBullet->Update();*/
+
+	//敵
+	enemy->Update();
 
 	//平面
 	/*plane->Update();*/
@@ -210,9 +253,13 @@ void GameScene::Update()
 		int i = 0;
 		for (std::unique_ptr<FbxObject3D>& object0 : object)
 		{
-			object0->SetPosition(jsonLoader->GetPosition(i));
-			object0->SetScale(jsonLoader->GetScale(i));
-			object0->SetRotation(jsonLoader->GetRotation(i));
+			//プレイヤー以外のオブジェクト更新
+			if (object0->GetFileName() != "player")
+			{
+				object0->SetPosition(jsonLoader->GetPosition(i));
+				object0->SetScale(jsonLoader->GetScale(i));
+				object0->SetRotation(jsonLoader->GetRotation(i));
+			}
 			i++;
 		}
 	}
@@ -230,7 +277,7 @@ void GameScene::UpdateCollider()
 	//事前処理
 	colliderManager->PreUpdate();
 
-	//平面との判定
+	//プレイヤーと平面との判定
 	for (std::unique_ptr<FbxObject3D>& object0 : object)
 	{
 		if (object0->GetFileName() == "player")
@@ -238,6 +285,25 @@ void GameScene::UpdateCollider()
 			for (std::unique_ptr<FbxObject3D>& object1 : object)
 			{
 				if (object1->GetFileName() == "plane")
+				{
+					//当たっていたら
+					while (colliderManager->CheckCollider(object0->GetColliderData(), object1->GetColliderData()))
+					{
+						player->HitPlane();
+					}
+				}
+			}
+		}
+	}
+
+	//プレイヤーと平面との判定
+	for (std::unique_ptr<FbxObject3D>& object0 : object)
+	{
+		if (object0->GetFileName() == "player")
+		{
+			for (std::unique_ptr<FbxObject3D>& object1 : object)
+			{
+				if (object1->GetFileName() == "enemy")
 				{
 					colliderManager->CheckCollider(object0->GetColliderData(), object1->GetColliderData());
 				}
@@ -273,6 +339,9 @@ void GameScene::DrawFBXLightView()
 	{
 		object0->DrawLightView(dxCommon_->GetCommandList());
 	}
+
+	//プレイヤーの弾
+	player->DrawLightView(dxCommon_->GetCommandList());
 }
 
 void GameScene::DrawFBX()
@@ -281,6 +350,8 @@ void GameScene::DrawFBX()
 	{
 		object0->Draw(dxCommon_->GetCommandList());
 	}
+	//プレイヤーの弾
+	player->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::DrawCollider()
@@ -294,6 +365,8 @@ void GameScene::SetSRV(ID3D12DescriptorHeap* SRV)
 	{
 		object0->SetSRV(SRV);
 	}
+	//プレイヤーの弾
+	player->SetSRV(SRV);
 }
 
 DirectX::XMMATRIX GameScene::GetLightViewProjection()

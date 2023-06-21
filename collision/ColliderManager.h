@@ -43,6 +43,8 @@ public:	//メンバ関数
 
 	//判定
 	bool CheckCollider(JSONLoader::ColliderData colliderData0, JSONLoader::ColliderData colliderData1);
+	//球体と球体
+	bool CheckSphereSphere(JSONLoader::ColliderData colliderSphere0, JSONLoader::ColliderData colliderSphere1);
 	//平面と球体
 	bool CheckPlaneSphere(JSONLoader::ColliderData colliderPlane, JSONLoader::ColliderData colliderSphere);
 	//平面とボックス

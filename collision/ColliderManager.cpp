@@ -140,6 +140,12 @@ bool ColliderManager::CheckCollider(JSONLoader::ColliderData colliderData0, JSON
 		}
 	}
 
+	//球と球の場合
+	if (colliderData0.type == "Sphere" && colliderData1.type == "Sphere")
+	{
+		return CheckSphereSphere(colliderData0, colliderData1);
+	}
+
 	//平面と球の場合
 	if (colliderData0.type == "Plane" && colliderData1.type == "Sphere")
 	{
@@ -161,6 +167,23 @@ bool ColliderManager::CheckCollider(JSONLoader::ColliderData colliderData0, JSON
 	}
 
 	return false;
+}
+
+bool ColliderManager::CheckSphereSphere(JSONLoader::ColliderData colliderSphere0, JSONLoader::ColliderData colliderSphere1)
+{
+	//中心同士の距離を求める
+	XMFLOAT3 distanceCenter0 = colliderSphere0.center - colliderSphere1.center;
+	float distanceCenter1 = sqrt(pow(distanceCenter0.x, 2) + pow(distanceCenter0.y, 2) + pow(distanceCenter0.z, 2));
+
+	//二つのコライダーの半径の合計
+	float r = colliderSphere0.scale.x + colliderSphere1.scale.x;
+
+	//中心との距離が半径の合計より大きければ当たっていない
+	if (r < distanceCenter1) return false;
+
+	/*ChangeHitColor(colliderSphere0);*/
+	ChangeHitColor(colliderSphere1);
+	return true;
 }
 
 bool ColliderManager::CheckPlaneSphere(JSONLoader::ColliderData colliderPlane, JSONLoader::ColliderData colliderSphere)
@@ -195,134 +218,31 @@ bool ColliderManager::CheckPlaneSphere(JSONLoader::ColliderData colliderPlane, J
 
 bool ColliderManager::CheckPlaneBox(JSONLoader::ColliderData colliderPlane, JSONLoader::ColliderData colliderBox)
 {
-	OBB obb1 = GetObbFromColliderData(colliderPlane);
-	OBB obb2 = GetObbFromColliderData(colliderBox);
+	//球の中心
+	XMVECTOR sphereCenter = { colliderBox.center.x, colliderBox.center.y, colliderBox.center.z, 1 };
+	//平面の法線ベクトル
+	XMVECTOR planeNormal = { 0.0f,1.0f,0.0f,0.0f };
+	//座標系の原点から球の中心座標への距離
+	XMVECTOR distV = { 100,100,100,100 };
+	if (colliderPlane.center.x + colliderPlane.scale.x > colliderBox.center.x - colliderBox.scale.x &&
+		colliderPlane.center.x - colliderPlane.scale.x < colliderBox.center.x + colliderBox.scale.x)
+	{
+		distV = XMVector3Dot(sphereCenter, planeNormal);
+	}
+	//平面の中心との距離
+	float planeDistance = sqrt(pow(colliderPlane.center.x, 2) +
+		pow(colliderPlane.center.y, 2) + pow(colliderPlane.center.z, 2));
+	//平面の原点距離を減算することで、平面と球の中心との距離が出る
+	float dist = distV.m128_f32[0] - planeDistance;
 
-	// 各方向ベクトルの確保
-	XMFLOAT3 NAe1 = obb1.u[0], Ae1 = NAe1 * length(obb1.u[0]);
-	XMFLOAT3 NAe2 = obb1.u[1], Ae2 = NAe2 * length(obb1.u[1]);
-	XMFLOAT3 NAe3 = obb1.u[2], Ae3 = NAe3 * length(obb1.u[2]);
-	XMFLOAT3 NBe1 = obb2.u[0], Be1 = NBe1 * length(obb2.u[0]);
-	XMFLOAT3 NBe2 = obb2.u[1], Be2 = NBe2 * length(obb2.u[1]);
-	XMFLOAT3 NBe3 = obb2.u[2], Be3 = NBe3 * length(obb2.u[2]);
-	XMFLOAT3 Interval = obb1.c - obb2.c;
+	//距離の絶対値が半径より大きければ当たっていない
+	if (fabsf(dist) > colliderBox.scale.y)return false;
 
-	// 分離軸 : Ae1
-	FLOAT rA = length(Ae1);
-	FLOAT rB = LenSegOnSeparateAxis(NAe1, Be1, Be2, Be3);
-	FLOAT L = fabs(dot(Interval, NAe1));
-	if (L > rA + rB)
-		return false; // 衝突していない
-
-	// 分離軸 : Ae2
-	/*rA = length(Ae2);
-	rB = LenSegOnSeparateAxis(NAe2, Be1, Be2, Be3);
-	L = fabs(dot(Interval, NAe2));
-	if (L > rA + rB)
-		return false;*/
-
-	//// 分離軸 : Ae3
-	//rA = length(Ae3);
-	//rB = LenSegOnSeparateAxis(NAe3, Be1, Be2, Be3);
-	//L = fabs(dot(Interval, NAe3));
-	//if (L > rA + rB)
-	//	return false;
-
-	//// 分離軸 : Be1
-	//rA = LenSegOnSeparateAxis(NBe1, Ae1, Ae2, Ae3);
-	//rB = length(Be1);
-	//L = fabs(dot(Interval, NBe1));
-	//if (L > rA + rB)
-	//	return false;
-
-	//// 分離軸 : Be2
-	//rA = LenSegOnSeparateAxis(NBe2, Ae1, Ae2, Ae3);
-	//rB = length(Be2);
-	//L = fabs(dot(Interval, NBe2));
-	//if (L > rA + rB)
-	//	return false;
-
-	//// 分離軸 : Be3
-	//rA = LenSegOnSeparateAxis(NBe3, Ae1, Ae2, Ae3);
-	//rB = length(Be3);
-	//L = fabs(dot(Interval, NBe3));
-	//if (L > rA + rB)
-	//	return false;
-
-	//// 分離軸 : C11
-	//XMFLOAT3 Cross;
-	//Cross = cross(NAe1, NBe1);
-	//rA = LenSegOnSeparateAxis(Cross, Ae2, Ae3);
-	//rB = LenSegOnSeparateAxis(Cross, Be2, Be3);
-	//L = fabs(dot(Interval, Cross));
-	//if (L > rA + rB)
-	//	return false;
-
-	//// 分離軸 : C12
-	//Cross = cross(NAe1, NBe2);
-	//rA = LenSegOnSeparateAxis(Cross, Ae2, Ae3);
-	//rB = LenSegOnSeparateAxis(Cross, Be1, Be3);
-	//L = fabs(dot(Interval, Cross));
-	//if (L > rA + rB)
-	//	return false;
-
-	//// 分離軸 : C13
-	//Cross = cross(NAe1, NBe3);
-	//rA = LenSegOnSeparateAxis(Cross, Ae2, Ae3);
-	//rB = LenSegOnSeparateAxis(Cross, Be1, Be2);
-	//L = fabs(dot(Interval, Cross));
-	//if (L > rA + rB)
-	//	return false;
-
-	//// 分離軸 : C21
-	//Cross = cross(NAe2, NBe1);
-	//rA = LenSegOnSeparateAxis(Cross, Ae1, Ae3);
-	//rB = LenSegOnSeparateAxis(Cross, Be2, Be3);
-	//L = fabs(dot(Interval, Cross));
-	//if (L > rA + rB)
-	//	return false;
-
-	//// 分離軸 : C22
-	//Cross = cross(NAe2, NBe2);
-	//rA = LenSegOnSeparateAxis(Cross, Ae1, Ae3);
-	//rB = LenSegOnSeparateAxis(Cross, Be1, Be3);
-	//L = fabs(dot(Interval, Cross));
-	//if (L > rA + rB)
-	//	return false;
-
-	//// 分離軸 : C23
-	//Cross = cross(NAe2, NBe3);
-	//rA = LenSegOnSeparateAxis(Cross, Ae1, Ae3);
-	//rB = LenSegOnSeparateAxis(Cross, Be1, Be2);
-	//L = fabs(dot(Interval, Cross));
-	//if (L > rA + rB)
-	//	return false;
-
-	//// 分離軸 : C31
-	//Cross = cross(NAe3, NBe1);
-	//rA = LenSegOnSeparateAxis(Cross, Ae1, Ae2);
-	//rB = LenSegOnSeparateAxis(Cross, Be2, Be3);
-	//L = fabs(dot(Interval, Cross));
-	//if (L > rA + rB)
-	//	return false;
-
-	//// 分離軸 : C32
-	//Cross = cross(NAe3, NBe2);
-	//rA = LenSegOnSeparateAxis(Cross, Ae1, Ae2);
-	//rB = LenSegOnSeparateAxis(Cross, Be1, Be3);
-	//L = fabs(dot(Interval, Cross));
-	//if (L > rA + rB)
-	//	return false;
-
-	//// 分離軸 : C33
-	//Cross = cross(NAe3, NBe3);
-	//rA = LenSegOnSeparateAxis(Cross, Ae1, Ae2);
-	//rB = LenSegOnSeparateAxis(Cross, Be1, Be2);
-	//L = fabs(dot(Interval, Cross));
-	//if (L > rA + rB)
-	//	return false;
+	//疑似交点を計算
+	/*if(inter)*/
 
 	ChangeHitColor(colliderPlane);
+
 	return true;
 }
 
@@ -356,7 +276,9 @@ void ColliderManager::ChangeHitColor(JSONLoader::ColliderData colliderData)
 	{
 		if (colliders->colliderData.objectName == colliderData.objectName)
 		{
-			colliders->colliderPlaneObject->SetColor(isHitColor);
+			if (colliderData.type == "Plane")colliders->colliderPlaneObject->SetColor(isHitColor);
+			if (colliderData.type == "Sphere")colliders->colliderSphereObject->SetColor(isHitColor);
+			if (colliderData.type == "Box")colliders->colliderCubeObject->SetColor(isHitColor);
 		}
 	}
 }

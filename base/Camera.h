@@ -26,6 +26,8 @@ public:
 	void Update();
 	//デバッグ Arrowキーで視点座標変更
 	void DebugUpdate();
+	//プレイヤー追尾
+	void UpdatePlayer(XMFLOAT3 playerPos);
 
 	//ゲッターセッター
 	void SetTarget(XMFLOAT3 pos);
@@ -57,4 +59,12 @@ private:
 	float DebugChangeRot = (float)PI;
 	float DebugChangeRot2 = 0.5f;
 	float DebugChangeDistance = 0.0f;
+
+	//プレイヤー
+	//ターゲットまでの距離
+	float playerTargetDistance = 20.0f;
+	//加算用
+	float playerChangeRot = (float)PI;
+	float playerChangeRot2 = 0.5f;
+	float playerChangeDistance = 0.0f;
 };

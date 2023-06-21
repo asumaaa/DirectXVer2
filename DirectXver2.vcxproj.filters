@@ -91,6 +91,12 @@
     <Filter Include="ヘッダー ファイル\collision">
       <UniqueIdentifier>{824663ec-2075-4a3a-b43b-b5349bebf6bb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\gameObject">
+      <UniqueIdentifier>{c711ffc7-cc2a-4f95-9bc9-9aed7f931c94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\gameObject">
+      <UniqueIdentifier>{8357b98d-e709-43e3-a9fe-62a282989179}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -192,9 +198,6 @@
     <ClCompile Include="base\Camera.cpp">
       <Filter>ソース ファイル\base</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="collision\ColliderCubeModel.cpp">
       <Filter>ソース ファイル\collision</Filter>
     </ClCompile>
@@ -216,14 +219,23 @@
     <ClCompile Include="collision\CollisionPrimitive.cpp">
       <Filter>ソース ファイル\collision</Filter>
     </ClCompile>
-    <ClCompile Include="Plane.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="collision\ColliderPlaneModel.cpp">
       <Filter>ソース ファイル\collision</Filter>
     </ClCompile>
     <ClCompile Include="collision\ColliderPlaneObject.cpp">
       <Filter>ソース ファイル\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="gameObject\Enemy.cpp">
+      <Filter>ソース ファイル\gameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="gameObject\Plane.cpp">
+      <Filter>ソース ファイル\gameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="gameObject\Player.cpp">
+      <Filter>ソース ファイル\gameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="gameObject\PlayerBullet.cpp">
+      <Filter>ソース ファイル\gameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -326,12 +338,6 @@
     <ClInclude Include="base\JSONLoader.h">
       <Filter>ヘッダー ファイル\base</Filter>
     </ClInclude>
-    <ClInclude Include="base\Camera.h">
-      <Filter>ヘッダー ファイル\2d</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="collision\ColliderCubeModel.h">
       <Filter>ヘッダー ファイル\collision</Filter>
     </ClInclude>
@@ -353,14 +359,26 @@
     <ClInclude Include="collision\CollisionPrimitive.h">
       <Filter>ヘッダー ファイル\collision</Filter>
     </ClInclude>
-    <ClInclude Include="Plane.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="collision\ColliderPlaneModel.h">
       <Filter>ヘッダー ファイル\collision</Filter>
     </ClInclude>
     <ClInclude Include="collision\ColliderPlaneObject.h">
       <Filter>ヘッダー ファイル\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="base\Camera.h">
+      <Filter>ヘッダー ファイル\base</Filter>
+    </ClInclude>
+    <ClInclude Include="gameObject\Enemy.h">
+      <Filter>ヘッダー ファイル\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="gameObject\Plane.h">
+      <Filter>ヘッダー ファイル\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="gameObject\Player.h">
+      <Filter>ヘッダー ファイル\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="gameObject\PlayerBullet.h">
+      <Filter>ヘッダー ファイル\gameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,7 @@
 #pragma once
 #include "DirectXMath.h"
 #include "FbxObject3D.h"
+#include "PlayerBullet.h"
 
 class Player
 {
@@ -23,6 +24,8 @@ public:
 	void Initialize();
 	//更新
 	void Update();
+	void UpdateObject();
+	void UpdateBullet();
 	//描画
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 	void DrawLightView(ID3D12GraphicsCommandList* cmdList);
@@ -35,9 +38,14 @@ public:
 	//ジャンプ
 	void UpdateJump();
 
+	//攻撃系全般
+	void UpdateAttack();
+
 	//セッター
+	void SetBullet(PlayerBullet* playerBullet) { Player::bullet = playerBullet; }
 	void SetObject(FbxObject3D* object);
 	void SetSRV(ID3D12DescriptorHeap* SRV);
+	void HitPlane();
 
 	//ゲッター
 	XMFLOAT3 GetPosition() { return position; }
@@ -55,6 +63,9 @@ private:
 
 	//メンバ変数
 public:
+
+	//弾
+	PlayerBullet*bullet;
 
 	//オブジェクト
 	std::unique_ptr<FbxObject3D>object;
@@ -86,6 +97,9 @@ public:
 	float fallFrame = 1.0f / 60.0f;
 
 	//ジャンプ
-	float jumpHeight = 0.3;
+	float jumpHeight = 0.4;
+
+	//スピード
+	float speed = 0.15f;
 };
 

@@ -15,6 +15,8 @@
 #include "LightGroup.h"
 #include "CSVLoader.h"
 #include "Player.h"
+#include "PlayerBullet.h"
+#include "Enemy.h"
 #include "ColliderCubeObject.h"
 #include "ColliderSphereObject.h"
 #include "ColliderPlaneObject.h"
@@ -85,6 +87,11 @@ private:
 
 	//プレイヤー
 	std::unique_ptr<Player> player;
+	//プレイヤーの弾
+	std::unique_ptr<PlayerBullet>playerBullet;
+
+	//敵
+	std::unique_ptr<Enemy>enemy;
 	
 	//平面
 	/*std::unique_ptr<Plane> plane;*/
