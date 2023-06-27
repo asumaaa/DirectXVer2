@@ -77,13 +77,18 @@ void Camera::DebugUpdate()
 	eye_.z = cos(DebugChangeRot) * DebugTargetDistance + target_.z;
 }
 
-void Camera::UpdatePlayer(XMFLOAT3 playerPos)
+void Camera::UpdatePlayer(XMFLOAT3 playerPos, XMFLOAT3 playerRot)
 {
 	target_ = { playerPos.x,0.0f,playerPos.z };
 
-	eye_.x = sin(playerChangeRot) * playerTargetDistance + target_.x;
+	/*eye_.x = sin(playerChangeRot) * playerTargetDistance + target_.x;
 	eye_.y = sin(playerChangeRot2) * playerTargetDistance;
-	eye_.z = cos(playerChangeRot) * playerTargetDistance + target_.z;
+	eye_.z = cos(playerChangeRot) * playerTargetDistance + target_.z;*/
+
+	eye_.x = playerPos.x + (cos(-playerRot.y - (PI / 2)) * playerTargetDistance);
+	eye_.y = playerPos.y + (cos(-playerRot.x + (PI * 18 / 40)) * playerTargetDistance);
+	eye_.z = playerPos.z + (sin(-playerRot.y - (PI / 2)) * playerTargetDistance);
+
 }
 
 void Camera::SetTarget(XMFLOAT3 pos)

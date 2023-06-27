@@ -5,6 +5,13 @@
 using namespace DirectX;
 #define PI 3.1415
 
+std::list<std::unique_ptr<ColliderManager::Collider>>ColliderManager::collider;
+ColliderCubeModel* ColliderManager::colliderCubeModel = nullptr;
+ColliderSphereModel* ColliderManager::colliderSphereModel = nullptr;
+ColliderPlaneModel* ColliderManager::colliderPlaneModel = nullptr;
+XMFLOAT4 ColliderManager::noHitColor = { 0,0,1,1 };
+XMFLOAT4 ColliderManager::isHitColor = { 0,1,0,1 };
+
 void ColliderManager::SetCollider(JSONLoader::ColliderData colliderData)
 {
 	//コライダーセット

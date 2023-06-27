@@ -27,44 +27,44 @@ public:	//サブクラス
 	};
 
 public:	//静的メンバ関数
-	void SetCollider(JSONLoader::ColliderData colliderData);
-	void SetColliderCubeModel(ColliderCubeModel* colliderModel) { ColliderManager::colliderCubeModel = colliderModel; }
-	void SetColliderSphereModel(ColliderSphereModel* colliderModel) { ColliderManager::colliderSphereModel = colliderModel; };
-	void SetColliderPlaneModel(ColliderPlaneModel* colliderModel) { ColliderManager::colliderPlaneModel = colliderModel; };
+	static void SetCollider(JSONLoader::ColliderData colliderData);
+	static void SetColliderCubeModel(ColliderCubeModel* colliderModel) { ColliderManager::colliderCubeModel = colliderModel; }
+	static void SetColliderSphereModel(ColliderSphereModel* colliderModel) { ColliderManager::colliderSphereModel = colliderModel; };
+	static void SetColliderPlaneModel(ColliderPlaneModel* colliderModel) { ColliderManager::colliderPlaneModel = colliderModel; };
 
 public:	//メンバ関数
 	//初期化
-	void Initialize();
+	static void Initialize();
 	//更新
-	void PreUpdate();
-	void PostUpdate();
+	static void PreUpdate();
+	static void PostUpdate();
 	//描画
-	void Draw(ID3D12GraphicsCommandList* cmdList);
+	static void Draw(ID3D12GraphicsCommandList* cmdList);
 
 	//判定
-	bool CheckCollider(JSONLoader::ColliderData colliderData0, JSONLoader::ColliderData colliderData1);
+	static bool CheckCollider(JSONLoader::ColliderData colliderData0, JSONLoader::ColliderData colliderData1);
 	//球体と球体
-	bool CheckSphereSphere(JSONLoader::ColliderData colliderSphere0, JSONLoader::ColliderData colliderSphere1);
+	static bool CheckSphereSphere(JSONLoader::ColliderData colliderSphere0, JSONLoader::ColliderData colliderSphere1);
 	//平面と球体
-	bool CheckPlaneSphere(JSONLoader::ColliderData colliderPlane, JSONLoader::ColliderData colliderSphere);
+	static bool CheckPlaneSphere(JSONLoader::ColliderData colliderPlane, JSONLoader::ColliderData colliderSphere);
 	//平面とボックス
-	bool CheckPlaneBox(JSONLoader::ColliderData colliderPlane, JSONLoader::ColliderData colliderBox);
+	static bool CheckPlaneBox(JSONLoader::ColliderData colliderPlane, JSONLoader::ColliderData colliderBox);
 
 	//ColliderDataクラスからOBBを返す関数	Box,平面のみ対応
 	OBB GetObbFromColliderData(JSONLoader::ColliderData colliderData);
 	//色を変える関数
-	void ChangeHitColor(JSONLoader::ColliderData colliderData);
+	static void ChangeHitColor(JSONLoader::ColliderData colliderData);
 
-private:	//メンバ関数
-	//モデル
-	ColliderCubeModel*colliderCubeModel;
-	ColliderSphereModel* colliderSphereModel;
-	ColliderPlaneModel*colliderPlaneModel;
+public:	//静的メンバ変数
 	//コライダー
-	std::list<std::unique_ptr<Collider>>collider;
+	static std::list<std::unique_ptr<Collider>>collider;
+	//モデル
+	static ColliderCubeModel* colliderCubeModel;
+	static ColliderSphereModel* colliderSphereModel;
+	static ColliderPlaneModel* colliderPlaneModel;
 
 	//当たっていないときの色
-	XMFLOAT4 noHitColor = { 0,0,1,1 };
-	XMFLOAT4 isHitColor = { 0,1,0,1 };
+	static XMFLOAT4 noHitColor;
+	static XMFLOAT4 isHitColor;
 };
 

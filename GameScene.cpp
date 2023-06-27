@@ -84,9 +84,9 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	ColliderPlaneObject::CreateGraphicsPipeline();
 
 	//コライダーマネージャー
+	ColliderManager::SetColliderCubeModel(colliderCubeModel.get());
+	ColliderManager::SetColliderSphereModel(colliderSphereModel.get());
 	ColliderManager* newColliderManager = new ColliderManager();
-	newColliderManager->SetColliderCubeModel(colliderCubeModel.get());
-	newColliderManager->SetColliderSphereModel(colliderSphereModel.get());
 	colliderManager.reset(newColliderManager);
 
 	//プレイヤーの弾
@@ -180,7 +180,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 		}*/
 
 		//コライダーのセット
-		colliderManager->SetCollider(jsonLoader->GetColliderData(i));
+		ColliderManager::SetCollider(jsonLoader->GetColliderData(i));
 	}
 
 	//スプライトマネージャー
@@ -209,7 +209,7 @@ void GameScene::Finalize()
 void GameScene::Update()
 {
 	//カメラ更新
-	camera_->UpdatePlayer(player->GetPosition());
+	camera_->UpdatePlayer(player->GetPosition(),player->GetRotation());
 	camera_->Update();
 	//コントローラー更新
 	dxInput->InputProcess();
@@ -265,7 +265,7 @@ void GameScene::Update()
 void GameScene::UpdateCollider()
 {
 	//事前処理
-	colliderManager->PreUpdate();
+	ColliderManager::PreUpdate();
 
 	//プレイヤーと平面との判定
 	for (std::unique_ptr<FbxObject3D>& object0 : object)
@@ -277,7 +277,7 @@ void GameScene::UpdateCollider()
 				if (object1->GetFileName() == "plane")
 				{
 					//当たっていたら
-					while (colliderManager->CheckCollider(object0->GetColliderData(), object1->GetColliderData()))
+					while (ColliderManager::CheckCollider(object0->GetColliderData(), object1->GetColliderData()))
 					{
 						player->HitPlane();
 					}
@@ -295,14 +295,30 @@ void GameScene::UpdateCollider()
 			{
 				if (object1->GetFileName() == "enemy")
 				{
-					colliderManager->CheckCollider(object0->GetColliderData(), object1->GetColliderData());
+					ColliderManager::CheckCollider(object0->GetColliderData(), object1->GetColliderData());
+				}
+			}
+		}
+	}
+
+	//弾と敵との判定
+	for (std::unique_ptr<FbxObject3D>& object0 : object)
+	{
+		if (object0->GetFileName() == "enemy")
+		{
+			//弾が一つ以上あれば
+			if (playerBullet->GetBulletNum() >= 1)
+			{
+				for (int i = 0; i < playerBullet->GetBulletNum(); i++)
+				{
+					ColliderManager::CheckCollider(playerBullet->GetColliderData(i), object0->GetColliderData());
 				}
 			}
 		}
 	}
 
 	//後処理
-	colliderManager->PostUpdate();
+	ColliderManager::PostUpdate();
 }
 
 void GameScene::Draw()
@@ -346,7 +362,7 @@ void GameScene::DrawFBX()
 
 void GameScene::DrawCollider()
 {
-	colliderManager->Draw(dxCommon_->GetCommandList());
+	ColliderManager::Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::SetSRV(ID3D12DescriptorHeap* SRV)

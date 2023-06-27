@@ -27,7 +27,7 @@ public:
 	//デバッグ Arrowキーで視点座標変更
 	void DebugUpdate();
 	//プレイヤー追尾
-	void UpdatePlayer(XMFLOAT3 playerPos);
+	void UpdatePlayer(XMFLOAT3 playerPos,XMFLOAT3 playerRot);
 
 	//ゲッターセッター
 	void SetTarget(XMFLOAT3 pos);

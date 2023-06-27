@@ -38,8 +38,12 @@ void Player::UpdateBullet()
 	{
 		//ショットフラグを立てる
 		bullet->SetShotFlag(true);
+		
+		//弾ベクトル
+		XMFLOAT3 bulletVelocity = rollRotation(XMFLOAT3(0.0f, 0.0f, 1.0f), rotation);
+
 		//弾生成場所とvelocityをセット
-		bullet->SetBullet(position, posVelocity);
+		bullet->SetBullet(position, bulletVelocity);
 	}
 	bullet->Update();
 }
@@ -69,7 +73,7 @@ void Player::Move()
 void Player::KeyControl()
 {
 	//AROWキーで角度変更
-	rotVelocity.y = (input->PushKey(DIK_LEFT) - input->PushKey(DIK_RIGHT)) * rotSpeed;
+	rotVelocity.y = (input->PushKey(DIK_RIGHT) - input->PushKey(DIK_LEFT)) * rotSpeed;
 	//角度ベクトルを加算
 	rotation = rotation + rotVelocity;
 

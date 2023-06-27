@@ -1,5 +1,6 @@
 #include "PlayerBullet.h"
 #include "mathOriginal.h"
+#include "ColliderManager.h"
 
 Camera* PlayerBullet::camera = nullptr;
 Input* PlayerBullet::input = nullptr;
@@ -20,6 +21,26 @@ void PlayerBullet::Update()
 
 	//動く
 	Move();
+
+	//タイマー加算
+	for (int i = 0; i < object.size(); i++)
+	{
+		timer[i] += 1.0f;
+	}
+
+	//削除
+	for (int i = 0; i < object.size(); i++)
+	{
+		if (timer[i] >= destoryTime)
+		{
+			position.erase(position.begin());
+			rotation.erase(rotation.begin());
+			scale.erase(scale.begin());
+			velocity.erase(velocity.begin());
+			timer.erase(timer.begin());
+			object.erase(object.begin());
+		}
+	}
 
 	//更新
 	int i = 0;
@@ -57,23 +78,24 @@ void PlayerBullet::Move()
 	for (int i = 0; i < object.size(); i++)
 	{
 		//進行ベクトルを加算
-		position[i] = position[i] + velocity[i];
+		position[i] = position[i] + (velocity[i] * posSpeed);
 	}
 }
 
 void PlayerBullet::CreateBullet()
 {
+	//オブジェクト生成
 	std::unique_ptr<FbxObject3D>newObject = std::make_unique<FbxObject3D>();
 	newObject->Initialize();
 	newObject->SetModel(model);
-	/*newBullet->position = { 0.0f,0.0f,0.0f };
-	newBullet->rotation = { 0.0f,0.0f,0.0f };
-	newBullet->scale = { 0.0f,0.0f,0.0f };*/
+
+	//オブジェクトごとに名前をつける
+	std::string objectName = "playerBullet" + std::to_string(number);
 
 	//オブジェクトデータセット
 	JSONLoader::ObjectData objectData;
 	objectData.fileName = "playerBullet";
-	objectData.objectName = "playerBullet";
+	objectData.objectName = objectName;
 	objectData.position = position.back();
 	objectData.rotation = rotation.back();
 	objectData.scale = scale.back();
@@ -82,13 +104,19 @@ void PlayerBullet::CreateBullet()
 	//コライダーデータセット
 	JSONLoader::ColliderData colliderData;
 	colliderData.type = "Sphere";	//判定を球体で取るため
-	colliderData.objectName = "playerBullet";
+	colliderData.objectName = objectName;
 	colliderData.scale = scale.back();
 	colliderData.rotation = rotation.back();
 	colliderData.center = position.back();
 	newObject->SetColliderData(colliderData);
 
+	//コライダーマネージャーにセット
+	ColliderManager::SetCollider(colliderData);
+
+	//オブジェクトに代入
 	object.emplace_back(std::move(newObject));
+
+	number++;
 }
 
 void PlayerBullet::SetSRV(ID3D12DescriptorHeap* SRV)
@@ -105,4 +133,20 @@ void PlayerBullet::SetBullet(XMFLOAT3 position, XMFLOAT3 velocity)
 	PlayerBullet::rotation.emplace_back(baseRotation);
 	PlayerBullet::scale.emplace_back(baseScale);
 	PlayerBullet::velocity.emplace_back(velocity);
+	PlayerBullet::timer.emplace_back(0.0f);
+}
+
+JSONLoader::ColliderData PlayerBullet::GetColliderData(int num)
+{
+	std::list<std::unique_ptr<FbxObject3D>>::iterator itr;
+	itr = object.begin();
+	if (num != 0)
+	{
+		for (int i = 0; i < num; i++)
+		{
+			itr++;
+		}
+	}
+
+	return itr->get()->GetColliderData();
 }

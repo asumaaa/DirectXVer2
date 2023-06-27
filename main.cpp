@@ -46,71 +46,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	imGuiManager = new ImGuiManager();
 	imGuiManager->Initialize(winApp,dxCommon);
 
-	////単色エフェクト
-	//MonochromeEffect* monochromeEffect = nullptr;
-	//MonochromeEffect::SetDevice(dxCommon->GetDevice());
-	//monochromeEffect = new MonochromeEffect;
-	//monochromeEffect->Initialize();
-	//monochromeEffect->CreateGraphicsPipeLine();
-
-	////反転エフェクト
-	//ReversalEffect* reversalEffect = nullptr;
-	//ReversalEffect::SetDevice(dxCommon->GetDevice());
-	//reversalEffect = new ReversalEffect;
-	//reversalEffect->Initialize();
-	//reversalEffect->CreateGraphicsPipeLine();
-
-	//ぼかしエフェクト
-	/*BlurEffect* blurEffect = nullptr;
-	BlurEffect::SetDevice(dxCommon->GetDevice());
-	blurEffect = new BlurEffect;
-	blurEffect->Initialize();
-	blurEffect->CreateGraphicsPipeLine();
-	float blurStrength[1] = { 5.0f };
-	float blurWidthStrength[1] = { 10.0f };
-	float blurHeightStrength[1] = { 10.0f };*/
-
-	////モザイクエフェクト
-	//MosaicEffect* mosaicEffect = nullptr;
-	//MosaicEffect::SetDevice(dxCommon->GetDevice());
-	//mosaicEffect = new MosaicEffect;
-	//mosaicEffect->Initialize();
-	//mosaicEffect->CreateGraphicsPipeLine();
-
-	////RGBずらし
-	//ChromaticAberration* chromaticAberration = nullptr;
-	//ChromaticAberration::SetDevice(dxCommon->GetDevice());
-	//chromaticAberration = new ChromaticAberration;
-	//chromaticAberration->Initialize();
-	//chromaticAberration->CreateGraphicsPipeLine();
-
 	//ShadowMap
 	ShadowMap* shadowMap = nullptr;
 	ShadowMap::SetDevice(dxCommon->GetDevice());
 	shadowMap = new ShadowMap;
 	shadowMap->Initialize();
 	shadowMap->CreateGraphicsPipeLine0();
-
-	//被写界深度
-	//DepthOfField* depthOfField = nullptr;
-	//DepthOfField::SetDevice(dxCommon->GetDevice());
-	//depthOfField = new DepthOfField;
-	//depthOfField->Initialize();
-	//depthOfField->CreateGraphicsPipeLine();
-
-	//Fog
-	//Fog* fog = nullptr;
-	//Fog::SetDevice(dxCommon->GetDevice());
-	//fog = new Fog;
-	//fog->Initialize();
-	//fog->CreateGraphicsPipeLine0();
-
-	////Vignette
-	//Vignette* vignette = nullptr;
-	//Vignette::SetDevice(dxCommon->GetDevice());
-	//vignette = new Vignette;
-	//vignette->Initialize();
-	//vignette->CreateGraphicsPipeLine();
 
 	//ゲームシーン
 	GameScene* gameScene = nullptr;
@@ -135,54 +76,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		imGuiManager->Begin();
 
 		//ゲームシーン更新
-
-		////単色エフェクト
-		//monochromeEffect->SetAlpha(1.0f);
-		//monochromeEffect->SetColor({ 1.0f,1.0f,0.0 });
-		//monochromeEffect->Update();
-
-		////反転エフェクト
-		//reversalEffect->SetAlpha(1.0f);
-		//reversalEffect->Update();
-
-		//ぼかしエフェクト
-		/*blurEffect->SetAlpha(1.0f);
-		blurEffect->SetWidthStrength(*blurWidthStrength);
-		blurEffect->SetHeightStrength(*blurHeightStrength);
-		blurEffect->Update();*/
-
-		////モザイクエフェクト
-		//mosaicEffect->SetAlpha(1.0f);
-		//mosaicEffect->SetResolution(10.0f);
-		//mosaicEffect->Update();
-
-		////RGBずらし
-		//chromaticAberration->SetAlpha(1.0f);
-		//chromaticAberration->SetStrength(0.01);
-		//chromaticAberration->Update();
-
 		//shadowMap
 		shadowMap->SetAlpha(1.0f);
 		shadowMap->SetLightVP(gameScene->GetLightViewProjection());
 		shadowMap->Update();
-
-		//被写界深度
-		/*depthOfField->SetAlpha(1.0f);
-		depthOfField->SetFocus(0.1f);
-		depthOfField->SetFNumber(0.1f);
-		depthOfField->SetStrength(50.0f);
-		depthOfField->Update();*/
-
-		//Fog
-		//fog->SetAlpha(1.0f);
-		//fog->SetStrength(1.0f);
-		//fog->SetStartDepth(0.2f);
-		//fog->Update();
-
-		////vignette
-		//vignette->SetAlpha(1.0f);
-		//vignette->SetStrength(0.1f);
-		//vignette->Update();
 
 		//ゲームシーン
 		gameScene->Update();
@@ -198,61 +95,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//ゲームシーンにSRVを渡す
 		gameScene->SetSRV(shadowMap->GetSRV());
 
-		//単色エフェクト
-		//monochromeEffect->PreDrawScene(dxCommon->GetCommandList());
-		//gameScene->Draw();
-		//monochromeEffect->PostDrawScene(dxCommon->GetCommandList());
-		////反転エフェクト
-		//reversalEffect->PreDrawScene(dxCommon->GetCommandList());
-		//gameScene->Draw();
-		//reversalEffect->PostDrawScene(dxCommon->GetCommandList());
-		//ぼかしエフェクト
-		/*blurEffect->PreDrawScene(dxCommon->GetCommandList());
-		gameScene->Draw();
-		blurEffect->PostDrawScene(dxCommon->GetCommandList());*/
-		////モザイクエフェクト
-		//mosaicEffect->PreDrawScene(dxCommon->GetCommandList());
-		//gameScene->Draw();
-		//mosaicEffect->PostDrawScene(dxCommon->GetCommandList());
-		//////RGBずらし
-		//chromaticAberration->PreDrawScene(dxCommon->GetCommandList());
-		//gameScene->Draw();
-		//chromaticAberration->PostDrawScene(dxCommon->GetCommandList());
-		//被写界深度
-		/*depthOfField->PreDrawScene(dxCommon->GetCommandList());
-		gameScene->Draw();
-		depthOfField->PostDrawScene(dxCommon->GetCommandList());*/
-		//fog
-		//fog->PreDrawScene(dxCommon->GetCommandList());
-		//gameScene->Draw();
-		//fog->PostDrawScene(dxCommon->GetCommandList());
-
-		////ビネット
-		//vignette->PreDrawScene(dxCommon->GetCommandList());
-		//fog->Draw(dxCommon->GetCommandList());
-		//vignette->PostDrawScene(dxCommon->GetCommandList());
-
 		//描画前処理
 		dxCommon->PreDraw();
-
-		//描画開始
-		//単色エフェクト
-		/*monochromeEffect->Draw(dxCommon->GetCommandList());*/
-		//反転エフェクト
-		/*reversalEffect->Draw(dxCommon->GetCommandList());*/
-		////ぼかしエフェクト 
-		/*blurEffect->Draw(dxCommon->GetCommandList());*/
-		//モザイクエフェクト 
-		/*mosaicEffect->Draw(dxCommon->GetCommandList());*/
-		//RGBずらし 
-		/*chromaticAberration->Draw(dxCommon->GetCommandList());*/
-		//被写界深度
-		/*depthOfField->Draw(dxCommon->GetCommandList());*/
-		//fog
-		/*fog->Draw(dxCommon->GetCommandList());*/
-
-		//vignette
-		/*vignette->Draw(dxCommon->GetCommandList());*/
 	
 		gameScene->Draw();
 
@@ -283,6 +127,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	delete shadowMap;
 	delete imGuiManager;
+	delete fps;
 
 	//ウィンドウクラスを登録解除
 	winApp->deleteWindow();

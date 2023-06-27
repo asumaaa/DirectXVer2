@@ -42,11 +42,17 @@ public:
 	void SetShotFlag(bool shotFlag) {PlayerBullet::shotFlag = shotFlag; };
 	//弾に必要な情報をセットする
 	void SetBullet(XMFLOAT3 position, XMFLOAT3 velocity);
+	//ヒットフラグをセットする
+	void SetHitFlag(bool hitFlag, int num) { PlayerBullet::hitFlag[num] = hitFlag; };
 
 	//ゲッター
 	/*XMFLOAT3 GetPosition() { return position; }
 	XMFLOAT3 GetRotation() { return rotation; }
 	XMFLOAT3 GetScale() { return scale; }*/
+	//コライダーデータ
+	JSONLoader::ColliderData GetColliderData(int num);
+	//弾の数
+	size_t GetBulletNum() { return object.size(); }
 
 	//静的メンバ変数
 private:
@@ -73,11 +79,23 @@ public:
 	std::vector<XMFLOAT3> scale;
 	//進行ベクトル
 	std::vector<XMFLOAT3> velocity;
+	//タイマー
+	std::vector<float>timer;
+	//フラグ
+	std::vector<bool>hitFlag;
 
 	XMFLOAT3 baseRotation = { 0.0f,0.0f,0.0f };
-	XMFLOAT3 baseScale = { 1.0f,1.0f,1.0f };
+	XMFLOAT3 baseScale = { 0.3f,0.3f,0.3f };
+	//弾が消える速度
+	float destoryTime= 60.0f;
+
+	//弾につける番号
+	int number = 0;
 
 	//ショットフラグ
 	bool shotFlag = false;
+
+	//スピード
+	float posSpeed = 1.0f;
 };
 

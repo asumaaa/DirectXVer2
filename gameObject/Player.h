@@ -106,6 +106,6 @@ public:
 
 	//スピード
 	float posSpeed = 0.15f;
-	float rotSpeed = (float)PI * 1.0f / 45.0f;
+	float rotSpeed = (float)PI * 1.0f / 180.0f;
 };
 
