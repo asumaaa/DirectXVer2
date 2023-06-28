@@ -25,7 +25,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//ウィンドウ生成
 	WinApp* winApp = nullptr;
 	winApp = WinApp::GetInstance();
-	winApp->CreateWindow_(L"CG5_Test02");
+	winApp->CreateWindow_(L"あいうえお");
 
 	//メッセージ
 	Message* message;
