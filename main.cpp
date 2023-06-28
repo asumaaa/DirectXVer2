@@ -25,7 +25,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//ウィンドウ生成
 	WinApp* winApp = nullptr;
 	winApp = WinApp::GetInstance();
-	winApp->CreateWindow_(L"あいうえお");
+	winApp->CreateWindow_(L"CG5_Test02");
 
 	//メッセージ
 	Message* message;
@@ -46,6 +46,27 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	imGuiManager = new ImGuiManager();
 	imGuiManager->Initialize(winApp,dxCommon);
 
+	//ぼかしエフェクト
+	BlurEffect* blurEffect = nullptr;
+	BlurEffect::SetDevice(dxCommon->GetDevice());
+	blurEffect = new BlurEffect;
+	blurEffect->Initialize();
+	blurEffect->CreateGraphicsPipeLine();
+	float blurStrength[1] = { 5.0f };
+	float blurWidthStrength[1] = { 10.0f };
+	float blurHeightStrength[1] = { 10.0f };
+
+	//被写界深度
+	DepthOfField* depthOfField = nullptr;
+	DepthOfField::SetDevice(dxCommon->GetDevice());
+	depthOfField = new DepthOfField;
+	depthOfField->Initialize();
+	depthOfField->CreateGraphicsPipeLine();
+	float depthOfFieldFocus[1] = { 0.1 };
+	float depthOfFieldFNumber[1] = { 0.3 };
+	float depthOfFieldStrength[1] = { 50 };
+
+
 	//ShadowMap
 	ShadowMap* shadowMap = nullptr;
 	ShadowMap::SetDevice(dxCommon->GetDevice());
@@ -57,6 +78,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	GameScene* gameScene = nullptr;
 	gameScene = new GameScene();
 	gameScene->Initialize(dxCommon, input);
+
+	//ポストエフェクト切り替えようフラグ
+	int blurFlag[1] = { 1 };
+	int depthOfFieldFlag[1] = { 0 };
 
 	//FPSを固定
 	FPS* fps = nullptr;
@@ -76,6 +101,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		imGuiManager->Begin();
 
 		//ゲームシーン更新
+		
+		//ぼかしエフェクト
+		blurEffect->SetAlpha(1.0f);
+		blurEffect->SetWidthStrength(*blurWidthStrength);
+		blurEffect->SetHeightStrength(*blurHeightStrength);
+		blurEffect->Update();
+
+		//被写界深度
+		depthOfField->SetAlpha(1.0f);
+		depthOfField->SetFocus(*depthOfFieldFocus);
+		depthOfField->SetFNumber(*depthOfFieldFNumber);
+		depthOfField->SetStrength(*depthOfFieldStrength);
+		depthOfField->Update();
+
 		//shadowMap
 		shadowMap->SetAlpha(1.0f);
 		shadowMap->SetLightVP(gameScene->GetLightViewProjection());
@@ -95,20 +134,37 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//ゲームシーンにSRVを渡す
 		gameScene->SetSRV(shadowMap->GetSRV());
 
+		//ぼかし
+		blurEffect->PreDrawScene(dxCommon->GetCommandList());
+		gameScene->Draw();
+		blurEffect->PostDrawScene(dxCommon->GetCommandList());
+
+		//被写界深度
+		depthOfField->PreDrawScene(dxCommon->GetCommandList());
+		gameScene->Draw();
+		depthOfField->PostDrawScene(dxCommon->GetCommandList());
+
 		//描画前処理
 		dxCommon->PreDraw();
-	
-		gameScene->Draw();
+
+
+		if(*blurFlag == 1)blurEffect->Draw(dxCommon->GetCommandList());
+		else if (*depthOfFieldFlag == 1)depthOfField->Draw(dxCommon->GetCommandList());
+		else gameScene->Draw();
 
 		//ImGui
-		//ImGui::Begin("blur");
-		//ImGui::SetWindowPos(ImVec2(0, 0));
-		//ImGui::SetWindowSize(ImVec2(500, 150));
-		///*ImGui::InputFloat3("lightDir", lightDir);*/
-		//ImGui::InputFloat("blur Strength", blurStrength);
-		//ImGui::InputFloat("blur Width Strength", blurWidthStrength);
-		//ImGui::InputFloat("blur Height Strength", blurHeightStrength);
-		//ImGui::End();
+		ImGui::Begin("blur");
+		ImGui::SetWindowPos(ImVec2(0, 0));
+		ImGui::SetWindowSize(ImVec2(500, 250));
+		/*ImGui::InputFloat3("lightDir", lightDir);*/
+		ImGui::InputInt("blurFlag", blurFlag);
+		ImGui::InputFloat("blur Width Strength", blurWidthStrength);
+		ImGui::InputFloat("blur Height Strength", blurHeightStrength);
+		ImGui::InputInt("depthOfFieldFlag", depthOfFieldFlag);
+		ImGui::InputFloat("depthOfFieldFocus", depthOfFieldFocus);
+		ImGui::InputFloat("depthOfFieldFNumber", depthOfFieldFNumber);
+		ImGui::InputFloat("depthOfFieldStrength", depthOfFieldStrength);
+		ImGui::End();
 
 		imGuiManager->End();
 		imGuiManager->Draw();
