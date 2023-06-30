@@ -33,6 +33,22 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("enemy", "Resources/pictures/toriko.png"));
 	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("playerBullet", "Resources/pictures/white1x1.png"));
 
+	//スプライトマネージャー
+	SpriteManager::SetDevice(dxCommon->GetDevice());
+	SpriteManager* newSpriteManager = new SpriteManager();
+	newSpriteManager->Initialize();
+	newSpriteManager->LoadFile(0, L"Resources/pictures/toriko.png");
+	newSpriteManager->LoadFile(1, L"Resources/pictures/toriko2.png");
+	newSpriteManager->LoadFile(2, L"Resources/pictures/GourmetSpyzer.png");
+	newSpriteManager->LoadFile(3, L"Resources/pictures/orange.png");
+	newSpriteManager->LoadFile(4, L"Resources/pictures/red.png");
+	spriteManager.reset(newSpriteManager);
+
+	//スプライト
+	Sprite::SetDevice(dxCommon->GetDevice());
+	Sprite::SetSpriteManager(spriteManager.get());
+	Sprite::CreateGraphicsPipeLine();
+
 	//カメラ初期化
 	Camera::SetInput(input_);
 	Camera::SetDXInput(dxInput);
@@ -88,6 +104,22 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	ColliderManager::SetColliderSphereModel(colliderSphereModel.get());
 	ColliderManager* newColliderManager = new ColliderManager();
 	colliderManager.reset(newColliderManager);
+
+	//パーティクル
+	ParticleModel::SetSpriteManager(spriteManager.get());
+	ParticleModel::SetDevice(dxCommon_->GetDevice());
+	ParticleModel* newParticleModel = new ParticleModel();
+	newParticleModel->CreateBuffers();
+	particleModel.reset(newParticleModel);
+	ParticleObject::SetDevice(dxCommon_->GetDevice());
+	ParticleObject::SetCamera(camera_.get());
+	ParticleObject::SetInput(input_);
+	ParticleObject::SetModel(particleModel.get());
+	ParticleObject::CreateGraphicsPipeline();
+	ParticleObject* newParticleObject = new ParticleObject();
+	newParticleObject->Initialize();
+	newParticleObject->SetTextureNum(1);
+	particleObject.reset(newParticleObject);
 
 	//プレイヤーの弾
 	PlayerBullet::SetCamera(camera_.get());
@@ -182,17 +214,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 		//コライダーのセット
 		ColliderManager::SetCollider(jsonLoader->GetColliderData(i));
 	}
-
-	//スプライトマネージャー
-	SpriteManager::SetDevice(dxCommon->GetDevice());
-	SpriteManager* newSpriteManager = new SpriteManager();
-	newSpriteManager->Initialize();
-	newSpriteManager->LoadFile(0,L"Resources/pictures/toriko.png");
-	newSpriteManager->LoadFile(1, L"Resources/pictures/toriko2.png");
-	newSpriteManager->LoadFile(2, L"Resources/pictures/GourmetSpyzer.png");
-	newSpriteManager->LoadFile(3, L"Resources/pictures/orange.png");
-	newSpriteManager->LoadFile(4,L"Resources/pictures/red.png");
-	spriteManager.reset(newSpriteManager);
 }
 
 void GameScene::Finalize()
@@ -213,6 +234,9 @@ void GameScene::Update()
 	camera_->Update();
 	//コントローラー更新
 	dxInput->InputProcess();
+
+	particleObject->SetPosition(XMFLOAT3(10.0f,5.0f,0));
+	particleObject->Update();
 
 	//ライト
 	light->SetEye(XMFLOAT3(lightPos));
@@ -311,7 +335,8 @@ void GameScene::UpdateCollider()
 			{
 				for (int i = 0; i < playerBullet->GetBulletNum(); i++)
 				{
-					ColliderManager::CheckCollider(playerBullet->GetColliderData(i), object0->GetColliderData());
+					playerBullet->SetHitFlag(ColliderManager::CheckCollider(playerBullet->GetColliderData(i), 
+						object0->GetColliderData()),i);
 				}
 			}
 		}
@@ -337,6 +362,10 @@ void GameScene::Draw()
 	DrawCollider();
 	//FBXの描画
 	DrawFBX();
+	//スプライトの描画
+	DrawSprite();
+
+	particleObject->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::DrawFBXLightView()
@@ -363,6 +392,11 @@ void GameScene::DrawFBX()
 void GameScene::DrawCollider()
 {
 	ColliderManager::Draw(dxCommon_->GetCommandList());
+}
+
+void GameScene::DrawSprite()
+{
+	/*enemy->DrawSprite(dxCommon_->GetCommandList());*/
 }
 
 void GameScene::SetSRV(ID3D12DescriptorHeap* SRV)

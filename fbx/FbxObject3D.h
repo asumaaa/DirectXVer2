@@ -60,6 +60,7 @@ public://メンバ関数
 	void Initialize();
 	//更新
 	void Update();
+	void UpdateBillboard();
 	void UpdateCollider();
 	//描画
 	void DrawLightView(ID3D12GraphicsCommandList* cmdList);
@@ -79,6 +80,7 @@ public://メンバ関数
 	void SetSRV(ID3D12DescriptorHeap* SRV) { depthSRV = SRV; }
 	void SetObjectData(JSONLoader::ObjectData objectData);
 	void SetColliderData(JSONLoader::ColliderData colliderData);
+	void SetBillboardFlag() { billboardFlag = true; }
 
 	//ゲッター
 	XMFLOAT3 GetPosition() { return position; }
@@ -107,10 +109,17 @@ private:
 	XMFLOAT3 position = { 0,0,0 };
 	//ローカルワールド変換行列
 	XMMATRIX matWorld;
+	//ビルボード行列
+	XMMATRIX matBillboard;
+	//Y軸周りビルボード行列
+	XMMATRIX matBillboiadY;
 	//モデル
 	FbxModel* model = nullptr;
 	//コライダーの中心と座標の差分
 	XMFLOAT3 colliderPos = {0.0f,0.0f,0.0f};
+
+	//ビルボードフラグ
+	bool billboardFlag = false;
 
 	//定数バッファ
 	ComPtr<ID3D12Resource>constBuffSkin;

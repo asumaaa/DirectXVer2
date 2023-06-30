@@ -1,6 +1,7 @@
 #pragma once
 #include "DirectXMath.h"
 #include "FbxObject3D.h"
+#include "Sprite.h"
 
 class Enemy
 {
@@ -24,9 +25,11 @@ public:
 	//更新
 	void Update();
 	void UpdateObject();
+	void UpdateSprite();
 	//描画
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 	void DrawLightView(ID3D12GraphicsCommandList* cmdList);
+	void DrawSprite(ID3D12GraphicsCommandList* cmdList);
 
 	//挙動関連
 	//挙動全般
@@ -63,6 +66,8 @@ public:
 
 	//オブジェクト
 	std::unique_ptr<FbxObject3D>object;
+	//スプライト
+	std::unique_ptr<Sprite>spriteHpBar;
 
 	//変形行列
 	//平行移動
@@ -95,5 +100,8 @@ public:
 
 	//スピード
 	float speed = 0.15f;
+
+	//HP
+	float HP = 100;
 };
 

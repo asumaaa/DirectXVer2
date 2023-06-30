@@ -100,6 +100,15 @@ void FbxObject3D::Update()
 
 	//ワールド行列の生成
 	matWorld = XMMatrixIdentity();
+
+	//ビルボードの行列更新
+	UpdateBillboard();
+	//ビルボードフラグが立っていれば
+	if (billboardFlag == true)
+	{
+		matWorld *= matBillboard;
+	}
+
 	matWorld *= matScale;
 	matWorld *= matRot;
 	matWorld *= matTrans;
@@ -127,6 +136,72 @@ void FbxObject3D::Update()
 
 	//コライダー更新
 	UpdateCollider();
+}
+
+void FbxObject3D::UpdateBillboard()
+{
+	XMFLOAT3 eye = camera->GetEye();
+	XMFLOAT3 target = camera->GetTarget();
+	XMFLOAT3 up = camera->GetUp();
+	//視点座標
+	XMVECTOR eyePosition = XMLoadFloat3(&eye);
+	//注視点座標
+	XMVECTOR targetPosition = XMLoadFloat3(&target);
+	//(仮の)上方向
+	XMVECTOR upVector = XMLoadFloat3(&up);
+
+	//カメラZ軸
+	XMVECTOR cameraAxisZ = XMVectorSubtract(targetPosition, eyePosition);
+	//0ベクトルだと向きが定まらないので除外
+	assert(!XMVector3Equal(cameraAxisZ, XMVectorZero()));
+	assert(!XMVector3IsInfinite(cameraAxisZ));
+	assert(!XMVector3Equal(upVector, XMVectorZero()));
+	assert(!XMVector3IsInfinite(upVector));
+	//ベクトルを正規化
+	cameraAxisZ = XMVector3Normalize(cameraAxisZ);
+
+	//カメラのX軸(右方向)
+	XMVECTOR cameraAxisX;
+	//X軸は上方向→Z軸の外積で決まる
+	cameraAxisX = XMVector3Cross(upVector, cameraAxisZ);
+	//ベクトルを正規化
+	cameraAxisX = XMVector3Normalize(cameraAxisX);
+
+	//カメラのY軸
+	XMVECTOR cameraAxisY;
+	//Y軸はZ軸→X軸の外積で求まる
+	cameraAxisY = XMVector3Cross(cameraAxisZ, cameraAxisX);
+
+	////カメラ回転行列
+	//XMMATRIX matCameraRot;
+	////カメラ座標系→ワールド座標系の変換行列
+	//matCameraRot.r[0] = cameraAxisX;
+	//matCameraRot.r[1] = cameraAxisY;
+	//matCameraRot.r[2] = cameraAxisZ;
+	//matCameraRot.r[3] = XMVectorSet(0,0,0,1);
+
+	////転置により逆行列(逆回転)を計算
+	//matView = XMMatrixTranspose(matCameraRot);
+
+	////視点座標に-1をかけた値
+	//XMVECTOR reverseEyePosition = XMVectorNegate(eyePosition);
+	////カメラの位置からワールド原点へのベクトル
+	//XMVECTOR tX = XMVector3Dot(cameraAxisX, reverseEyePosition);
+	//XMVECTOR tY = XMVector3Dot(cameraAxisY, reverseEyePosition);
+	//XMVECTOR tZ = XMVector3Dot(cameraAxisZ, reverseEyePosition);
+	////一つのベクトルにまとめる
+	//XMVECTOR translation = XMVectorSet(tX.m128_f32[0], tY.m128_f32[1], tZ.m128_f32[2], 1.0f);
+
+	//matView.r[3] = translation;
+
+
+	//全方向ビルボード行列の計算
+	//ビルボード行列
+	matBillboard = XMMatrixIdentity();
+	matBillboard.r[0] = cameraAxisX;
+	matBillboard.r[1] = cameraAxisY;
+	matBillboard.r[2] = cameraAxisZ;
+	matBillboard.r[3] = XMVectorSet(0, 0, 0, 1);
 }
 
 void FbxObject3D::UpdateCollider()

@@ -33,7 +33,7 @@ public:
 	void SetTarget(XMFLOAT3 pos);
 	void SetEye(XMFLOAT3 pos);
 	XMFLOAT3 GetEye() { return eye_; };
-	XMFLOAT3 GetTraget() { return target_; };
+	XMFLOAT3 GetTarget() { return target_; };
 	XMFLOAT3 GetUp() { return up_; };
 	XMMATRIX GetMatProjection() { return matProjection_; };
 	XMMATRIX GetMatView() { return matView_; };

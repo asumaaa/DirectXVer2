@@ -9,6 +9,10 @@ DXInput* Enemy::dxInput = nullptr;
 
 void Enemy::Initialize()
 {
+	Sprite* newSprite = new Sprite();
+	newSprite->SetTextureNum(4);
+	newSprite->Initialize();
+	spriteHpBar.reset(newSprite);
 }
 
 void Enemy::Update()
@@ -18,6 +22,9 @@ void Enemy::Update()
 
 	//オブジェクト更新
 	UpdateObject();
+
+	//スプライト更新
+	UpdateSprite();
 }
 
 void Enemy::UpdateObject()
@@ -29,6 +36,15 @@ void Enemy::UpdateObject()
 	object->Update();
 }
 
+void Enemy::UpdateSprite()
+{
+	//HPバー
+	spriteHpBar->SetAlpha(1.0f);
+	spriteHpBar->SetScale({ 100.0f, 100.0 });
+	spriteHpBar->SetPosition({ 0.0f, 0.0 });
+	spriteHpBar->Update();
+}
+
 void Enemy::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	object->Draw(cmdList);
@@ -37,6 +53,11 @@ void Enemy::Draw(ID3D12GraphicsCommandList* cmdList)
 void Enemy::DrawLightView(ID3D12GraphicsCommandList* cmdList)
 {
 	object->DrawLightView(cmdList);
+}
+
+void Enemy::DrawSprite(ID3D12GraphicsCommandList* cmdList)
+{
+	spriteHpBar->Draw(cmdList);
 }
 
 void Enemy::Move()

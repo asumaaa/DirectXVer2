@@ -97,6 +97,9 @@
     <Filter Include="ソース ファイル\gameObject">
       <UniqueIdentifier>{8357b98d-e709-43e3-a9fe-62a282989179}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\Shaders\Particle">
+      <UniqueIdentifier>{ac7708d5-f0ab-4571-ade8-0a1f86d29983}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -238,6 +241,12 @@
       <Filter>ソース ファイル\gameObject</Filter>
     </ClCompile>
     <ClCompile Include="Matrix4.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleModel.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleObject.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -386,6 +395,12 @@
     <ClInclude Include="Matrix4.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleModel.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleObject.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\ShaderHeader.hlsli">
@@ -432,6 +447,9 @@
     </None>
     <None Include="Resources\Shaders\ColliderCube\ColliderCubeHeader.hlsli">
       <Filter>リソース ファイル\Shaders\ColliderCube</Filter>
+    </None>
+    <None Include="Resources\Shaders\Particle\ParticleHeader.hlsli">
+      <Filter>リソース ファイル\Shaders\Particle</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -524,6 +542,12 @@
     </FxCompile>
     <FxCompile Include="Resources\Shaders\ColliderCube\ColliderCubeVertexShader.hlsl">
       <Filter>リソース ファイル\Shaders\ColliderCube</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Particle\ParticlePixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\Particle\ParticleVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Particle</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

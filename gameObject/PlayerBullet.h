@@ -35,6 +35,8 @@ public:
 	void Move();
 	//ショットフラグが真ならば弾生成
 	void CreateBullet();
+	//弾を削除する処理
+	void DeleteBullet();
 
 	//セッター
 	void SetSRV(ID3D12DescriptorHeap* SRV);
@@ -87,7 +89,7 @@ public:
 	XMFLOAT3 baseRotation = { 0.0f,0.0f,0.0f };
 	XMFLOAT3 baseScale = { 0.3f,0.3f,0.3f };
 	//弾が消える速度
-	float destoryTime= 60.0f;
+	float destoryTime= 120.0f;
 
 	//弾につける番号
 	int number = 0;
