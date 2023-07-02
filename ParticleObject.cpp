@@ -66,8 +66,6 @@ void ParticleObject::Update()
 	{
 		constMap->viewproj = matViewProjection;
 		constMap->world = matWorld;
-		constMap->cameraPos = cameraPos;
-		constMap->color = color;
 		constBuffTransform->Unmap(0, nullptr);
 	}
 }
@@ -155,7 +153,7 @@ void ParticleObject::Draw(ID3D12GraphicsCommandList* cmdList)
 	//ルートシグネチャの設定
 	cmdList->SetGraphicsRootSignature(rootsignature.Get());
 	//プリミティブ形状の設定
-	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_POINTLIST);
 	//定数バッファビューをセット
 	cmdList->SetGraphicsRootConstantBufferView(0, constBuffTransform->GetGPUVirtualAddress());
 
@@ -248,17 +246,18 @@ void ParticleObject::CreateGraphicsPipeline()
 			"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
-		},
-		{ // 法線ベクトル(1行で書いたほうが見やすい)
-			"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
-			D3D12_APPEND_ALIGNED_ELEMENT,
-			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
-		},
-		{ // uv座標(1行で書いたほうが見やすい)
-			"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0,
-			D3D12_APPEND_ALIGNED_ELEMENT,
-			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
-		},
+		}
+			//},
+			//{ // 法線ベクトル(1行で書いたほうが見やすい)
+			//	"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
+			//	D3D12_APPEND_ALIGNED_ELEMENT,
+			//	D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+			//},
+			//{ // uv座標(1行で書いたほうが見やすい)
+			//	"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0,
+			//	D3D12_APPEND_ALIGNED_ELEMENT,
+			//	D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+			//},
 	};
 
 	// グラフィックスパイプラインの流れを設定
@@ -300,7 +299,7 @@ void ParticleObject::CreateGraphicsPipeline()
 	gpipeline.InputLayout.NumElements = _countof(inputLayout);
 
 	// 図形の形状設定（三角形）
-	gpipeline.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	gpipeline.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;
 
 	gpipeline.NumRenderTargets = 1;    // 描画対象は1つ
 	gpipeline.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; // 0～255指定のRGBA

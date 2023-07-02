@@ -43,30 +43,29 @@ public:
 public:	//静的メンバ変数
 	static SpriteManager* spriteManager;
 	static ID3D12Device* device;
+	static const int vertexCount = 1;
 public:
 	//頂点データ配列
-	struct VertexPosNormalUv
+	struct VertexPos
 	{
 		XMFLOAT3 pos;	//座標
-		XMFLOAT3 normal;	//法線ベクトル
-		XMFLOAT2 uv;	//uv座標
-		VertexPosNormalUv* parent = nullptr;	//uv座標
+		VertexPos* parent = nullptr;	//uv座標
 	};
 	//頂点データ配列
-	vector<VertexPosNormalUv>vertices;
+	vector<VertexPos>vertices;
 	//頂点インデックス配列
-	vector<unsigned short>indices;
+	/*vector<unsigned short>indices;*/
 private:
 	//頂点バッファ
 	ComPtr<ID3D12Resource> vertBuff;
 	//インデックスバッファ
-	ComPtr<ID3D12Resource>indexBuff;
+	/*ComPtr<ID3D12Resource>indexBuff;*/
 	//テクスチャバッファ
 	ComPtr<ID3D12Resource>texBuff;
 	//頂点バッファビュー
 	D3D12_VERTEX_BUFFER_VIEW vbView = {};
 	//インデックスバッファビュー
-	D3D12_INDEX_BUFFER_VIEW ibView = {};
+	/*D3D12_INDEX_BUFFER_VIEW ibView = {};*/
 	//SRV用デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap>descHeapSRV;
 	//アンビエント係数

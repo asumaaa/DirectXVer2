@@ -8,14 +8,14 @@ void ParticleModel::CreateBuffers()
 	HRESULT result;
 
 	//頂点、インデックスサイズ設定
-	vertices.resize(4);
-	indices.resize(6);
+	vertices.resize(vertexCount);
+	/*indices.resize(6);*/
 
 	//頂点データ生成
 	CreateVertex();
 
 	//頂点データ全体のサイズ
-	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUv)) * vertices.size();
+	UINT sizeVB = static_cast<UINT>(sizeof(VertexPos)) * vertices.size();
 
 	//頂点バッファの設定
 	D3D12_HEAP_PROPERTIES heapProp{};	//ヒープ設定
@@ -42,7 +42,7 @@ void ParticleModel::CreateBuffers()
 
 	//頂点バッファへのデータ転送
 	//GPU上のバッファに対応した仮想メモリ（メインメモリ上）を取得
-	VertexPosNormalUv* vertMap = nullptr;
+	VertexPos* vertMap = nullptr;
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	//全頂点に対して
@@ -58,45 +58,45 @@ void ParticleModel::CreateBuffers()
 	vbView.SizeInBytes = sizeVB;
 	vbView.StrideInBytes = sizeof(vertices[0]);
 
-	//頂点インデックス全体のサイズ
-	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * indices.size());
+	////頂点インデックス全体のサイズ
+	//UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * indices.size());
 
-	//インデックスバッファ設定
-	heapProp.Type = D3D12_HEAP_TYPE_UPLOAD;	//CPUへの転送用
-	//リソース設定
-	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	resDesc.Width = sizeIB;	//インデックス情報が入る分のサイズ
-	resDesc.Height = 1;
-	resDesc.DepthOrArraySize = 1;
-	resDesc.MipLevels = 1;
-	resDesc.SampleDesc.Count = 1;
-	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+	////インデックスバッファ設定
+	//heapProp.Type = D3D12_HEAP_TYPE_UPLOAD;	//CPUへの転送用
+	////リソース設定
+	//resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	//resDesc.Width = sizeIB;	//インデックス情報が入る分のサイズ
+	//resDesc.Height = 1;
+	//resDesc.DepthOrArraySize = 1;
+	//resDesc.MipLevels = 1;
+	//resDesc.SampleDesc.Count = 1;
+	//resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-	//インデックスバッファ生成
-	result = device->CreateCommittedResource(
-		&heapProp,	//ヒープ設定
-		D3D12_HEAP_FLAG_NONE,
-		&resDesc,	//リソース設定
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&indexBuff)
-	);
+	////インデックスバッファ生成
+	//result = device->CreateCommittedResource(
+	//	&heapProp,	//ヒープ設定
+	//	D3D12_HEAP_FLAG_NONE,
+	//	&resDesc,	//リソース設定
+	//	D3D12_RESOURCE_STATE_GENERIC_READ,
+	//	nullptr,
+	//	IID_PPV_ARGS(&indexBuff)
+	//);
 
-	//インデックスバッファをマッピング
-	uint16_t* indexMap = nullptr;
-	result = indexBuff->Map(0, nullptr, (void**)&indexMap);
-	//全インデックスに対して
-	for (int i = 0; i < indices.size(); i++)
-	{
-		indexMap[i] = indices[i];	//インデックスをコピー
-	}
-	//マッピング解除
-	indexBuff->Unmap(0, nullptr);
+	////インデックスバッファをマッピング
+	//uint16_t* indexMap = nullptr;
+	//result = indexBuff->Map(0, nullptr, (void**)&indexMap);
+	////全インデックスに対して
+	//for (int i = 0; i < indices.size(); i++)
+	//{
+	//	indexMap[i] = indices[i];	//インデックスをコピー
+	//}
+	////マッピング解除
+	//indexBuff->Unmap(0, nullptr);
 
-	//インデックスバッファビューの作成
-	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
-	ibView.Format = DXGI_FORMAT_R16_UINT;
-	ibView.SizeInBytes = sizeIB;
+	////インデックスバッファビューの作成
+	//ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
+	//ibView.Format = DXGI_FORMAT_R16_UINT;
+	//ibView.SizeInBytes = sizeIB;
 
 
 	//テクスチャ設定
@@ -191,11 +191,8 @@ void ParticleModel::CreateVertex()
 	//球体一つの基礎サイズ
 	XMFLOAT3 size = { 1.0f,1.0f,1.0f };
 	//頂点データ
-	VertexPosNormalUv v[] = {
-		{{-size.x / 2,-size.y / 2,0.0f},{},{0.0f,1.0f} },	//0
-		{{-size.x / 2, size.y / 2,0.0f},{},{0.0f,0.0f} },	//1 
-		{{ size.x / 2,-size.y / 2,0.0f},{},{1.0f,1.0f} },	//2 
-		{{ size.x / 2, size.y / 2,0.0f},{},{1.0f,0.0f} },	//3
+	VertexPos v[] = {
+		{{0.0f,0.0f,0.0f}},	//0
 	};
 	//インデックスデータ
 	unsigned short in[] =
@@ -205,39 +202,39 @@ void ParticleModel::CreateVertex()
 	};
 
 	//頂点座標、uv座標、インデックスデータを代入
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < vertices.size(); i++)
 	{
 		vertices[i] = v[i];
 	}
 
-	for (int i = 0; i < 6; i++)
-	{
-		indices[i] = in[i];
-	}
+	//for (int i = 0; i < 6; i++)
+	//{
+	//	indices[i] = in[i];
+	//}
 
 	//法線の計算
-	for (int i = 0; i < indices.size() / 3; i++)
-	{//三角形1つごとに計算していく
-		//三角形のインデックスを取り出して、一時的な変数に入れる
-		unsigned short indices0 = indices[i * 3 + 0];
-		unsigned short indices1 = indices[i * 3 + 1];
-		unsigned short indices2 = indices[i * 3 + 2];
-		//三角形を構成する頂点座標をベクトルに代入
-		XMVECTOR p0 = XMLoadFloat3(&vertices[indices0].pos);
-		XMVECTOR p1 = XMLoadFloat3(&vertices[indices1].pos);
-		XMVECTOR p2 = XMLoadFloat3(&vertices[indices2].pos);
-		//p0→p1ベクトル、p0→p2ベクトルを計算　(ベクトルの減算)
-		XMVECTOR v1 = DirectX::XMVectorSubtract(p1, p0);
-		XMVECTOR v2 = DirectX::XMVectorSubtract(p2, p0);
-		//外積は両方から垂直なベクトル
-		XMVECTOR normal = DirectX::XMVector3Cross(v1, v2);
-		//正規化
-		normal = DirectX::XMVector3Normalize(normal);
-		//求めた法線を頂点データに代入
-		DirectX::XMStoreFloat3(&vertices[indices0].normal, normal);
-		DirectX::XMStoreFloat3(&vertices[indices1].normal, normal);
-		DirectX::XMStoreFloat3(&vertices[indices2].normal, normal);
-	}
+	//for (int i = 0; i < 6; i++)
+	//{//三角形1つごとに計算していく
+	//	//三角形のインデックスを取り出して、一時的な変数に入れる
+	//	unsigned short indices0 = in[i * 3 + 0];
+	//	unsigned short indices1 = in[i * 3 + 1];
+	//	unsigned short indices2 = in[i * 3 + 2];
+	//	//三角形を構成する頂点座標をベクトルに代入
+	//	XMVECTOR p0 = XMLoadFloat3(&vertices[indices0].pos);
+	//	XMVECTOR p1 = XMLoadFloat3(&vertices[indices1].pos);
+	//	XMVECTOR p2 = XMLoadFloat3(&vertices[indices2].pos);
+	//	//p0→p1ベクトル、p0→p2ベクトルを計算　(ベクトルの減算)
+	//	XMVECTOR v1 = DirectX::XMVectorSubtract(p1, p0);
+	//	XMVECTOR v2 = DirectX::XMVectorSubtract(p2, p0);
+	//	//外積は両方から垂直なベクトル
+	//	XMVECTOR normal = DirectX::XMVector3Cross(v1, v2);
+	//	//正規化
+	//	normal = DirectX::XMVector3Normalize(normal);
+	//	//求めた法線を頂点データに代入
+	//	DirectX::XMStoreFloat3(&vertices[indices0].normal, normal);
+	//	DirectX::XMStoreFloat3(&vertices[indices1].normal, normal);
+	//	DirectX::XMStoreFloat3(&vertices[indices2].normal, normal);
+	//}
 }
 
 void ParticleModel::SetImageData(XMFLOAT4 color)
@@ -266,11 +263,11 @@ void ParticleModel::Update()
 
 	HRESULT result;
 	//頂点データ全体のサイズ
-	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUv)) * vertices.size();
+	UINT sizeVB = static_cast<UINT>(sizeof(VertexPos)) * vertices.size();
 
 	//頂点バッファへのデータ転送
 	//GPU上のバッファに対応した仮想メモリ（メインメモリ上）を取得
-	VertexPosNormalUv* vertMap = nullptr;
+	VertexPos* vertMap = nullptr;
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	//全頂点に対して
@@ -287,7 +284,7 @@ void ParticleModel::Draw(ID3D12GraphicsCommandList* cmdList, int textureNum)
 	//頂点バッファをセット
 	cmdList->IASetVertexBuffers(0, 1, &vbView);
 	//インデックスバッファをセット
-	cmdList->IASetIndexBuffer(&ibView);
+	/*cmdList->IASetIndexBuffer(&ibView);*/
 
 	//デスクリプタヒープの配列をセットするコマンド
 	ID3D12DescriptorHeap* ppHeaps[] = { spriteManager->GetSrvHeap() };
@@ -307,5 +304,6 @@ void ParticleModel::Draw(ID3D12GraphicsCommandList* cmdList, int textureNum)
 	cmdList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 
 	//描画コマンド
-	cmdList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
+	//cmdList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
+	cmdList->DrawInstanced((UINT)vertices.size(), 1, 0, 0);
 }

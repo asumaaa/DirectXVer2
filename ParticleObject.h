@@ -20,8 +20,6 @@ public://サブクラス
 	{
 		XMMATRIX viewproj;
 		XMMATRIX world;
-		XMFLOAT3 cameraPos;
-		XMFLOAT4 color;
 	};
 public:	//静的メンバ関数
 	//セッター
@@ -52,7 +50,7 @@ public://メンバ関数
 	void SetPosition(XMFLOAT3 pos) { position = pos; }
 	void SetScale(XMFLOAT3 sca) { scale = sca; }
 	void SetRotation(XMFLOAT3 rot) { rotation = rot; }
-	void SetColor(XMFLOAT4 color) { this->color = color; }
+	/*void SetColor(XMFLOAT4 color) { this->color = color; }*/
 	void SetTextureNum(int num) { textureNum = num; }
 	//ゲッター
 	XMFLOAT3 GetPosition() { return position; }
@@ -81,6 +79,6 @@ private:
 	//ローカルワールド変換行列
 	XMMATRIX matWorld;
 	//色
-	XMFLOAT4 color = { 1,1,1,1 };
+	/*XMFLOAT4 color = { 1,1,1,1 };*/
 };
 

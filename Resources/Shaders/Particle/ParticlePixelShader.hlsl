@@ -11,5 +11,5 @@ float4 main(GSOutput input) : SV_TARGET
 	float4 texData = float4(tex.Sample(smp,input.uv));
 
 	//アルファ値を合成
-	return float4(texData.x * color.x, texData.y * color.y, texData.z * color.z, 1);
+	return float4(texData.x, texData.y, texData.z, 1);
 }
