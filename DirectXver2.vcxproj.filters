@@ -549,5 +549,8 @@
     <FxCompile Include="Resources\Shaders\Particle\ParticleVertexShader.hlsl">
       <Filter>リソース ファイル\Shaders\Particle</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\Shaders\Particle\ParticleGeometryShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Particle</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
