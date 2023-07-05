@@ -52,12 +52,19 @@ public://サブクラス
 		int frame = 0;
 		//終了フレーム
 		int num_frame = 0;
+		//スケール
+		float scale = 1.0f;
+		//初期値
+		float startScale = 1.0f;
+		//最終地
+		float endScale = 0.0f;
 	};
 
 	//頂点データ配列
 	struct VertexPos
 	{
 		XMFLOAT3 pos;	//座標
+		float scale;
 	};
 
 public:	//静的メンバ関数
@@ -83,7 +90,7 @@ public:
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 	//パーティクルを追加
 	void Add();
-	void AddParticle(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel);
+	void AddParticle(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel,float startScale,float endScale);
 
 	//セッター
 	//テクスチャの番号

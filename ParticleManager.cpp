@@ -97,6 +97,12 @@ void ParticleManager::CreateGraphicsPipeline()
 			"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+		},
+		{	//スケール
+			"SCALE",0,DXGI_FORMAT_R32_FLOAT,0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0
+
 		}
 	};
 
@@ -383,20 +389,10 @@ void ParticleManager::Update()
 	{
 		//座標
 		vertMap->pos = it->position;
+		vertMap->scale = it->scale;
 		//次の頂点へ
 		vertMap++;
 	}
-	/*for (int i = 0; i <= 30; i++)
-	{
-		vertMap[i].pos = XMFLOAT3(i, 0, 0);
-	}*/
-	/*for (int i = 0; i <= 30; i++)
-	{
-		float randPosMax = 10.0f;
-		float randPosMin = -10.0f;
-		XMFLOAT3 pos(RNG(randPosMax, randPosMin), RNG(randPosMax, randPosMin), RNG(randPosMax, randPosMin));
-		vertMap[i].pos = pos + XMFLOAT3(i,i,i);
-	}*/
 	//つながりを解除
 	vertBuff->Unmap(0, nullptr);
 
@@ -476,6 +472,12 @@ void ParticleManager::UpdateParticle()
 		it->velocity = it->velocity + it->accel;
 		//速度による移動
 		it->position = it->position + it->velocity;
+
+		//進行度を0~1の範囲に換算
+		float f = (float)it->frame / it->num_frame;
+		//スケールの線形補間
+		it->scale = (it->endScale - it->startScale) * f;
+		it->scale += it->startScale;
 	}
 }
 
@@ -525,10 +527,10 @@ void ParticleManager::Add()
 		, (float)rand() / RAND_MAX * randVelo - randVelo / 2.0f);
 	XMFLOAT3 accel(0.0f, (float)rand() / RAND_MAX * randAcc,0.0f);
 
-	AddParticle(60, pos, velocity, accel);
+	AddParticle(60, pos, velocity, accel,1.0f,0.0f);
 }
 
-void ParticleManager::AddParticle(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel)
+void ParticleManager::AddParticle(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float startScale, float endScale)
 {
 	//リストに要素を追加
 	particles.emplace_front();
@@ -539,4 +541,6 @@ void ParticleManager::AddParticle(int life, XMFLOAT3 position, XMFLOAT3 velocity
 	p.velocity = velocity;
 	p.accel = accel;
 	p.num_frame = life;
+	p.startScale = startScale;
+	p.endScale = endScale;
 }

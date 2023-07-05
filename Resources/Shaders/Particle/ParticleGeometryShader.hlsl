@@ -33,7 +33,11 @@ void main(
 	for (uint i = 0; i < vnum; i++)
 	{
 		//中心からのオフセットをビルボード回転
-		float4 offset = mul(matBillboard, offset_array[i]);
+		//float4 offset = mul(matBillboard, offset_array[i]);
+		//中心からのオフセットをスケーリング
+		float4 offset = offset_array[i] * input[0].scale;
+		//中心カランオフセットをビルボード回転
+		offset = mul(matBillboard, offset);
 		//オフセット分ずらす
 		element.svpos = input[0].svpos + offset;
 		//ビュー、射影返還
