@@ -197,6 +197,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mathOriginal.cpp" />
     <ClCompile Include="Matrix4.cpp" />
+    <ClCompile Include="ParticleManager.cpp" />
     <ClCompile Include="ParticleModel.cpp" />
     <ClCompile Include="ParticleObject.cpp" />
     <ClCompile Include="particle\FireParticle.cpp" />
@@ -249,6 +250,7 @@
     <ClInclude Include="light\SpotLight.h" />
     <ClInclude Include="mathOriginal.h" />
     <ClInclude Include="Matrix4.h" />
+    <ClInclude Include="ParticleManager.h" />
     <ClInclude Include="ParticleModel.h" />
     <ClInclude Include="ParticleObject.h" />
     <ClInclude Include="particle\FireParticle.h" />

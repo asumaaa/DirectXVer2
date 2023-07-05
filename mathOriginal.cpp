@@ -12,6 +12,20 @@ float easeInOutQuart(float x)
 	return x < 0.5 ? 8 * x * x * x * x : 1 - pow(-2 * x + 2, 4) / 2;
 }
 
+int RNG(int min, int max, bool preciseMode)
+{
+	if (!preciseMode) {
+		//return (rand() % (max + 1 - min) + min);
+		return rand() / RAND_MAX * max;
+	}
+
+	int ret = 0;
+	do {
+		ret = rand();
+	} while (ret >= RAND_MAX - RAND_MAX % (max + 1 - min));
+	ret = ret % (max + 1 - min) + min;
+}
+
 float easeInSine(float x)
 {
 	return 1 - cos((x * PI) / 2);

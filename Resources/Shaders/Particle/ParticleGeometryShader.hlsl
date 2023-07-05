@@ -32,11 +32,26 @@ void main(
 	//4点分まわす
 	for (uint i = 0; i < vnum; i++)
 	{
-		//ワールド座標ベースでずらす
-		element.svpos = input[0].svpos + offset_array[i];
+		//中心からのオフセットをビルボード回転
+		float4 offset = mul(matBillboard, offset_array[i]);
+		//オフセット分ずらす
+		element.svpos = input[0].svpos + offset;
 		//ビュー、射影返還
-		element.svpos = mul(mul(viewproj, world), element.svpos);
+		element.svpos = mul(mat, element.svpos);
 		element.uv = uv_array[i];
 		output.Append(element);
 	}
+
+	//4点分まわす
+	//for (uint i = 0; i < vnum; i++)
+	//{
+	//	//中心からのオフセットをビルボード回転
+	//	float4 offset = mul(matBillboard, offset_array[i]);
+	//	//オフセット分ずらす
+	//	element.svpos = input[0].svpos + offset;
+	//	//ビュー、射影返還
+	//	element.svpos = mul(mat, element.svpos);
+	//	element.uv = uv_array[i];
+	//	output.Append(element);
+	//}
 }

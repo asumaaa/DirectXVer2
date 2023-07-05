@@ -1,7 +1,7 @@
 cbuffer cbuff0 : register(b0)
 {
-	matrix viewproj;	//ビュープロジェクション行列
-	matrix world;	//ワールド行列
+	matrix mat;	//3D変換行列
+	matrix matBillboard;	//ビルボード行列
 }
 
 //頂点シェーダーからピクセルシェーダーへのやり取りに使用する構造体

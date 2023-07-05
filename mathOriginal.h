@@ -2,6 +2,13 @@
 #include "DirectXMath.h"
 #define PI 3.14159265359
 
+#pragma region 便利関数
+
+//ランダムで値を返す関数
+int RNG(int min, int max, bool preciseMode = false);
+
+#pragma endregion
+
 #pragma region イージング
 
 //イージング関数:easeInSine

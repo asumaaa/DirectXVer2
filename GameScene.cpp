@@ -42,6 +42,9 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	newSpriteManager->LoadFile(2, L"Resources/pictures/GourmetSpyzer.png");
 	newSpriteManager->LoadFile(3, L"Resources/pictures/orange.png");
 	newSpriteManager->LoadFile(4, L"Resources/pictures/red.png");
+	newSpriteManager->LoadFile(5, L"Resources/pictures/effect1.png");
+	newSpriteManager->LoadFile(6, L"Resources/pictures/effect2.png");
+	newSpriteManager->LoadFile(7, L"Resources/pictures/effect3.png");
 	spriteManager.reset(newSpriteManager);
 
 	//スプライト
@@ -106,7 +109,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	colliderManager.reset(newColliderManager);
 
 	//パーティクル
-	ParticleModel::SetSpriteManager(spriteManager.get());
+	/*ParticleModel::SetSpriteManager(spriteManager.get());
 	ParticleModel::SetDevice(dxCommon_->GetDevice());
 	ParticleModel* newParticleModel = new ParticleModel();
 	newParticleModel->CreateBuffers();
@@ -118,8 +121,17 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	ParticleObject::CreateGraphicsPipeline();
 	ParticleObject* newParticleObject = new ParticleObject();
 	newParticleObject->Initialize();
-	newParticleObject->SetTextureNum(1);
-	particleObject.reset(newParticleObject);
+	newParticleObject->SetTextureNum(5);
+	particleObject.reset(newParticleObject);*/
+	ParticleManager::SetSpriteManager(spriteManager.get());
+	ParticleManager::SetDevice(dxCommon_->GetDevice());
+	ParticleManager::SetCamera(camera_.get());
+	ParticleManager::SetInput(input_);
+	ParticleManager::CreateGraphicsPipeline();
+	ParticleManager* newParticleManager = new ParticleManager();
+	newParticleManager->CreateBuffers();
+	newParticleManager->SetTextureNum(5);
+	particleManager.reset(newParticleManager);
 
 	//プレイヤーの弾
 	PlayerBullet::SetCamera(camera_.get());
@@ -235,8 +247,9 @@ void GameScene::Update()
 	//コントローラー更新
 	dxInput->InputProcess();
 
-	particleObject->SetPosition(XMFLOAT3(10.0f,5.0f,0));
-	particleObject->Update();
+	/*particleObject->SetPosition(XMFLOAT3(10.0f,5.0f,0));*/
+	//パーティクル
+	particleManager->Update();
 
 	//ライト
 	light->SetEye(XMFLOAT3(lightPos));
@@ -358,14 +371,14 @@ void GameScene::Draw()
 	//ImGui::InputFloat2("lightFactorAngle", lightFactorAngle);*/
 	//ImGui::End();
 
-	//コライダーの描画
-	DrawCollider();
-	//FBXの描画
-	DrawFBX();
-	//スプライトの描画
-	DrawSprite();
+	////コライダーの描画
+	//DrawCollider();
+	////FBXの描画
+	//DrawFBX();
+	////スプライトの描画
+	//DrawSprite();
 
-	particleObject->Draw(dxCommon_->GetCommandList());
+	particleManager->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::DrawFBXLightView()

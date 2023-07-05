@@ -32,29 +32,30 @@ void ParticleObject::Initialize()
 
 void ParticleObject::Update()
 {
-	XMMATRIX matScale, matRot, matTrans;
+	//XMMATRIX matScale, matRot, matTrans;
 
-	//スケール、回転、平行移動行列の計算
-	matScale = XMMatrixScaling(scale.x * 2, scale.y * 2, scale.z * 2);
-	matRot = XMMatrixIdentity();
-	matRot *= XMMatrixRotationZ(rotation.z);
-	matRot *= XMMatrixRotationX(rotation.x);
-	matRot *= XMMatrixRotationY(rotation.y);
-	matTrans = XMMatrixTranslation(position.x, position.y, position.z);
+	////スケール、回転、平行移動行列の計算
+	//matScale = XMMatrixScaling(scale.x * 2, scale.y * 2, scale.z * 2);
+	//matRot = XMMatrixIdentity();
+	//matRot *= XMMatrixRotationZ(rotation.z);
+	//matRot *= XMMatrixRotationX(rotation.x);
+	//matRot *= XMMatrixRotationY(rotation.y);
+	//matTrans = XMMatrixTranslation(position.x, position.y, position.z);
 
 	//ワールド行列の生成
-	matWorld = XMMatrixIdentity();
+	/*matWorld = XMMatrixIdentity();*/
 
 	//ビルボードの行列更新
 	UpdateBillboard();
 	/*matWorld *= matBillboard;*/
 
-	matWorld *= matScale;
+	/*matWorld *= matScale;
 	matWorld *= matRot;
-	matWorld *= matTrans;
+	matWorld *= matTrans;*/
 
 	//ビュープロジェクション行列
 	const XMMATRIX& matViewProjection = camera->GetMatViewProjection();
+	const XMMATRIX& matView = camera->GetMatView();
 	//カメラ座標
 	const XMFLOAT3& cameraPos = camera->GetEye();
 
@@ -64,8 +65,9 @@ void ParticleObject::Update()
 	result = constBuffTransform->Map(0, nullptr, (void**)&constMap);
 	if (SUCCEEDED(result))
 	{
-		constMap->viewproj = matViewProjection;
-		constMap->world = matWorld;
+		constMap->mat = matView * matViewProjection;
+		constMap->matBillboard = matBillboard;
+		/*constMap->world = matWorld;*/
 		constBuffTransform->Unmap(0, nullptr);
 	}
 }
@@ -275,14 +277,23 @@ void ParticleObject::CreateGraphicsPipeline()
 	gpipeline.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
 	// デプスステンシルステート
 	gpipeline.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
+	gpipeline.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
 
 	// レンダーターゲットのブレンド設定
 	D3D12_RENDER_TARGET_BLEND_DESC blenddesc{};
 	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;    // RBGA全てのチャンネルを描画
 	blenddesc.BlendEnable = true;
-	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
+	/*blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
 	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
-	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
+	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;*/
+	//加算合成
+	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
+	blenddesc.SrcBlend = D3D12_BLEND_ONE;
+	blenddesc.DestBlend = D3D12_BLEND_ONE;
+	//減算合成
+	/*blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;
+	blenddesc.SrcBlend = D3D12_BLEND_ONE;
+	blenddesc.DestBlend = D3D12_BLEND_ONE;*/
 
 	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
 	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;
@@ -335,4 +346,11 @@ void ParticleObject::CreateGraphicsPipeline()
 	// グラフィックスパイプラインの生成
 	result = device->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(pipelinestate.ReleaseAndGetAddressOf()));
 	if (FAILED(result)) { assert(0); }
+}
+
+void ParticleObject::AddParticle(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel)
+{
+	Particle p(position, velocity, accel,life);
+	//リストに要素を追加
+	particles.push_front(p);
 }

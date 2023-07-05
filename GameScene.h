@@ -21,8 +21,7 @@
 #include "ColliderSphereObject.h"
 #include "ColliderPlaneObject.h"
 #include "ColliderManager.h"
-#include "ParticleModel.h"
-#include "ParticleObject.h"
+#include "ParticleManager.h"
 
 class GameScene
 {
@@ -107,7 +106,6 @@ private:
 	//コライダー
 	std::unique_ptr<ColliderManager> colliderManager;
 
-	//パーティクル
-	std::unique_ptr<ParticleModel>particleModel;
-	std::unique_ptr<ParticleObject>particleObject;
+	//パーティクルマネージャー
+	std::unique_ptr<ParticleManager>particleManager;
 };

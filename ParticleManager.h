@@ -1,4 +1,5 @@
 #pragma once
+
 #include "SpriteManager.h"
 #include "vector"
 #include "DirectXMath.h"
@@ -8,8 +9,12 @@
 #include "wrl.h"
 #include "d3d12.h"
 #include "d3dx12.h"
+#include "Camera.h"
+#include "string.h"
+#include "input.h"
+#include "forward_list"
 
-class ParticleModel
+class ParticleManager
 {
 private:	//エイリアス
 	//Microsoft::WRL::を省略
@@ -26,45 +31,87 @@ private:	//エイリアス
 	using string = std::string;
 	template<class T>using vector = std::vector<T>;
 
-public:	//静的メンバ関数
-	static void SetSpriteManager(SpriteManager* spriteManager) { ParticleModel::spriteManager = spriteManager; };
-	static void SetDevice(ID3D12Device* device) { ParticleModel::device = device; }
-public:
-	//バッファ生成
-	void CreateBuffers();
-	//頂点生成
-	void CreateVertex();
-	//色設定
-	void SetImageData(XMFLOAT4 color);
-	//更新
-	void Update();
-	//描画
-	void Draw(ID3D12GraphicsCommandList* cmdList,int textureNum);
-public:	//静的メンバ変数
-	static SpriteManager* spriteManager;
-	static ID3D12Device* device;
-	static const int vertexCount = 1024;
-public:
+public://サブクラス
+	//定数バッファ用データ構造体
+	struct ConstBufferDataTransform
+	{
+		XMMATRIX mat;
+		XMMATRIX matBillboard;
+	};
+
+	//パーティクル1粒
+	struct Particle
+	{
+		//座標
+		XMFLOAT3 position = {};
+		//速度
+		XMFLOAT3 velocity = {};
+		//加速度
+		XMFLOAT3 accel = {};
+		//現在フレーム
+		int frame = 0;
+		//終了フレーム
+		int num_frame = 0;
+	};
+
 	//頂点データ配列
 	struct VertexPos
 	{
 		XMFLOAT3 pos;	//座標
 	};
-	//頂点データ配列
-	vector<VertexPos>vertices;
-	//頂点インデックス配列
-	/*vector<unsigned short>indices;*/
+
+public:	//静的メンバ関数
+	static void SetSpriteManager(SpriteManager* spriteManager) { ParticleManager::spriteManager = spriteManager; };
+	static void SetDevice(ID3D12Device* device) { ParticleManager::device = device; }
+	static void SetCamera(Camera* camera) { ParticleManager::camera = camera; }
+	static void SetInput(Input* input) { ParticleManager::input = input; }
+	//グラフィックスパイプラインの生成
+	static void CreateGraphicsPipeline();
+
+public:
+	//バッファ生成
+	void CreateBuffers();
+	//頂点生成
+	void CreateVertex();
+	//初期化
+	void Initialize();
+	//更新
+	void Update();
+	void UpdateBillboard();
+	void UpdateParticle();
+	//描画
+	void Draw(ID3D12GraphicsCommandList* cmdList);
+	//パーティクルを追加
+	void Add();
+	void AddParticle(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel);
+
+	//セッター
+	//テクスチャの番号
+	void SetTextureNum(int num) { textureNum = num; }
+
+public:	//静的メンバ変数
+	static SpriteManager* spriteManager;
+	static ID3D12Device* device;
+	static Camera* camera;
+	static Input* input;
+	static const int vertexCount = 1024;
+
 private:
+	//定数バッファ
+	ComPtr<ID3D12Resource>constBuffTransform;
+	//ルートシグネチャ
+	static ComPtr<ID3D12RootSignature>rootsignature;
+	//パイプラインステートオブジェクト
+	static ComPtr<ID3D12PipelineState>pipelinestate;
+	//ビルボード行列
+	XMMATRIX matBillboard;
+
 	//頂点バッファ
 	ComPtr<ID3D12Resource> vertBuff;
-	//インデックスバッファ
-	/*ComPtr<ID3D12Resource>indexBuff;*/
 	//テクスチャバッファ
 	ComPtr<ID3D12Resource>texBuff;
 	//頂点バッファビュー
 	D3D12_VERTEX_BUFFER_VIEW vbView = {};
-	//インデックスバッファビュー
-	/*D3D12_INDEX_BUFFER_VIEW ibView = {};*/
 	//SRV用デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap>descHeapSRV;
 	//アンビエント係数
@@ -83,5 +130,10 @@ private:
 	XMFLOAT4* imageData = new XMFLOAT4[imageDataCount];
 	//テクスチャーのGPUのハンドル
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
+
+	//パーティクル配列
+	std::forward_list<Particle>particles;
+	//テクスチャの番号
+	int textureNum = 0;
 };
 

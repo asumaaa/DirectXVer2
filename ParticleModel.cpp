@@ -1,4 +1,5 @@
 #include "ParticleModel.h"
+#include "mathOriginal.h"
 
 SpriteManager* ParticleModel::spriteManager = nullptr;
 ID3D12Device* ParticleModel::device = nullptr;
@@ -191,9 +192,12 @@ void ParticleModel::CreateVertex()
 	//球体一つの基礎サイズ
 	XMFLOAT3 size = { 1.0f,1.0f,1.0f };
 	//頂点データ
-	VertexPos v[] = {
-		{{0.0f,0.0f,0.0f}},	//0
-	};
+	VertexPos v[vertexCount];
+	//頂点の数だけ座標用意
+	for (int i = 0; i < vertices.size(); i++)
+	{
+		v[i].pos = { 0.0f,0.0f,0.0f };
+	}
 	//インデックスデータ
 	unsigned short in[] =
 	{

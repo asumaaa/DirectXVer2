@@ -3,6 +3,7 @@
 #include "Camera.h"
 #include "string.h"
 #include "input.h"
+#include "forward_list"
 
 class ParticleObject
 {
@@ -18,9 +19,33 @@ public://サブクラス
 	//定数バッファ用データ構造体
 	struct ConstBufferDataTransform
 	{
-		XMMATRIX viewproj;
-		XMMATRIX world;
+		XMMATRIX mat;
+		XMMATRIX matBillboard;
 	};
+
+	//パーティクル1粒
+	struct Particle
+	{
+		//座標
+		XMFLOAT3 position = {};
+		//速度
+		XMFLOAT3 velocity = {};
+		//加速度
+		XMFLOAT3 accel = {};
+		//現在フレーム
+		int frame = 0;
+		//終了フレーム
+		int num_frame = 0;
+
+		Particle(XMFLOAT3 pos,XMFLOAT3 velo,XMFLOAT3 acc,int life)
+		{
+			position = pos;
+			velocity = velo;
+			accel = acc;
+			num_frame = life;
+		}
+	};
+
 public:	//静的メンバ関数
 	//セッター
 	static void SetDevice(ID3D12Device* device) { ParticleObject::device = device; }
@@ -46,16 +71,18 @@ public://メンバ関数
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 	//グラフィックスパイプラインの生成
 	static void CreateGraphicsPipeline();
+	//パーティクルを追加
+	void AddParticle(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel);
 	//セッター
-	void SetPosition(XMFLOAT3 pos) { position = pos; }
+	/*void SetPosition(XMFLOAT3 pos) { position = pos; }
 	void SetScale(XMFLOAT3 sca) { scale = sca; }
-	void SetRotation(XMFLOAT3 rot) { rotation = rot; }
+	void SetRotation(XMFLOAT3 rot) { rotation = rot; }*/
 	/*void SetColor(XMFLOAT4 color) { this->color = color; }*/
 	void SetTextureNum(int num) { textureNum = num; }
 	//ゲッター
-	XMFLOAT3 GetPosition() { return position; }
+	/*XMFLOAT3 GetPosition() { return position; }
 	XMFLOAT3 GetRotation() { return rotation; }
-	XMFLOAT3 GetScale() { return scale; }
+	XMFLOAT3 GetScale() { return scale; }*/
 
 private://メンバ変数
 	//定数バッファ
@@ -68,16 +95,18 @@ private://メンバ変数
 	XMMATRIX matBillboard;
 
 private:
+	//パーティクル配列
+	std::forward_list<Particle>particles;
 	//テクスチャの番号
 	int textureNum = 0;
-	//ローカルスケール
-	XMFLOAT3 scale = { 1,1,1 };
-	//X,Y,Z軸回りのローカル行列
-	XMFLOAT3 rotation = { 0,0,0 };
-	//ローカル座標
-	XMFLOAT3 position = { 0,0,0 };
+	////ローカルスケール
+	//XMFLOAT3 scale = { 1,1,1 };
+	////X,Y,Z軸回りのローカル行列
+	//XMFLOAT3 rotation = { 0,0,0 };
+	////ローカル座標
+	//XMFLOAT3 position = { 0,0,0 };
 	//ローカルワールド変換行列
-	XMMATRIX matWorld;
+	/*XMMATRIX matWorld;*/
 	//色
 	/*XMFLOAT4 color = { 1,1,1,1 };*/
 };
