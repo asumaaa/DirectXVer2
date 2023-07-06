@@ -21,7 +21,8 @@
 #include "ColliderSphereObject.h"
 #include "ColliderPlaneObject.h"
 #include "ColliderManager.h"
-#include "ParticleManager.h"
+#include "BaseParticle.h"
+#include "SparkParticle.h"
 
 class GameScene
 {
@@ -42,6 +43,7 @@ public:
 	void DrawFBX();
 	void DrawCollider();
 	void DrawSprite();
+	void DrawParticle();
 	
 	//セッター
 	void SetSRV(ID3D12DescriptorHeap* SRV);
@@ -107,5 +109,7 @@ private:
 	std::unique_ptr<ColliderManager> colliderManager;
 
 	//パーティクルマネージャー
-	std::unique_ptr<ParticleManager>particleManager;
+	std::unique_ptr<BaseParticle>particleManager;
+	//弾けるパーティクル
+	std::unique_ptr<SparkParticle>sparkParticle;
 };

@@ -1,18 +1,18 @@
-#include "ParticleManager.h"
+#include "BaseParticle.h"
 #include "mathOriginal.h"
 
 #include <d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
 
-ComPtr<ID3D12RootSignature>ParticleManager::rootsignature;
-ComPtr<ID3D12PipelineState>ParticleManager::pipelinestate;
-SpriteManager* ParticleManager::spriteManager = nullptr;
-ID3D12Device* ParticleManager::device = nullptr;
-Camera* ParticleManager::camera = nullptr;
-Input* ParticleManager::input = nullptr;
+ComPtr<ID3D12RootSignature>BaseParticle::rootsignature;
+ComPtr<ID3D12PipelineState>BaseParticle::pipelinestate;
+SpriteManager* BaseParticle::spriteManager = nullptr;
+ID3D12Device* BaseParticle::device = nullptr;
+Camera* BaseParticle::camera = nullptr;
+Input* BaseParticle::input = nullptr;
 
 
-void ParticleManager::CreateGraphicsPipeline()
+void BaseParticle::CreateGraphicsPipeline()
 {
 	HRESULT result = S_FALSE;
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
@@ -192,7 +192,7 @@ void ParticleManager::CreateGraphicsPipeline()
 	if (FAILED(result)) { assert(0); }
 }
 
-void ParticleManager::CreateBuffers()
+void BaseParticle::CreateBuffers()
 {
 	HRESULT result;
 
@@ -341,7 +341,7 @@ void ParticleManager::CreateBuffers()
 	);
 }
 
-void ParticleManager::CreateVertex()
+void BaseParticle::CreateVertex()
 {
 	////球体一つの基礎サイズ
 	//XMFLOAT3 size = { 1.0f,1.0f,1.0f };
@@ -366,7 +366,7 @@ void ParticleManager::CreateVertex()
 	//}
 }
 
-void ParticleManager::Update()
+void BaseParticle::Update()
 {
 	//-----この上に頂点の更新処理を書く-----
 
@@ -411,7 +411,7 @@ void ParticleManager::Update()
 	}
 }
 
-void ParticleManager::UpdateBillboard()
+void BaseParticle::UpdateBillboard()
 {
 	XMFLOAT3 eye = camera->GetEye();
 	XMFLOAT3 target = camera->GetTarget();
@@ -454,7 +454,7 @@ void ParticleManager::UpdateBillboard()
 	matBillboard.r[3] = XMVectorSet(0, 0, 0, 1);
 }
 
-void ParticleManager::UpdateParticle()
+void BaseParticle::UpdateParticle()
 {
 	//寿命が尽きたパーティクルを全削除
 	particles.remove_if([](Particle& x)
@@ -481,7 +481,7 @@ void ParticleManager::UpdateParticle()
 	}
 }
 
-void ParticleManager::Draw(ID3D12GraphicsCommandList* cmdList)
+void BaseParticle::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	//パイプラインステートの設定
 	cmdList->SetPipelineState(pipelinestate.Get());
@@ -516,7 +516,7 @@ void ParticleManager::Draw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->DrawInstanced((UINT)std::distance(particles.begin(),particles.end()), 1, 0, 0);
 }
 
-void ParticleManager::Add()
+void BaseParticle::Add()
 {
 	float randPos = 10.0f;
 	float randVelo = 0.1f;
@@ -526,11 +526,12 @@ void ParticleManager::Add()
 	XMFLOAT3 velocity((float)rand() / RAND_MAX * randVelo - randVelo / 2.0f, (float)rand() / RAND_MAX * randVelo - randVelo / 2.0f
 		, (float)rand() / RAND_MAX * randVelo - randVelo / 2.0f);
 	XMFLOAT3 accel(0.0f, (float)rand() / RAND_MAX * randAcc,0.0f);
+	pos = pos + position;
 
 	AddParticle(60, pos, velocity, accel,1.0f,0.0f);
 }
 
-void ParticleManager::AddParticle(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float startScale, float endScale)
+void BaseParticle::AddParticle(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float startScale, float endScale)
 {
 	//リストに要素を追加
 	particles.emplace_front();

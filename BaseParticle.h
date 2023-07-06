@@ -14,7 +14,7 @@
 #include "input.h"
 #include "forward_list"
 
-class ParticleManager
+class BaseParticle
 {
 private:	//エイリアス
 	//Microsoft::WRL::を省略
@@ -68,10 +68,10 @@ public://サブクラス
 	};
 
 public:	//静的メンバ関数
-	static void SetSpriteManager(SpriteManager* spriteManager) { ParticleManager::spriteManager = spriteManager; };
-	static void SetDevice(ID3D12Device* device) { ParticleManager::device = device; }
-	static void SetCamera(Camera* camera) { ParticleManager::camera = camera; }
-	static void SetInput(Input* input) { ParticleManager::input = input; }
+	static void SetSpriteManager(SpriteManager* spriteManager) { BaseParticle::spriteManager = spriteManager; };
+	static void SetDevice(ID3D12Device* device) { BaseParticle::device = device; }
+	static void SetCamera(Camera* camera) { BaseParticle::camera = camera; }
+	static void SetInput(Input* input) { BaseParticle::input = input; }
 	//グラフィックスパイプラインの生成
 	static void CreateGraphicsPipeline();
 
@@ -95,6 +95,8 @@ public:
 	//セッター
 	//テクスチャの番号
 	void SetTextureNum(int num) { textureNum = num; }
+	//パーティクルを発生させる場所
+	void SetPosition(XMFLOAT3 pos) { position = pos; }
 
 public:	//静的メンバ変数
 	static SpriteManager* spriteManager;
@@ -142,5 +144,8 @@ private:
 	std::forward_list<Particle>particles;
 	//テクスチャの番号
 	int textureNum = 0;
+
+	//パーティクルを発生させる座標
+	XMFLOAT3 position = { 0.0f,0.0f,0.0f };
 };
 

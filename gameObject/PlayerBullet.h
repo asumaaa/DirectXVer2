@@ -55,6 +55,8 @@ public:
 	JSONLoader::ColliderData GetColliderData(int num);
 	//’e‚Ì”
 	size_t GetBulletNum() { return object.size(); }
+	//À•W
+	XMFLOAT3 GetPosition(int num) { return position[num]; }
 
 	//Ã“Iƒƒ“ƒo•Ï”
 private:

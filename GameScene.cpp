@@ -109,29 +109,26 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	colliderManager.reset(newColliderManager);
 
 	//パーティクル
-	/*ParticleModel::SetSpriteManager(spriteManager.get());
-	ParticleModel::SetDevice(dxCommon_->GetDevice());
-	ParticleModel* newParticleModel = new ParticleModel();
-	newParticleModel->CreateBuffers();
-	particleModel.reset(newParticleModel);
-	ParticleObject::SetDevice(dxCommon_->GetDevice());
-	ParticleObject::SetCamera(camera_.get());
-	ParticleObject::SetInput(input_);
-	ParticleObject::SetModel(particleModel.get());
-	ParticleObject::CreateGraphicsPipeline();
-	ParticleObject* newParticleObject = new ParticleObject();
-	newParticleObject->Initialize();
-	newParticleObject->SetTextureNum(5);
-	particleObject.reset(newParticleObject);*/
-	ParticleManager::SetSpriteManager(spriteManager.get());
-	ParticleManager::SetDevice(dxCommon_->GetDevice());
-	ParticleManager::SetCamera(camera_.get());
-	ParticleManager::SetInput(input_);
-	ParticleManager::CreateGraphicsPipeline();
-	ParticleManager* newParticleManager = new ParticleManager();
+	BaseParticle::SetSpriteManager(spriteManager.get());
+	BaseParticle::SetDevice(dxCommon_->GetDevice());
+	BaseParticle::SetCamera(camera_.get());
+	BaseParticle::SetInput(input_);
+	BaseParticle::CreateGraphicsPipeline();
+	BaseParticle* newParticleManager = new BaseParticle();
 	newParticleManager->CreateBuffers();
 	newParticleManager->SetTextureNum(5);
 	particleManager.reset(newParticleManager);
+
+	//弾けるパーティクル
+	SparkParticle::SetSpriteManager(spriteManager.get());
+	SparkParticle::SetDevice(dxCommon_->GetDevice());
+	SparkParticle::SetCamera(camera_.get());
+	SparkParticle::SetInput(input_);
+	SparkParticle::CreateGraphicsPipeline();
+	SparkParticle* newSparkParticle = new SparkParticle();
+	newSparkParticle->CreateBuffers();
+	newSparkParticle->SetTextureNum(5);
+	sparkParticle.reset(newSparkParticle);
 
 	//プレイヤーの弾
 	PlayerBullet::SetCamera(camera_.get());
@@ -249,7 +246,12 @@ void GameScene::Update()
 
 	/*particleObject->SetPosition(XMFLOAT3(10.0f,5.0f,0));*/
 	//パーティクル
-	particleManager->Update();
+	/*particleManager->Update();*/
+	if (input_->TriggerKey(DIK_N))
+	{
+		sparkParticle->Add(XMFLOAT3(0,0,0));
+	}
+	sparkParticle->Update();
 
 	//ライト
 	light->SetEye(XMFLOAT3(lightPos));
@@ -348,8 +350,12 @@ void GameScene::UpdateCollider()
 			{
 				for (int i = 0; i < playerBullet->GetBulletNum(); i++)
 				{
-					playerBullet->SetHitFlag(ColliderManager::CheckCollider(playerBullet->GetColliderData(i), 
-						object0->GetColliderData()),i);
+					if (ColliderManager::CheckCollider(playerBullet->GetColliderData(i),
+						object0->GetColliderData()))
+					{
+						sparkParticle->Add(playerBullet->GetPosition(i));
+						playerBullet->SetHitFlag(true, i);
+					}
 				}
 			}
 		}
@@ -371,14 +377,14 @@ void GameScene::Draw()
 	//ImGui::InputFloat2("lightFactorAngle", lightFactorAngle);*/
 	//ImGui::End();
 
-	////コライダーの描画
-	//DrawCollider();
-	////FBXの描画
-	//DrawFBX();
-	////スプライトの描画
-	//DrawSprite();
-
-	particleManager->Draw(dxCommon_->GetCommandList());
+	//コライダーの描画
+	DrawCollider();
+	//FBXの描画
+	DrawFBX();
+	//スプライトの描画
+	DrawSprite();
+	//パーティクルの描画
+	DrawParticle();
 }
 
 void GameScene::DrawFBXLightView()
@@ -410,6 +416,11 @@ void GameScene::DrawCollider()
 void GameScene::DrawSprite()
 {
 	/*enemy->DrawSprite(dxCommon_->GetCommandList());*/
+}
+
+void GameScene::DrawParticle()
+{
+	sparkParticle->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::SetSRV(ID3D12DescriptorHeap* SRV)

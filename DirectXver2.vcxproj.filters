@@ -100,6 +100,15 @@
     <Filter Include="リソース ファイル\Shaders\Particle">
       <UniqueIdentifier>{ac7708d5-f0ab-4571-ade8-0a1f86d29983}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\math">
+      <UniqueIdentifier>{5f32410b-35a5-486f-8ae6-26f1e23da1b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\math">
+      <UniqueIdentifier>{560cffe6-f50f-4353-bca0-4d0e570b9616}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\Shaders\SparkParticle">
+      <UniqueIdentifier>{98f5ed31-3534-4780-b08f-78cc1a8b0205}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -186,9 +195,6 @@
     <ClCompile Include="2d\Vignette.cpp">
       <Filter>ソース ファイル\2d</Filter>
     </ClCompile>
-    <ClCompile Include="mathOriginal.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="light\Light.cpp">
       <Filter>ソース ファイル\light</Filter>
     </ClCompile>
@@ -240,17 +246,17 @@
     <ClCompile Include="gameObject\PlayerBullet.cpp">
       <Filter>ソース ファイル\gameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Matrix4.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="particle\BaseParticle.cpp">
+      <Filter>ソース ファイル\particle</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleModel.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="math\mathOriginal.cpp">
+      <Filter>ソース ファイル\math</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleObject.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="math\Matrix4.cpp">
+      <Filter>ソース ファイル\math</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleManager.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="particle\SparkParticle.cpp">
+      <Filter>ソース ファイル\particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -338,9 +344,6 @@
     <ClInclude Include="2d\Vignette.h">
       <Filter>ヘッダー ファイル\2d</Filter>
     </ClInclude>
-    <ClInclude Include="mathOriginal.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="base\json.hpp">
       <Filter>ヘッダー ファイル\base</Filter>
     </ClInclude>
@@ -395,17 +398,17 @@
     <ClInclude Include="gameObject\PlayerBullet.h">
       <Filter>ヘッダー ファイル\gameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Matrix4.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="particle\BaseParticle.h">
+      <Filter>ヘッダー ファイル\particle</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleModel.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="math\mathOriginal.h">
+      <Filter>ヘッダー ファイル\math</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleObject.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="math\Matrix4.h">
+      <Filter>ヘッダー ファイル\math</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="particle\SparkParticle.h">
+      <Filter>ヘッダー ファイル\particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -456,6 +459,9 @@
     </None>
     <None Include="Resources\Shaders\Particle\ParticleHeader.hlsli">
       <Filter>リソース ファイル\Shaders\Particle</Filter>
+    </None>
+    <None Include="Resources\Shaders\SparkParticle\SparkParticleHeader.hlsli">
+      <Filter>リソース ファイル\Shaders\SparkParticle</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -557,6 +563,15 @@
     </FxCompile>
     <FxCompile Include="Resources\Shaders\Particle\ParticleGeometryShader.hlsl">
       <Filter>リソース ファイル\Shaders\Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\SparkParticle\SparkParticleGeometryShader.hlsl">
+      <Filter>リソース ファイル\Shaders\SparkParticle</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\SparkParticle\SparkParticlePixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders\SparkParticle</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\Shaders\SparkParticle\SparkParticleVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders\SparkParticle</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
