@@ -380,7 +380,7 @@ void GameScene::Draw()
 	//コライダーの描画
 	DrawCollider();
 	//FBXの描画
-	DrawFBX();
+	/*DrawFBX();*/
 	//スプライトの描画
 	DrawSprite();
 	//パーティクルの描画

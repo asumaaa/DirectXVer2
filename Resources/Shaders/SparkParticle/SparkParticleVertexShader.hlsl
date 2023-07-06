@@ -7,6 +7,7 @@ VSOutput main(float4 pos:POSITION, float scale:SCALE)
 	VSOutput output;
 	output.pos = pos;
 	output.scale = scale;
+	output.wpos = mul(mul(viewproj, world), pos);
 
 	return output;
 }

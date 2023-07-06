@@ -341,31 +341,6 @@ void SparkParticle::CreateBuffers()
 	);
 }
 
-void SparkParticle::CreateVertex()
-{
-	////球体一つの基礎サイズ
-	//XMFLOAT3 size = { 1.0f,1.0f,1.0f };
-	////頂点データ
-	//VertexPos v[vertexCount];
-	////頂点の数だけ座標用意
-	//for (int i = 0; i < vertices.size(); i++)
-	//{
-	//	v[i].pos = { 0.0f,0.0f,0.0f };
-	//}
-	////インデックスデータ
-	//unsigned short in[] =
-	//{
-	//	0,1,2,	//三角形1つ目
-	//	2,1,3,	//三角形2つ目
-	//};
-
-	////頂点座標、uv座標、インデックスデータを代入
-	//for (int i = 0; i < vertices.size(); i++)
-	//{
-	//	vertices[i] = v[i];
-	//}
-}
-
 void SparkParticle::Update()
 {
 	//-----この上に頂点の更新処理を書く-----
@@ -394,6 +369,21 @@ void SparkParticle::Update()
 	//つながりを解除
 	vertBuff->Unmap(0, nullptr);
 
+	XMMATRIX matScale, matRot, matTrans;
+	//スケール、回転、平行移動行列の計算
+	matScale = XMMatrixScaling(scale.x * 2, scale.y * 2, scale.z * 2);
+	matRot = XMMatrixIdentity();
+	matRot *= XMMatrixRotationZ(rotation.z);
+	matRot *= XMMatrixRotationX(rotation.x);
+	matRot *= XMMatrixRotationY(rotation.y);
+	matTrans = XMMatrixTranslation(position.x, position.y, position.z);
+
+	//ワールド行列の生成
+	matWorld = XMMatrixIdentity();
+	matWorld *= matScale;
+	matWorld *= matRot;
+	matWorld *= matTrans;
+
 	//定数バッファへデータ転送
 	//ビュープロジェクション行列
 	const XMMATRIX& matViewProjection = camera->GetMatViewProjection();
@@ -404,6 +394,8 @@ void SparkParticle::Update()
 	{
 		constMap->mat = matView * matViewProjection;
 		constMap->matBillboard = matBillboard;
+		constMap->viewproj = matViewProjection;
+		constMap->world = matWorld;
 		/*constMap->world = matWorld;*/
 		constBuffTransform->Unmap(0, nullptr);
 	}
@@ -470,7 +462,7 @@ void SparkParticle::UpdateParticle()
 		//速度に加速度を加算
 		it->velocity = it->velocity + it->accel;
 		//速度による移動
-		it->position = it->position + it->velocity;
+		/*it->position = it->position + it->velocity;*/
 
 		//進行度を0~1の範囲に換算
 		float f = (float)it->frame / it->num_frame;
@@ -522,7 +514,7 @@ void SparkParticle::Add(XMFLOAT3 pos)
 	float randAcc = 0.0001f;
 	for (int i = 0; i < sparkCount; i++)
 	{
-		XMFLOAT3 p = XMFLOAT3(0,0,0);
+		XMFLOAT3 p = XMFLOAT3(-pos.x,-pos.y,-pos.z);
 		XMFLOAT3 velocity((float)rand() / RAND_MAX * randVelo - randVelo / 2.0f, (float)rand() / RAND_MAX * randVelo - randVelo / 2.0f
 			, (float)rand() / RAND_MAX * randVelo - randVelo / 2.0f);
 		XMFLOAT3 accel(0.0f, (float)rand() / RAND_MAX * randAcc, 0.0f);

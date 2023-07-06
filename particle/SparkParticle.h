@@ -38,6 +38,7 @@ public://サブクラス
 		XMMATRIX mat;
 		XMMATRIX matBillboard;
 		XMMATRIX world;
+		XMMATRIX viewproj;
 	};
 
 	//パーティクル1粒
@@ -79,10 +80,6 @@ public:	//静的メンバ関数
 public:
 	//バッファ生成
 	void CreateBuffers();
-	//頂点生成
-	void CreateVertex();
-	//初期化
-	void Initialize();
 	//更新
 	void Update();
 	void UpdateBillboard();
@@ -91,7 +88,7 @@ public:
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 	//パーティクルを追加
 	void Add(XMFLOAT3 pos);
-	void AddParticle(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel,float startScale,float endScale);
+	void AddParticle(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float startScale, float endScale);
 
 	//セッター
 	//テクスチャの番号
@@ -149,8 +146,10 @@ private:
 	//テクスチャの番号
 	int textureNum = 0;
 
-	//パーティクルを発生させる座標
-	XMFLOAT3 position = { 10.0f,4.0f,0.0f };
+	//変形行列
+	XMFLOAT3 position = { 0.0f, 0.0f, 0.0f };
+	XMFLOAT3 rotation = { 0.0f, 0.0f, 0.0f };
+	XMFLOAT3 scale = { 0.0f, 0.0f, 0.0f };
 
 	//ローカルワールド変換行列
 	XMMATRIX matWorld;

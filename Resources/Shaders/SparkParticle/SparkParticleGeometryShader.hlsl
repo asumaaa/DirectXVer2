@@ -41,7 +41,7 @@ void main(
 		//オフセット分ずらす
 		element.svpos = input[0].pos + offset;
 		//ビュー、射影返還
-		element.svpos = mul(mat, input[0].pos);
+		element.svpos = mul(mat, element.svpos);
 		element.uv = uv_array[i];
 		output.Append(element);
 	}
