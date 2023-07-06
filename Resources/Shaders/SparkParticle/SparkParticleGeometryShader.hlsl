@@ -6,10 +6,10 @@ static const uint vnum = 4;
 //センターからオフセット
 static const float4 offset_array[vnum] =
 {
-	float4(-0.5f,-0.5f,0.0f,0.0f),	//左下
-	float4(-0.5f,+0.5f,0.0f,0.0f),	//左上
-	float4(+0.5f,-0.5f,0.0f,0.0f),	//右下
-	float4(+0.5f,+0.5f,0.0f,0.0f),	//右上
+	float4(-0.5f,-0.5f,0.1f,0.0f),	//左下
+	float4(-0.5f,+0.5f,0.1f,0.0f),	//左上
+	float4(+0.5f,-0.5f,0.1f,0.0f),	//右下
+	float4(+0.5f,+0.5f,0.1f,0.0f),	//右上
 };
 
 //uv
@@ -29,22 +29,59 @@ void main(
 )
 {
 	GSOutput element;
-	//4点分まわす
+
 	for (uint i = 0; i < vnum; i++)
 	{
-		//中心からのオフセットをビルボード回転
-		//float4 offset = mul(matBillboard, offset_array[i]);
 		//中心からのオフセットをスケーリング
 		float4 offset = offset_array[i] * input[0].scale;
-		//中心カランオフセットをビルボード回転
+		//中心からのオフセットをビルボード回転
 		offset = mul(matBillboard, offset);
-		//オフセット分ずらす
+		//ワールド座標ベースでずらす
 		element.svpos = input[0].pos + offset;
-		//ビュー、射影返還
+		//ビュー、射影変換
 		element.svpos = mul(mat, element.svpos);
 		element.uv = uv_array[i];
 		output.Append(element);
 	}
+
+	/*float4 wpos = mul(mul(viewproj, world), input[0].pos);
+
+	for (uint i = 0; i < vnum; i++)
+	{
+		float4 offset = offset_array[i] * input[0].scale;
+		offset = mul(matBillboard, offset);
+		element.svpos = input[0].pos + offset;
+		element.svpos = mul(mat,element.svpos);
+		element.uv = uv_array[i];
+		output.Append(element);
+	}*/
+
+	//for (uint i = 0; i < vnum; i++)
+	//{
+	//	//中心からのオフセットをスケーリング
+	//	float4 offset = offset_array[i] * input[0].scale;
+	//	offset = mul(matBillboard, offset);
+	//	element.svpos = wpos + input[0].pos + offset;
+	//	element.uv = uv_array[i];
+	//	output.Append(element);
+	//}
+
+	//4点分まわす
+	//for (uint i = 0; i < vnum; i++)
+	//{
+	//	//中心からのオフセットをビルボード回転
+	//	//float4 offset = mul(matBillboard, offset_array[i]);
+	//	//中心からのオフセットをスケーリング
+	//	float4 offset = offset_array[i] * input[0].scale;
+	//	//中心カランオフセットをビルボード回転
+	//	offset = mul(matBillboard, offset);
+	//	//オフセット分ずらす
+	//	element.svpos = input[0].pos + offset;
+	//	//ビュー、射影返還
+	//	element.svpos = mul(mat, element.svpos);
+	//	element.uv = uv_array[i];
+	//	output.Append(element);
+	//}
 
 	//4点分まわす
 	//for (uint i = 0; i < vnum; i++)

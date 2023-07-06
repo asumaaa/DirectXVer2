@@ -380,21 +380,23 @@ void SparkParticle::Update()
 
 	//ワールド行列の生成
 	matWorld = XMMatrixIdentity();
+	/*matWorld *= matBillboard;*/
 	matWorld *= matScale;
 	matWorld *= matRot;
 	matWorld *= matTrans;
 
 	//定数バッファへデータ転送
 	//ビュープロジェクション行列
+	const XMMATRIX& matProjection = camera->GetMatProjection();
 	const XMMATRIX& matViewProjection = camera->GetMatViewProjection();
 	const XMMATRIX& matView = camera->GetMatView();
 	ConstBufferDataTransform* constMap = nullptr;
 	result = constBuffTransform->Map(0, nullptr, (void**)&constMap);
 	if (SUCCEEDED(result))
 	{
-		constMap->mat = matView * matViewProjection;
-		constMap->matBillboard = matBillboard;
+		constMap->mat = matView * matProjection;
 		constMap->viewproj = matViewProjection;
+		constMap->matBillboard = matBillboard;
 		constMap->world = matWorld;
 		/*constMap->world = matWorld;*/
 		constBuffTransform->Unmap(0, nullptr);
@@ -434,11 +436,10 @@ void SparkParticle::UpdateBillboard()
 	XMVECTOR cameraAxisY;
 	//Y軸はZ軸→X軸の外積で求まる
 	cameraAxisY = XMVector3Cross(cameraAxisZ, cameraAxisX);
-	cameraAxisY = XMVector3Normalize(cameraAxisY);
+	/*cameraAxisY = XMVector3Normalize(cameraAxisY);*/
 
 	//全方向ビルボード行列の計算
 	//ビルボード行列
-	matBillboard = XMMatrixIdentity();
 	matBillboard.r[0] = cameraAxisX;
 	matBillboard.r[1] = cameraAxisY;
 	matBillboard.r[2] = cameraAxisZ;
@@ -462,7 +463,7 @@ void SparkParticle::UpdateParticle()
 		//速度に加速度を加算
 		it->velocity = it->velocity + it->accel;
 		//速度による移動
-		/*it->position = it->position + it->velocity;*/
+		it->position = it->position + it->velocity;
 
 		//進行度を0~1の範囲に換算
 		float f = (float)it->frame / it->num_frame;
@@ -514,12 +515,12 @@ void SparkParticle::Add(XMFLOAT3 pos)
 	float randAcc = 0.0001f;
 	for (int i = 0; i < sparkCount; i++)
 	{
-		XMFLOAT3 p = XMFLOAT3(-pos.x,-pos.y,-pos.z);
+		XMFLOAT3 p = pos;
 		XMFLOAT3 velocity((float)rand() / RAND_MAX * randVelo - randVelo / 2.0f, (float)rand() / RAND_MAX * randVelo - randVelo / 2.0f
 			, (float)rand() / RAND_MAX * randVelo - randVelo / 2.0f);
 		XMFLOAT3 accel(0.0f, (float)rand() / RAND_MAX * randAcc, 0.0f);
 
-		AddParticle(60, p, velocity, accel, 1.0f, 0.0f);
+		AddParticle(60, p, velocity, accel, 2.0f, 0.0f);
 	}
 }
 
@@ -535,5 +536,6 @@ void SparkParticle::AddParticle(int life, XMFLOAT3 position, XMFLOAT3 velocity, 
 	p.accel = accel;
 	p.num_frame = life;
 	p.startScale = startScale;
+	p.scale = startScale;
 	p.endScale = endScale;
 }

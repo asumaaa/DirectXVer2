@@ -57,7 +57,7 @@ public://サブクラス
 		//スケール
 		float scale = 1.0f;
 		//初期値
-		float startScale = 1.0f;
+		float startScale = 10.0f;
 		//最終地
 		float endScale = 0.0f;
 	};
@@ -114,7 +114,7 @@ private:
 	//パイプラインステートオブジェクト
 	static ComPtr<ID3D12PipelineState>pipelinestate;
 	//ビルボード行列
-	XMMATRIX matBillboard;
+	XMMATRIX matBillboard = XMMatrixIdentity();
 
 	//頂点バッファ
 	ComPtr<ID3D12Resource> vertBuff;

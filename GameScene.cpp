@@ -378,13 +378,13 @@ void GameScene::Draw()
 	//ImGui::End();
 
 	//コライダーの描画
+	DrawParticle();
 	DrawCollider();
 	//FBXの描画
 	/*DrawFBX();*/
 	//スプライトの描画
 	DrawSprite();
 	//パーティクルの描画
-	DrawParticle();
 }
 
 void GameScene::DrawFBXLightView()
