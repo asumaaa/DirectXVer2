@@ -267,7 +267,7 @@ void GameScene::Update()
 	//スペースキーでファイル読み込み更新
 	if(input_->TriggerKey(DIK_SPACE))
 	{
-		jsonLoader->LoadFile("Resources/json/demo.json");
+		jsonLoader->LoadFile("Resources/json/demo.json"); 
 		int i = 0;
 		for (std::unique_ptr<FbxObject3D>& object0 : object)
 		{
