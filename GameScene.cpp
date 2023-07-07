@@ -108,17 +108,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	ColliderManager* newColliderManager = new ColliderManager();
 	colliderManager.reset(newColliderManager);
 
-	//パーティクル
-	BaseParticle::SetSpriteManager(spriteManager.get());
-	BaseParticle::SetDevice(dxCommon_->GetDevice());
-	BaseParticle::SetCamera(camera_.get());
-	BaseParticle::SetInput(input_);
-	BaseParticle::CreateGraphicsPipeline();
-	BaseParticle* newParticleManager = new BaseParticle();
-	newParticleManager->CreateBuffers();
-	newParticleManager->SetTextureNum(5);
-	particleManager.reset(newParticleManager);
-
 	//弾けるパーティクル
 	SparkParticle::SetSpriteManager(spriteManager.get());
 	SparkParticle::SetDevice(dxCommon_->GetDevice());

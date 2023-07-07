@@ -97,9 +97,6 @@
     <Filter Include="ソース ファイル\gameObject">
       <UniqueIdentifier>{8357b98d-e709-43e3-a9fe-62a282989179}</UniqueIdentifier>
     </Filter>
-    <Filter Include="リソース ファイル\Shaders\Particle">
-      <UniqueIdentifier>{ac7708d5-f0ab-4571-ade8-0a1f86d29983}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\math">
       <UniqueIdentifier>{5f32410b-35a5-486f-8ae6-26f1e23da1b8}</UniqueIdentifier>
     </Filter>
@@ -245,9 +242,6 @@
     </ClCompile>
     <ClCompile Include="gameObject\PlayerBullet.cpp">
       <Filter>ソース ファイル\gameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="particle\BaseParticle.cpp">
-      <Filter>ソース ファイル\particle</Filter>
     </ClCompile>
     <ClCompile Include="math\mathOriginal.cpp">
       <Filter>ソース ファイル\math</Filter>
@@ -398,9 +392,6 @@
     <ClInclude Include="gameObject\PlayerBullet.h">
       <Filter>ヘッダー ファイル\gameObject</Filter>
     </ClInclude>
-    <ClInclude Include="particle\BaseParticle.h">
-      <Filter>ヘッダー ファイル\particle</Filter>
-    </ClInclude>
     <ClInclude Include="math\mathOriginal.h">
       <Filter>ヘッダー ファイル\math</Filter>
     </ClInclude>
@@ -456,9 +447,6 @@
     </None>
     <None Include="Resources\Shaders\ColliderCube\ColliderCubeHeader.hlsli">
       <Filter>リソース ファイル\Shaders\ColliderCube</Filter>
-    </None>
-    <None Include="Resources\Shaders\Particle\ParticleHeader.hlsli">
-      <Filter>リソース ファイル\Shaders\Particle</Filter>
     </None>
     <None Include="Resources\Shaders\SparkParticle\SparkParticleHeader.hlsli">
       <Filter>リソース ファイル\Shaders\SparkParticle</Filter>
@@ -554,15 +542,6 @@
     </FxCompile>
     <FxCompile Include="Resources\Shaders\ColliderCube\ColliderCubeVertexShader.hlsl">
       <Filter>リソース ファイル\Shaders\ColliderCube</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\Particle\ParticlePixelShader.hlsl">
-      <Filter>リソース ファイル\Shaders\Particle</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\Particle\ParticleVertexShader.hlsl">
-      <Filter>リソース ファイル\Shaders\Particle</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\Particle\ParticleGeometryShader.hlsl">
-      <Filter>リソース ファイル\Shaders\Particle</Filter>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\SparkParticle\SparkParticleGeometryShader.hlsl">
       <Filter>リソース ファイル\Shaders\SparkParticle</Filter>

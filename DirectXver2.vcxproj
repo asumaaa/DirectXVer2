@@ -197,7 +197,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="math\mathOriginal.cpp" />
     <ClCompile Include="math\Matrix4.cpp" />
-    <ClCompile Include="particle\BaseParticle.cpp" />
     <ClCompile Include="particle\FireParticle.cpp" />
     <ClCompile Include="particle\SparkParticle.cpp" />
   </ItemGroup>
@@ -249,7 +248,6 @@
     <ClInclude Include="light\SpotLight.h" />
     <ClInclude Include="math\mathOriginal.h" />
     <ClInclude Include="math\Matrix4.h" />
-    <ClInclude Include="particle\BaseParticle.h" />
     <ClInclude Include="particle\FireParticle.h" />
     <ClInclude Include="particle\SparkParticle.h" />
   </ItemGroup>
@@ -271,7 +269,6 @@
     <None Include="Resources\Shaders\Fog\FogHeader.hlsli" />
     <None Include="Resources\Shaders\Monochrome\MonochromeEffectHeader.hlsli" />
     <None Include="Resources\Shaders\Mosaic\MosaicEffectHeader.hlsli" />
-    <None Include="Resources\Shaders\Particle\ParticleHeader.hlsli" />
     <None Include="Resources\Shaders\Reversal\ReversalEffectHeader.hlsli" />
     <None Include="Resources\Shaders\ShaderHeader.hlsli" />
     <None Include="Resources\Shaders\ShadowMap\ShadowMapHeader.hlsli" />
@@ -384,28 +381,6 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="Resources\Shaders\Mosaic\MosaicVertexShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\Particle\ParticleGeometryShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Geometry</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Geometry</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\Particle\ParticlePixelShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="Resources\Shaders\Particle\ParticleVertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
