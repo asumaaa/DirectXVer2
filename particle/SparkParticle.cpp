@@ -369,35 +369,16 @@ void SparkParticle::Update()
 	//つながりを解除
 	vertBuff->Unmap(0, nullptr);
 
-	XMMATRIX matScale, matRot, matTrans;
-	//スケール、回転、平行移動行列の計算
-	matScale = XMMatrixScaling(scale.x * 2, scale.y * 2, scale.z * 2);
-	matRot = XMMatrixIdentity();
-	matRot *= XMMatrixRotationZ(rotation.z);
-	matRot *= XMMatrixRotationX(rotation.x);
-	matRot *= XMMatrixRotationY(rotation.y);
-	matTrans = XMMatrixTranslation(position.x, position.y, position.z);
-
-	//ワールド行列の生成
-	matWorld = XMMatrixIdentity();
-	/*matWorld *= matBillboard;*/
-	matWorld *= matScale;
-	matWorld *= matRot;
-	matWorld *= matTrans;
-
 	//定数バッファへデータ転送
 	//ビュープロジェクション行列
 	const XMMATRIX& matProjection = camera->GetMatProjection();
-	const XMMATRIX& matViewProjection = camera->GetMatViewProjection();
 	const XMMATRIX& matView = camera->GetMatView();
 	ConstBufferDataTransform* constMap = nullptr;
 	result = constBuffTransform->Map(0, nullptr, (void**)&constMap);
 	if (SUCCEEDED(result))
 	{
 		constMap->mat = matView * matProjection;
-		constMap->viewproj = matViewProjection;
 		constMap->matBillboard = matBillboard;
-		constMap->world = matWorld;
 		/*constMap->world = matWorld;*/
 		constBuffTransform->Unmap(0, nullptr);
 	}
@@ -520,7 +501,7 @@ void SparkParticle::Add(XMFLOAT3 pos)
 			, (float)rand() / RAND_MAX * randVelo - randVelo / 2.0f);
 		XMFLOAT3 accel(0.0f, (float)rand() / RAND_MAX * randAcc, 0.0f);
 
-		AddParticle(60, p, velocity, accel, 2.0f, 0.0f);
+		AddParticle(60, p, velocity, accel, 1.0f, 0.0f);
 	}
 }
 

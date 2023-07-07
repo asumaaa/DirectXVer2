@@ -353,7 +353,9 @@ void GameScene::UpdateCollider()
 					if (ColliderManager::CheckCollider(playerBullet->GetColliderData(i),
 						object0->GetColliderData()))
 					{
+						//パーティクル
 						sparkParticle->Add(playerBullet->GetPosition(i));
+						//弾
 						playerBullet->SetHitFlag(true, i);
 					}
 				}
@@ -367,24 +369,24 @@ void GameScene::UpdateCollider()
 
 void GameScene::Draw()
 {
-	//ImGui::Begin("Light");
-	//ImGui::SetWindowPos(ImVec2(0, 0));
-	//ImGui::SetWindowSize(ImVec2(500, 150));
-	///*ImGui::InputFloat3("lightDir", lightDir);*/
-	//ImGui::InputFloat3("lightTarget", lightTarget);
-	//ImGui::InputFloat3("lightPos", lightPos);
-	///*ImGui::InputFloat3("lightAtten", lightAtten);
-	//ImGui::InputFloat2("lightFactorAngle", lightFactorAngle);*/
-	//ImGui::End();
+	//ImGui
+	ImGui::Begin("GameScene");
+	ImGui::SetWindowPos(ImVec2(0, 0));
+	ImGui::SetWindowSize(ImVec2(500, 150));
+	ImGui::InputInt("DrawFbx", drawFbx);
+	ImGui::InputInt("DrawSprite", drawSprite);
+	ImGui::InputInt("DrawCollider", drawCollider);
+	ImGui::InputInt("DrawParticle", drawParticle);
+	ImGui::End();
 
 	//コライダーの描画
-	DrawParticle();
-	DrawCollider();
-	//FBXの描画
-	/*DrawFBX();*/
+	if (*drawCollider == 1)DrawCollider();
 	//スプライトの描画
-	DrawSprite();
+	if (*drawSprite == 1)DrawSprite();
+	//FBXの描画
+	if (*drawFbx == 1)DrawFBX();
 	//パーティクルの描画
+	if (*drawParticle == 1)DrawParticle();
 }
 
 void GameScene::DrawFBXLightView()

@@ -112,4 +112,10 @@ private:
 	std::unique_ptr<BaseParticle>particleManager;
 	//弾けるパーティクル
 	std::unique_ptr<SparkParticle>sparkParticle;
+
+	//描画フラグ
+	int drawParticle[1] = { 1 };
+	int drawFbx[1] = { 1 };
+	int drawSprite[1] = { 1 };
+	int drawCollider[1] = { 1 };
 };

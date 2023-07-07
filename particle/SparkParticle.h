@@ -37,8 +37,6 @@ public://サブクラス
 	{
 		XMMATRIX mat;
 		XMMATRIX matBillboard;
-		XMMATRIX world;
-		XMMATRIX viewproj;
 	};
 
 	//パーティクル1粒
@@ -93,8 +91,6 @@ public:
 	//セッター
 	//テクスチャの番号
 	void SetTextureNum(int num) { textureNum = num; }
-	//パーティクルを発生させる場所
-	void SetPosition(XMFLOAT3 pos) { position = pos; }
 
 public:	//静的メンバ変数
 	static SpriteManager* spriteManager;
@@ -145,13 +141,5 @@ private:
 	std::forward_list<Particle>particles;
 	//テクスチャの番号
 	int textureNum = 0;
-
-	//変形行列
-	XMFLOAT3 position = { 0.0f, 0.0f, 0.0f };
-	XMFLOAT3 rotation = { 0.0f, 0.0f, 0.0f };
-	XMFLOAT3 scale = { 0.0f, 0.0f, 0.0f };
-
-	//ローカルワールド変換行列
-	XMMATRIX matWorld;
 };
 
