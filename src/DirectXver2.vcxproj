@@ -124,7 +124,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)base;$(ProjectDir);$(ProjectDir)fbx;$(ProjectDir)Resources;$(ProjectDir)Resources\Shaders;$(ProjectDir)particle;$(ProjectDir)light;$(ProjectDir)fbxsdk;$(ProjectDir)2d;$(ProjectDir)Resources\Shaders\Bulr;$(ProjectDir)Resources\Shaders\Monochrome;$(ProjectDir)Resources\Shaders\Mosaic;$(ProjectDir)Resources\Shaders\Reversal;$(ProjectDir)Resources\Shaders\ChromaticAberration;$(ProjectDir)Resources\Shaders\DepthOfField;$(ProjectDir)Resources\Shaders\ShadowMap;$(ProjectDir)Resources\Shaders\Fbx;$(ProjectDir)Resources\Shaders\Sprite;$(ProjectDir)Resources\Shaders\VolumeLight;$(ProjectDir)Resources\Shaders\Fog;$(ProjectDir)Resources\Shaders\Vignette;$(ProjectDir)Resources\Shaders\ColliderCube;$(ProjectDir)collision;$(ProjectDir)gameObject;$(ProjectDir)Resource\Shader\Particle;$(ProjectDir)math;$(ProjectDir)Resource\Shader\SparkParticlr</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)engine\base;$(ProjectDir);$(ProjectDir)engine\fbx;$(ProjectDir)Resources;$(ProjectDir)Resources\Shaders;$(ProjectDir)engine\particle;$(ProjectDir)engine\light;$(ProjectDir)fbxsdk;$(ProjectDir)2d;$(ProjectDir)Resources\Shaders\Bulr;$(ProjectDir)Resources\Shaders\Monochrome;$(ProjectDir)Resources\Shaders\Mosaic;$(ProjectDir)Resources\Shaders\Reversal;$(ProjectDir)Resources\Shaders\ChromaticAberration;$(ProjectDir)Resources\Shaders\DepthOfField;$(ProjectDir)Resources\Shaders\ShadowMap;$(ProjectDir)Resources\Shaders\Fbx;$(ProjectDir)Resources\Shaders\Sprite;$(ProjectDir)Resources\Shaders\VolumeLight;$(ProjectDir)Resources\Shaders\Fog;$(ProjectDir)Resources\Shaders\Vignette;$(ProjectDir)Resources\Shaders\ColliderCube;$(ProjectDir)engine\collision;$(ProjectDir)application\gameObject;$(ProjectDir)Resource\Shader\Particle;$(ProjectDir)engine\math;$(ProjectDir)Resource\Shader\SparkParticlr;$(ProjectDir)application</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <DisableSpecificWarnings>4099;26495;26451;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
@@ -145,7 +145,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)base;$(ProjectDir);$(ProjectDir)fbx;$(ProjectDir)Resources;$(ProjectDir)Resources\Shaders;$(ProjectDir)particle;$(ProjectDir)light;$(ProjectDir)fbxsdk;$(ProjectDir)2d;$(ProjectDir)Resources\Shaders\Bulr;$(ProjectDir)Resources\Shaders\Monochrome;$(ProjectDir)Resources\Shaders\Mosaic;$(ProjectDir)Resources\Shaders\Reversal;$(ProjectDir)Resources\Shaders\ChromaticAberration;$(ProjectDir)Resources\Shaders\DepthOfField;$(ProjectDir)Resources\Shaders\ShadowMap;$(ProjectDir)Resources\Shaders\Fbx;$(ProjectDir)Resources\Shaders\Sprite;$(ProjectDir)Resources\Shaders\VolumeLight;$(ProjectDir)Resources\Shaders\Fog;$(ProjectDir)Resources\Shaders\Vignette;$(ProjectDir)Resources\Shaders\ColliderCube;$(ProjectDir)collision;$(ProjectDir)gameObject;$(ProjectDir)Resource\Shader\Particle;$(ProjectDir)math;$(ProjectDir)Resource\Shader\SparkParticlr</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)engine\base;$(ProjectDir);$(ProjectDir)engine\fbx;$(ProjectDir)Resources;$(ProjectDir)Resources\Shaders;$(ProjectDir)engine\particle;$(ProjectDir)engine\light;$(ProjectDir)fbxsdk;$(ProjectDir)2d;$(ProjectDir)Resources\Shaders\Bulr;$(ProjectDir)Resources\Shaders\Monochrome;$(ProjectDir)Resources\Shaders\Mosaic;$(ProjectDir)Resources\Shaders\Reversal;$(ProjectDir)Resources\Shaders\ChromaticAberration;$(ProjectDir)Resources\Shaders\DepthOfField;$(ProjectDir)Resources\Shaders\ShadowMap;$(ProjectDir)Resources\Shaders\Fbx;$(ProjectDir)Resources\Shaders\Sprite;$(ProjectDir)Resources\Shaders\VolumeLight;$(ProjectDir)Resources\Shaders\Fog;$(ProjectDir)Resources\Shaders\Vignette;$(ProjectDir)Resources\Shaders\ColliderCube;$(ProjectDir)engine\collision;$(ProjectDir)application\gameObject;$(ProjectDir)Resource\Shader\Particle;$(ProjectDir)engine\math;$(ProjectDir)Resource\Shader\SparkParticlr;$(ProjectDir)application</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <DisableSpecificWarnings>4099;26495;26451;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
@@ -170,45 +170,45 @@
     <ClCompile Include="2d\ReversalEffect.cpp" />
     <ClCompile Include="2d\ShadowMap.cpp" />
     <ClCompile Include="2d\Vignette.cpp" />
-    <ClCompile Include="base\Camera.cpp" />
-    <ClCompile Include="base\CSVLoader.cpp" />
-    <ClCompile Include="base\DirectXCommon.cpp" />
-    <ClCompile Include="base\DXInput.cpp" />
-    <ClCompile Include="base\FPS.cpp" />
-    <ClCompile Include="base\ImGuiManager.cpp" />
-    <ClCompile Include="base\Input.cpp" />
-    <ClCompile Include="base\JSONLoader.cpp" />
-    <ClCompile Include="base\Message.cpp" />
-    <ClCompile Include="base\Sprite.cpp" />
-    <ClCompile Include="base\SpriteManager.cpp" />
-    <ClCompile Include="base\WinApp.cpp" />
-    <ClCompile Include="collision\ColliderCubeModel.cpp" />
-    <ClCompile Include="collision\ColliderCubeObject.cpp" />
-    <ClCompile Include="collision\ColliderManager.cpp" />
-    <ClCompile Include="collision\ColliderPlaneModel.cpp" />
-    <ClCompile Include="collision\ColliderPlaneObject.cpp" />
-    <ClCompile Include="collision\ColliderSphereModel.cpp" />
-    <ClCompile Include="collision\ColliderSphereObject .cpp" />
-    <ClCompile Include="collision\Collision.cpp" />
-    <ClCompile Include="collision\CollisionPrimitive.cpp" />
-    <ClCompile Include="fbx\FbxLoader.cpp" />
-    <ClCompile Include="fbx\FbxModel.cpp" />
-    <ClCompile Include="fbx\FbxObject3D.cpp" />
-    <ClCompile Include="gameObject\Enemy.cpp" />
-    <ClCompile Include="gameObject\Plane.cpp" />
-    <ClCompile Include="gameObject\Player.cpp" />
-    <ClCompile Include="gameObject\PlayerBullet.cpp" />
-    <ClCompile Include="GameScene.cpp" />
-    <ClCompile Include="light\DirectionalLight.cpp" />
-    <ClCompile Include="light\Light.cpp" />
-    <ClCompile Include="light\LightGroup.cpp" />
-    <ClCompile Include="light\PointLight.cpp" />
-    <ClCompile Include="light\SpotLight.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="math\mathOriginal.cpp" />
-    <ClCompile Include="math\Matrix4.cpp" />
-    <ClCompile Include="particle\FireParticle.cpp" />
-    <ClCompile Include="particle\SparkParticle.cpp" />
+    <ClCompile Include="application\gameObject\Enemy.cpp" />
+    <ClCompile Include="application\gameObject\Plane.cpp" />
+    <ClCompile Include="application\gameObject\Player.cpp" />
+    <ClCompile Include="application\gameObject\PlayerBullet.cpp" />
+    <ClCompile Include="application\GameScene.cpp" />
+    <ClCompile Include="engine\base\Camera.cpp" />
+    <ClCompile Include="engine\base\CSVLoader.cpp" />
+    <ClCompile Include="engine\base\DirectXCommon.cpp" />
+    <ClCompile Include="engine\base\DXInput.cpp" />
+    <ClCompile Include="engine\base\FPS.cpp" />
+    <ClCompile Include="engine\base\ImGuiManager.cpp" />
+    <ClCompile Include="engine\base\Input.cpp" />
+    <ClCompile Include="engine\base\JSONLoader.cpp" />
+    <ClCompile Include="engine\base\Message.cpp" />
+    <ClCompile Include="engine\base\Sprite.cpp" />
+    <ClCompile Include="engine\base\SpriteManager.cpp" />
+    <ClCompile Include="engine\base\WinApp.cpp" />
+    <ClCompile Include="engine\collision\ColliderCubeModel.cpp" />
+    <ClCompile Include="engine\collision\ColliderCubeObject.cpp" />
+    <ClCompile Include="engine\collision\ColliderManager.cpp" />
+    <ClCompile Include="engine\collision\ColliderPlaneModel.cpp" />
+    <ClCompile Include="engine\collision\ColliderPlaneObject.cpp" />
+    <ClCompile Include="engine\collision\ColliderSphereModel.cpp" />
+    <ClCompile Include="engine\collision\ColliderSphereObject .cpp" />
+    <ClCompile Include="engine\collision\Collision.cpp" />
+    <ClCompile Include="engine\collision\CollisionPrimitive.cpp" />
+    <ClCompile Include="engine\fbx\FbxLoader.cpp" />
+    <ClCompile Include="engine\fbx\FbxModel.cpp" />
+    <ClCompile Include="engine\fbx\FbxObject3D.cpp" />
+    <ClCompile Include="engine\light\DirectionalLight.cpp" />
+    <ClCompile Include="engine\light\Light.cpp" />
+    <ClCompile Include="engine\light\LightGroup.cpp" />
+    <ClCompile Include="engine\light\PointLight.cpp" />
+    <ClCompile Include="engine\light\SpotLight.cpp" />
+    <ClCompile Include="engine\main.cpp" />
+    <ClCompile Include="engine\math\mathOriginal.cpp" />
+    <ClCompile Include="engine\math\Matrix4.cpp" />
+    <ClCompile Include="engine\particle\FireParticle.cpp" />
+    <ClCompile Include="engine\particle\SparkParticle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\BlurEffect.h" />
@@ -220,46 +220,46 @@
     <ClInclude Include="2d\ReversalEffect.h" />
     <ClInclude Include="2d\ShadowMap.h" />
     <ClInclude Include="2d\Vignette.h" />
-    <ClInclude Include="base\Camera.h" />
-    <ClInclude Include="base\CSVLoader.h" />
-    <ClInclude Include="base\DirectXCommon.h" />
-    <ClInclude Include="base\DXInput.h" />
-    <ClInclude Include="base\FPS.h" />
-    <ClInclude Include="base\ImGuiManager.h" />
-    <ClInclude Include="base\Input.h" />
-    <ClInclude Include="base\json.hpp" />
-    <ClInclude Include="base\JSONLoader.h" />
-    <ClInclude Include="base\Message.h" />
-    <ClInclude Include="base\Sprite.h" />
-    <ClInclude Include="base\SpriteManager.h" />
-    <ClInclude Include="base\WinApp.h" />
-    <ClInclude Include="collision\ColliderCubeModel.h" />
-    <ClInclude Include="collision\ColliderCubeObject.h" />
-    <ClInclude Include="collision\ColliderManager.h" />
-    <ClInclude Include="collision\ColliderPlaneModel.h" />
-    <ClInclude Include="collision\ColliderPlaneObject.h" />
-    <ClInclude Include="collision\ColliderSphereModel.h" />
-    <ClInclude Include="collision\ColliderSphereObject.h" />
-    <ClInclude Include="collision\Collision.h" />
-    <ClInclude Include="collision\CollisionPrimitive.h" />
-    <ClInclude Include="fbx\FbxLoader.h" />
-    <ClInclude Include="fbx\FbxModel.h" />
-    <ClInclude Include="fbx\FbxObject3D.h" />
-    <ClInclude Include="gameObject\Enemy.h" />
-    <ClInclude Include="gameObject\Plane.h" />
-    <ClInclude Include="gameObject\Player.h" />
-    <ClInclude Include="gameObject\PlayerBullet.h" />
-    <ClInclude Include="GameScene.h" />
-    <ClInclude Include="light\CircleShadow.h" />
-    <ClInclude Include="light\DirectionalLight.h" />
-    <ClInclude Include="light\Light.h" />
-    <ClInclude Include="light\LightGroup.h" />
-    <ClInclude Include="light\PointLight.h" />
-    <ClInclude Include="light\SpotLight.h" />
-    <ClInclude Include="math\mathOriginal.h" />
-    <ClInclude Include="math\Matrix4.h" />
-    <ClInclude Include="particle\FireParticle.h" />
-    <ClInclude Include="particle\SparkParticle.h" />
+    <ClInclude Include="application\gameObject\Enemy.h" />
+    <ClInclude Include="application\gameObject\Plane.h" />
+    <ClInclude Include="application\gameObject\Player.h" />
+    <ClInclude Include="application\gameObject\PlayerBullet.h" />
+    <ClInclude Include="application\GameScene.h" />
+    <ClInclude Include="engine\base\Camera.h" />
+    <ClInclude Include="engine\base\CSVLoader.h" />
+    <ClInclude Include="engine\base\DirectXCommon.h" />
+    <ClInclude Include="engine\base\DXInput.h" />
+    <ClInclude Include="engine\base\FPS.h" />
+    <ClInclude Include="engine\base\ImGuiManager.h" />
+    <ClInclude Include="engine\base\Input.h" />
+    <ClInclude Include="engine\base\json.hpp" />
+    <ClInclude Include="engine\base\JSONLoader.h" />
+    <ClInclude Include="engine\base\Message.h" />
+    <ClInclude Include="engine\base\Sprite.h" />
+    <ClInclude Include="engine\base\SpriteManager.h" />
+    <ClInclude Include="engine\base\WinApp.h" />
+    <ClInclude Include="engine\collision\ColliderCubeModel.h" />
+    <ClInclude Include="engine\collision\ColliderCubeObject.h" />
+    <ClInclude Include="engine\collision\ColliderManager.h" />
+    <ClInclude Include="engine\collision\ColliderPlaneModel.h" />
+    <ClInclude Include="engine\collision\ColliderPlaneObject.h" />
+    <ClInclude Include="engine\collision\ColliderSphereModel.h" />
+    <ClInclude Include="engine\collision\ColliderSphereObject.h" />
+    <ClInclude Include="engine\collision\Collision.h" />
+    <ClInclude Include="engine\collision\CollisionPrimitive.h" />
+    <ClInclude Include="engine\fbx\FbxLoader.h" />
+    <ClInclude Include="engine\fbx\FbxModel.h" />
+    <ClInclude Include="engine\fbx\FbxObject3D.h" />
+    <ClInclude Include="engine\light\CircleShadow.h" />
+    <ClInclude Include="engine\light\DirectionalLight.h" />
+    <ClInclude Include="engine\light\Light.h" />
+    <ClInclude Include="engine\light\LightGroup.h" />
+    <ClInclude Include="engine\light\PointLight.h" />
+    <ClInclude Include="engine\light\SpotLight.h" />
+    <ClInclude Include="engine\math\mathOriginal.h" />
+    <ClInclude Include="engine\math\Matrix4.h" />
+    <ClInclude Include="engine\particle\FireParticle.h" />
+    <ClInclude Include="engine\particle\SparkParticle.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\external\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
