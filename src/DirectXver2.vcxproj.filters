@@ -106,6 +106,9 @@
     <Filter Include="リソース ファイル\Shaders\SparkParticle">
       <UniqueIdentifier>{98f5ed31-3534-4780-b08f-78cc1a8b0205}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\Shaders\BillboardSprite">
+      <UniqueIdentifier>{70d04ab9-4735-4ea3-8f77-8218a9ec0376}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="2d\MonochromeEffect.cpp">
@@ -251,6 +254,12 @@
     </ClCompile>
     <ClCompile Include="engine\particle\SparkParticle.cpp">
       <Filter>ソース ファイル\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\base\BIllboardSprite.cpp">
+      <Filter>ソース ファイル\base</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\base\BillboardSpriteModel.cpp">
+      <Filter>ソース ファイル\base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -401,6 +410,12 @@
     <ClInclude Include="engine\particle\SparkParticle.h">
       <Filter>ヘッダー ファイル\particle</Filter>
     </ClInclude>
+    <ClInclude Include="engine\base\BIllboardSprite.h">
+      <Filter>ヘッダー ファイル\base</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\base\BillboardSpriteModel.h">
+      <Filter>ヘッダー ファイル\base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Resources\Shaders\PixelShader.hlsl">
@@ -502,6 +517,12 @@
     <FxCompile Include="..\Resources\Shaders\VolumeLight\VolumeLightVertexShader.hlsl">
       <Filter>リソース ファイル\Shaders\VolumeLight</Filter>
     </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\BillboardSprite\BillboardSpritePixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders\BillboardSprite</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\BillboardSprite\BillboardSpriteVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders\BillboardSprite</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\Shaders\ShaderHeader.hlsli">
@@ -551,6 +572,9 @@
     </None>
     <None Include="..\Resources\Shaders\VolumeLight\VolumeLightHeader.hlsli">
       <Filter>リソース ファイル\Shaders\VolumeLight</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\BillboardSprite\BillboardSpriteHeader.hlsli">
+      <Filter>リソース ファイル\Shaders\BillboardSprite</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -22,6 +22,8 @@
 #include "ColliderPlaneObject.h"
 #include "ColliderManager.h"
 #include "SparkParticle.h"
+#include "BillboardSprite.h"
+#include "BillboardSpriteModel.h"
 
 class GameScene
 {
@@ -115,4 +117,8 @@ private:
 	int drawFbx[1] = { 1 };
 	int drawSprite[1] = { 1 };
 	int drawCollider[1] = { 1 };
+
+	//ビルボード　
+	std::unique_ptr<BillboardSprite>billboardSprite;
+	std::unique_ptr<BillboardSpriteModel>billboardSpriteModel;
 };

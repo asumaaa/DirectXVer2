@@ -45,6 +45,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	newSpriteManager->LoadFile(5, L"Resources/pictures/effect1.png");
 	newSpriteManager->LoadFile(6, L"Resources/pictures/effect2.png");
 	newSpriteManager->LoadFile(7, L"Resources/pictures/effect3.png");
+	newSpriteManager->LoadFile(8, L"Resources/pictures/enemyHP.png");
 	spriteManager.reset(newSpriteManager);
 
 	//スプライト
@@ -118,6 +119,22 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	newSparkParticle->CreateBuffers();
 	newSparkParticle->SetTextureNum(5);
 	sparkParticle.reset(newSparkParticle);
+
+	//ビルボードのスプライト
+	BillboardSpriteModel::SetDevice(dxCommon_->GetDevice());
+	BillboardSpriteModel::SetSpriteManager(spriteManager.get());
+	BillboardSpriteModel* newBillboardSpriteModel = new BillboardSpriteModel();
+	newBillboardSpriteModel->CreateBuffers(dxCommon_->GetDevice());
+	newBillboardSpriteModel->SetTextureNum(8);
+	billboardSpriteModel.reset(newBillboardSpriteModel);
+	BillboardSprite::SetDevice(dxCommon_->GetDevice());
+	BillboardSprite::SetCamera(camera_.get());
+	BillboardSprite::SetInput(input_);
+	BillboardSprite::SetModel(billboardSpriteModel.get());
+	BillboardSprite::CreateGraphicsPipeline();
+	BillboardSprite* newBillboardSprite = new BillboardSprite();
+	newBillboardSprite->Initialize();
+	billboardSprite.reset(newBillboardSprite);
 
 	//プレイヤーの弾
 	PlayerBullet::SetCamera(camera_.get());
@@ -232,6 +249,10 @@ void GameScene::Update()
 	camera_->Update();
 	//コントローラー更新
 	dxInput->InputProcess();
+
+	billboardSprite->SetPosition(XMFLOAT3(0.0f, 10.0f, 0.0f));
+	billboardSprite->SetScale(XMFLOAT3(2.5f,0.3f,1.0f));
+	billboardSprite->Update();
 
 	/*particleObject->SetPosition(XMFLOAT3(10.0f,5.0f,0));*/
 	//パーティクル
@@ -376,6 +397,8 @@ void GameScene::Draw()
 	if (*drawFbx == 1)DrawFBX();
 	//パーティクルの描画
 	if (*drawParticle == 1)DrawParticle();
+
+	billboardSprite->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::DrawFBXLightView()
