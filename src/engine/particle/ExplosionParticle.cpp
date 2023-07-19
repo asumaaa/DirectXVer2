@@ -6,7 +6,7 @@
 
 ComPtr<ID3D12RootSignature>ExplosionParticle::rootsignature;
 ComPtr<ID3D12PipelineState>ExplosionParticle::pipelinestate;
-SpriteManager* ExplosionParticle::spriteManager = nullptr;
+TextureManager* ExplosionParticle::spriteManager = nullptr;
 ID3D12Device* ExplosionParticle::device = nullptr;
 Camera* ExplosionParticle::camera = nullptr;
 Input* ExplosionParticle::input = nullptr;

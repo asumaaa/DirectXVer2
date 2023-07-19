@@ -6,7 +6,7 @@
 
 ComPtr<ID3D12RootSignature>SparkParticle::rootsignature;
 ComPtr<ID3D12PipelineState>SparkParticle::pipelinestate;
-SpriteManager* SparkParticle::spriteManager = nullptr;
+TextureManager* SparkParticle::spriteManager = nullptr;
 ID3D12Device* SparkParticle::device = nullptr;
 Camera* SparkParticle::camera = nullptr;
 Input* SparkParticle::input = nullptr;

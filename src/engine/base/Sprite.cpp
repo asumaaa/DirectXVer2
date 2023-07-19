@@ -11,7 +11,7 @@ using namespace Microsoft::WRL;
 
 //Ã“Iƒƒ“ƒo•Ï”
 ID3D12Device* Sprite::device = nullptr;
-SpriteManager* Sprite::spriteManager = nullptr;
+TextureManager* Sprite::spriteManager = nullptr;
 ComPtr<ID3D12RootSignature>Sprite::rootsignature;
 ComPtr<ID3D12PipelineState>Sprite::pipelinestate;
 

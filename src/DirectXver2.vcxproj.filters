@@ -192,7 +192,7 @@
     <ClCompile Include="engine\base\Sprite.cpp">
       <Filter>ソース ファイル\base</Filter>
     </ClCompile>
-    <ClCompile Include="engine\base\SpriteManager.cpp">
+    <ClCompile Include="engine\base\TextureManager.cpp">
       <Filter>ソース ファイル\base</Filter>
     </ClCompile>
     <ClCompile Include="engine\base\WinApp.cpp">
@@ -350,7 +350,7 @@
     <ClInclude Include="engine\base\Sprite.h">
       <Filter>ヘッダー ファイル\base</Filter>
     </ClInclude>
-    <ClInclude Include="engine\base\SpriteManager.h">
+    <ClInclude Include="engine\base\TextureManager.h">
       <Filter>ヘッダー ファイル\base</Filter>
     </ClInclude>
     <ClInclude Include="engine\base\WinApp.h">

@@ -7,7 +7,7 @@
 #include "wrl.h"
 #include "d3d12.h"
 #include "d3dx12.h"
-#include "SpriteManager.h"
+#include "TextureManager.h"
 
 class BillboardSpriteModel
 {
@@ -37,7 +37,7 @@ public:
 	void Update();
 	//描画
 	void Draw(ID3D12GraphicsCommandList* cmdList);
-	static void SetSpriteManager(SpriteManager* spriteManager) { BillboardSpriteModel::spriteManager = spriteManager; }
+	static void SetSpriteManager(TextureManager* spriteManager) { BillboardSpriteModel::spriteManager = spriteManager; }
 	void SetTextureNum(int num) { textureNum = num; }
 	static void SetDevice(ID3D12Device* device) { BillboardSpriteModel::device = device; }
 public:
@@ -83,7 +83,7 @@ private:
 	//テクスチャーのGPUのハンドル
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
 
-	static SpriteManager* spriteManager;
+	static TextureManager* spriteManager;
 	static ID3D12Device* device;
 	int textureNum = 0;
 };

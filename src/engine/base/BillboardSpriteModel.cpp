@@ -1,6 +1,6 @@
 #include "BillboardSpriteModel.h"
 
-SpriteManager* BillboardSpriteModel::spriteManager = nullptr;
+TextureManager* BillboardSpriteModel::spriteManager = nullptr;
 ID3D12Device* BillboardSpriteModel::device = nullptr;
 
 void BillboardSpriteModel::CreateBuffers(ID3D12Device* device)

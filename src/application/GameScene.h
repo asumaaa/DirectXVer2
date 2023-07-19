@@ -9,7 +9,7 @@
 #include "FbxObject3d.h"
 #include "FbxModel.h"
 #include "Sprite.h"
-#include "SpriteManager.h"
+#include "TextureManager.h"
 #include "FireParticle.h"
 #include "Light.h"
 #include "LightGroup.h"
@@ -83,7 +83,7 @@ private:
 	float lightManagerDir[3] = { 0.0f,-1.0f , 1.0f };
 
 	//スプライトマネージャー
-	std::unique_ptr <SpriteManager> spriteManager;
+	std::unique_ptr <TextureManager> spriteManager;
 
 	//変形行列
 	DirectX::XMFLOAT3 position = { 0.0f,0.0f,0.0f };

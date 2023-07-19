@@ -20,6 +20,21 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	this->dxCommon_ = dxCommon;
 	this->input_ = input;
 
+	//テクスチャマネージャー
+	TextureManager::SetDevice(dxCommon->GetDevice());
+	TextureManager* newTextureManager = new TextureManager();
+	newTextureManager->Initialize();
+	newTextureManager->LoadFile(0, L"Resources/pictures/toriko.png");
+	newTextureManager->LoadFile(1, L"Resources/pictures/toriko2.png");
+	newTextureManager->LoadFile(2, L"Resources/pictures/GourmetSpyzer.png");
+	newTextureManager->LoadFile(3, L"Resources/pictures/orange.png");
+	newTextureManager->LoadFile(4, L"Resources/pictures/red.png");
+	newTextureManager->LoadFile(5, L"Resources/pictures/effect1.png");
+	newTextureManager->LoadFile(6, L"Resources/pictures/effect2.png");
+	newTextureManager->LoadFile(7, L"Resources/pictures/effect3.png");
+	newTextureManager->LoadFile(8, L"Resources/pictures/enemyHP.png");
+	spriteManager.reset(newTextureManager);
+
 	//FBXローダー初期化
 	FbxLoader::GetInstance()->Initialize(dxCommon_->GetDevice());
 	//モデル名を指定してファイル読み込み
@@ -32,21 +47,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("player", "Resources/pictures/white1x1.png"));
 	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("enemy", "Resources/pictures/toriko.png"));
 	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("playerBullet", "Resources/pictures/white1x1.png"));
-
-	//スプライトマネージャー
-	SpriteManager::SetDevice(dxCommon->GetDevice());
-	SpriteManager* newSpriteManager = new SpriteManager();
-	newSpriteManager->Initialize();
-	newSpriteManager->LoadFile(0, L"Resources/pictures/toriko.png");
-	newSpriteManager->LoadFile(1, L"Resources/pictures/toriko2.png");
-	newSpriteManager->LoadFile(2, L"Resources/pictures/GourmetSpyzer.png");
-	newSpriteManager->LoadFile(3, L"Resources/pictures/orange.png");
-	newSpriteManager->LoadFile(4, L"Resources/pictures/red.png");
-	newSpriteManager->LoadFile(5, L"Resources/pictures/effect1.png");
-	newSpriteManager->LoadFile(6, L"Resources/pictures/effect2.png");
-	newSpriteManager->LoadFile(7, L"Resources/pictures/effect3.png");
-	newSpriteManager->LoadFile(8, L"Resources/pictures/enemyHP.png");
-	spriteManager.reset(newSpriteManager);
 
 	//スプライト
 	Sprite::SetDevice(dxCommon->GetDevice());

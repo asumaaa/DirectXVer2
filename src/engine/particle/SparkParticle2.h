@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SpriteManager.h"
+#include "TextureManager.h"
 #include "vector"
 #include "DirectXMath.h"
 #include "DirectXCommon.h"
@@ -69,7 +69,7 @@ public://サブクラス
 	};
 
 public:	//静的メンバ関数
-	static void SetSpriteManager(SpriteManager* spriteManager) { SparkParticle2::spriteManager = spriteManager; };
+	static void SetSpriteManager(TextureManager* spriteManager) { SparkParticle2::spriteManager = spriteManager; };
 	static void SetDevice(ID3D12Device* device) { SparkParticle2::device = device; }
 	static void SetCamera(Camera* camera) { SparkParticle2::camera = camera; }
 	static void SetInput(Input* input) { SparkParticle2::input = input; }
@@ -93,7 +93,7 @@ public:
 	void SetTextureNum(int num) { textureNum = num; }
 
 public:	//静的メンバ変数
-	static SpriteManager* spriteManager;
+	static TextureManager* spriteManager;
 	static ID3D12Device* device;
 	static Camera* camera;
 	static Input* input;

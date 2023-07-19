@@ -1,10 +1,10 @@
-#include "SpriteManager.h"
+#include "TextureManager.h"
 
 
 //Ã“Iƒƒ“ƒo•Ï”
-ID3D12Device* SpriteManager::device = nullptr;
+ID3D12Device* TextureManager::device = nullptr;
 
-void SpriteManager::Initialize()
+void TextureManager::Initialize()
 {
 	HRESULT result;
 
@@ -23,7 +23,7 @@ void SpriteManager::Initialize()
 	assert(SUCCEEDED(result));
 }
 
-void SpriteManager::LoadFile(int number, const wchar_t* fileName)
+void TextureManager::LoadFile(int number, const wchar_t* fileName)
 {
 	HRESULT result;
 

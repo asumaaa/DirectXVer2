@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SpriteManager.h"
+#include "TextureManager.h"
 #include "vector"
 #include "DirectXMath.h"
 #include "DirectXCommon.h"
@@ -68,7 +68,7 @@ public://サブクラス
 	};
 
 public:	//静的メンバ関数
-	static void SetSpriteManager(SpriteManager* spriteManager) { ExplosionParticle::spriteManager = spriteManager; };
+	static void SetSpriteManager(TextureManager* spriteManager) { ExplosionParticle::spriteManager = spriteManager; };
 	static void SetDevice(ID3D12Device* device) { ExplosionParticle::device = device; }
 	static void SetCamera(Camera* camera) { ExplosionParticle::camera = camera; }
 	static void SetInput(Input* input) { ExplosionParticle::input = input; }
@@ -92,7 +92,7 @@ public:
 	void SetTextureNum(int num) { textureNum = num; }
 
 public:	//静的メンバ変数
-	static SpriteManager* spriteManager;
+	static TextureManager* spriteManager;
 	static ID3D12Device* device;
 	static Camera* camera;
 	static Input* input;

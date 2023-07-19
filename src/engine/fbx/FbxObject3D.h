@@ -12,6 +12,7 @@
 #include "Light.h"
 #include "LightGroup.h"
 #include "JSONLoader.h"
+#include "TextureManager.h"
 
 class FbxObject3D
 {

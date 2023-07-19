@@ -2,7 +2,7 @@
 #include "d3dx12.h"
 #include "DirectXMath.h"
 #include "array"
-#include "SpriteManager.h"
+#include "TextureManager.h"
 
 class Sprite
 {
@@ -40,7 +40,7 @@ public:	//メンバ関数
 
 public:	//静的メンバ変数セッター
 	static void SetDevice(ID3D12Device* device) { Sprite::device = device; }
-	static void SetSpriteManager(SpriteManager* spriteManager) { Sprite::spriteManager = spriteManager; }
+	static void SetSpriteManager(TextureManager* spriteManager) { Sprite::spriteManager = spriteManager; }
 	static void CreateGraphicsPipeLine();
 
 public:	//セッター
@@ -69,7 +69,7 @@ private:
 	//デバイス
 	static ID3D12Device* device;
 	//スプライトマネージャー
-	static SpriteManager* spriteManager;
+	static TextureManager* spriteManager;
 	//ルートシグネチャ
 	static ComPtr<ID3D12RootSignature>rootsignature;
 	//パイプラインステートオブジェクト

@@ -5,7 +5,7 @@
 #include "DirectXTex.h"
 #include "vector"
 
-class SpriteManager
+class TextureManager
 {
 private:	//エイリアス
 	//Microsoft::WRL::を省略
@@ -30,7 +30,7 @@ public:	//ゲッター
 	ID3D12DescriptorHeap* GetSrvHeap() { return srvHeap.Get(); }
 
 public:
-	static void SetDevice(ID3D12Device* device) { SpriteManager::device = device; }
+	static void SetDevice(ID3D12Device* device) { TextureManager::device = device; }
 
 private:	//静的メンバ変数
 	//デバイス
