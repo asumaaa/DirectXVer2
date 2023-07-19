@@ -209,8 +209,10 @@
     <ClCompile Include="engine\main.cpp" />
     <ClCompile Include="engine\math\mathOriginal.cpp" />
     <ClCompile Include="engine\math\Matrix4.cpp" />
+    <ClCompile Include="engine\particle\ExplosionParticle.cpp" />
     <ClCompile Include="engine\particle\FireParticle.cpp" />
     <ClCompile Include="engine\particle\SparkParticle.cpp" />
+    <ClCompile Include="engine\particle\SparkParticle2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\BlurEffect.h" />
@@ -262,8 +264,10 @@
     <ClInclude Include="engine\light\SpotLight.h" />
     <ClInclude Include="engine\math\mathOriginal.h" />
     <ClInclude Include="engine\math\Matrix4.h" />
+    <ClInclude Include="engine\particle\ExplosionParticle.h" />
     <ClInclude Include="engine\particle\FireParticle.h" />
     <ClInclude Include="engine\particle\SparkParticle.h" />
+    <ClInclude Include="engine\particle\SparkParticle2.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\external\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
@@ -317,6 +321,18 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
     <FxCompile Include="..\Resources\Shaders\DepthOfField\DepthOfFieldVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\ExplosionParticle\ExplosionParticleGeometryShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\ExplosionParticle\ExplosionParticlePixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\ExplosionParticle\ExplosionParticleVertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
@@ -380,6 +396,18 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\SparkParticle2\SparkParticle2GeometryShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\SparkParticle2\SparkParticle2PixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\SparkParticle2\SparkParticle2VertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="..\Resources\Shaders\SparkParticle\SparkParticleGeometryShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
@@ -427,6 +455,7 @@
     <None Include="..\Resources\Shaders\ChromaticAberration\ChromaticAberrationEffectHeader.hlsli" />
     <None Include="..\Resources\Shaders\ColliderCube\ColliderCubeHeader.hlsli" />
     <None Include="..\Resources\Shaders\DepthOfField\DepthOfFieldHeader.hlsli" />
+    <None Include="..\Resources\Shaders\ExplosionParticle\ExplosionParticleHeader.hlsli" />
     <None Include="..\Resources\Shaders\Fbx\FbxHeader0.hlsli" />
     <None Include="..\Resources\Shaders\Fbx\FbxHeader2.hlsli" />
     <None Include="..\Resources\Shaders\Fog\FogHeader.hlsli" />
@@ -435,6 +464,7 @@
     <None Include="..\Resources\Shaders\Reversal\ReversalEffectHeader.hlsli" />
     <None Include="..\Resources\Shaders\ShaderHeader.hlsli" />
     <None Include="..\Resources\Shaders\ShadowMap\ShadowMapHeader.hlsli" />
+    <None Include="..\Resources\Shaders\SparkParticle2\SparkParticle2Header.hlsli" />
     <None Include="..\Resources\Shaders\SparkParticle\SparkParticleHeader.hlsli" />
     <None Include="..\Resources\Shaders\Sprite\SpriteHeader.hlsli" />
     <None Include="..\Resources\Shaders\Vignette\VignetteHeader.hlsli" />

@@ -14,7 +14,7 @@
 #include "input.h"
 #include "forward_list"
 
-class SparkParticle
+class ExplosionParticle
 {
 private:	//エイリアス
 	//Microsoft::WRL::を省略
@@ -68,10 +68,10 @@ public://サブクラス
 	};
 
 public:	//静的メンバ関数
-	static void SetSpriteManager(SpriteManager* spriteManager) { SparkParticle::spriteManager = spriteManager; };
-	static void SetDevice(ID3D12Device* device) { SparkParticle::device = device; }
-	static void SetCamera(Camera* camera) { SparkParticle::camera = camera; }
-	static void SetInput(Input* input) { SparkParticle::input = input; }
+	static void SetSpriteManager(SpriteManager* spriteManager) { ExplosionParticle::spriteManager = spriteManager; };
+	static void SetDevice(ID3D12Device* device) { ExplosionParticle::device = device; }
+	static void SetCamera(Camera* camera) { ExplosionParticle::camera = camera; }
+	static void SetInput(Input* input) { ExplosionParticle::input = input; }
 	//グラフィックスパイプラインの生成
 	static void CreateGraphicsPipeline();
 

@@ -120,6 +120,17 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	newSparkParticle->SetTextureNum(5);
 	sparkParticle.reset(newSparkParticle);
 
+	//弾けるパーティクル
+	SparkParticle2::SetSpriteManager(spriteManager.get());
+	SparkParticle2::SetDevice(dxCommon_->GetDevice());
+	SparkParticle2::SetCamera(camera_.get());
+	SparkParticle2::SetInput(input_);
+	SparkParticle2::CreateGraphicsPipeline();
+	SparkParticle2* newSparkParticle2 = new SparkParticle2();
+	newSparkParticle2->CreateBuffers();
+	newSparkParticle2->SetTextureNum(3);
+	sparkParticle2.reset(newSparkParticle2);
+
 	//ビルボードのスプライト
 	BillboardSpriteModel::SetDevice(dxCommon_->GetDevice());
 	BillboardSpriteModel::SetSpriteManager(spriteManager.get());
@@ -263,6 +274,12 @@ void GameScene::Update()
 	}
 	sparkParticle->Update();
 
+	if (input_->TriggerKey(DIK_N))
+	{
+		sparkParticle2->Add(XMFLOAT3(0, 0, 0));
+	}
+	sparkParticle2->Update();
+
 	//ライト
 	light->SetEye(XMFLOAT3(lightPos));
 	light->SetTarget(XMFLOAT3(lightTarget));
@@ -398,7 +415,7 @@ void GameScene::Draw()
 	//パーティクルの描画
 	if (*drawParticle == 1)DrawParticle();
 
-	billboardSprite->Draw(dxCommon_->GetCommandList());
+	/*billboardSprite->Draw(dxCommon_->GetCommandList());*/
 }
 
 void GameScene::DrawFBXLightView()
@@ -434,7 +451,8 @@ void GameScene::DrawSprite()
 
 void GameScene::DrawParticle()
 {
-	sparkParticle->Draw(dxCommon_->GetCommandList());
+	/*sparkParticle->Draw(dxCommon_->GetCommandList());*/
+	sparkParticle2->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::SetSRV(ID3D12DescriptorHeap* SRV)

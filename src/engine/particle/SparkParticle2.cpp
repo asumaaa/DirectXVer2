@@ -1,18 +1,18 @@
-#include "SparkParticle.h"
+#include "SparkParticle2.h"
 #include "mathOriginal.h"
 
 #include <d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
 
-ComPtr<ID3D12RootSignature>SparkParticle::rootsignature;
-ComPtr<ID3D12PipelineState>SparkParticle::pipelinestate;
-SpriteManager* SparkParticle::spriteManager = nullptr;
-ID3D12Device* SparkParticle::device = nullptr;
-Camera* SparkParticle::camera = nullptr;
-Input* SparkParticle::input = nullptr;
+ComPtr<ID3D12RootSignature>SparkParticle2::rootsignature;
+ComPtr<ID3D12PipelineState>SparkParticle2::pipelinestate;
+SpriteManager* SparkParticle2::spriteManager = nullptr;
+ID3D12Device* SparkParticle2::device = nullptr;
+Camera* SparkParticle2::camera = nullptr;
+Input* SparkParticle2::input = nullptr;
 
 
-void SparkParticle::CreateGraphicsPipeline()
+void SparkParticle2::CreateGraphicsPipeline()
 {
 	HRESULT result = S_FALSE;
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
@@ -24,7 +24,7 @@ void SparkParticle::CreateGraphicsPipeline()
 
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/SparkParticle/SparkParticleVertexShader.hlsl",     // シェーダファイル名
+		L"Resources/Shaders/SparkParticle2/SparkParticle2VertexShader.hlsl",     // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "vs_5_0",    // エントリーポイント名、シェーダーモデル指定
@@ -47,7 +47,7 @@ void SparkParticle::CreateGraphicsPipeline()
 
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/SparkParticle/SparkParticleGeometryShader.hlsl",     // シェーダファイル名
+		L"Resources/Shaders/SparkParticle2/SparkParticle2GeometryShader.hlsl",     // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "gs_5_0",    // エントリーポイント名、シェーダーモデル指定
@@ -70,7 +70,7 @@ void SparkParticle::CreateGraphicsPipeline()
 
 	// ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/SparkParticle/SparkParticlePixelShader.hlsl",   // シェーダファイル名
+		L"Resources/Shaders/SparkParticle2/SparkParticle2PixelShader.hlsl",   // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "ps_5_0",    // エントリーポイント名、シェーダーモデル指定
@@ -102,8 +102,12 @@ void SparkParticle::CreateGraphicsPipeline()
 			"SCALE",0,DXGI_FORMAT_R32_FLOAT,0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0
-
-		}
+		},
+		{ // 進行ベクトル
+			"VELOCITY", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+		},
 	};
 
 	// グラフィックスパイプラインの流れを設定
@@ -192,7 +196,7 @@ void SparkParticle::CreateGraphicsPipeline()
 	if (FAILED(result)) { assert(0); }
 }
 
-void SparkParticle::CreateBuffers()
+void SparkParticle2::CreateBuffers()
 {
 	HRESULT result;
 
@@ -341,7 +345,7 @@ void SparkParticle::CreateBuffers()
 	);
 }
 
-void SparkParticle::Update()
+void SparkParticle2::Update()
 {
 	//-----この上に頂点の更新処理を書く-----
 
@@ -360,6 +364,7 @@ void SparkParticle::Update()
 		//座標
 		vertMap->pos = it->position;
 		vertMap->scale = it->scale;
+		vertMap->velocity = it->velocity;
 		//次の頂点へ
 		vertMap++;
 	}
@@ -381,7 +386,7 @@ void SparkParticle::Update()
 	}
 }
 
-void SparkParticle::UpdateParticle()
+void SparkParticle2::UpdateParticle()
 {
 	//寿命が尽きたパーティクルを全削除
 	particles.remove_if([](Particle& x)
@@ -408,7 +413,7 @@ void SparkParticle::UpdateParticle()
 	}
 }
 
-void SparkParticle::Draw(ID3D12GraphicsCommandList* cmdList)
+void SparkParticle2::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	//パイプラインステートの設定
 	cmdList->SetPipelineState(pipelinestate.Get());
@@ -443,7 +448,7 @@ void SparkParticle::Draw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->DrawInstanced((UINT)std::distance(particles.begin(),particles.end()), 1, 0, 0);
 }
 
-void SparkParticle::Add(XMFLOAT3 pos)
+void SparkParticle2::Add(XMFLOAT3 pos)
 {
 	float randPos = 10.0f;
 	float randVelo = 0.2f;
@@ -459,7 +464,7 @@ void SparkParticle::Add(XMFLOAT3 pos)
 	}
 }
 
-void SparkParticle::AddParticle(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float startScale, float endScale)
+void SparkParticle2::AddParticle(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float startScale, float endScale)
 {
 	//リストに要素を追加
 	particles.emplace_front();

@@ -14,7 +14,7 @@
 #include "input.h"
 #include "forward_list"
 
-class SparkParticle
+class SparkParticle2
 {
 private:	//エイリアス
 	//Microsoft::WRL::を省略
@@ -65,13 +65,14 @@ public://サブクラス
 	{
 		XMFLOAT3 pos;	//座標
 		float scale;
+		XMFLOAT3 velocity;
 	};
 
 public:	//静的メンバ関数
-	static void SetSpriteManager(SpriteManager* spriteManager) { SparkParticle::spriteManager = spriteManager; };
-	static void SetDevice(ID3D12Device* device) { SparkParticle::device = device; }
-	static void SetCamera(Camera* camera) { SparkParticle::camera = camera; }
-	static void SetInput(Input* input) { SparkParticle::input = input; }
+	static void SetSpriteManager(SpriteManager* spriteManager) { SparkParticle2::spriteManager = spriteManager; };
+	static void SetDevice(ID3D12Device* device) { SparkParticle2::device = device; }
+	static void SetCamera(Camera* camera) { SparkParticle2::camera = camera; }
+	static void SetInput(Input* input) { SparkParticle2::input = input; }
 	//グラフィックスパイプラインの生成
 	static void CreateGraphicsPipeline();
 
@@ -99,7 +100,7 @@ public:	//静的メンバ変数
 	//頂点最大数
 	static const int vertexCount = 1024;
 	//火花1回に使う頂点数
-	static const int sparkCount = 36;
+	static const int sparkCount = 128;
 
 private:
 	//定数バッファ

@@ -109,6 +109,12 @@
     <Filter Include="リソース ファイル\Shaders\BillboardSprite">
       <UniqueIdentifier>{70d04ab9-4735-4ea3-8f77-8218a9ec0376}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\Shaders\SparkParticle2">
+      <UniqueIdentifier>{d92ccffa-7fc9-4e7a-bd81-aed17d9eaab9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\Shaders\ExplosionParticle">
+      <UniqueIdentifier>{c41a610c-6e8a-434e-8715-42c695a77111}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="2d\MonochromeEffect.cpp">
@@ -260,6 +266,12 @@
     </ClCompile>
     <ClCompile Include="engine\base\BillboardSpriteModel.cpp">
       <Filter>ソース ファイル\base</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\particle\SparkParticle2.cpp">
+      <Filter>ソース ファイル\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\particle\ExplosionParticle.cpp">
+      <Filter>ソース ファイル\particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -416,6 +428,12 @@
     <ClInclude Include="engine\base\BillboardSpriteModel.h">
       <Filter>ヘッダー ファイル\base</Filter>
     </ClInclude>
+    <ClInclude Include="engine\particle\SparkParticle2.h">
+      <Filter>ヘッダー ファイル\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\particle\ExplosionParticle.h">
+      <Filter>ヘッダー ファイル\particle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Resources\Shaders\PixelShader.hlsl">
@@ -523,6 +541,24 @@
     <FxCompile Include="..\Resources\Shaders\BillboardSprite\BillboardSpriteVertexShader.hlsl">
       <Filter>リソース ファイル\Shaders\BillboardSprite</Filter>
     </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\SparkParticle2\SparkParticle2GeometryShader.hlsl">
+      <Filter>リソース ファイル\Shaders\SparkParticle2</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\SparkParticle2\SparkParticle2PixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders\SparkParticle2</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\SparkParticle2\SparkParticle2VertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders\SparkParticle2</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\ExplosionParticle\ExplosionParticleGeometryShader.hlsl">
+      <Filter>リソース ファイル\Shaders\ExplosionParticle</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\ExplosionParticle\ExplosionParticlePixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders\ExplosionParticle</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\ExplosionParticle\ExplosionParticleVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders\ExplosionParticle</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\Shaders\ShaderHeader.hlsli">
@@ -575,6 +611,12 @@
     </None>
     <None Include="..\Resources\Shaders\BillboardSprite\BillboardSpriteHeader.hlsli">
       <Filter>リソース ファイル\Shaders\BillboardSprite</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\SparkParticle2\SparkParticle2Header.hlsli">
+      <Filter>リソース ファイル\Shaders\SparkParticle2</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\ExplosionParticle\ExplosionParticleHeader.hlsli">
+      <Filter>リソース ファイル\Shaders\ExplosionParticle</Filter>
     </None>
   </ItemGroup>
 </Project>

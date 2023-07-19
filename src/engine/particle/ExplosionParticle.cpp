@@ -1,18 +1,18 @@
-#include "SparkParticle.h"
+#include "ExplosionParticle.h"
 #include "mathOriginal.h"
 
 #include <d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
 
-ComPtr<ID3D12RootSignature>SparkParticle::rootsignature;
-ComPtr<ID3D12PipelineState>SparkParticle::pipelinestate;
-SpriteManager* SparkParticle::spriteManager = nullptr;
-ID3D12Device* SparkParticle::device = nullptr;
-Camera* SparkParticle::camera = nullptr;
-Input* SparkParticle::input = nullptr;
+ComPtr<ID3D12RootSignature>ExplosionParticle::rootsignature;
+ComPtr<ID3D12PipelineState>ExplosionParticle::pipelinestate;
+SpriteManager* ExplosionParticle::spriteManager = nullptr;
+ID3D12Device* ExplosionParticle::device = nullptr;
+Camera* ExplosionParticle::camera = nullptr;
+Input* ExplosionParticle::input = nullptr;
 
 
-void SparkParticle::CreateGraphicsPipeline()
+void ExplosionParticle::CreateGraphicsPipeline()
 {
 	HRESULT result = S_FALSE;
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
@@ -24,7 +24,7 @@ void SparkParticle::CreateGraphicsPipeline()
 
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/SparkParticle/SparkParticleVertexShader.hlsl",     // シェーダファイル名
+		L"Resources/Shaders/ExplosionParticle/ExplosionParticleVertexShader.hlsl",     // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "vs_5_0",    // エントリーポイント名、シェーダーモデル指定
@@ -47,7 +47,7 @@ void SparkParticle::CreateGraphicsPipeline()
 
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/SparkParticle/SparkParticleGeometryShader.hlsl",     // シェーダファイル名
+		L"Resources/Shaders/ExplosionParticle/ExplosionParticleGeometryShader.hlsl",     // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "gs_5_0",    // エントリーポイント名、シェーダーモデル指定
@@ -70,7 +70,7 @@ void SparkParticle::CreateGraphicsPipeline()
 
 	// ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/SparkParticle/SparkParticlePixelShader.hlsl",   // シェーダファイル名
+		L"Resources/Shaders/ExplosionParticle/ExplosionParticlePixelShader.hlsl",   // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "ps_5_0",    // エントリーポイント名、シェーダーモデル指定
@@ -192,7 +192,7 @@ void SparkParticle::CreateGraphicsPipeline()
 	if (FAILED(result)) { assert(0); }
 }
 
-void SparkParticle::CreateBuffers()
+void ExplosionParticle::CreateBuffers()
 {
 	HRESULT result;
 
@@ -341,7 +341,7 @@ void SparkParticle::CreateBuffers()
 	);
 }
 
-void SparkParticle::Update()
+void ExplosionParticle::Update()
 {
 	//-----この上に頂点の更新処理を書く-----
 
@@ -381,7 +381,7 @@ void SparkParticle::Update()
 	}
 }
 
-void SparkParticle::UpdateParticle()
+void ExplosionParticle::UpdateParticle()
 {
 	//寿命が尽きたパーティクルを全削除
 	particles.remove_if([](Particle& x)
@@ -408,7 +408,7 @@ void SparkParticle::UpdateParticle()
 	}
 }
 
-void SparkParticle::Draw(ID3D12GraphicsCommandList* cmdList)
+void ExplosionParticle::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	//パイプラインステートの設定
 	cmdList->SetPipelineState(pipelinestate.Get());
@@ -443,7 +443,7 @@ void SparkParticle::Draw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->DrawInstanced((UINT)std::distance(particles.begin(),particles.end()), 1, 0, 0);
 }
 
-void SparkParticle::Add(XMFLOAT3 pos)
+void ExplosionParticle::Add(XMFLOAT3 pos)
 {
 	float randPos = 10.0f;
 	float randVelo = 0.2f;
@@ -459,7 +459,7 @@ void SparkParticle::Add(XMFLOAT3 pos)
 	}
 }
 
-void SparkParticle::AddParticle(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float startScale, float endScale)
+void ExplosionParticle::AddParticle(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float startScale, float endScale)
 {
 	//リストに要素を追加
 	particles.emplace_front();

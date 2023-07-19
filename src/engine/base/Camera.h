@@ -24,6 +24,8 @@ public:
 	void Initialize();
 	//更新
 	void Update();
+	//ビルボード行列の更新
+	void BillboardUpdate();
 	//デバッグ Arrowキーで視点座標変更
 	void DebugUpdate();
 	//プレイヤー追尾
@@ -38,6 +40,7 @@ public:
 	XMMATRIX GetMatProjection() { return matProjection_; };
 	XMMATRIX GetMatView() { return matView_; };
 	XMMATRIX GetMatViewProjection() { return matView_ * matProjection_; };
+	XMMATRIX GetMatBillboard() { return matBillboard_; }
 
 private:
 	//入力
@@ -52,6 +55,8 @@ private:
 	XMFLOAT3 eye_ = { 0, 20, -100 };
 	XMFLOAT3 target_ = { 0, 0, 0 };
 	XMFLOAT3 up_ = { 0, 1, 0 };
+	//ビルボード行列
+	XMMATRIX matBillboard_ = XMMatrixIdentity();
 
 	//ターゲットまでの距離
 	float DebugTargetDistance = 20.0f;
