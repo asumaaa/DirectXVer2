@@ -118,8 +118,8 @@ private:
 
 	//描画フラグ
 	int drawParticle[1] = { 1 };
-	int drawFbx[1] = { 1 };
-	int drawSprite[1] = { 1 };
+	int drawFbx[1] = { 0 };
+	int drawSprite[1] = { 0 };
 	int drawCollider[1] = { 0 };
 
 	//ビルボード　
