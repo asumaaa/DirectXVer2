@@ -1,12 +1,15 @@
 #include "FbxModel.h"
 
+TextureManager* FbxModel::textureManager = nullptr;
+ID3D12Device* FbxModel::device = nullptr;
+
 FbxModel::~FbxModel()
 {
 	//FBXシーンの解放
 	fbxScene->Destroy();
 }
 
-void FbxModel::CreateBuffers(ID3D12Device* device)
+void FbxModel::CreateBuffers()
 {
 	HRESULT result;
 
@@ -65,88 +68,114 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 	ibView.Format = DXGI_FORMAT_R16_UINT;
 	ibView.SizeInBytes = sizeIB;
 
-	//テクスチャの画像データ
-	const DirectX::Image* img = scratchImg.GetImage(0, 0, 0);
-	assert(img);
+	////テクスチャの画像データ
+	//const DirectX::Image* img = scratchImg.GetImage(0, 0, 0);
+	//assert(img);
 
-	//リソース設定
-	CD3DX12_RESOURCE_DESC texresDesc = CD3DX12_RESOURCE_DESC::Tex2D(
-		metadata.format,
-		metadata.width,
-		(UINT)metadata.height,
-		(UINT16)metadata.arraySize,
-		(UINT16)metadata.mipLevels
-	);
+	////リソース設定
+	//CD3DX12_RESOURCE_DESC texresDesc = CD3DX12_RESOURCE_DESC::Tex2D(
+	//	metadata.format,
+	//	metadata.width,
+	//	(UINT)metadata.height,
+	//	(UINT16)metadata.arraySize,
+	//	(UINT16)metadata.mipLevels
+	//);
 
-	//テクスチャ用バッファの生成
-	v1 = CD3DX12_HEAP_PROPERTIES(D3D12_CPU_PAGE_PROPERTY_WRITE_BACK, D3D12_MEMORY_POOL_L0);
-	result = device->CreateCommittedResource(
-		&v1,
-		D3D12_HEAP_FLAG_NONE,
-		&texresDesc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&texBuff));
+	////テクスチャ用バッファの生成
+	//v1 = CD3DX12_HEAP_PROPERTIES(D3D12_CPU_PAGE_PROPERTY_WRITE_BACK, D3D12_MEMORY_POOL_L0);
+	//result = device->CreateCommittedResource(
+	//	&v1,
+	//	D3D12_HEAP_FLAG_NONE,
+	//	&texresDesc,
+	//	D3D12_RESOURCE_STATE_GENERIC_READ,
+	//	nullptr,
+	//	IID_PPV_ARGS(&texBuff));
 
-	//テクスチャバッファにデータ転送
-	result = texBuff->WriteToSubresource(
-		0,
-		nullptr,
-		img->pixels,
-		(UINT)img->rowPitch,
-		(UINT)img->slicePitch
-		);
+	////テクスチャバッファにデータ転送
+	//result = texBuff->WriteToSubresource(
+	//	0,
+	//	nullptr,
+	//	img->pixels,
+	//	(UINT)img->rowPitch,
+	//	(UINT)img->slicePitch
+	//	);
 
-	//SRV用デスクリプタヒープを生成
-	D3D12_DESCRIPTOR_HEAP_DESC descHeapDesc = {};
-	descHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-	descHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-	descHeapDesc.NumDescriptors = 2;
-	result = device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&descHeapSRV));
+	////SRV用デスクリプタヒープを生成
+	//D3D12_DESCRIPTOR_HEAP_DESC descHeapDesc = {};
+	//descHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	//descHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	//descHeapDesc.NumDescriptors = 2;
+	//result = device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&descHeapSRV));
 
-	//シェーダリソースビュー作成
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	D3D12_RESOURCE_DESC resDesc = texBuff->GetDesc();
-	srvDesc.Format = resDesc.Format;
-	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-	srvDesc.Texture2D.MipLevels = 1;
-	device->CreateShaderResourceView(
-		texBuff.Get(),
-		&srvDesc,
-		descHeapSRV->GetCPUDescriptorHandleForHeapStart()
-	);
+	////シェーダリソースビュー作成
+	//D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+	//D3D12_RESOURCE_DESC resDesc = texBuff->GetDesc();
+	//srvDesc.Format = resDesc.Format;
+	//srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	//srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	//srvDesc.Texture2D.MipLevels = 1;
+	//device->CreateShaderResourceView(
+	//	texBuff.Get(),
+	//	&srvDesc,
+	//	descHeapSRV->GetCPUDescriptorHandleForHeapStart()
+	//);
 }
 
-void FbxModel::Draw(ID3D12GraphicsCommandList* cmdList)
+void FbxModel::Draw(ID3D12GraphicsCommandList* cmdList, int textureNum)
 {
 	//頂点バッファをセット
 	cmdList->IASetVertexBuffers(0, 1, &vbView);
 	//インデックスバッファをセット
 	cmdList->IASetIndexBuffer(&ibView);
 
-	//デスクリプタヒープのセット
-	ID3D12DescriptorHeap* ppHeaps[] = { descHeapSRV.Get() };
+	//デスクリプタヒープの配列をセットするコマンド
+	ID3D12DescriptorHeap* ppHeaps[] = { textureManager->GetSrvHeap() };
 	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
-	//シェーダリソースビューをセット
-	cmdList->SetGraphicsRootDescriptorTable(1, descHeapSRV->GetGPUDescriptorHandleForHeapStart());
+	//SRVヒープの先頭ハンドルを取得
+	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = textureManager->GetSrvHeap()->GetGPUDescriptorHandleForHeapStart();
+	//ハンドル1分のサイズ
+	UINT incrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+
+	//テクスチャの番号に合わせてハンドルを進める
+	if (textureNum > 0)
+	{
+		srvGpuHandle.ptr += incrementSize * textureNum;
+	}
+
+	//SRVヒープの先頭にあるSRVをルートパラメータ1晩に設定
+	cmdList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 
 	//描画コマンド
 	cmdList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
 }
 
-void FbxModel::Draw0(ID3D12GraphicsCommandList* cmdList)
+void FbxModel::Draw0(ID3D12GraphicsCommandList* cmdList, int textureNum)
 {
 	//頂点バッファをセット
 	cmdList->IASetVertexBuffers(0, 1, &vbView);
 	//インデックスバッファをセット
 	cmdList->IASetIndexBuffer(&ibView);
 
-	//デスクリプタヒープのセット
-	ID3D12DescriptorHeap* ppHeaps[] = { descHeapSRV.Get() };
+	////デスクリプタヒープのセット
+	//ID3D12DescriptorHeap* ppHeaps[] = { descHeapSRV.Get() };
+	//cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+
+	//デスクリプタヒープの配列をセットするコマンド
+	ID3D12DescriptorHeap* ppHeaps[] = { textureManager->GetSrvHeap() };
 	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
-	//シェーダリソースビューをセット
-	cmdList->SetGraphicsRootDescriptorTable(1, descHeapSRV->GetGPUDescriptorHandleForHeapStart());
+	//SRVヒープの先頭ハンドルを取得
+	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = textureManager->GetSrvHeap()->GetGPUDescriptorHandleForHeapStart();
+	//ハンドル1分のサイズ
+	UINT incrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+
+	//テクスチャの番号に合わせてハンドルを進める
+	if (textureNum > 0)
+	{
+		srvGpuHandle.ptr += incrementSize * textureNum;
+	}
+
+	//SRVヒープの先頭にあるSRVをルートパラメータ1晩に設定
+	cmdList->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 }
 
 void FbxModel::Draw1(ID3D12GraphicsCommandList* cmdList)

@@ -82,8 +82,8 @@ private:
 	std::unique_ptr<LightGroup> lightGroup;
 	float lightManagerDir[3] = { 0.0f,-1.0f , 1.0f };
 
-	//スプライトマネージャー
-	std::unique_ptr <TextureManager> spriteManager;
+	//テクスチャマネージャー
+	std::unique_ptr <TextureManager> textureManager;
 
 	//変形行列
 	DirectX::XMFLOAT3 position = { 0.0f,0.0f,0.0f };
@@ -118,8 +118,8 @@ private:
 
 	//描画フラグ
 	int drawParticle[1] = { 1 };
-	int drawFbx[1] = { 0 };
-	int drawSprite[1] = { 0 };
+	int drawFbx[1] = { 1 };
+	int drawSprite[1] = { 1 };
 	int drawCollider[1] = { 0 };
 
 	//ビルボード　

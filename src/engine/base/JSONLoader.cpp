@@ -2,6 +2,7 @@
 #include "json.hpp"
 #include "fstream"
 #include "cassert"
+#include "stdio.h"
 
 #define PI 3.1415
 
@@ -10,6 +11,7 @@ void JSONLoader::LoadFile(const std::string fileName)
 	//オブジェクトデータリセット
 	objectData.clear();
 	colliderData.clear();
+	textureData.clear();
 
 	//ファイルを開く
 	std::ifstream file;
@@ -34,6 +36,8 @@ void JSONLoader::LoadFile(const std::string fileName)
 	ObjectData objectData1;
 	//コライダーデータ格納用インスタンスを生成
 	ColliderData colliderData1;
+	//テクスチャデータ格納用インスタンスを生成
+	TextureData textureData1;
 
 	// "objects"の全オブジェクトを走査
 	for (nlohmann::json& object : jsonFileList["objects"]) {
@@ -97,6 +101,33 @@ void JSONLoader::LoadFile(const std::string fileName)
 			colliderData1.rotation.y *= 1.0f / 360.0f * (2.0f * PI);
 			colliderData1.rotation.z *= 1.0f / 360.0f * (2.0f * PI);
 
+			//テクスチャデータ
+			if (object.contains("textureNum1"))
+			{
+				textureData1.textureNum1 = stoi(object["textureNum1"].get<std::string>());
+				textureData1.textureVol = 1;
+			}
+			if (object.contains("textureNum2"))
+			{
+				textureData1.textureNum2 = stoi(object["textureNum2"].get<std::string>());
+				textureData1.textureVol = 2;
+			}
+			if (object.contains("textureNum3"))
+			{
+				textureData1.textureNum3 = stoi(object["textureNum3"].get<std::string>());
+				textureData1.textureVol = 3;
+			}
+			if (object.contains("textureNum4"))
+			{
+				textureData1.textureNum4 = stoi(object["textureNum4"].get<std::string>());
+				textureData1.textureVol = 4;
+			}
+			//シェーダ名
+			if (object.contains("shaderName"))
+			{
+				textureData1.shaderName = object["shaderName"];
+			}
+
 			// TODO: オブジェクト走査を再帰関数にまとめ、再帰呼出で枝を走査する
 			/*if (object.contains("children")) {
 
@@ -106,6 +137,8 @@ void JSONLoader::LoadFile(const std::string fileName)
 			objectData.push_back(objectData1);
 			//コライダーデータに代入
 			colliderData.push_back(colliderData1);
+			//テクスチャデータに代入
+			textureData.push_back(textureData1);
 
 			//オブジェクトの数を増やす
 			objectNum++;

@@ -8,6 +8,7 @@
 #include "d3d12.h"
 #include "d3dx12.h"
 #include "fbxsdk.h"
+#include "TextureManager.h"
 
 struct Node
 {
@@ -78,10 +79,6 @@ private:
 	DirectX::XMFLOAT3 ambient = { 1,1,1 };
 	//ディフューズ係数
 	DirectX::XMFLOAT3 diffuse = { 1,1,1 };
-	//テクスチャメタデータ
-	DirectX::TexMetadata metadata = {};
-	//スクラッチイメージ
-	DirectX::ScratchImage scratchImg = {};
 
 private:	//エイリアス
 	//Microsoft::WRL::を省略
@@ -111,17 +108,27 @@ private:
 	//SRV用デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap>descHeapSRV;
 
+private:	//静的メンバ変数
+	//テクスチャマネージャー
+	static TextureManager* textureManager;
+	//デバイス
+	static ID3D12Device* device;
+
 public:
 	//コンストラクタ
 	FbxModel(){};
 	//デストラクタ
 	~FbxModel();
+	//テクスチャマネージャーセット
+	static void SetTextureManager(TextureManager* textureManager) { FbxModel::textureManager = textureManager; }
+	//デバイスセット
+	static void SetDevice(ID3D12Device* device) { FbxModel::device = device; }
 	//バッファ生成
-	void CreateBuffers(ID3D12Device* device);
+	void CreateBuffers();
 	//描画
-	void Draw(ID3D12GraphicsCommandList* cmdList);
+	void Draw(ID3D12GraphicsCommandList* cmdList, int textureNum);
 	//ポストエフェクト用
-	void Draw0(ID3D12GraphicsCommandList* cmdList);
+	void Draw0(ID3D12GraphicsCommandList* cmdList,int textureNum);
 	void Draw1(ID3D12GraphicsCommandList* cmdList);
 	//モデルの変形行列のゲッター
 	const XMMATRIX& GetModelTransform() { return meshNode->globalTransform; }

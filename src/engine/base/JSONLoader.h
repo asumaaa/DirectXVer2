@@ -42,6 +42,21 @@ public:	//サブクラス
 		DirectX::XMFLOAT3 center;
 	};
 
+	struct TextureData{
+		//テクスチャ1
+		int textureNum1;
+		//テクスチャ2
+		int textureNum2;
+		//テクスチャ3
+		int textureNum3;
+		//テクスチャ4
+		int textureNum4;
+		//シェーダ名
+		std::string shaderName;
+		//テクスチャの枚数
+		int textureVol;
+	};
+
 	//メンバ関数
 public:
 	void LoadFile(const std::string fileName);
@@ -49,6 +64,7 @@ public:
 	//ゲッター
 	ObjectData GetObjectData(int number) { return objectData[number]; }
 	ColliderData GetColliderData(int number) { return colliderData[number]; }
+	TextureData GetTextureData(int number) { return textureData[number]; }
 	std::string GetFileName(int number) { return objectData[number].fileName; }
 	XMFLOAT3 GetPosition(int number) { return objectData[number].position; }
 	XMFLOAT3 GetRotation(int number) { return objectData[number].rotation; }
@@ -59,6 +75,7 @@ public:
 private:
 	std::vector<ObjectData>objectData;
 	std::vector<ColliderData>colliderData;
+	std::vector<TextureData>textureData;
 	size_t objectNum = 0.0f;
 };
 

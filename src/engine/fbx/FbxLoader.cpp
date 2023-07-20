@@ -38,7 +38,7 @@ void FbxLoader::Finalize()
     fbxManager->Destroy();
 }
 
-FbxModel* FbxLoader::LoadModelFromFile(const string modelName, const string textureName)
+FbxModel* FbxLoader::LoadModelFromFile(const string modelName/*, const string textureName*/)
 {
     //モデルと同じ名前のフォルダから読み込む
     const string directoryPath = baseDirectory + modelName + "/";
@@ -48,7 +48,7 @@ FbxModel* FbxLoader::LoadModelFromFile(const string modelName, const string text
     const string fullpath = directoryPath + fileName;
 
     //画像を取得
-    this->textureName = textureName;
+    /*this->textureName = textureName;*/
 
     //ファイル名を指定してFBXファイルを読み込む
     if (!fbxImporter->Initialize(fullpath.c_str(), -1, fbxManager->GetIOSettings())) {
@@ -76,7 +76,7 @@ FbxModel* FbxLoader::LoadModelFromFile(const string modelName, const string text
     model->fbxScene = fbxScene;
 
     //バッファ生成
-    model->CreateBuffers(device);
+    model->CreateBuffers();
 
     return model;
 }
@@ -286,7 +286,7 @@ void FbxLoader::ParseMaterial(FbxModel* model, FbxNode* fbxNode)
                 model->diffuse.y = (float)diffuse.Get()[1];
                 model->diffuse.z = (float)diffuse.Get()[2];
             }
-            LoadTexture(model, textureName);
+            /*LoadTexture(model, textureName);*/
             //ディフューズテクスチャを取り出す
             //const FbxProperty diffuseProperty = material->FindProperty(FbxSurfaceMaterial::sDiffuse);
             //if (diffuseProperty.IsValid())
@@ -315,22 +315,22 @@ void FbxLoader::ParseMaterial(FbxModel* model, FbxNode* fbxNode)
 
 void FbxLoader::LoadTexture(FbxModel* model, const std::string& fullpath)
 {
-    HRESULT result = S_FALSE;
-    //WICテクスチャのロード
-    TexMetadata& metadata = model->metadata;
-    ScratchImage& scratchImg = model->scratchImg;
-    //ユニコード文字列に変換
-    wchar_t wfilepath[128];
-    MultiByteToWideChar(CP_ACP, 0, fullpath.c_str(), -1, wfilepath, _countof(wfilepath));
-    result = LoadFromWICFile(
-        wfilepath,
-        WIC_FLAGS_NONE,
-        &metadata,
-        scratchImg);
-    if (FAILED(result))
-    {
-        assert(0);
-    }
+    //HRESULT result = S_FALSE;
+    ////WICテクスチャのロード
+    //TexMetadata& metadata = model->metadata;
+    //ScratchImage& scratchImg = model->scratchImg;
+    ////ユニコード文字列に変換
+    //wchar_t wfilepath[128];
+    //MultiByteToWideChar(CP_ACP, 0, fullpath.c_str(), -1, wfilepath, _countof(wfilepath));
+    //result = LoadFromWICFile(
+    //    wfilepath,
+    //    WIC_FLAGS_NONE,
+    //    &metadata,
+    //    scratchImg);
+    //if (FAILED(result))
+    //{
+    //    assert(0);
+    //}
 }
 
 std::string FbxLoader::ExtractFileName(const std::string& path)

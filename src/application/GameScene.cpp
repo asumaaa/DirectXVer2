@@ -24,7 +24,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	TextureManager::SetDevice(dxCommon->GetDevice());
 	TextureManager* newTextureManager = new TextureManager();
 	newTextureManager->Initialize();
-	newTextureManager->LoadFile(0, L"Resources/pictures/toriko.png");
+	newTextureManager->LoadFile(0, L"Resources/pictures/white1x1.png");
 	newTextureManager->LoadFile(1, L"Resources/pictures/toriko2.png");
 	newTextureManager->LoadFile(2, L"Resources/pictures/GourmetSpyzer.png");
 	newTextureManager->LoadFile(3, L"Resources/pictures/orange.png");
@@ -33,24 +33,29 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	newTextureManager->LoadFile(6, L"Resources/pictures/effect2.png");
 	newTextureManager->LoadFile(7, L"Resources/pictures/effect3.png");
 	newTextureManager->LoadFile(8, L"Resources/pictures/enemyHP.png");
-	spriteManager.reset(newTextureManager);
+	newTextureManager->LoadFile(9, L"Resources/pictures/toriko.png");
+
+	textureManager.reset(newTextureManager);
 
 	//FBXローダー初期化
 	FbxLoader::GetInstance()->Initialize(dxCommon_->GetDevice());
+	//テクスチャマネージャーセット
+	FbxModel::SetTextureManager(textureManager.get());
+	FbxModel::SetDevice(dxCommon_->GetDevice());
 	//モデル名を指定してファイル読み込み
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("plane", "Resources/pictures/white1x1.png"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree", "Resources/pictures/white1x1.png"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree1", "Resources/pictures/black.png"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree2", "Resources/pictures/white1x1.png"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree3", "Resources/pictures/black.png"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Cube", "Resources/pictures/toriko.png"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("player", "Resources/pictures/white1x1.png"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("enemy", "Resources/pictures/toriko.png"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("playerBullet", "Resources/pictures/white1x1.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("plane"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree1"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree2"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree3"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Cube"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("player"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("enemy"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("playerBullet"));
 
 	//スプライト
 	Sprite::SetDevice(dxCommon->GetDevice());
-	Sprite::SetSpriteManager(spriteManager.get());
+	Sprite::SetSpriteManager(textureManager.get());
 	Sprite::CreateGraphicsPipeLine();
 
 	//カメラ初期化
@@ -110,7 +115,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	colliderManager.reset(newColliderManager);
 
 	//弾けるパーティクル
-	SparkParticle::SetSpriteManager(spriteManager.get());
+	SparkParticle::SetSpriteManager(textureManager.get());
 	SparkParticle::SetDevice(dxCommon_->GetDevice());
 	SparkParticle::SetCamera(camera_.get());
 	SparkParticle::SetInput(input_);
@@ -121,7 +126,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	sparkParticle.reset(newSparkParticle);
 
 	//弾けるパーティクル
-	SparkParticle2::SetSpriteManager(spriteManager.get());
+	SparkParticle2::SetSpriteManager(textureManager.get());
 	SparkParticle2::SetDevice(dxCommon_->GetDevice());
 	SparkParticle2::SetCamera(camera_.get());
 	SparkParticle2::SetInput(input_);
@@ -133,7 +138,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 
 	//ビルボードのスプライト
 	BillboardSpriteModel::SetDevice(dxCommon_->GetDevice());
-	BillboardSpriteModel::SetSpriteManager(spriteManager.get());
+	BillboardSpriteModel::SetSpriteManager(textureManager.get());
 	BillboardSpriteModel* newBillboardSpriteModel = new BillboardSpriteModel();
 	newBillboardSpriteModel->CreateBuffers(dxCommon_->GetDevice());
 	newBillboardSpriteModel->SetTextureNum(8);
@@ -217,6 +222,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 		newObject->SetObjectData(jsonLoader->GetObjectData(i));
 		//コライダーの配置
 		newObject->SetColliderData(jsonLoader->GetColliderData(i));
+		//テクスチャデータのセット
+		newObject->SetTextureData(jsonLoader->GetTextureData(i));
 
 		object.push_back(std::move(newObject));
 
@@ -245,7 +252,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 void GameScene::Finalize()
 {
 	models.clear();
-	delete spriteManager.get();
+	delete textureManager.get();
 	delete lightGroup.get();
 	object.clear();
 	/*delete tree1csv;

@@ -12,7 +12,6 @@
 #include "Light.h"
 #include "LightGroup.h"
 #include "JSONLoader.h"
-#include "TextureManager.h"
 
 class FbxObject3D
 {
@@ -81,7 +80,9 @@ public://メンバ関数
 	void SetSRV(ID3D12DescriptorHeap* SRV) { depthSRV = SRV; }
 	void SetObjectData(JSONLoader::ObjectData objectData);
 	void SetColliderData(JSONLoader::ColliderData colliderData);
+	void SetTextureData(JSONLoader::TextureData textureData);
 	void SetBillboardFlag() { billboardFlag = true; }
+	void SetTextureNum(int textureNum) { this->textureNum1 = textureNum; }
 
 	//ゲッター
 	XMFLOAT3 GetPosition() { return position; }
@@ -94,11 +95,14 @@ public://メンバ関数
 private://メンバ変数
 	//定数バッファ
 	ComPtr<ID3D12Resource>constBuffTransform;
-	//ルートシグネチャ
+	//ライト視点のルートシグネチャとパイプライン(shadowMap用)
 	static ComPtr<ID3D12RootSignature>rootsignature0;
-	static ComPtr<ID3D12RootSignature>rootsignature2;
-	//パイプラインステートオブジェクト
 	static ComPtr<ID3D12PipelineState>pipelinestate0;
+	//マルチテクスチャ用ルートシグネチャとパイプライン
+	ComPtr<ID3D12RootSignature>rootsignature1;
+	ComPtr<ID3D12PipelineState>pipelinestate1;
+	//影付きカメラ視点のルートシグネチャとパイプライン
+	static ComPtr<ID3D12RootSignature>rootsignature2;
 	static ComPtr<ID3D12PipelineState>pipelinestate2;
 
 private:
@@ -146,4 +150,14 @@ private:
 
 	//コライダー
 	JSONLoader::ColliderData colliderData;
+
+	//テクスチャの番号
+	int textureNum1 = 0;
+	int textureNum2 = 0;
+	int textureNum3 = 0;
+	int textureNum4 = 0;
+	//テクスチャの枚数
+	int textureVol = 1;
+	//使用するシェーダの名前(マルチテクスチャ用)
+	std::string shaderName;
 };

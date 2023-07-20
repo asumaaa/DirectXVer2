@@ -7,9 +7,11 @@
 using namespace Microsoft::WRL;
 using namespace DirectX;
 
+//ライト視点のルートシグネチャとパイプライン(shadowMap用)
 ComPtr<ID3D12RootSignature>FbxObject3D::rootsignature0;
-ComPtr<ID3D12RootSignature>FbxObject3D::rootsignature2;
 ComPtr<ID3D12PipelineState>FbxObject3D::pipelinestate0;
+//影付きカメラ視点のルートシグネチャとパイプライン
+ComPtr<ID3D12RootSignature>FbxObject3D::rootsignature2;
 ComPtr<ID3D12PipelineState>FbxObject3D::pipelinestate2;
 
 ID3D12Device* FbxObject3D::device = nullptr;
@@ -210,7 +212,6 @@ void FbxObject3D::UpdateCollider()
 	FbxObject3D::colliderData.rotation = rotation;
 }
 
-
 void FbxObject3D::DrawLightView(ID3D12GraphicsCommandList* cmdList)
 {
 	//モデルの割り当てがなければ描画市内
@@ -230,7 +231,7 @@ void FbxObject3D::DrawLightView(ID3D12GraphicsCommandList* cmdList)
 	cmdList->SetGraphicsRootConstantBufferView(2, constBuffSkin->GetGPUVirtualAddress());
 
 	//モデル描画
-	model->Draw(cmdList);
+	model->Draw(cmdList,textureNum1);
 }
 
 void FbxObject3D::Draw(ID3D12GraphicsCommandList* cmdList)
@@ -261,7 +262,7 @@ void FbxObject3D::Draw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->SetGraphicsRootDescriptorTable(4, handle);
 
 	//モデル描画
-	model->Draw0(cmdList);
+	model->Draw0(cmdList,textureNum1);
 
 	////デスクリプタヒープのセット
 	//ID3D12DescriptorHeap* ppHeaps[] = { descHeapSRV.Get() };
@@ -664,3 +665,30 @@ void FbxObject3D::SetColliderData(JSONLoader::ColliderData colliderData)
 	FbxObject3D::colliderData.rotation = colliderData.rotation;
 	FbxObject3D::colliderData.center = colliderData.center;
 }
+
+void FbxObject3D::SetTextureData(JSONLoader::TextureData textureData)
+{
+	if (textureData.textureVol <= 1)
+	{
+		textureNum1 = textureData.textureNum1;
+	}
+	if (textureData.textureVol <= 2)
+	{
+		textureNum2 = textureData.textureNum2;
+		textureVol = 2;
+		shaderName = textureData.shaderName;
+	}
+	if (textureData.textureVol <= 3)
+	{
+		textureNum3 = textureData.textureNum3;
+		textureVol = 3;
+		shaderName = textureData.shaderName;
+	}
+	if (textureData.textureVol <= 4)
+	{
+		textureNum4 = textureData.textureNum4;
+		textureVol = 4;
+		shaderName = textureData.shaderName;
+	}
+}
+
