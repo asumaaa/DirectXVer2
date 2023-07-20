@@ -324,6 +324,14 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\Dissolve\DissolvePixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\Dissolve\DissolveVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="..\Resources\Shaders\ExplosionParticle\ExplosionParticleGeometryShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
@@ -463,6 +471,7 @@
     <None Include="..\Resources\Shaders\ChromaticAberration\ChromaticAberrationEffectHeader.hlsli" />
     <None Include="..\Resources\Shaders\ColliderCube\ColliderCubeHeader.hlsli" />
     <None Include="..\Resources\Shaders\DepthOfField\DepthOfFieldHeader.hlsli" />
+    <None Include="..\Resources\Shaders\Dissolve\DissolveHeader.hlsli" />
     <None Include="..\Resources\Shaders\ExplosionParticle\ExplosionParticleHeader.hlsli" />
     <None Include="..\Resources\Shaders\Fbx\FbxHeader0.hlsli" />
     <None Include="..\Resources\Shaders\Fbx\FbxHeader2.hlsli" />

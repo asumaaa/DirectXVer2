@@ -64,6 +64,15 @@ void FbxObject3D::Initialize()
 void FbxObject3D::Update()
 {
 	HRESULT result;
+
+	//1.0fを超えたらタイマーリセット
+	if (timer >= 1.0f)
+	{
+		timer = 0.0f;
+	}
+	//タイマー更新
+	timer += addTime;
+
 	//アニメーション
 	if (isPlay)
 	{
@@ -137,6 +146,7 @@ void FbxObject3D::Update()
 		constMap->world = matWorld;
 		constMap->cameraPos = cameraPos;
 		constMap->lightviewproj = light->GetMatViewProjection();
+		constMap->timer = timer;
 		constBuffTransform->Unmap(0, nullptr);
 	}
 

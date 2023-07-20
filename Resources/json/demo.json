@@ -123,7 +123,7 @@
             "name": "立方体.001",
             "transform": {
                 "translation": [
-                    0.0,
+                    -20.0,
                     0.0,
                     4.0
                 ],
@@ -142,7 +142,7 @@
             "collider": {
                 "type": "Sphere",
                 "center": [
-                    0.0,
+                    -20.0,
                     0.0,
                     4.0
                 ],
@@ -153,6 +153,44 @@
                 ]
             },
             "textureNum1": "9"
+        },
+        {
+            "type": "MESH",
+            "name": "球",
+            "transform": {
+                "translation": [
+                    0.0,
+                    0.0,
+                    7.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scale": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "file_name": "sphere",
+            "collider": {
+                "type": "Sphere",
+                "center": [
+                    0.0,
+                    0.0,
+                    7.0
+                ],
+                "size": [
+                    6.0,
+                    6.0,
+                    6.0
+                ]
+            },
+            "textureNum1": "3",
+            "textureNum2": "12",
+            "shaderName": "Dissolve"
         }
     ]
 }

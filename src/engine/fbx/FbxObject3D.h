@@ -35,6 +35,7 @@ public:
 		XMMATRIX world;
 		XMFLOAT3 cameraPos;
 		XMMATRIX lightviewproj;
+		float timer;
 	};
 	//定数バッファ用データ構造体(スキニング)
 	struct ConstBufferDataSkin
@@ -168,4 +169,8 @@ private:
 	//使用するシェーダの名前
 	std::string shaderName;
 	bool shaderFlag = false;
+
+	//シェーダに渡すタイマー
+	float timer = 0.0f;
+	float addTime = 0.02f;
 };
