@@ -36,6 +36,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	newTextureManager->LoadFile(9, L"Resources/pictures/toriko.png");
 	newTextureManager->LoadFile(10, L"Resources/pictures/grassFiled.png");
 	newTextureManager->LoadFile(11, L"Resources/pictures/gravel.png");
+	newTextureManager->LoadFile(12, L"Resources/pictures/DissolveMap.png");
 
 	textureManager.reset(newTextureManager);
 
@@ -54,6 +55,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("player"));
 	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("enemy"));
 	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("playerBullet"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("sphere"));
 
 	//スプライト
 	Sprite::SetDevice(dxCommon->GetDevice());
