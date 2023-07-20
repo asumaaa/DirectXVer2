@@ -114,6 +114,8 @@
                 ]
             },
             "textureNum1": "10",
+            "textureNum2": "11",
+            "textureNum3": "9",
             "shaderName": "Ground"
         },
         {

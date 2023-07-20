@@ -34,7 +34,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	newTextureManager->LoadFile(7, L"Resources/pictures/effect3.png");
 	newTextureManager->LoadFile(8, L"Resources/pictures/enemyHP.png");
 	newTextureManager->LoadFile(9, L"Resources/pictures/toriko.png");
-	newTextureManager->LoadFile(10,L"Resources/pictures/grassFiled.png");
+	newTextureManager->LoadFile(10, L"Resources/pictures/grassFiled.png");
+	newTextureManager->LoadFile(11, L"Resources/pictures/gravel.png");
 
 	textureManager.reset(newTextureManager);
 

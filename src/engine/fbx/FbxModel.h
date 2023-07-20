@@ -128,8 +128,15 @@ public:
 	//描画
 	void Draw(ID3D12GraphicsCommandList* cmdList, int textureNum);
 	//ポストエフェクト用
-	void Draw0(ID3D12GraphicsCommandList* cmdList,int textureNum);
-	void Draw1(ID3D12GraphicsCommandList* cmdList);
+	//テクスチャ1枚の場合
+	void DrawTexture1(ID3D12GraphicsCommandList* cmdList, int textureNum);	
+	//テクスチャ2枚の場合
+	void DrawTexture2(ID3D12GraphicsCommandList* cmdList, int textureNum1, int textureNum2);
+	//テクスチャ3枚の場合
+	void DrawTexture3(ID3D12GraphicsCommandList* cmdList, int textureNum1, int textureNum2, int textureNum3);
+	//テクスチャ4枚の場合
+	void DrawTexture4(ID3D12GraphicsCommandList* cmdList,int textureNum1,int textureNum2, int textureNum3, int textureNum4);
+	void PreDraw(ID3D12GraphicsCommandList* cmdList);
 	//モデルの変形行列のゲッター
 	const XMMATRIX& GetModelTransform() { return meshNode->globalTransform; }
 	std::string GetFileName() { return fileName; }

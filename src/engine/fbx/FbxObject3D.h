@@ -73,6 +73,9 @@ public://メンバ関数
 	static void CreateGraphicsPipeline();
 	//レベルエディタで設定したシェーダを使うグラフィックスパイプラインの生成
 	void CreateGraphicsPipelineTexture1();	//テクスチャ1枚の場合
+	void CreateGraphicsPipelineTexture2();	//テクスチャ2枚の場合
+	void CreateGraphicsPipelineTexture3();	//テクスチャ3枚の場合
+	void CreateGraphicsPipelineTexture4();	//テクスチャ4枚の場合
 
 	//アニメーション開始
 	void PlayAnimation();
@@ -102,9 +105,9 @@ private://メンバ変数
 	//ライト視点のルートシグネチャとパイプライン(shadowMap用)
 	static ComPtr<ID3D12RootSignature>rootsignature0;
 	static ComPtr<ID3D12PipelineState>pipelinestate0;
-	//テクスチャ1枚用ルートシグネチャとパイプライン
-	ComPtr<ID3D12RootSignature>rootsignatureTexture1;
-	ComPtr<ID3D12PipelineState>pipelinestateTexture1;
+	//シェーダを指定する場合のルートシグネチャとパイプライン
+	ComPtr<ID3D12RootSignature>rootsignature1;
+	ComPtr<ID3D12PipelineState>pipelinestate1;
 	//影付きカメラ視点のルートシグネチャとパイプライン
 	static ComPtr<ID3D12RootSignature>rootsignature2;
 	static ComPtr<ID3D12PipelineState>pipelinestate2;
