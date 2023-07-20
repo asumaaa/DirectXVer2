@@ -191,6 +191,43 @@
             "textureNum1": "3",
             "textureNum2": "12",
             "shaderName": "Dissolve"
+        },
+        {
+            "type": "MESH",
+            "name": "立方体.002",
+            "transform": {
+                "translation": [
+                    10.0,
+                    0.0,
+                    7.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scale": [
+                    4.0,
+                    4.0,
+                    4.0
+                ]
+            },
+            "file_name": "Cube",
+            "collider": {
+                "type": "Box",
+                "center": [
+                    10.0,
+                    0.0,
+                    7.0
+                ],
+                "size": [
+                    4.0,
+                    4.0,
+                    4.0
+                ]
+            },
+            "textureNum1": "0",
+            "shaderName": "Noise"
         }
     ]
 }

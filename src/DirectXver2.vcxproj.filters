@@ -127,6 +127,9 @@
     <Filter Include="リソース ファイル\Shaders\Fbx\Dissolve">
       <UniqueIdentifier>{fdd1848e-6a62-4bbd-b775-369d4b7950ac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\Shaders\Fbx\Noise">
+      <UniqueIdentifier>{5e28e590-dbc6-4dcf-b4e3-136e9dcc6399}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="2d\MonochromeEffect.cpp">
@@ -583,6 +586,12 @@
     <FxCompile Include="..\Resources\Shaders\Dissolve\DissolveVertexShader.hlsl">
       <Filter>リソース ファイル\Shaders\Fbx\Dissolve</Filter>
     </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\Noise\NoisePixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Fbx\Noise</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\Noise\NoiseVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Fbx\Noise</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\Shaders\ShaderHeader.hlsli">
@@ -647,6 +656,9 @@
     </None>
     <None Include="..\Resources\Shaders\Dissolve\DissolveHeader.hlsli">
       <Filter>リソース ファイル\Shaders\Fbx\Dissolve</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\Noise\NoiseHeader.hlsli">
+      <Filter>リソース ファイル\Shaders\Fbx\Noise</Filter>
     </None>
   </ItemGroup>
 </Project>
