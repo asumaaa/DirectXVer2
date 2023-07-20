@@ -125,7 +125,11 @@ void JSONLoader::LoadFile(const std::string fileName)
 			//シェーダ名
 			if (object.contains("shaderName"))
 			{
-				textureData1.shaderName = object["shaderName"];
+				textureData1.shaderName = object["shaderName"].get<std::string>();
+			}
+			else
+			{
+				textureData1.shaderName = "null";
 			}
 
 			// TODO: オブジェクト走査を再帰関数にまとめ、再帰呼出で枝を走査する

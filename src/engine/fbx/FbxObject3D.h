@@ -67,9 +67,13 @@ public://メンバ関数
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 	//モデルのセット
 	void SetModel(FbxModel* model) { this->model = model; }
-	//グラフィックスパイプラインの生成
+	//ライト視点のグラフィックスパイプラインの生成
 	static void CreateGraphicsPipelineLightView();
+	//影付きカメラ視点のグラフィックスパイプラインの生成
 	static void CreateGraphicsPipeline();
+	//レベルエディタで設定したシェーダを使うグラフィックスパイプラインの生成
+	void CreateGraphicsPipelineTexture1();	//テクスチャ1枚の場合
+
 	//アニメーション開始
 	void PlayAnimation();
 
@@ -98,9 +102,9 @@ private://メンバ変数
 	//ライト視点のルートシグネチャとパイプライン(shadowMap用)
 	static ComPtr<ID3D12RootSignature>rootsignature0;
 	static ComPtr<ID3D12PipelineState>pipelinestate0;
-	//マルチテクスチャ用ルートシグネチャとパイプライン
-	ComPtr<ID3D12RootSignature>rootsignature1;
-	ComPtr<ID3D12PipelineState>pipelinestate1;
+	//テクスチャ1枚用ルートシグネチャとパイプライン
+	ComPtr<ID3D12RootSignature>rootsignatureTexture1;
+	ComPtr<ID3D12PipelineState>pipelinestateTexture1;
 	//影付きカメラ視点のルートシグネチャとパイプライン
 	static ComPtr<ID3D12RootSignature>rootsignature2;
 	static ComPtr<ID3D12PipelineState>pipelinestate2;
@@ -158,6 +162,7 @@ private:
 	int textureNum4 = 0;
 	//テクスチャの枚数
 	int textureVol = 1;
-	//使用するシェーダの名前(マルチテクスチャ用)
+	//使用するシェーダの名前
 	std::string shaderName;
+	bool shaderFlag = false;
 };
