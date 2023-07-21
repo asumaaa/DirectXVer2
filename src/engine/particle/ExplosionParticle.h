@@ -65,6 +65,7 @@ public://サブクラス
 	{
 		XMFLOAT3 pos;	//座標
 		float scale;
+		XMFLOAT3 velocity;
 	};
 
 public:	//静的メンバ関数
@@ -99,7 +100,7 @@ public:	//静的メンバ変数
 	//頂点最大数
 	static const int vertexCount = 1024;
 	//火花1回に使う頂点数
-	static const int sparkCount = 36;
+	static const int sparkCount = 128;
 
 private:
 	//定数バッファ

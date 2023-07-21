@@ -46,7 +46,7 @@ PSOutput main(VSOutput input) : SV_TARGET
 	texcoord1.z *= 0.5f;
 	//texcoord3 = float4(1, 0, 0, 1);
 	output.target0 = shadecolor * texcoord1;
-	if (texcoord3.x >= 0.5)
+	if (texcoord3.x - 0.5 < 0.0f)
 	{
 		output.target0 = shadecolor * texcoord2;
 	}

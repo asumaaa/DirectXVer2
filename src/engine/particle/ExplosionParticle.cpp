@@ -102,8 +102,12 @@ void ExplosionParticle::CreateGraphicsPipeline()
 			"SCALE",0,DXGI_FORMAT_R32_FLOAT,0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0
-
-		}
+		},
+		{ // 進行ベクトル
+			"VELOCITY", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+		},
 	};
 
 	// グラフィックスパイプラインの流れを設定
@@ -360,6 +364,7 @@ void ExplosionParticle::Update()
 		//座標
 		vertMap->pos = it->position;
 		vertMap->scale = it->scale;
+		vertMap->velocity = it->velocity;
 		//次の頂点へ
 		vertMap++;
 	}

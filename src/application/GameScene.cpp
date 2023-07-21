@@ -37,6 +37,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	newTextureManager->LoadFile(10, L"Resources/pictures/grassFiled.png");
 	newTextureManager->LoadFile(11, L"Resources/pictures/gravel.png");
 	newTextureManager->LoadFile(12, L"Resources/pictures/DissolveMap.png");
+	newTextureManager->LoadFile(13, L"Resources/pictures/mapping.png");
 
 	textureManager.reset(newTextureManager);
 
@@ -139,6 +140,17 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	newSparkParticle2->CreateBuffers();
 	newSparkParticle2->SetTextureNum(3);
 	sparkParticle2.reset(newSparkParticle2);
+
+	//爆発パーティクル
+	ExplosionParticle::SetSpriteManager(textureManager.get());
+	ExplosionParticle::SetDevice(dxCommon_->GetDevice());
+	ExplosionParticle::SetCamera(camera_.get());
+	ExplosionParticle::SetInput(input_);
+	ExplosionParticle::CreateGraphicsPipeline();
+	ExplosionParticle* newExplosionParticle = new ExplosionParticle();
+	newExplosionParticle->CreateBuffers();
+	newExplosionParticle->SetTextureNum(3);
+	explosionParticle.reset(newExplosionParticle);
 
 	//ビルボードのスプライト
 	BillboardSpriteModel::SetDevice(dxCommon_->GetDevice());
@@ -288,8 +300,10 @@ void GameScene::Update()
 	if (input_->TriggerKey(DIK_N))
 	{
 		sparkParticle2->Add(XMFLOAT3(0, 0, 0));
+		explosionParticle->Add(XMFLOAT3(0, 0, 0));
 	}
 	sparkParticle2->Update();
+	explosionParticle->Update();
 
 	//ライト
 	light->SetEye(XMFLOAT3(lightPos));
@@ -464,6 +478,7 @@ void GameScene::DrawParticle()
 {
 	/*sparkParticle->Draw(dxCommon_->GetCommandList());*/
 	sparkParticle2->Draw(dxCommon_->GetCommandList());
+	explosionParticle->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::SetSRV(ID3D12DescriptorHeap* SRV)
