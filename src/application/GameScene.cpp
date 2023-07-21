@@ -299,7 +299,7 @@ void GameScene::Update()
 
 	if (input_->TriggerKey(DIK_N))
 	{
-		sparkParticle2->Add(XMFLOAT3(0, 0, 0));
+		/*sparkParticle2->Add(XMFLOAT3(0, 0, 0));*/
 		explosionParticle->Add(XMFLOAT3(0, 0, 0));
 	}
 	sparkParticle2->Update();
