@@ -1,16 +1,16 @@
-#include "ExplosionParticleHeader.hlsli"
+#include "ExplosionParticle2Header.hlsli"
 
 //四角形の頂点数
 static const uint vnum = 4;
 
 //センターからオフセット
-//static const float4 offset_array[vnum] =
-//{
-//	float4(-0.5f,-0.5f,0.1f,0.0f),	//左下
-//	float4(-0.5f,+0.1f,0.1f,0.0f),	//左上
-//	float4(+0.5f,-0.5f,0.1f,0.0f),	//右下
-//	float4(+0.5f,+0.5f,0.1f,0.0f),	//右上
-//};
+static const float4 offset_array[vnum] =
+{
+	float4(-2.5f,-2.5f,0.1f,0.0f),	//左下
+	float4(-2.5f,+2.5f,0.1f,0.0f),	//左上
+	float4(+2.5f,-2.5f,0.1f,0.0f),	//右下
+	float4(+2.5f,+2.5f,0.1f,0.0f),	//右上
+};
 
 //uv
 static const float2 uv_array[vnum] =
@@ -29,12 +29,6 @@ void main(
 )
 {
 	GSOutput element;
-
-	float4 offset_array[4];
-	offset_array[0] = float4(-input[0].velocity.x, -input[0].velocity.y, 0.1f, 0.0f);
-	offset_array[1] = float4(-input[0].velocity.x, +input[0].velocity.y, 0.1f, 0.0f);	
-	offset_array[2] = float4(+input[0].velocity.x, -input[0].velocity.y, 0.1f, 0.0f);	
-	offset_array[3] = float4(+input[0].velocity.x, +input[0].velocity.y, 0.1f, 0.0f);	
 
 	for (uint i = 0; i < vnum; i++)
 	{

@@ -38,6 +38,9 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	newTextureManager->LoadFile(11, L"Resources/pictures/gravel.png");
 	newTextureManager->LoadFile(12, L"Resources/pictures/DissolveMap.png");
 	newTextureManager->LoadFile(13, L"Resources/pictures/mapping.png");
+	newTextureManager->LoadFile(14, L"Resources/pictures/black.png");
+	newTextureManager->LoadFile(15, L"Resources/pictures/blackParticle.png");
+	newTextureManager->LoadFile(16, L"Resources/pictures/effect4.png");
 
 	textureManager.reset(newTextureManager);
 
@@ -142,15 +145,26 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	sparkParticle2.reset(newSparkParticle2);
 
 	//爆発パーティクル
-	ExplosionParticle::SetSpriteManager(textureManager.get());
-	ExplosionParticle::SetDevice(dxCommon_->GetDevice());
-	ExplosionParticle::SetCamera(camera_.get());
-	ExplosionParticle::SetInput(input_);
-	ExplosionParticle::CreateGraphicsPipeline();
-	ExplosionParticle* newExplosionParticle = new ExplosionParticle();
-	newExplosionParticle->CreateBuffers();
-	newExplosionParticle->SetTextureNum(3);
-	explosionParticle.reset(newExplosionParticle);
+	ExplosionParticle1::SetSpriteManager(textureManager.get());
+	ExplosionParticle1::SetDevice(dxCommon_->GetDevice());
+	ExplosionParticle1::SetCamera(camera_.get());
+	ExplosionParticle1::SetInput(input_);
+	ExplosionParticle1::CreateGraphicsPipeline();
+	ExplosionParticle1* newExplosionParticle1 = new ExplosionParticle1();
+	newExplosionParticle1->CreateBuffers();
+	newExplosionParticle1->SetTextureNum(16);
+	explosionParticle1.reset(newExplosionParticle1);
+
+	//爆発パーティクル
+	ExplosionParticle2::SetSpriteManager(textureManager.get());
+	ExplosionParticle2::SetDevice(dxCommon_->GetDevice());
+	ExplosionParticle2::SetCamera(camera_.get());
+	ExplosionParticle2::SetInput(input_);
+	ExplosionParticle2::CreateGraphicsPipeline();
+	ExplosionParticle2* newExplosionParticle2 = new ExplosionParticle2();
+	newExplosionParticle2->CreateBuffers();
+	newExplosionParticle2->SetTextureNum(16);
+	explosionParticle2.reset(newExplosionParticle2);
 
 	//ビルボードのスプライト
 	BillboardSpriteModel::SetDevice(dxCommon_->GetDevice());
@@ -280,6 +294,7 @@ void GameScene::Update()
 {
 	//カメラ更新
 	camera_->UpdatePlayer(player->GetPosition(),player->GetRotation());
+	//camera_->DebugUpdate();
 	camera_->Update();
 	//コントローラー更新
 	dxInput->InputProcess();
@@ -293,17 +308,19 @@ void GameScene::Update()
 	/*particleManager->Update();*/
 	if (input_->TriggerKey(DIK_N))
 	{
-		sparkParticle->Add(XMFLOAT3(0,0,0));
+		/*sparkParticle->Add(XMFLOAT3(0,0,0));*/
 	}
 	sparkParticle->Update();
 
 	if (input_->TriggerKey(DIK_N))
 	{
-		/*sparkParticle2->Add(XMFLOAT3(0, 0, 0));*/
-		explosionParticle->Add(XMFLOAT3(0, 0, 0));
+		sparkParticle2->Add(XMFLOAT3(0, 3.0f, 0));
+		explosionParticle1->Add(XMFLOAT3(0, 3.0f, 0));
+		explosionParticle2->Add(XMFLOAT3(0, 3.0f, 0));
 	}
 	sparkParticle2->Update();
-	explosionParticle->Update();
+	explosionParticle1->Update();
+	explosionParticle2->Update();
 
 	//ライト
 	light->SetEye(XMFLOAT3(lightPos));
@@ -406,7 +423,9 @@ void GameScene::UpdateCollider()
 						object0->GetColliderData()))
 					{
 						//パーティクル
-						sparkParticle->Add(playerBullet->GetPosition(i));
+						sparkParticle2->Add(XMFLOAT3(playerBullet->GetPosition(i)));
+						explosionParticle1->Add(XMFLOAT3(playerBullet->GetPosition(i)));
+						explosionParticle2->Add(XMFLOAT3(playerBullet->GetPosition(i)));
 						//弾
 						playerBullet->SetHitFlag(true, i);
 					}
@@ -476,9 +495,10 @@ void GameScene::DrawSprite()
 
 void GameScene::DrawParticle()
 {
-	/*sparkParticle->Draw(dxCommon_->GetCommandList());*/
+	sparkParticle->Draw(dxCommon_->GetCommandList());
 	sparkParticle2->Draw(dxCommon_->GetCommandList());
-	explosionParticle->Draw(dxCommon_->GetCommandList());
+	explosionParticle1->Draw(dxCommon_->GetCommandList());
+	explosionParticle2->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::SetSRV(ID3D12DescriptorHeap* SRV)

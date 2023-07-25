@@ -1,18 +1,18 @@
-#include "ExplosionParticle.h"
+#include "ExplosionParticle2.h"
 #include "mathOriginal.h"
 
 #include <d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
 
-ComPtr<ID3D12RootSignature>ExplosionParticle::rootsignature;
-ComPtr<ID3D12PipelineState>ExplosionParticle::pipelinestate;
-TextureManager* ExplosionParticle::spriteManager = nullptr;
-ID3D12Device* ExplosionParticle::device = nullptr;
-Camera* ExplosionParticle::camera = nullptr;
-Input* ExplosionParticle::input = nullptr;
+ComPtr<ID3D12RootSignature>ExplosionParticle2::rootsignature;
+ComPtr<ID3D12PipelineState>ExplosionParticle2::pipelinestate;
+TextureManager* ExplosionParticle2::spriteManager = nullptr;
+ID3D12Device* ExplosionParticle2::device = nullptr;
+Camera* ExplosionParticle2::camera = nullptr;
+Input* ExplosionParticle2::input = nullptr;
 
 
-void ExplosionParticle::CreateGraphicsPipeline()
+void ExplosionParticle2::CreateGraphicsPipeline()
 {
 	HRESULT result = S_FALSE;
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
@@ -24,7 +24,7 @@ void ExplosionParticle::CreateGraphicsPipeline()
 
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/ExplosionParticle/ExplosionParticleVertexShader.hlsl",     // シェーダファイル名
+		L"Resources/Shaders/ExplosionParticle2/ExplosionParticle2VertexShader.hlsl",     // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "vs_5_0",    // エントリーポイント名、シェーダーモデル指定
@@ -47,7 +47,7 @@ void ExplosionParticle::CreateGraphicsPipeline()
 
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/ExplosionParticle/ExplosionParticleGeometryShader.hlsl",     // シェーダファイル名
+		L"Resources/Shaders/ExplosionParticle2/ExplosionParticle2GeometryShader.hlsl",     // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "gs_5_0",    // エントリーポイント名、シェーダーモデル指定
@@ -70,7 +70,7 @@ void ExplosionParticle::CreateGraphicsPipeline()
 
 	// ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/ExplosionParticle/ExplosionParticlePixelShader.hlsl",   // シェーダファイル名
+		L"Resources/Shaders/ExplosionParticle2/ExplosionParticle2PixelShader.hlsl",   // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "ps_5_0",    // エントリーポイント名、シェーダーモデル指定
@@ -196,7 +196,7 @@ void ExplosionParticle::CreateGraphicsPipeline()
 	if (FAILED(result)) { assert(0); }
 }
 
-void ExplosionParticle::CreateBuffers()
+void ExplosionParticle2::CreateBuffers()
 {
 	HRESULT result;
 
@@ -345,7 +345,7 @@ void ExplosionParticle::CreateBuffers()
 	);
 }
 
-void ExplosionParticle::Update()
+void ExplosionParticle2::Update()
 {
 	//-----この上に頂点の更新処理を書く-----
 
@@ -386,7 +386,7 @@ void ExplosionParticle::Update()
 	}
 }
 
-void ExplosionParticle::UpdateParticle()
+void ExplosionParticle2::UpdateParticle()
 {
 	//寿命が尽きたパーティクルを全削除
 	particles.remove_if([](Particle& x)
@@ -398,22 +398,23 @@ void ExplosionParticle::UpdateParticle()
 	//全パーティクル更新
 	for (std::forward_list<Particle>::iterator it = particles.begin(); it != particles.end(); it++)
 	{
+		//進行度を0~1の範囲に換算
+		float f = (float)it->frame / it->num_frame;
+
 		//経過フレーム数をカウント
 		it->frame++;
 		//速度に加速度を加算
-		it->velocity = it->velocity + it->accel;
+		XMFLOAT3 v = it->velocity * easeOutExpo(f);
 		//速度による移動
-		it->position = it->position + it->velocity;
+		it->position = it->basePosition + v;
 
-		//進行度を0~1の範囲に換算
-		float f = (float)it->frame / it->num_frame;
 		//スケールの線形補間
 		it->scale = (it->endScale - it->startScale) * f;
 		it->scale += it->startScale;
 	}
 }
 
-void ExplosionParticle::Draw(ID3D12GraphicsCommandList* cmdList)
+void ExplosionParticle2::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	//パイプラインステートの設定
 	cmdList->SetPipelineState(pipelinestate.Get());
@@ -448,23 +449,25 @@ void ExplosionParticle::Draw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->DrawInstanced((UINT)std::distance(particles.begin(),particles.end()), 1, 0, 0);
 }
 
-void ExplosionParticle::Add(XMFLOAT3 pos)
+void ExplosionParticle2::Add(XMFLOAT3 pos)
 {
-	float randPos = 10.0f;
-	float randVelo = 0.2f;
+	float randPos = 5.0f;
+	float randVelo = explosionRange;
 	float randAcc = 0.0001f;
 	for (int i = 0; i < sparkCount; i++)
 	{
 		XMFLOAT3 p = pos;
-		XMFLOAT3 velocity((float)rand() / RAND_MAX * randVelo - randVelo / 2.0f, (float)rand() / RAND_MAX * randVelo - randVelo / 2.0f
-			, (float)rand() / RAND_MAX * randVelo - randVelo / 2.0f);
+		XMFLOAT3 velocity((float)rand() / RAND_MAX * randVelo - randVelo / 2.0f, 
+			(float)rand() / RAND_MAX * randVelo - randVelo / 2.0f, (float)rand() / RAND_MAX * randVelo - randVelo / 2.0f);
+		/*XMFLOAT3 velocity(0.0f, randVeloY, randVeloZ);*/
+		/*XMFLOAT3 velocity(0.0f, 0.0f, 0.0f);*/
 		XMFLOAT3 accel(0.0f, (float)rand() / RAND_MAX * randAcc, 0.0f);
 
-		AddParticle(60, p, velocity, accel, 1.0f, 0.0f);
+		AddParticle(60, p, velocity, accel, 1.0f, 0.2f);
 	}
 }
 
-void ExplosionParticle::AddParticle(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float startScale, float endScale)
+void ExplosionParticle2::AddParticle(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float startScale, float endScale)
 {
 	//リストに要素を追加
 	particles.emplace_front();
@@ -472,6 +475,7 @@ void ExplosionParticle::AddParticle(int life, XMFLOAT3 position, XMFLOAT3 veloci
 	Particle& p = particles.front();
 	//値のセット
 	p.position = position;
+	p.basePosition = position;
 	p.velocity = velocity;
 	p.accel = accel;
 	p.num_frame = life;

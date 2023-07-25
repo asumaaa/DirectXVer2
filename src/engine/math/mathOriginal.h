@@ -35,6 +35,43 @@ float easeInQuart(float x);
 float easeOutQuart(float x);
 //イージング関数:easeInOutQuart
 float easeInOutQuart(float x);
+//イージング関数:easeInQuint
+float easeInQuint(float x);
+//イージング関数:easeOutQuint
+float easeOutQuint(float x);
+//イージング関数:easeInOutQuint
+float easeInOutQuint(float x);
+//イージング関数:easeInExpo
+float easeInExpo(float x);
+//イージング関数:easeOutExpo
+float easeOutExpo(float x);
+//イージング関数:easeInOutExpo
+float easeInOutExpo(float x);
+//イージング関数:easeInCirc
+float easeInCirc(float x);
+//イージング関数:easeOutCirc
+float easeOutCirc(float x);
+//イージング関数:easeInOutCirc
+float easeInOutCirc(float x);
+//イージング関数:easeInBack
+float easeInBack(float x);
+//イージング関数:easeOutBack
+float easeOutBack(float x);
+//イージング関数:easeInOutBack
+float easeInOutBack(float x);
+
+//イージング関数:easeInElastic
+float easeInElastic(float x);
+//イージング関数:easeOutElastic
+float easeOutElastic(float x);
+//イージング関数:easeInOutElastic
+float easeInOutElastic(float x);
+//イージング関数:easeInBounce
+float easeInBounce(float x);
+//イージング関数:easeOutBounce
+float easeOutBounce(float x);
+//イージング関数:easeInOutBounce
+float easeInOutBounce(float x);
 
 #pragma endregion
 

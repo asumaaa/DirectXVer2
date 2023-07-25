@@ -14,7 +14,7 @@
 #include "input.h"
 #include "forward_list"
 
-class ExplosionParticle
+class ExplosionParticle2
 {
 private:	//エイリアス
 	//Microsoft::WRL::を省略
@@ -44,6 +44,8 @@ public://サブクラス
 	{
 		//座標
 		XMFLOAT3 position = {};
+		//元となる座標
+		XMFLOAT3 basePosition = {};
 		//速度
 		XMFLOAT3 velocity = {};
 		//加速度
@@ -69,10 +71,10 @@ public://サブクラス
 	};
 
 public:	//静的メンバ関数
-	static void SetSpriteManager(TextureManager* spriteManager) { ExplosionParticle::spriteManager = spriteManager; };
-	static void SetDevice(ID3D12Device* device) { ExplosionParticle::device = device; }
-	static void SetCamera(Camera* camera) { ExplosionParticle::camera = camera; }
-	static void SetInput(Input* input) { ExplosionParticle::input = input; }
+	static void SetSpriteManager(TextureManager* spriteManager) { ExplosionParticle2::spriteManager = spriteManager; };
+	static void SetDevice(ID3D12Device* device) { ExplosionParticle2::device = device; }
+	static void SetCamera(Camera* camera) { ExplosionParticle2::camera = camera; }
+	static void SetInput(Input* input) { ExplosionParticle2::input = input; }
 	//グラフィックスパイプラインの生成
 	static void CreateGraphicsPipeline();
 
@@ -100,7 +102,7 @@ public:	//静的メンバ変数
 	//頂点最大数
 	static const int vertexCount = 1024;
 	//火花1回に使う頂点数
-	static const int sparkCount = 128;
+	static const int sparkCount = 64;
 
 private:
 	//定数バッファ
@@ -139,5 +141,8 @@ private:
 	std::forward_list<Particle>particles;
 	//テクスチャの番号
 	int textureNum = 0;
+
+	//爆発の範囲
+	float explosionRange = 10.0;
 };
 

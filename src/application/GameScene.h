@@ -23,7 +23,8 @@
 #include "ColliderManager.h"
 #include "SparkParticle.h"
 #include "SparkParticle2.h"
-#include "ExplosionParticle.h"
+#include "ExplosionParticle1.h"
+#include "ExplosionParticle2.h"
 #include "BillboardSprite.h"
 #include "BillboardSpriteModel.h"
 
@@ -117,14 +118,17 @@ private:
 	//弾けるパーティクル2
 	std::unique_ptr<SparkParticle2>sparkParticle2;
 
-	//爆発パーテイクル
-	std::unique_ptr<ExplosionParticle>explosionParticle;
+	//爆発パーテイクル1
+	std::unique_ptr<ExplosionParticle1>explosionParticle1;
+
+	//爆発パーテイクル2
+	std::unique_ptr<ExplosionParticle2>explosionParticle2;
 
 	//描画フラグ
 	int drawParticle[1] = { 1 };
-	int drawFbx[1] = { 0 };
+	int drawFbx[1] = { 1 };
 	int drawSprite[1] = { 0 };
-	int drawCollider[1] = { 0 };
+	int drawCollider[1] = { 1 };
 
 	//ビルボード　
 	std::unique_ptr<BillboardSprite>billboardSprite;
