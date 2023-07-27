@@ -1,0 +1,546 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.Color.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.CurveLoader.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.DefaultEffectLoader.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.DefaultFile.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.Effect.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.EffectNode.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.EffectNodeModel.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.EffectNodeRibbon.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.EffectNodeRing.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.EffectNodeRoot.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.EffectNodeSprite.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.EffectNodeTrack.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.FCurves.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.Instance.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.InstanceChunk.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.InstanceContainer.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.InstanceGlobal.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.InstanceGroup.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.InternalScript.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.Manager.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.Matrix43.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.Matrix44.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.Random.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.RectF.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.Resource.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.ResourceManager.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.Setting.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.Vector2D.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.Vector3D.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.WorkerThread.cpp">
+      <Filter>Effekseer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Material\Effekseer.MaterialFile.cpp">
+      <Filter>Effekseer\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Material\Effekseer.CompiledMaterial.cpp">
+      <Filter>Effekseer\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Material\Effekseer.MaterialCompiler.cpp">
+      <Filter>Effekseer\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\IO\Effekseer.EfkEfcFactory.cpp">
+      <Filter>Effekseer\IO</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Parameter\Easing.cpp">
+      <Filter>Effekseer\Parameter</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Parameter\Effekseer.Parameters.cpp">
+      <Filter>Effekseer\Parameter</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Parameter\Rotation.cpp">
+      <Filter>Effekseer\Parameter</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Utils\Effekseer.CustomAllocator.cpp">
+      <Filter>Effekseer\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\SIMD\Mat43f.cpp">
+      <Filter>Effekseer\SIMD</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\SIMD\Mat44f.cpp">
+      <Filter>Effekseer\SIMD</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\SIMD\Utils.cpp">
+      <Filter>Effekseer\SIMD</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Noise\CurlNoise.cpp">
+      <Filter>Effekseer\Noise</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\ForceField\ForceFields.cpp">
+      <Filter>Effekseer\ForceField</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Model\ProceduralModelGenerator.cpp">
+      <Filter>Effekseer\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Model\Model.cpp">
+      <Filter>Effekseer\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Model\ModelLoader.cpp">
+      <Filter>Effekseer\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Model\SplineGenerator.cpp">
+      <Filter>Effekseer\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Network\Effekseer.Client.cpp">
+      <Filter>Effekseer\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Network\Effekseer.Server.cpp">
+      <Filter>Effekseer\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Network\Effekseer.Session.cpp">
+      <Filter>Effekseer\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Network\Effekseer.Socket.cpp">
+      <Filter>Effekseer\Network</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer.h" />
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer.Modules.h" />
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer.SIMD.h" />
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.Base.Pre.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.Effect.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.Color.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.DefaultFile.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.File.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.Manager.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.Matrix43.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.Matrix44.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.Resource.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.RectF.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.Setting.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.Vector2D.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.Vector3D.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Backend\GraphicsDevice.h">
+      <Filter>Effekseer\Backend</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Network\Effekseer.Server.h">
+      <Filter>Effekseer\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Network\Effekseer.Client.h">
+      <Filter>Effekseer\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Utils\Effekseer.CustomAllocator.h">
+      <Filter>Effekseer\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Utils\String.h">
+      <Filter>Effekseer\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\IO\Effekseer.EfkEfcFactory.h">
+      <Filter>Effekseer\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\SIMD\Base.h">
+      <Filter>Effekseer\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\SIMD\Float4_Gen.h">
+      <Filter>Effekseer\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\SIMD\Float4_NEON.h">
+      <Filter>Effekseer\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\SIMD\Float4_SSE.h">
+      <Filter>Effekseer\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\SIMD\Int4_Gen.h">
+      <Filter>Effekseer\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\SIMD\Int4_NEON.h">
+      <Filter>Effekseer\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\SIMD\Int4_SSE.h">
+      <Filter>Effekseer\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\SIMD\Bridge_Gen.h">
+      <Filter>Effekseer\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\SIMD\Bridge_NEON.h">
+      <Filter>Effekseer\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\SIMD\Bridge_SSE.h">
+      <Filter>Effekseer\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\SIMD\Vec2f.h">
+      <Filter>Effekseer\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\SIMD\Vec3f.h">
+      <Filter>Effekseer\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\SIMD\Vec4f.h">
+      <Filter>Effekseer\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\SIMD\Mat43f.h">
+      <Filter>Effekseer\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\SIMD\Mat44f.h">
+      <Filter>Effekseer\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\SIMD\Quaternionf.h">
+      <Filter>Effekseer\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\SIMD\Utils.h">
+      <Filter>Effekseer\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Parameter\Effekseer.Parameters.h">
+      <Filter>Effekseer\Parameter</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Renderer\Effekseer.SpriteRenderer.h">
+      <Filter>Effekseer\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Renderer\Effekseer.RibbonRenderer.h">
+      <Filter>Effekseer\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Renderer\Effekseer.RingRenderer.h">
+      <Filter>Effekseer\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Renderer\Effekseer.ModelRenderer.h">
+      <Filter>Effekseer\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Renderer\Effekseer.TrackRenderer.h">
+      <Filter>Effekseer\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Renderer\Effekseer.GPUTimer.h">
+      <Filter>Effekseer\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.EffectLoader.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.TextureLoader.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Model\Model.h">
+      <Filter>Effekseer\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Model\ModelLoader.h">
+      <Filter>Effekseer\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.MaterialLoader.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.Curve.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.CurveLoader.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Sound\Effekseer.SoundPlayer.h">
+      <Filter>Effekseer\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.SoundLoader.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.WorkerThread.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.ResourceManager.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.Base.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.DefaultEffectLoader.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.EffectImplemented.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.EffectNode.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.EffectNodeModel.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.EffectNodeRibbon.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.EffectNodeRing.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.EffectNodeRoot.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.EffectNodeSprite.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.EffectNodeTrack.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.FCurves.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.Instance.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.InstanceChunk.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.InstanceContainer.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.InstanceGlobal.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.InstanceGroup.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.InternalScript.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.InternalStruct.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.IntrusiveList.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.ManagerImplemented.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.Math.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Effekseer.Random.h">
+      <Filter>Effekseer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\ForceField\ForceFields.h">
+      <Filter>Effekseer\ForceField</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Material\Effekseer.CompiledMaterial.h">
+      <Filter>Effekseer\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Material\Effekseer.MaterialCompiler.h">
+      <Filter>Effekseer\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Material\Effekseer.MaterialFile.h">
+      <Filter>Effekseer\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Model\ProceduralModelGenerator.h">
+      <Filter>Effekseer\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Model\ProceduralModelParameter.h">
+      <Filter>Effekseer\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Model\SplineGenerator.h">
+      <Filter>Effekseer\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Network\Effekseer.ClientImplemented.h">
+      <Filter>Effekseer\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Network\Effekseer.ServerImplemented.h">
+      <Filter>Effekseer\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Network\Effekseer.Session.h">
+      <Filter>Effekseer\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Network\Effekseer.Socket.h">
+      <Filter>Effekseer\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Network\data\profiler_generated.h">
+      <Filter>Effekseer\Network\data</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Network\data\reload_generated.h">
+      <Filter>Effekseer\Network\data</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Noise\CurlNoise.h">
+      <Filter>Effekseer\Noise</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Noise\PerlinNoise.h">
+      <Filter>Effekseer\Noise</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Parameter\AllTypeColor.h">
+      <Filter>Effekseer\Parameter</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Parameter\AlphaCutoff.h">
+      <Filter>Effekseer\Parameter</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Parameter\BasicSettings.h">
+      <Filter>Effekseer\Parameter</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Parameter\CustomData.h">
+      <Filter>Effekseer\Parameter</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Parameter\DepthParameter.h">
+      <Filter>Effekseer\Parameter</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Parameter\DynamicParameter.h">
+      <Filter>Effekseer\Parameter</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Parameter\Easing.h">
+      <Filter>Effekseer\Parameter</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Parameter\KillRules.h">
+      <Filter>Effekseer\Parameter</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Parameter\LOD.h">
+      <Filter>Effekseer\Parameter</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Parameter\Rotation.h">
+      <Filter>Effekseer\Parameter</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Parameter\Scaling.h">
+      <Filter>Effekseer\Parameter</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Parameter\Sound.h">
+      <Filter>Effekseer\Parameter</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Parameter\SpawnMethod.h">
+      <Filter>Effekseer\Parameter</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Parameter\Translation.h">
+      <Filter>Effekseer\Parameter</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Parameter\UV.h">
+      <Filter>Effekseer\Parameter</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Renderer\Effekseer.ParticleRenderer.h">
+      <Filter>Effekseer\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Utils\BinaryVersion.h">
+      <Filter>Effekseer\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Utils\Compatiblity.h">
+      <Filter>Effekseer\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Utils\Effekseer.BinaryReader.h">
+      <Filter>Effekseer\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Utils\InstancePool.h">
+      <Filter>Effekseer\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\Effekseer\Utils\Profiler.h">
+      <Filter>Effekseer\Utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\Effekseer\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Effekseer">
+      <UniqueIdentifier>{212EB425-8108-39A9-8F8C-BE630C56FA04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effekseer\Backend">
+      <UniqueIdentifier>{029C8B0B-27B4-343A-93BD-9FB8B8F65B08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effekseer\ForceField">
+      <UniqueIdentifier>{72C0E05D-CC8E-3229-9D18-9CC0256597A5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effekseer\IO">
+      <UniqueIdentifier>{773E3087-89C0-3D0C-84C7-A3B50969413D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effekseer\Material">
+      <UniqueIdentifier>{47E636FC-4D28-3F30-AD11-5329037B7C8E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effekseer\Model">
+      <UniqueIdentifier>{8528BA1E-C40F-36E2-BC24-928072E50D7C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effekseer\Network">
+      <UniqueIdentifier>{3D30E9D2-6D0F-37EC-8974-4B4AD105D0F3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effekseer\Network\data">
+      <UniqueIdentifier>{76422EB3-82F3-3C19-BCB5-AA12D114F70C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effekseer\Noise">
+      <UniqueIdentifier>{A45976B9-79AE-3CE9-8BF8-699DE75ACA23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effekseer\Parameter">
+      <UniqueIdentifier>{C81F453E-79DA-36EE-964B-E14FCC4CF7AB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effekseer\Renderer">
+      <UniqueIdentifier>{F7B68B39-67DA-3EF0-8B25-FB61F48DE610}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effekseer\SIMD">
+      <UniqueIdentifier>{867111C9-E411-333C-B9B9-E71E6777DD64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effekseer\Sound">
+      <UniqueIdentifier>{D724BEB6-B9C5-3546-B45D-566BD8AEA7FF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effekseer\Utils">
+      <UniqueIdentifier>{FEBBD204-7883-3541-95F8-E0C5B482A9BF}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

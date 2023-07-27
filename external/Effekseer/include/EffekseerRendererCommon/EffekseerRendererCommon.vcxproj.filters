@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.CommonUtils.cpp" />
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.DDSTextureLoader.cpp" />
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.ModelRendererBase.cpp" />
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.PngTextureLoader.cpp" />
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.Renderer.cpp" />
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.Renderer_Impl.cpp" />
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.RenderStateBase.cpp" />
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.RibbonRendererBase.cpp" />
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.RingRendererBase.cpp" />
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.SpriteRendererBase.cpp" />
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.TGATextureLoader.cpp" />
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.TrackRendererBase.cpp" />
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\GraphicsDeviceCPU.cpp" />
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\ModelLoader.cpp" />
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\TextureLoader.cpp" />
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\VertexBuffer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.Renderer.h" />
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.RenderStateBase.h" />
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.ModelRendererBase.h" />
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.RibbonRendererBase.h" />
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.RingRendererBase.h" />
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.SpriteRendererBase.h" />
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.StandardRenderer.h" />
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.TrackRendererBase.h" />
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.CommonUtils.h" />
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.ShaderBase.h" />
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.Renderer_Impl.h" />
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\GraphicsDeviceCPU.h" />
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\ModelLoader.h" />
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\TextureLoader.h" />
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\VertexBuffer.h" />
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.DDSTextureLoader.h" />
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.PngTextureLoader.h" />
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\EffekseerRenderer.TGATextureLoader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererCommon\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+</Project>

@@ -19,10 +19,12 @@
 #include "Vignette.h"
 #include "Sprite.h"
 
-//#include "Effekseer.h"
-//#include "Effekseer.Modules.h"
-//#include "Effekseer.SIMD.h"
-//#include "EffekseerRendererDX11.h"
+#include "Effekseer.h"
+#include "EffekseerRendererDX12.h"
+
+#pragma comment(lib,"EffekseerRendererDX12.lib")
+#pragma comment(lib,"Effekseer.lib")
+#pragma comment(lib,"LLGI.lib")
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {

@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\EffekseerRendererDX12.Renderer.cpp">
+      <Filter>EffekseerRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerMaterialCompiler\DirectX12\EffekseerMaterialCompilerDX12.cpp">
+      <Filter>..\EffekseerMaterialCompiler\DirectX12</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerMaterialCompiler\HLSLGenerator\ShaderGenerator.cpp">
+      <Filter>..\EffekseerMaterialCompiler\HLSLGenerator</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerMaterialCompiler\Common\ShaderGeneratorCommon.cpp">
+      <Filter>..\EffekseerMaterialCompiler\Common</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\EffekseerRendererDX12.Base.Pre.h">
+      <Filter>EffekseerRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\EffekseerRendererDX12.Base.h">
+      <Filter>EffekseerRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\EffekseerRendererDX12.Renderer.h">
+      <Filter>EffekseerRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\ad_model_distortion_ps.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\ad_model_distortion_vs.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\ad_model_lit_ps.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\ad_model_lit_vs.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\ad_model_unlit_ps.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\ad_model_unlit_vs.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\ad_sprite_distortion_vs.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\ad_sprite_lit_vs.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\ad_sprite_unlit_vs.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\model_distortion_ps.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\model_distortion_vs.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\model_lit_ps.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\model_lit_vs.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\model_unlit_ps.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\model_unlit_vs.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\sprite_distortion_vs.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\sprite_lit_vs.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRenderer\ShaderHeader\sprite_unlit_vs.h">
+      <Filter>EffekseerRenderer\ShaderHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererDX12\EffekseerRendererDX12.h" />
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerMaterialCompiler\DirectX12\EffekseerMaterialCompilerDX12.h">
+      <Filter>..\EffekseerMaterialCompiler\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerMaterialCompiler\HLSLGenerator\ShaderGenerator.h">
+      <Filter>..\EffekseerMaterialCompiler\HLSLGenerator</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerMaterialCompiler\Common\ShaderGeneratorCommon.h">
+      <Filter>..\EffekseerMaterialCompiler\Common</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\a\Desktop\Effekseer\Effekseer\Dev\Cpp\EffekseerRendererDX12\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="..">
+      <UniqueIdentifier>{8AE9E14E-77AF-38F8-AF9C-DB8C7B19F9C4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\EffekseerMaterialCompiler">
+      <UniqueIdentifier>{3A223865-71AD-3660-A0EB-556DAD24274C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\EffekseerMaterialCompiler\Common">
+      <UniqueIdentifier>{A1EF5821-C2F3-303E-A857-84724B19FE26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\EffekseerMaterialCompiler\DirectX12">
+      <UniqueIdentifier>{0A1BBB4F-FE7C-3421-959D-544D3DCF2DDB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="..\EffekseerMaterialCompiler\HLSLGenerator">
+      <UniqueIdentifier>{FD43EE17-E6E5-3A45-B580-5A7CB16F33E9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EffekseerRenderer">
+      <UniqueIdentifier>{2E504742-7C96-3200-86AA-4EB0F67785A1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EffekseerRenderer\ShaderHeader">
+      <UniqueIdentifier>{B6FFD84C-80C4-3399-92A0-0FA5B76D5B82}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
