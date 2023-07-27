@@ -17,8 +17,12 @@
 #include "DepthOfField.h"
 #include "Fog.h"
 #include "Vignette.h"
-
 #include "Sprite.h"
+
+//#include "Effekseer.h"
+//#include "Effekseer.Modules.h"
+//#include "Effekseer.SIMD.h"
+//#include "EffekseerRendererDX11.h"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {

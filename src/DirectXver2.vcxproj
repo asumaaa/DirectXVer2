@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -78,15 +78,15 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)\external\DirectXTex;$(SolutionDir)\external\imgui;$(SolutionDir)\external\fbxsdk\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)external\fbxsdk\lib\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\external\DirectXTex;$(SolutionDir)\external\imgui;$(SolutionDir)\external\fbxsdk\include;$(SolutionDir)\external\Effekseer\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)external\fbxsdk\lib\;$(SolutionDir)external\Effekseer\lib\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)generated\output\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)generated\obj\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)\external\DirectXTex;$(SolutionDir)\external\imgui;$(SolutionDir)\external\fbxsdk\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)external\fbxsdk\lib\;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\external\DirectXTex;$(SolutionDir)\external\imgui;$(SolutionDir)\external\fbxsdk\include;$(SolutionDir)\external\Effekseer\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)external\fbxsdk\lib\;$(SolutionDir)external\Effekseer\lib\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)generated\output\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)generated\obj\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
@@ -124,7 +124,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)engine\base;$(ProjectDir);$(ProjectDir)engine\fbx;$(ProjectDir)Resources;$(ProjectDir)Resources\Shaders;$(ProjectDir)engine\particle;$(ProjectDir)engine\light;$(ProjectDir)fbxsdk;$(ProjectDir)2d;$(ProjectDir)Resources\Shaders\Bulr;$(ProjectDir)Resources\Shaders\Monochrome;$(ProjectDir)Resources\Shaders\Mosaic;$(ProjectDir)Resources\Shaders\Reversal;$(ProjectDir)Resources\Shaders\ChromaticAberration;$(ProjectDir)Resources\Shaders\DepthOfField;$(ProjectDir)Resources\Shaders\ShadowMap;$(ProjectDir)Resources\Shaders\Fbx;$(ProjectDir)Resources\Shaders\Sprite;$(ProjectDir)Resources\Shaders\VolumeLight;$(ProjectDir)Resources\Shaders\Fog;$(ProjectDir)Resources\Shaders\Vignette;$(ProjectDir)Resources\Shaders\ColliderCube;$(ProjectDir)engine\collision;$(ProjectDir)application\gameObject;$(ProjectDir)Resource\Shader\Particle;$(ProjectDir)engine\math;$(ProjectDir)Resource\Shader\SparkParticlr;$(ProjectDir)application;$(ProjectDir)Resources\Shaders\BillboardSprite;$(ProjectDir)Resources\Shaders\Ground;$(ProjectDir)Resources\Shaders\Explosion1;$(ProjectDir)Resources\Shaders\Explosion2</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)engine\base;$(ProjectDir);$(ProjectDir)engine\fbx;$(ProjectDir)Resources;$(ProjectDir)Resources\Shaders;$(ProjectDir)engine\particle;$(ProjectDir)engine\light;$(ProjectDir)fbxsdk;$(ProjectDir)2d;$(ProjectDir)Resources\Shaders\Bulr;$(ProjectDir)Resources\Shaders\Monochrome;$(ProjectDir)Resources\Shaders\Mosaic;$(ProjectDir)Resources\Shaders\Reversal;$(ProjectDir)Resources\Shaders\ChromaticAberration;$(ProjectDir)Resources\Shaders\DepthOfField;$(ProjectDir)Resources\Shaders\ShadowMap;$(ProjectDir)Resources\Shaders\Fbx;$(ProjectDir)Resources\Shaders\Sprite;$(ProjectDir)Resources\Shaders\VolumeLight;$(ProjectDir)Resources\Shaders\Fog;$(ProjectDir)Resources\Shaders\Vignette;$(ProjectDir)Resources\Shaders\ColliderCube;$(ProjectDir)engine\collision;$(ProjectDir)application\gameObject;$(ProjectDir)Resource\Shader\Particle;$(ProjectDir)engine\math;$(ProjectDir)Resource\Shader\SparkParticlr;$(ProjectDir)application;$(ProjectDir)Resources\Shaders\BillboardSprite;$(ProjectDir)Resources\Shaders\Ground;$(ProjectDir)Resources\Shaders\Explosion1;$(ProjectDir)Resources\Shaders\Explosion2;$(ProjectDir)external\Effekseer\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <DisableSpecificWarnings>4099;26495;26451;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
@@ -145,7 +145,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)engine\base;$(ProjectDir);$(ProjectDir)engine\fbx;$(ProjectDir)Resources;$(ProjectDir)Resources\Shaders;$(ProjectDir)engine\particle;$(ProjectDir)engine\light;$(ProjectDir)fbxsdk;$(ProjectDir)2d;$(ProjectDir)Resources\Shaders\Bulr;$(ProjectDir)Resources\Shaders\Monochrome;$(ProjectDir)Resources\Shaders\Mosaic;$(ProjectDir)Resources\Shaders\Reversal;$(ProjectDir)Resources\Shaders\ChromaticAberration;$(ProjectDir)Resources\Shaders\DepthOfField;$(ProjectDir)Resources\Shaders\ShadowMap;$(ProjectDir)Resources\Shaders\Fbx;$(ProjectDir)Resources\Shaders\Sprite;$(ProjectDir)Resources\Shaders\VolumeLight;$(ProjectDir)Resources\Shaders\Fog;$(ProjectDir)Resources\Shaders\Vignette;$(ProjectDir)Resources\Shaders\ColliderCube;$(ProjectDir)engine\collision;$(ProjectDir)application\gameObject;$(ProjectDir)Resource\Shader\Particle;$(ProjectDir)engine\math;$(ProjectDir)Resource\Shader\SparkParticlr;$(ProjectDir)application;$(ProjectDir)Resources\Shaders\BillboardSprite;$(ProjectDir)Resources\Shaders\Ground;$(ProjectDir)Resources\Shaders\Explosion1;$(ProjectDir)Resources\Shaders\Explosion2</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)engine\base;$(ProjectDir);$(ProjectDir)engine\fbx;$(ProjectDir)Resources;$(ProjectDir)Resources\Shaders;$(ProjectDir)engine\particle;$(ProjectDir)engine\light;$(ProjectDir)fbxsdk;$(ProjectDir)2d;$(ProjectDir)Resources\Shaders\Bulr;$(ProjectDir)Resources\Shaders\Monochrome;$(ProjectDir)Resources\Shaders\Mosaic;$(ProjectDir)Resources\Shaders\Reversal;$(ProjectDir)Resources\Shaders\ChromaticAberration;$(ProjectDir)Resources\Shaders\DepthOfField;$(ProjectDir)Resources\Shaders\ShadowMap;$(ProjectDir)Resources\Shaders\Fbx;$(ProjectDir)Resources\Shaders\Sprite;$(ProjectDir)Resources\Shaders\VolumeLight;$(ProjectDir)Resources\Shaders\Fog;$(ProjectDir)Resources\Shaders\Vignette;$(ProjectDir)Resources\Shaders\ColliderCube;$(ProjectDir)engine\collision;$(ProjectDir)application\gameObject;$(ProjectDir)Resource\Shader\Particle;$(ProjectDir)engine\math;$(ProjectDir)Resource\Shader\SparkParticlr;$(ProjectDir)application;$(ProjectDir)Resources\Shaders\BillboardSprite;$(ProjectDir)Resources\Shaders\Ground;$(ProjectDir)Resources\Shaders\Explosion1;$(ProjectDir)Resources\Shaders\Explosion2;$(ProjectDir)external\Effekseer\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <DisableSpecificWarnings>4099;26495;26451;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
