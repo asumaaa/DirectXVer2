@@ -294,7 +294,7 @@ void GameScene::Update()
 {
 	//カメラ更新
 	camera_->UpdatePlayer(player->GetPosition(),player->GetRotation());
-	//camera_->DebugUpdate();
+	/*camera_->DebugUpdate();*/
 	camera_->Update();
 	//コントローラー更新
 	dxInput->InputProcess();
