@@ -60,6 +60,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("enemy"));
 	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("playerBullet"));
 	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("sphere"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Enemy1"));
 
 	//スプライト
 	Sprite::SetDevice(dxCommon->GetDevice());

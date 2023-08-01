@@ -76,8 +76,7 @@
                     2.0,
                     2.0
                 ]
-            },
-            "textureNum1": "0"
+            }
         },
         {
             "type": "MESH",
@@ -112,18 +111,14 @@
                     40.0,
                     2.0
                 ]
-            },
-            "textureNum1": "10",
-            "textureNum2": "11",
-            "textureNum3": "13",
-            "shaderName": "Ground"
+            }
         },
         {
             "type": "MESH",
             "name": "立方体.001",
             "transform": {
                 "translation": [
-                    -20.0,
+                    0.0,
                     0.0,
                     4.0
                 ],
@@ -138,11 +133,11 @@
                     4.0
                 ]
             },
-            "file_name": "enemy",
+            "file_name": "Enemy1",
             "collider": {
                 "type": "Sphere",
                 "center": [
-                    -20.0,
+                    0.0,
                     0.0,
                     4.0
                 ],
@@ -151,8 +146,7 @@
                     5.0,
                     5.0
                 ]
-            },
-            "textureNum1": "9"
+            }
         }
     ]
 }
