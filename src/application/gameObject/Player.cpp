@@ -26,7 +26,7 @@ void Player::Update()
 void Player::UpdateObject()
 {
 	object->SetPosition(position);
-	object->SetRotation(rotation);
+	object->SetRotation(rotation0 + rotation1);
 	object->SetScale(scale);
 
 	object->Update();
@@ -40,7 +40,7 @@ void Player::UpdateBullet()
 		bullet->SetShotFlag(true);
 		
 		//弾ベクトル
-		XMFLOAT3 bulletVelocity = rollRotation(XMFLOAT3(0.0f, 0.0f, 1.0f), rotation);
+		XMFLOAT3 bulletVelocity = rollRotation(XMFLOAT3(0.0f, 0.0f, 1.0f), rotation1);
 
 		//弾生成場所とvelocityをセット
 		bullet->SetBullet(position, bulletVelocity);
@@ -75,13 +75,13 @@ void Player::KeyControl()
 	//AROWキーで角度変更
 	rotVelocity.y = (input->PushKey(DIK_RIGHT) - input->PushKey(DIK_LEFT)) * rotSpeed;
 	//角度ベクトルを加算
-	rotation = rotation + rotVelocity;
+	rotation1 = rotation1 + rotVelocity;
 
 	//ASDWで移動
 	posVelocity.x = (input->PushKey(DIK_D) - input->PushKey(DIK_A)) * posSpeed;
 	posVelocity.z = (input->PushKey(DIK_W) - input->PushKey(DIK_S)) * posSpeed;
 	//進行ベクトルを回転
-	posVelocity = rollRotation(posVelocity, rotation);
+	posVelocity = rollRotation(posVelocity, rotation1);
 	//進行ベクトルを加算
 	position = position + posVelocity;
 }
@@ -137,7 +137,7 @@ void Player::SetObject(FbxObject3D* object)
 	Player::object.reset(object);
 
 	position = object->GetPosition();
-	rotation = object->GetRotation();
+	rotation0 = object->GetRotation();
 	scale = object->GetScale();
 }
 

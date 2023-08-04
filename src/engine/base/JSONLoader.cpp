@@ -67,9 +67,18 @@ void JSONLoader::LoadFile(const std::string fileName)
 			objectData1.position.y = (float)transform["translation"][2];
 			objectData1.position.z = (float)transform["translation"][1];
 			// ‰ñ“]Šp
-			objectData1.rotation.x = (float)transform["rotation"][0];
-			objectData1.rotation.y = (float)transform["rotation"][2];
-			objectData1.rotation.z = -(float)transform["rotation"][1];
+			if (object["file_name"].get<std::string>() != "plane")
+			{
+				objectData1.rotation.x = (float)transform["rotation"][0] - 90;
+				objectData1.rotation.y = (float)transform["rotation"][2] - 180;
+				objectData1.rotation.z = -(float)transform["rotation"][1];
+			}
+			else
+			{
+				objectData1.rotation.x = (float)transform["rotation"][0];
+				objectData1.rotation.y = (float)transform["rotation"][2];
+				objectData1.rotation.z = -(float)transform["rotation"][1];
+			}
 			//ŒÊ“x–@‚É•ÏŠ·
 			objectData1.rotation.x *= 1.0f / 360.0f * (2.0f * PI);
 			objectData1.rotation.y *= 1.0f / 360.0f * (2.0f * PI);
@@ -96,6 +105,18 @@ void JSONLoader::LoadFile(const std::string fileName)
 			colliderData1.rotation.x = (float)transform["rotation"][0];
 			colliderData1.rotation.y = (float)transform["rotation"][2];
 			colliderData1.rotation.z = -(float)transform["rotation"][1];
+			/*if (object["file_name"].get<std::string>() != "plane")
+			{
+				colliderData1.rotation.x = (float)transform["rotation"][0] - 90;
+				colliderData1.rotation.y = (float)transform["rotation"][2] - 180;
+				colliderData1.rotation.z = -(float)transform["rotation"][1];
+			}
+			else
+			{
+				colliderData1.rotation.x = (float)transform["rotation"][0];
+				colliderData1.rotation.y = (float)transform["rotation"][2];
+				colliderData1.rotation.z = -(float)transform["rotation"][1];
+			}*/
 			//ŒÊ“x–@‚É•ÏŠ·
 			colliderData1.rotation.x *= 1.0f / 360.0f * (2.0f * PI);
 			colliderData1.rotation.y *= 1.0f / 360.0f * (2.0f * PI);

@@ -60,7 +60,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("enemy"));
 	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("playerBullet"));
 	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("sphere"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Enemy1"));
 
 	//スプライト
 	Sprite::SetDevice(dxCommon->GetDevice());
@@ -231,7 +230,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 
 	//レベルエディタ
 	JSONLoader* newJsonLoader = new JSONLoader();
-	newJsonLoader->LoadFile("Resources/json/demo.json");
+	newJsonLoader->LoadFile("Resources/json/demo1.json");
 	jsonLoader.reset(newJsonLoader);
 
 	for (int i = 0; i < jsonLoader->GetObjectNum(); i++)
@@ -294,8 +293,8 @@ void GameScene::Finalize()
 void GameScene::Update()
 {
 	//カメラ更新
-	camera_->UpdatePlayer(player->GetPosition(),player->GetRotation());
-	/*camera_->DebugUpdate();*/
+	camera_->UpdatePlayer(player->GetPosition(),player->GetRotation1());
+	//camera_->DebugUpdate();
 	camera_->Update();
 	//コントローラー更新
 	dxInput->InputProcess();
@@ -348,7 +347,7 @@ void GameScene::Update()
 	//スペースキーでファイル読み込み更新
 	if(input_->TriggerKey(DIK_SPACE))
 	{
-		jsonLoader->LoadFile("Resources/json/demo.json"); 
+		jsonLoader->LoadFile("Resources/json/demo1.json"); 
 		int i = 0;
 		for (std::unique_ptr<FbxObject3D>& object0 : object)
 		{

@@ -128,7 +128,11 @@ private:
 	//モデル
 	FbxModel* model = nullptr;
 	//コライダーの中心と座標の差分
-	XMFLOAT3 colliderPos = {0.0f,0.0f,0.0f};
+	XMFLOAT3 colliderPos0 = { 0.0f,0.0f,0.0f };
+	XMFLOAT3 colliderPos1 = {0.0f,0.0f,0.0f};
+	XMFLOAT3 colliderCenter = { 0.0f,0.0f,0.0f };
+	XMFLOAT3 colliderRotation = { 0.0f,0.0f,0.0f };
+	XMFLOAT3 colliderScale = { 0.0f,0.0f,0.0f };
 
 	//ビルボードフラグ
 	bool billboardFlag = false;

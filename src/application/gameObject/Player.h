@@ -51,7 +51,8 @@ public:
 
 	//ゲッター
 	XMFLOAT3 GetPosition() { return position; }
-	XMFLOAT3 GetRotation() { return rotation; }
+	XMFLOAT3 GetRotation0() { return rotation0; }
+	XMFLOAT3 GetRotation1() { return rotation1; }
 	XMFLOAT3 GetScale() { return scale; }
 
 	//静的メンバ変数
@@ -76,7 +77,8 @@ public:
 	//平行移動
 	XMFLOAT3 position = {0.0f,0.0f,0.0f};
 	//回転
-	XMFLOAT3 rotation = {0.0f,0.0f,0.0f};
+	XMFLOAT3 rotation0 = { 0.0f,0.0f,0.0f };
+	XMFLOAT3 rotation1 = {0.0f,0.0f,0.0f};
 	//サイズ
 	XMFLOAT3 scale = {1.0f,1.0f,1.0f};
 	//進行ベクトル

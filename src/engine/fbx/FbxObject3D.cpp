@@ -4,6 +4,7 @@
 #include <locale> 
 #include <codecvt> 
 #include <cstdio>
+#include "mathOriginal.h"
 
 #include <d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
@@ -212,8 +213,10 @@ void FbxObject3D::UpdateBillboard()
 
 void FbxObject3D::UpdateCollider()
 {
-	FbxObject3D::colliderData.center = position;
-	FbxObject3D::colliderData.rotation = rotation;
+	colliderPos1 = position - colliderPos0;
+	colliderData.center = colliderCenter + colliderPos1;
+	colliderData.rotation = colliderRotation;
+	colliderData.scale = colliderScale;
 }
 
 void FbxObject3D::DrawLightView(ID3D12GraphicsCommandList* cmdList)
@@ -1524,6 +1527,7 @@ void FbxObject3D::PlayAnimation()
 void FbxObject3D::SetObjectData(JSONLoader::ObjectData objectData)
 {
 	position = objectData.position;
+	colliderPos0 = objectData.position;
 	scale = objectData.scale;
 	rotation = objectData.rotation;
 	fileName = objectData.fileName;
@@ -1535,8 +1539,11 @@ void FbxObject3D::SetColliderData(JSONLoader::ColliderData colliderData)
 	FbxObject3D::colliderData.type = colliderData.type;
 	FbxObject3D::colliderData.objectName = colliderData.objectName;
 	FbxObject3D::colliderData.scale = colliderData.scale;
-	FbxObject3D::colliderData.rotation = colliderData.rotation;
 	FbxObject3D::colliderData.center = colliderData.center;
+	FbxObject3D::colliderData.rotation = colliderData.rotation;
+	colliderRotation = colliderData.rotation;
+	colliderCenter = colliderData.center;
+	colliderScale = colliderData.scale;
 }
 
 void FbxObject3D::SetTextureData(JSONLoader::TextureData textureData)
