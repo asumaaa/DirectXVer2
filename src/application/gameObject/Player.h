@@ -49,6 +49,9 @@ public:
 	void SetSRV(ID3D12DescriptorHeap* SRV);
 	void HitPlane();
 
+	//外部ファイルによる初期値読み込み
+	void LoadConfig();
+
 	//ゲッター
 	XMFLOAT3 GetPosition() { return position; }
 	XMFLOAT3 GetRotation0() { return rotation0; }
@@ -89,6 +92,9 @@ public:
 	//当たり判定関連
 	//接地フラグ
 	bool groundFlag = false;
+
+	//ステータス関連
+	float HP = 10;
 
 
 	//挙動関連
