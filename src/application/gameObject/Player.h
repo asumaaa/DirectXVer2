@@ -94,11 +94,11 @@ public:
 	bool groundFlag = false;
 
 	//ステータス関連
+	//プレイヤーのHP
 	float HP = 10;
 
 
 	//挙動関連
-	
 	//落下
 	//落下ベクトル
 	XMFLOAT3 fallVelocity = { 0.0f,0.0f,0.0f };
