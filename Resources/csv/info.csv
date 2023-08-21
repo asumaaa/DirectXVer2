@@ -1,0 +1,15 @@
+プレイヤーのHP
+:playerHP = 100
+
+プレイヤーの1フレームあたりの落下量
+:playerFallFrame = 0.015
+
+プレイヤーのジャンプ力
+:playerJumpHeight = 0.4
+
+プレイヤーの移動スピード
+:playerSpeed = 0.4 
+
+
+敵のHP
+:enemyHP
