@@ -288,6 +288,9 @@
     <ClCompile Include="engine\particle\ExplosionParticle2.cpp">
       <Filter>ソース ファイル\particle</Filter>
     </ClCompile>
+    <ClCompile Include="engine\base\SoundManager.cpp">
+      <Filter>ソース ファイル\base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\MonochromeEffect.h">
@@ -451,6 +454,9 @@
     </ClInclude>
     <ClInclude Include="engine\particle\ExplosionParticle2.h">
       <Filter>ヘッダー ファイル\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\base\SoundManager.h">
+      <Filter>ヘッダー ファイル\base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

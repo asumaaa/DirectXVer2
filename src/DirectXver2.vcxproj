@@ -185,6 +185,7 @@
     <ClCompile Include="engine\base\Input.cpp" />
     <ClCompile Include="engine\base\JSONLoader.cpp" />
     <ClCompile Include="engine\base\Message.cpp" />
+    <ClCompile Include="engine\base\SoundManager.cpp" />
     <ClCompile Include="engine\base\Sprite.cpp" />
     <ClCompile Include="engine\base\TextureManager.cpp" />
     <ClCompile Include="engine\base\WinApp.cpp" />
@@ -241,6 +242,7 @@
     <ClInclude Include="engine\base\json.hpp" />
     <ClInclude Include="engine\base\JSONLoader.h" />
     <ClInclude Include="engine\base\Message.h" />
+    <ClInclude Include="engine\base\SoundManager.h" />
     <ClInclude Include="engine\base\Sprite.h" />
     <ClInclude Include="engine\base\TextureManager.h" />
     <ClInclude Include="engine\base\WinApp.h" />
