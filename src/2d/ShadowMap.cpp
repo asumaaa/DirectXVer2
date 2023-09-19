@@ -432,7 +432,7 @@ void ShadowMap::CreateGraphicsPipeLine0()
 
 	//頂点シェーダの読み込み コンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/ShadowMap/ShadowMapVertexShader.hlsl",
+		L"Resources/Shaders/ShadowMap/ShadowMapVertexShader.hlsl", 
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,
 		"main", "vs_5_0",
