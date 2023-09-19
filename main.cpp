@@ -1,0 +1,197 @@
+﻿#include "WinApp.h"
+#include "Message.h"
+#include "Input.h"
+#include "DirectXCommon.h"
+#include "DirectXTex.h"
+#include "FPS.h"
+#include "fbxsdk.h"
+#include "GameScene.h"
+#include "ImGuiManager.h"
+#include "imgui.h"
+#include "MonochromeEffect.h"
+#include "ReversalEffect.h"
+#include "BlurEffect.h"
+#include "MosaicEffect.h"
+#include "ChromaticAberrationEffect.h"
+#include "ShadowMap.h"
+#include "DepthOfField.h"
+#include "Fog.h"
+
+#include "Sprite.h"
+
+int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
+{
+	//ウィンドウ生成
+	WinApp* winApp = nullptr;
+	winApp = WinApp::GetInstance();
+	winApp->CreateWindow_(L"あいうえお");
+
+	//メッセージ
+	Message* message;
+	message = Message::GetInstance();
+
+	//DirectX初期化処理
+	DirectXCommon* dxCommon = nullptr;
+	dxCommon = DirectXCommon::GetInstance();
+	dxCommon->Initialize(winApp);
+
+	//キーボード
+	Input* input = nullptr;
+	input = Input::GetInstance();
+	input->Initialize(winApp);
+
+	//ImGuiManager
+	ImGuiManager* imGuiManager = nullptr;
+	imGuiManager = new ImGuiManager();
+	imGuiManager->Initialize(winApp,dxCommon);
+
+	////単色エフェクト
+	//MonochromeEffect* monochromeEffect = nullptr;
+	//MonochromeEffect::SetDevice(dxCommon->GetDevice());
+	//monochromeEffect = new MonochromeEffect;
+	//monochromeEffect->Initialize();
+	//monochromeEffect->CreateGraphicsPipeLine();
+
+	////反転エフェクト
+	//ReversalEffect* reversalEffect = nullptr;
+	//ReversalEffect::SetDevice(dxCommon->GetDevice());
+	//reversalEffect = new ReversalEffect;
+	//reversalEffect->Initialize();
+	//reversalEffect->CreateGraphicsPipeLine();
+
+	//ぼかしエフェクト
+	/*BlurEffect* blurEffect = nullptr;
+	BlurEffect::SetDevice(dxCommon->GetDevice());
+	blurEffect = new BlurEffect;
+	blurEffect->Initialize();
+	blurEffect->CreateGraphicsPipeLine();*/
+
+	////モザイクエフェクト
+	//MosaicEffect* mosaicEffect = nullptr;
+	//MosaicEffect::SetDevice(dxCommon->GetDevice());
+	//mosaicEffect = new MosaicEffect;
+	//mosaicEffect->Initialize();
+	//mosaicEffect->CreateGraphicsPipeLine();
+
+	////RGBずらし
+	//ChromaticAberration* chromaticAberration = nullptr;
+	//ChromaticAberration::SetDevice(dxCommon->GetDevice());
+	//chromaticAberration = new ChromaticAberration;
+	//chromaticAberration->Initialize();
+	//chromaticAberration->CreateGraphicsPipeLine();
+
+	//ShadowMap
+	ShadowMap* shadowMap = nullptr;
+	ShadowMap::SetDevice(dxCommon->GetDevice());
+	shadowMap = new ShadowMap;
+	shadowMap->Initialize();
+	shadowMap->CreateGraphicsPipeLine0();
+
+	//被写界深度
+	//DepthOfField* depthOfField = nullptr;
+	//DepthOfField::SetDevice(dxCommon->GetDevice());
+	//depthOfField = new DepthOfField;
+	//depthOfField->Initialize();
+	//depthOfField->CreateGraphicsPipeLine();
+
+	//Fog
+	Fog* fog = nullptr;
+	Fog::SetDevice(dxCommon->GetDevice());
+	fog = new Fog;
+	fog->Initialize();
+	fog->CreateGraphicsPipeLine0();
+
+	//ゲームシーン
+	GameScene* gameScene = nullptr;
+	gameScene = new GameScene();
+	gameScene->Initialize(dxCommon, input);
+
+	//FPSを固定
+	FPS* fps = nullptr;
+	fps = new FPS;
+	fps->SetFrameRate(60.0f);
+	fps->FpsControlBegin();
+
+	//ゲームループ
+	while (true)
+	{
+		//✖ボタンでゲームループ終了
+		if (message->Update() == 1)break;
+
+		//キーボード更新
+		input->Update();
+
+		imGuiManager->Begin();
+
+		//ゲームシーン更新
+
+		////単色エフェクト
+		//monochromeEffect->SetAlpha(1.0f);
+		//monochromeEffect->SetColor({ 1.0f,1.0f,0.0 });
+		//monochromeEffect->Update();
+
+		////反転エフェクト
+		//reversalEffect->SetAlpha(1.0f);
+		//reversalEffect->Update();
+
+		//ぼかしエフェクト
+		/*blurEffect->SetAlpha(1.0f);
+		blurEffect->SetResolution(20.0f);
+		blurEffect->Update();*/
+
+		////モザイクエフェクト
+		//mosaicEffect->SetAlpha(1.0f);
+		//mosaicEffect->SetResolution(10.0f);
+		//mosaicEffect->Update();
+
+		////RGBずらし
+		//chromaticAberration->SetAlpha(1.0f);
+		//chromaticAberration->SetStrength(0.01);
+		//chromaticAberration->Update();
+
+		//shadowMap
+		shadowMap->SetAlpha(1.0f);
+		shadowMap->SetLightVP(gameScene->GetLightViewProjection());
+		shadowMap->Update();
+
+		//被写界深度
+		/*depthOfField->SetAlpha(1.0f);
+		depthOfField->SetFocus(0.1f);
+		depthOfField->SetFNumber(0.1f);
+		depthOfField->SetStrength(50.0f);
+		depthOfField->Update();*/
+
+		//Fog
+		fog->SetAlpha(1.0f);
+		fog->SetStrength(2.0f);
+		fog->SetStartDepth(0.2f);
+		fog->Update();
+
+		//ゲームシーン
+		gameScene->Update();
+
+		// 4. 描画コマンド
+
+		//描画前処理
+		dxCommon->PreDraw();
+	
+		gameScene->Draw();
+
+		imGuiManager->End();
+		imGuiManager->Draw();
+
+		//描画後処理
+		dxCommon->PostDraw();
+	}
+
+	fps->FpsControlEnd();
+
+	dxCommon->EndImgui();
+
+	imGuiManager->Finalize();
+
+	//ウィンドウクラスを登録解除
+	winApp->deleteWindow();
+
+	return 0;
+}
