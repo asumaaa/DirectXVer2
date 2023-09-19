@@ -103,4 +103,28 @@ private:
 
 	//コライダー
 	std::unique_ptr<ColliderManager> colliderManager;
+
+	//弾けるパーティクル
+	std::unique_ptr<SparkParticle>sparkParticle;
+
+	//弾けるパーティクル2
+	std::unique_ptr<SparkParticle2>sparkParticle2;
+
+	//爆発パーテイクル1
+	std::unique_ptr<ExplosionParticle1>explosionParticle1;
+
+	//爆発パーテイクル2
+	std::unique_ptr<ExplosionParticle2>explosionParticle2;
+
+	//描画フラグ
+	int drawParticle[1] = { 1 };
+	int drawFbx[1] = { 1 };
+	int drawSprite[1] = { 0 };
+	int drawCollider[1] = { 1 };
+
+	//ビルボード　
+	std::unique_ptr<BillboardSprite>billboardSprite;
+	std::unique_ptr<BillboardSpriteModel>billboardSpriteModel;
+
+	FbxObject3D* playerObject = nullptr;
 };

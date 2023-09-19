@@ -23,15 +23,16 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	//FBXローダー初期化
 	FbxLoader::GetInstance()->Initialize(dxCommon_->GetDevice());
 	//モデル名を指定してファイル読み込み
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("plane", "Resources/pictures/white1x1.png"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree", "Resources/pictures/white1x1.png"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree1", "Resources/pictures/black.png"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree2", "Resources/pictures/white1x1.png"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree3", "Resources/pictures/black.png"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Cube", "Resources/pictures/toriko.png"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("player", "Resources/pictures/white1x1.png"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("enemy", "Resources/pictures/toriko.png"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("playerBullet", "Resources/pictures/white1x1.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("plane"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree1"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree2"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree3"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("cube"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("player"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("enemy"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("playerBullet"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("sphere"));
 
 	//カメラ初期化
 	Camera::SetInput(input_);
@@ -135,6 +136,21 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	FbxObject3D::CreateGraphicsPipelineLightView();
 	FbxObject3D::CreateGraphicsPipeline();
 
+	playerObject = new FbxObject3D;
+	playerObject->Initialize();
+	//モデルセット
+	for (std::unique_ptr<FbxModel>& model : models)
+	{
+		if ("player" == model->GetFileName())
+		{
+			playerObject->SetModel(model.get());
+		}
+	}
+	playerObject->SetPosition(XMFLOAT3(0, 3, 0));
+	playerObject->SetScale(XMFLOAT3(1, 1, 1));
+	playerObject->SetRotation(XMFLOAT3(0, 0, 0));
+
+
 	//レベルエディタ
 	JSONLoader* newJsonLoader = new JSONLoader();
 	newJsonLoader->LoadFile("Resources/json/demo.json");
@@ -208,8 +224,11 @@ void GameScene::Finalize()
 
 void GameScene::Update()
 {
+	playerObject->Update();
+
 	//カメラ更新
-	camera_->UpdatePlayer(player->GetPosition(),player->GetRotation());
+	/*camera_->UpdatePlayer(player->GetPosition(),player->GetRotation1());*/
+	camera_->DebugUpdate();
 	camera_->Update();
 	//コントローラー更新
 	dxInput->InputProcess();
@@ -346,6 +365,8 @@ void GameScene::DrawFBXLightView()
 		object0->DrawLightView(dxCommon_->GetCommandList());
 	}
 
+	playerObject->DrawLightView(dxCommon_->GetCommandList());
+
 	//プレイヤー
 	player->DrawLightView(dxCommon_->GetCommandList());
 }
@@ -356,6 +377,8 @@ void GameScene::DrawFBX()
 	{
 		object0->Draw(dxCommon_->GetCommandList());
 	}
+	playerObject->Draw(dxCommon_->GetCommandList());
+
 	//プレイヤー
 	player->Draw(dxCommon_->GetCommandList());
 }
@@ -371,6 +394,9 @@ void GameScene::SetSRV(ID3D12DescriptorHeap* SRV)
 	{
 		object0->SetSRV(SRV);
 	}
+
+	playerObject->SetSRV(SRV);
+
 	//プレイヤー
 	player->SetSRV(SRV);
 }
