@@ -55,7 +55,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree1"));
 	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree2"));
 	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree3"));
-	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Cube"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("cube"));
 	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("player"));
 	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("enemy"));
 	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("playerBullet"));
@@ -230,7 +230,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 
 	//レベルエディタ
 	JSONLoader* newJsonLoader = new JSONLoader();
-	newJsonLoader->LoadFile("Resources/json/demo1.json");
+	newJsonLoader->LoadFile("Resources/json/demo.json");
 	jsonLoader.reset(newJsonLoader);
 
 	for (int i = 0; i < jsonLoader->GetObjectNum(); i++)
@@ -293,8 +293,8 @@ void GameScene::Finalize()
 void GameScene::Update()
 {
 	//カメラ更新
-	camera_->UpdatePlayer(player->GetPosition(),player->GetRotation1());
-	//camera_->DebugUpdate();
+	/*camera_->UpdatePlayer(player->GetPosition(),player->GetRotation1());*/
+	camera_->DebugUpdate();
 	camera_->Update();
 	//コントローラー更新
 	dxInput->InputProcess();

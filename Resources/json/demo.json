@@ -49,12 +49,12 @@
             "transform": {
                 "translation": [
                     0.0,
-                    -5.0,
-                    2.0
+                    -4.0,
+                    0.0
                 ],
                 "rotation": [
+                    -9.334667083749082e-06,
                     0.0,
-                    -0.0,
                     0.0
                 ],
                 "scale": [
@@ -68,7 +68,7 @@
                 "type": "Sphere",
                 "center": [
                     0.0,
-                    -5.0,
+                    -4.0,
                     2.0
                 ],
                 "size": [
@@ -81,7 +81,45 @@
         },
         {
             "type": "MESH",
-            "name": "平面",
+            "name": "球.001",
+            "transform": {
+                "translation": [
+                    0.0,
+                    5.0,
+                    2.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scale": [
+                    2.0,
+                    2.0,
+                    2.0
+                ]
+            },
+            "file_name": "enemy",
+            "collider": {
+                "type": "Sphere",
+                "center": [
+                    0.0,
+                    5.0,
+                    2.0
+                ],
+                "size": [
+                    2.0,
+                    2.0,
+                    2.0
+                ]
+            },
+            "textureNum1": "0",
+            "textureNum2": "12",
+            "shaderName": "DissolveTest"
+        },
+        {
+            "type": "MESH",
+            "name": "平面.001",
             "transform": {
                 "translation": [
                     0.0,
@@ -113,16 +151,18 @@
                     2.0
                 ]
             },
-            "textureNum1": "0"
+            "textureNum1": "10",
+            "textureNum2": "9",
+            "shaderName": "MultiTextureTest"
         },
         {
             "type": "MESH",
             "name": "立方体.001",
             "transform": {
                 "translation": [
+                    7.0,
                     0.0,
-                    0.0,
-                    4.0
+                    7.0
                 ],
                 "rotation": [
                     0.0,
@@ -135,21 +175,23 @@
                     4.0
                 ]
             },
-            "file_name": "enemy",
+            "file_name": "cube",
             "collider": {
-                "type": "Sphere",
+                "type": "Box",
                 "center": [
                     0.0,
                     0.0,
-                    4.0
+                    0.0
                 ],
                 "size": [
-                    5.0,
-                    5.0,
-                    5.0
+                    1.0,
+                    1.0,
+                    1.0
                 ]
             },
-            "textureNum1": "0"
+            "textureNum1": "1",
+            "textureNum2": "1",
+            "shaderName": "NoizTest"
         }
     ]
 }

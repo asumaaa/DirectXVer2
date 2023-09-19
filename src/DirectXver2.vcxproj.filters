@@ -127,6 +127,15 @@
     <Filter Include="リソース ファイル\Shaders\Object\ExplosionParticle2">
       <UniqueIdentifier>{1d9b0217-57cb-45e1-8155-c0e0adf8679a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\Shaders\Object\MultiTextureTest">
+      <UniqueIdentifier>{07115e16-5b0c-4ad0-b4a1-db227f8b78bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\Shaders\Object\DissolveTest">
+      <UniqueIdentifier>{4ada0a02-9f7b-4cd0-b36b-a81b18e91549}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\Shaders\Object\NoizTest">
+      <UniqueIdentifier>{4eaf3cca-8d8e-4ec4-847e-38a6e45e4286}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="2d\MonochromeEffect.cpp">
@@ -598,6 +607,24 @@
     <FxCompile Include="..\Resources\Shaders\ExplosionParticle2\ExplosionParticle2VertexShader.hlsl">
       <Filter>リソース ファイル\Shaders\Object\ExplosionParticle2</Filter>
     </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\MultiTextureTest\MultiTextureTestPixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Object\MultiTextureTest</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\MultiTextureTest\MultiTextureTestVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Object\MultiTextureTest</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\DissolveTest\DissolveTestPixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Object\DissolveTest</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\DissolveTest\DissolveTestVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Object\DissolveTest</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\NoizTest\NoizTestPixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Object\NoizTest</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\NoizTest\NoizTestVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Object\NoizTest</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\Shaders\ShaderHeader.hlsli">
@@ -662,6 +689,15 @@
     </None>
     <None Include="..\Resources\Shaders\ExplosionParticle2\ExplosionParticle2Header.hlsli">
       <Filter>リソース ファイル\Shaders\Object\ExplosionParticle2</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\MultiTextureTest\MultiTextureTestHeader.hlsli">
+      <Filter>リソース ファイル\Shaders\Object\MultiTextureTest</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\DissolveTest\DissolveTestHeader.hlsli">
+      <Filter>リソース ファイル\Shaders\Object\DissolveTest</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\NoizTest\NoizTestHeader.hlsli">
+      <Filter>リソース ファイル\Shaders\Object\NoizTest</Filter>
     </None>
   </ItemGroup>
 </Project>

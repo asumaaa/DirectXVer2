@@ -64,6 +64,13 @@ void FbxObject3D::Initialize()
 
 void FbxObject3D::Update()
 {
+	//タイマー更新
+	timer += fTime;
+	if (timer >= maxTime)
+	{
+		timer = 0.0f;
+	}
+
 	HRESULT result;
 	//アニメーション
 	if (isPlay)
@@ -138,6 +145,7 @@ void FbxObject3D::Update()
 		constMap->world = matWorld;
 		constMap->cameraPos = cameraPos;
 		constMap->lightviewproj = light->GetMatViewProjection();
+		constMap->timer = timer;
 		constBuffTransform->Unmap(0, nullptr);
 	}
 
