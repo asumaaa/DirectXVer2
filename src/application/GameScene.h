@@ -28,6 +28,12 @@
 #include "BillboardSprite.h"
 #include "BillboardSpriteModel.h"
 
+enum Mode
+{
+	Game,
+	PlayerDebug,
+};
+
 class GameScene
 {
 	//ƒƒ“ƒoŠÖ”
