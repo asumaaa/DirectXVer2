@@ -2,7 +2,8 @@
 cbuffer ConstBuff : register(b0)
 {
 	float4 color;
-	float resolution;
+	/*float strength;*/
+	float2 strengthWeight;
 	float2 window;
 };
 

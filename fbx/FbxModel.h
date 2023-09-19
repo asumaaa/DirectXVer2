@@ -68,6 +68,8 @@ public:
 	std::vector<unsigned short>indices;
 
 private:
+	//ファイルの名前
+	std::string fileName;
 	///モデル名
 	std::string name;
 	//ノード配列
@@ -76,8 +78,6 @@ private:
 	DirectX::XMFLOAT3 ambient = { 1,1,1 };
 	//ディフューズ係数
 	DirectX::XMFLOAT3 diffuse = { 1,1,1 };
-	//スペキュラー係数
-	DirectX::XMFLOAT3 specular = {1,1,1 };
 	//テクスチャメタデータ
 	DirectX::TexMetadata metadata = {};
 	//スクラッチイメージ
@@ -125,10 +125,7 @@ public:
 	void Draw1(ID3D12GraphicsCommandList* cmdList);
 	//モデルの変形行列のゲッター
 	const XMMATRIX& GetModelTransform() { return meshNode->globalTransform; }
-	//マテリアルのゲッター
-	DirectX::XMFLOAT3 GetAmbient() { return ambient; }
-	DirectX::XMFLOAT3 GetDiffuse() { return diffuse; }
-	DirectX::XMFLOAT3 GetSpecular() { return specular; }
+	std::string GetFileName() { return fileName; }
 
 	ComPtr<ID3D12Resource> GetTexBuff() { return texBuff; }
 

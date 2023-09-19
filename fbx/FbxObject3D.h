@@ -11,6 +11,7 @@
 #include "string.h"
 #include "Light.h"
 #include "LightGroup.h"
+#include "JSONLoader.h"
 
 class FbxObject3D
 {
@@ -59,6 +60,7 @@ public://メンバ関数
 	void Initialize();
 	//更新
 	void Update();
+	void UpdateCollider();
 	//描画
 	void DrawLightView(ID3D12GraphicsCommandList* cmdList);
 	void Draw(ID3D12GraphicsCommandList* cmdList);
@@ -75,6 +77,16 @@ public://メンバ関数
 	void SetRotation(XMFLOAT3 rot) { rotation = rot; }
 	void SetScale(XMFLOAT3 sca) { scale = sca; }
 	void SetSRV(ID3D12DescriptorHeap* SRV) { depthSRV = SRV; }
+	void SetObjectData(JSONLoader::ObjectData objectData);
+	void SetColliderData(JSONLoader::ColliderData colliderData);
+
+	//ゲッター
+	XMFLOAT3 GetPosition() { return position; }
+	XMFLOAT3 GetRotation() { return rotation; }
+	XMFLOAT3 GetScale() { return scale; }
+	std::string GetFileName() { return fileName; }
+	std::string GetObjectName() { return objectName; }
+	JSONLoader::ColliderData GetColliderData() { return colliderData; }
 
 private://メンバ変数
 	//定数バッファ
@@ -97,6 +109,8 @@ private:
 	XMMATRIX matWorld;
 	//モデル
 	FbxModel* model = nullptr;
+	//コライダーの中心と座標の差分
+	XMFLOAT3 colliderPos = {0.0f,0.0f,0.0f};
 
 	//定数バッファ
 	ComPtr<ID3D12Resource>constBuffSkin;
@@ -114,4 +128,12 @@ private:
 	FbxTime currentTime;
 	//アニメーション再生中
 	bool isPlay = false;
+
+	//ファイルの名前
+	std::string fileName;
+	//オブジェクトの名前
+	std::string objectName;
+
+	//コライダー
+	JSONLoader::ColliderData colliderData;
 };

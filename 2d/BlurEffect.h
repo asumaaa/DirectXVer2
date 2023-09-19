@@ -26,10 +26,11 @@ public:	//サブクラス
 	{
 		//色
 		XMFLOAT4 color;
-		//解像度
-		float resolution;
+		//左右の解像度
+		XMFLOAT2 strengthWeight;
 		//ウィンドウ
 		XMFLOAT2 window;
+		float pad1;
 	};
 	//定数バッファ2
 	struct ConstBuffTransform
@@ -73,7 +74,8 @@ public:	//セッター
 	//スケール
 	void SetScale(XMFLOAT2 sca) { scale = sca; }
 	//解像度
-	void SetResolution(float re) { resolution = re; }
+	void SetWidthStrength(float re) { widthStrength = re; }
+	void SetHeightStrength(float re) { heightStrength = re; }
 
 private:	//静的メンバ変数
 	//デバイス
@@ -113,7 +115,8 @@ private:	//メンバ変数
 
 private:
 	//解像度
-	float resolution = 10;
+	float widthStrength = 10;
+	float heightStrength = 10;
 	float rotation = 0;
 	XMFLOAT2 position = { 0,0 };
 	XMFLOAT2 scale = { 100.0f,100.0f };

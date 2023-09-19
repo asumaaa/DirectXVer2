@@ -52,6 +52,7 @@ void FbxObject3D::Initialize()
 		constMapSkin->bones[i] = XMMatrixIdentity();
 	}
 	constBuffSkin->Unmap(0, nullptr);
+
 }
 
 void FbxObject3D::Update()
@@ -124,6 +125,14 @@ void FbxObject3D::Update()
 		constBuffTransform->Unmap(0, nullptr);
 	}
 
+	//コライダー更新
+	UpdateCollider();
+}
+
+void FbxObject3D::UpdateCollider()
+{
+	FbxObject3D::colliderData.center = position;
+	FbxObject3D::colliderData.rotation = rotation;
 }
 
 
@@ -187,7 +196,6 @@ void FbxObject3D::Draw(ID3D12GraphicsCommandList* cmdList)
 
 	model->Draw1(cmdList);
 }
-
 
 void FbxObject3D::CreateGraphicsPipelineLightView()
 {
@@ -282,7 +290,7 @@ void FbxObject3D::CreateGraphicsPipelineLightView()
 	gpipeline.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
 	// ラスタライザステート
 	gpipeline.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
-	//gpipeline.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
+	gpipeline.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
 	//gpipeline.RasterizerState.FillMode = D3D12_FILL_MODE_WIREFRAME;
 	// デプスステンシルステート
 	gpipeline.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
@@ -448,7 +456,7 @@ void FbxObject3D::CreateGraphicsPipeline()
 	// ラスタライザステート
 	gpipeline.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
 	gpipeline.RasterizerState.DepthClipEnable = true;
-	//gpipeline.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
+	gpipeline.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
 	//gpipeline.RasterizerState.FillMode = D3D12_FILL_MODE_WIREFRAME;
 	// デプスステンシルステート
 	gpipeline.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
@@ -456,7 +464,7 @@ void FbxObject3D::CreateGraphicsPipeline()
 	// レンダーターゲットのブレンド設定
 	D3D12_RENDER_TARGET_BLEND_DESC blenddesc{};
 	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;    // RBGA全てのチャンネルを描画
-	blenddesc.BlendEnable = true;
+	blenddesc.BlendEnable = false;
 	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
 	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
 	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
@@ -469,7 +477,7 @@ void FbxObject3D::CreateGraphicsPipeline()
 	gpipeline.BlendState.RenderTarget[0] = blenddesc;
 
 	// 深度バッファのフォーマット
-	gpipeline.DSVFormat = DXGI_FORMAT_R32_FLOAT;
+	gpipeline.DSVFormat = DXGI_FORMAT_D32_FLOAT;
 
 	// 頂点レイアウトの設定
 	gpipeline.InputLayout.pInputElementDescs = inputLayout;
@@ -562,4 +570,22 @@ void FbxObject3D::PlayAnimation()
 	currentTime = startTime;
 	//再生中状態にする
 	isPlay = true;
+}
+
+void FbxObject3D::SetObjectData(JSONLoader::ObjectData objectData)
+{
+	position = objectData.position;
+	scale = objectData.scale;
+	rotation = objectData.rotation;
+	fileName = objectData.fileName;
+	objectName = objectData.objectName;
+}
+
+void FbxObject3D::SetColliderData(JSONLoader::ColliderData colliderData)
+{
+	FbxObject3D::colliderData.type = colliderData.type;
+	FbxObject3D::colliderData.objectName = colliderData.objectName;
+	FbxObject3D::colliderData.scale = colliderData.scale;
+	FbxObject3D::colliderData.rotation = colliderData.rotation;
+	FbxObject3D::colliderData.center = colliderData.center;
 }

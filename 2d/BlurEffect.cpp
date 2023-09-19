@@ -267,7 +267,9 @@ void BlurEffect::Update()
 	constMapMaterial->color = color;
 	constMapMaterial->window.x = window_width;
 	constMapMaterial->window.y = window_height;
-	constMapMaterial->resolution = resolution;
+	/*constMapMaterial->strength = strength;*/
+	constMapMaterial->strengthWeight.x = widthStrength;
+	constMapMaterial->strengthWeight.y = heightStrength;
 
 	//変形行列
 	//ワールド変換行列
@@ -441,8 +443,8 @@ void BlurEffect::CreateGraphicsPipeLine()
 
 	//テクスチャサンプラーの設定
 	D3D12_STATIC_SAMPLER_DESC samplerDesc{};
-	samplerDesc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-	samplerDesc.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	samplerDesc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+	samplerDesc.AddressV = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
 	samplerDesc.AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
 	samplerDesc.BorderColor = D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK;
 	samplerDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;

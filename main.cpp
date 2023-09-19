@@ -16,6 +16,7 @@
 #include "ShadowMap.h"
 #include "DepthOfField.h"
 #include "Fog.h"
+#include "Vignette.h"
 
 #include "Sprite.h"
 
@@ -45,40 +46,26 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	imGuiManager = new ImGuiManager();
 	imGuiManager->Initialize(winApp,dxCommon);
 
-	////単色エフェクト
-	//MonochromeEffect* monochromeEffect = nullptr;
-	//MonochromeEffect::SetDevice(dxCommon->GetDevice());
-	//monochromeEffect = new MonochromeEffect;
-	//monochromeEffect->Initialize();
-	//monochromeEffect->CreateGraphicsPipeLine();
-
-	////反転エフェクト
-	//ReversalEffect* reversalEffect = nullptr;
-	//ReversalEffect::SetDevice(dxCommon->GetDevice());
-	//reversalEffect = new ReversalEffect;
-	//reversalEffect->Initialize();
-	//reversalEffect->CreateGraphicsPipeLine();
-
 	//ぼかしエフェクト
-	/*BlurEffect* blurEffect = nullptr;
+	BlurEffect* blurEffect = nullptr;
 	BlurEffect::SetDevice(dxCommon->GetDevice());
 	blurEffect = new BlurEffect;
 	blurEffect->Initialize();
-	blurEffect->CreateGraphicsPipeLine();*/
+	blurEffect->CreateGraphicsPipeLine();
+	float blurStrength[1] = { 5.0f };
+	float blurWidthStrength[1] = { 10.0f };
+	float blurHeightStrength[1] = { 10.0f };
 
-	////モザイクエフェクト
-	//MosaicEffect* mosaicEffect = nullptr;
-	//MosaicEffect::SetDevice(dxCommon->GetDevice());
-	//mosaicEffect = new MosaicEffect;
-	//mosaicEffect->Initialize();
-	//mosaicEffect->CreateGraphicsPipeLine();
+	//被写界深度
+	DepthOfField* depthOfField = nullptr;
+	DepthOfField::SetDevice(dxCommon->GetDevice());
+	depthOfField = new DepthOfField;
+	depthOfField->Initialize();
+	depthOfField->CreateGraphicsPipeLine();
+	float depthOfFieldFocus[1] = { 0.1 };
+	float depthOfFieldFNumber[1] = { 0.3 };
+	float depthOfFieldStrength[1] = { 50 };
 
-	////RGBずらし
-	//ChromaticAberration* chromaticAberration = nullptr;
-	//ChromaticAberration::SetDevice(dxCommon->GetDevice());
-	//chromaticAberration = new ChromaticAberration;
-	//chromaticAberration->Initialize();
-	//chromaticAberration->CreateGraphicsPipeLine();
 
 	//ShadowMap
 	ShadowMap* shadowMap = nullptr;
@@ -87,24 +74,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	shadowMap->Initialize();
 	shadowMap->CreateGraphicsPipeLine0();
 
-	//被写界深度
-	//DepthOfField* depthOfField = nullptr;
-	//DepthOfField::SetDevice(dxCommon->GetDevice());
-	//depthOfField = new DepthOfField;
-	//depthOfField->Initialize();
-	//depthOfField->CreateGraphicsPipeLine();
-
-	//Fog
-	Fog* fog = nullptr;
-	Fog::SetDevice(dxCommon->GetDevice());
-	fog = new Fog;
-	fog->Initialize();
-	fog->CreateGraphicsPipeLine0();
-
 	//ゲームシーン
 	GameScene* gameScene = nullptr;
 	gameScene = new GameScene();
 	gameScene->Initialize(dxCommon, input);
+
+	//ポストエフェクト切り替えようフラグ
+	int blurFlag[1] = { 1 };
+	int depthOfFieldFlag[1] = { 0 };
 
 	//FPSを固定
 	FPS* fps = nullptr;
@@ -124,58 +101,70 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		imGuiManager->Begin();
 
 		//ゲームシーン更新
-
-		////単色エフェクト
-		//monochromeEffect->SetAlpha(1.0f);
-		//monochromeEffect->SetColor({ 1.0f,1.0f,0.0 });
-		//monochromeEffect->Update();
-
-		////反転エフェクト
-		//reversalEffect->SetAlpha(1.0f);
-		//reversalEffect->Update();
-
+		
 		//ぼかしエフェクト
-		/*blurEffect->SetAlpha(1.0f);
-		blurEffect->SetResolution(20.0f);
-		blurEffect->Update();*/
+		blurEffect->SetAlpha(1.0f);
+		blurEffect->SetWidthStrength(*blurWidthStrength);
+		blurEffect->SetHeightStrength(*blurHeightStrength);
+		blurEffect->Update();
 
-		////モザイクエフェクト
-		//mosaicEffect->SetAlpha(1.0f);
-		//mosaicEffect->SetResolution(10.0f);
-		//mosaicEffect->Update();
-
-		////RGBずらし
-		//chromaticAberration->SetAlpha(1.0f);
-		//chromaticAberration->SetStrength(0.01);
-		//chromaticAberration->Update();
+		//被写界深度
+		depthOfField->SetAlpha(1.0f);
+		depthOfField->SetFocus(*depthOfFieldFocus);
+		depthOfField->SetFNumber(*depthOfFieldFNumber);
+		depthOfField->SetStrength(*depthOfFieldStrength);
+		depthOfField->Update();
 
 		//shadowMap
 		shadowMap->SetAlpha(1.0f);
 		shadowMap->SetLightVP(gameScene->GetLightViewProjection());
 		shadowMap->Update();
 
-		//被写界深度
-		/*depthOfField->SetAlpha(1.0f);
-		depthOfField->SetFocus(0.1f);
-		depthOfField->SetFNumber(0.1f);
-		depthOfField->SetStrength(50.0f);
-		depthOfField->Update();*/
-
-		//Fog
-		fog->SetAlpha(1.0f);
-		fog->SetStrength(2.0f);
-		fog->SetStartDepth(0.2f);
-		fog->Update();
-
 		//ゲームシーン
 		gameScene->Update();
 
-		// 4. 描画コマンド
+		//// 4. 描画コマンド
+		//
+		////レンダーテクスチャへの描画
+
+		//shadowMap
+		shadowMap->PreDrawScene0(dxCommon->GetCommandList());
+		gameScene->DrawFBXLightView();
+		shadowMap->PostDrawScene0(dxCommon->GetCommandList());
+		//ゲームシーンにSRVを渡す
+		gameScene->SetSRV(shadowMap->GetSRV());
+
+		//ぼかし
+		blurEffect->PreDrawScene(dxCommon->GetCommandList());
+		gameScene->Draw();
+		blurEffect->PostDrawScene(dxCommon->GetCommandList());
+
+		//被写界深度
+		depthOfField->PreDrawScene(dxCommon->GetCommandList());
+		gameScene->Draw();
+		depthOfField->PostDrawScene(dxCommon->GetCommandList());
 
 		//描画前処理
 		dxCommon->PreDraw();
-	
-		gameScene->Draw();
+
+
+		if(*blurFlag == 1)blurEffect->Draw(dxCommon->GetCommandList());
+		else if (*depthOfFieldFlag == 1)depthOfField->Draw(dxCommon->GetCommandList());
+		else gameScene->Draw();
+
+		//ImGui
+		ImGui::Begin("blur");
+		ImGui::SetWindowPos(ImVec2(0, 0));
+		ImGui::SetWindowSize(ImVec2(500, 250));
+		/*ImGui::InputFloat3("lightDir", lightDir);*/
+		ImGui::InputInt("blurFlag", blurFlag);
+		ImGui::InputFloat("blur Width Strength", blurWidthStrength);
+		ImGui::InputFloat("blur Height Strength", blurHeightStrength);
+		ImGui::InputInt("depthOfFieldFlag", depthOfFieldFlag);
+		ImGui::InputFloat("depthOfFieldFocus", depthOfFieldFocus);
+		ImGui::InputFloat("depthOfFieldFNumber", depthOfFieldFNumber);
+		ImGui::InputFloat("depthOfFieldStrength", depthOfFieldStrength);
+		ImGui::End();
 
 		imGuiManager->End();
 		imGuiManager->Draw();
@@ -184,11 +173,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		dxCommon->PostDraw();
 	}
 
+
 	fps->FpsControlEnd();
 
 	dxCommon->EndImgui();
 
 	imGuiManager->Finalize();
+	gameScene->Finalize();
+
+	delete shadowMap;
+	delete imGuiManager;
+	delete fps;
 
 	//ウィンドウクラスを登録解除
 	winApp->deleteWindow();

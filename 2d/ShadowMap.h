@@ -48,6 +48,8 @@ public:	//サブクラス
 public:	//メンバ関数
 	//初期化
 	void Initialize();
+	//終了時
+	void Finalize();
 	//更新
 	void Update();
 	//描画

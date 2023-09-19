@@ -234,16 +234,16 @@ void ShadowMap::Initialize()
 	depthHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
 
 	//クリアバッファビュー
-	/*D3D12_CLEAR_VALUE depthClearValue = {};
+	D3D12_CLEAR_VALUE depthClearValue = {};
 	depthClearValue.DepthStencil.Depth = 1.0f;
-	depthClearValue.Format = DXGI_FORMAT_D32_FLOAT;*/
+	depthClearValue.Format = DXGI_FORMAT_D32_FLOAT;
 
 	result = device->CreateCommittedResource(
 		&depthHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&depthResDesc,
 		D3D12_RESOURCE_STATE_DEPTH_WRITE,
-		nullptr,
+		&depthClearValue,
 		IID_PPV_ARGS(&depthBuff)
 	);
 	assert(SUCCEEDED(result));
@@ -254,7 +254,7 @@ void ShadowMap::Initialize()
 		D3D12_HEAP_FLAG_NONE,
 		&depthResDesc,
 		D3D12_RESOURCE_STATE_DEPTH_WRITE,
-		nullptr,
+		&depthClearValue,
 		IID_PPV_ARGS(&lightDepthBuff)
 	);
 	assert(SUCCEEDED(result));
@@ -313,6 +313,7 @@ void ShadowMap::Initialize()
 	handle2.ptr += device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	device->CreateShaderResourceView(lightDepthBuff.Get(), &sResDesc, handle2);
 }
+
 
 void ShadowMap::Update()
 {
@@ -510,23 +511,23 @@ void ShadowMap::CreateGraphicsPipeLine0()
 	pipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;	//カリングしない
 	pipelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;	//ポリゴン内塗りつぶし
 	pipelineDesc.RasterizerState.DepthClipEnable = true;	//深度クリッピングを有効に
-	/*pipelineDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
+	pipelineDesc.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
 	pipelineDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS;
-	pipelineDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;*/
+	pipelineDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;
 
 	//ブレンドステート
 	pipelineDesc.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 
 	//共通の設定
-	pipelineDesc.BlendState.RenderTarget[0].BlendEnable = true;
-	pipelineDesc.BlendState.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
-	pipelineDesc.BlendState.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
-	pipelineDesc.BlendState.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
+	pipelineDesc.BlendState.RenderTarget[0].BlendEnable = false;
+	//pipelineDesc.BlendState.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
+	//pipelineDesc.BlendState.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
+	//pipelineDesc.BlendState.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
 
-	//アルファブレンド
-	pipelineDesc.BlendState.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
-	pipelineDesc.BlendState.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
-	pipelineDesc.BlendState.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
+	////アルファブレンド
+	//pipelineDesc.BlendState.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+	//pipelineDesc.BlendState.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
+	//pipelineDesc.BlendState.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
 
 	//頂点レイアウトの設定
 	pipelineDesc.InputLayout.pInputElementDescs = inputLayout;
@@ -625,13 +626,13 @@ void ShadowMap::CreateGraphicsPipeLine0()
 
 void ShadowMap::PreDrawScene0(ID3D12GraphicsCommandList* cmdList)
 {
-	////リソースバリアを変更
-	//CD3DX12_RESOURCE_BARRIER a0 = CD3DX12_RESOURCE_BARRIER::Transition(
-	//	textureBuff.Get(),
-	//	D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
-	//	D3D12_RESOURCE_STATE_RENDER_TARGET
-	//);
-	//cmdList->ResourceBarrier(1, &a0);
+	//リソースバリアを変更
+	CD3DX12_RESOURCE_BARRIER a0 = CD3DX12_RESOURCE_BARRIER::Transition(
+		textureBuff.Get(),
+		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+		D3D12_RESOURCE_STATE_RENDER_TARGET
+	);
+	cmdList->ResourceBarrier(1, &a0);
 
 	//レンダーターゲットビュー用デスクリプタヒープのハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = descHeapRTV->GetCPUDescriptorHandleForHeapStart();
@@ -648,6 +649,9 @@ void ShadowMap::PreDrawScene0(ID3D12GraphicsCommandList* cmdList)
 	CD3DX12_RECT a2 = CD3DX12_RECT(0, 0, window_width, window_height);
 	cmdList->RSSetScissorRects(1, &a2);
 
+
+	/*float clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	cmdList->ClearRenderTargetView(rtvHandle, clearColor,0,nullptr);*/
 	//震度バッファのクリア
 	cmdList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 }
@@ -661,4 +665,6 @@ void ShadowMap::PostDrawScene0(ID3D12GraphicsCommandList* cmdList)
 		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE
 	);
 	cmdList->ResourceBarrier(1, &a0);
+	//震度バッファのクリア
+	/*cmdList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);*/
 }

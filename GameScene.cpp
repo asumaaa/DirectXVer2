@@ -7,8 +7,6 @@
 #include "vector"
 #include "imgui.h"
 
-#define PI 3.1415
-
 GameScene::GameScene()
 {
 }
@@ -22,59 +20,196 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	this->dxCommon_ = dxCommon;
 	this->input_ = input;
 
+	//FBXローダー初期化
+	FbxLoader::GetInstance()->Initialize(dxCommon_->GetDevice());
+	//モデル名を指定してファイル読み込み
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("plane", "Resources/pictures/white1x1.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree", "Resources/pictures/white1x1.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree1", "Resources/pictures/black.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree2", "Resources/pictures/white1x1.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Tree3", "Resources/pictures/black.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("Cube", "Resources/pictures/toriko.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("player", "Resources/pictures/white1x1.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("enemy", "Resources/pictures/toriko.png"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("playerBullet", "Resources/pictures/white1x1.png"));
+
 	//カメラ初期化
 	Camera::SetInput(input_);
 	Camera::SetDXInput(dxInput);
 	Camera* newCamera = new Camera();
 	newCamera->Initialize();
 	camera_.reset(newCamera);
-	camera_->SetTarget({ 0,0,0 });
-	camera_->SetEye({ 0, 10,-20 });
+	camera_->SetEye({ 0.0f,10.0f,5.0f });
+	camera_->SetTarget({ 0.0f,0.0f,0.0f });
 
 	//ライト(影)
-	light = new Light;
-	light->Initialize();
+	Light* newLight = new Light();
+	newLight->Initialize();
+	light.reset(newLight);
 
 	//ライト
 	LightGroup::StaticInitialize(dxCommon_->GetDevice());
-	lightGroup = LightGroup::Create();
+	LightGroup* newLightGroup = new LightGroup();
+	newLightGroup = LightGroup::Create();
+	lightGroup.reset(newLightGroup);
 
-	//FBX読み込み
-	FbxLoader::GetInstance()->Initialize(dxCommon_->GetDevice());
-	//モデル名を指定してファイル読み込み
-	modelDemo0 = FbxLoader::GetInstance()->LoadModelFromFile("SpherePBR", "Resources/toriko.png");
+	//コライダーのキューブ
+	ColliderCubeModel* newCubeModel = new ColliderCubeModel();
+	newCubeModel->CreateBuffers(dxCommon_->GetDevice());
+	colliderCubeModel.reset(newCubeModel);
+	ColliderCubeObject::SetDevice(dxCommon_->GetDevice());
+	ColliderCubeObject::SetCamera(camera_.get());
+	ColliderCubeObject::SetInput(input_);
+	ColliderCubeObject::SetModel(colliderCubeModel.get());
+	ColliderCubeObject::CreateGraphicsPipeline();
+
+	//コライダーの球
+	ColliderSphereModel* newSphereModel = new ColliderSphereModel();
+	newSphereModel->CreateBuffers(dxCommon_->GetDevice());
+	colliderSphereModel.reset(newSphereModel);
+	ColliderSphereObject::SetDevice(dxCommon_->GetDevice());
+	ColliderSphereObject::SetCamera(camera_.get());
+	ColliderSphereObject::SetInput(input_);
+	ColliderSphereObject::SetModel(colliderSphereModel.get());
+	ColliderSphereObject::CreateGraphicsPipeline();
+
+	//コライダーの平面
+	ColliderPlaneModel* newPlaneModel = new ColliderPlaneModel();
+	newPlaneModel->CreateBuffers(dxCommon_->GetDevice());
+	colliderPlaneModel.reset(newPlaneModel);
+	ColliderPlaneObject::SetDevice(dxCommon_->GetDevice());
+	ColliderPlaneObject::SetCamera(camera_.get());
+	ColliderPlaneObject::SetInput(input_);
+	ColliderPlaneObject::SetModel(colliderPlaneModel.get());
+	ColliderPlaneObject::CreateGraphicsPipeline();
+
+	//コライダーマネージャー
+	ColliderManager::SetColliderCubeModel(colliderCubeModel.get());
+	ColliderManager::SetColliderSphereModel(colliderSphereModel.get());
+	ColliderManager* newColliderManager = new ColliderManager();
+	colliderManager.reset(newColliderManager);
+
+	//プレイヤーの弾
+	PlayerBullet::SetCamera(camera_.get());
+	PlayerBullet::SetInput(input);
+	PlayerBullet* newPlayerBullet = new PlayerBullet();
+	//モデルセット
+	for (std::unique_ptr<FbxModel>& model : models)
+	{
+		if (model->GetFileName() == "playerBullet")
+		{
+			newPlayerBullet->SetModel(model.get());
+		}
+	}
+	newPlayerBullet->Initialize();
+	playerBullet.reset(newPlayerBullet);
+
+	//プレイヤー
+	Player::SetCamera(camera_.get());
+	Player::SetInput(input);
+	/*Player::SetDXInput()*/
+	Player* newPlayer = new Player();
+	newPlayer->Initialize();
+	newPlayer->SetBullet(playerBullet.get());
+	player.reset(newPlayer);
+
+	//敵
+	Enemy::SetCamera(camera_.get());
+	Enemy::SetInput(input);
+	Enemy* newEnemy = new Enemy();
+	newEnemy->Initialize();
+	enemy.reset(newEnemy);
+
+	//平面
+	/*Plane::SetCamera(camera_.get());
+	Plane::SetInput(input);*/
+	/*Plane* newPlane = new Plane();
+	newPlane->Initialize();
+	plane.reset(newPlane);*/
 
 	//デバイスをセット
-	FbxObject3DDemo::SetDevice(dxCommon_->GetDevice());
-	FbxObject3DDemo::SetCamera(camera_.get());
-	FbxObject3DDemo::SetLight(light);
-	FbxObject3DDemo::SetLightGroup(lightGroup);
-	FbxObject3DDemo::CreateGraphicsPipeline();
+	FbxObject3D::SetDevice(dxCommon_->GetDevice());
+	FbxObject3D::SetCamera(camera_.get());
+	FbxObject3D::SetLight(light.get());
+	FbxObject3D::SetLightGroup(lightGroup.get());
+	FbxObject3D::CreateGraphicsPipelineLightView();
+	FbxObject3D::CreateGraphicsPipeline();
 
-	//木
-	objectDemo0 = new FbxObject3DDemo;
-	objectDemo0->Initialize();
-	objectDemo0->SetModel(modelDemo0);
-	objectDemo0->SetPosition(demo0Position);
-	objectDemo0->SetRotation(demo0Rotation);
-	objectDemo0->SetScale(demo0Scale);
+	//レベルエディタ
+	JSONLoader* newJsonLoader = new JSONLoader();
+	newJsonLoader->LoadFile("Resources/json/demo.json");
+	jsonLoader.reset(newJsonLoader);
+
+	for (int i = 0; i < jsonLoader->GetObjectNum(); i++)
+	{
+		std::unique_ptr<FbxObject3D>newObject = std::make_unique<FbxObject3D>();
+		//オブジェクト初期化
+		newObject->Initialize();
+
+		//モデルセット
+		for (std::unique_ptr<FbxModel>& model : models)
+		{
+			if (jsonLoader->GetFileName(i) == model->GetFileName())
+			{
+				newObject->SetModel(model.get());
+			}
+		}
+
+		//オブジェクトの配置
+		newObject->SetObjectData(jsonLoader->GetObjectData(i));
+		//コライダーの配置
+		newObject->SetColliderData(jsonLoader->GetColliderData(i));
+
+		object.push_back(std::move(newObject));
+
+		//プレイヤーのオブジェクトがあったら
+		if (jsonLoader->GetFileName(i) == "player")
+		{
+			player->SetObject(object.back().get());
+			/*object.pop_back();*/
+		}
+		//敵のオブジェクトがあったら
+		if (jsonLoader->GetFileName(i) == "enemy")
+		{
+			enemy->SetObject(object.back().get());
+		}
+		//平面のオブジェクトがあったら
+	/*	if (jsonLoader->GetFileName(i) == "plane")
+		{
+			plane->SetObject(object.back().get());
+		}*/
+
+		//コライダーのセット
+		ColliderManager::SetCollider(jsonLoader->GetColliderData(i));
+	}
 
 	//スプライトマネージャー
 	SpriteManager::SetDevice(dxCommon->GetDevice());
-	spriteManager = new SpriteManager;
-	spriteManager->Initialize();
-	spriteManager->LoadFile(0,L"Resources/toriko.png");
-	spriteManager->LoadFile(1, L"Resources/toriko2.png");
-	spriteManager->LoadFile(2, L"Resources/GourmetSpyzer.png");
-	spriteManager->LoadFile(3, L"Resources/orange.png");
-	spriteManager->LoadFile(4,L"Resources/red.png");
+	SpriteManager* newSpriteManager = new SpriteManager();
+	newSpriteManager->Initialize();
+	newSpriteManager->LoadFile(0,L"Resources/pictures/toriko.png");
+	newSpriteManager->LoadFile(1, L"Resources/pictures/toriko2.png");
+	newSpriteManager->LoadFile(2, L"Resources/pictures/GourmetSpyzer.png");
+	newSpriteManager->LoadFile(3, L"Resources/pictures/orange.png");
+	newSpriteManager->LoadFile(4,L"Resources/pictures/red.png");
+	spriteManager.reset(newSpriteManager);
+}
+
+void GameScene::Finalize()
+{
+	models.clear();
+	delete spriteManager.get();
+	delete lightGroup.get();
+	object.clear();
+	/*delete tree1csv;
+	delete spriteManager;
+	delete lightGroup;*/
 }
 
 void GameScene::Update()
 {
 	//カメラ更新
-	camera_->SetEye({ 0.0f,10.0f,3.0f });
-	camera_->DebugUpdate();
+	camera_->UpdatePlayer(player->GetPosition(),player->GetRotation());
 	camera_->Update();
 	//コントローラー更新
 	dxInput->InputProcess();
@@ -92,37 +227,152 @@ void GameScene::Update()
 	lightGroup->SetDirLightActive(2, false);
 	lightGroup->Update();
 
-	//木
-	objectDemo0->SetColor(XMFLOAT3(lightColor));
-	objectDemo0->SetRotation(demo0Rotation);
-	objectDemo0->SetPosition(demo0Position);
-	objectDemo0->SetScale(demo0Scale);
-	objectDemo0->Update();
+	//プレイヤー
+	player->Update();
+
+	//敵
+	enemy->Update();
+
+	//平面
+	/*plane->Update();*/
+
+	//スペースキーでファイル読み込み更新
+	if(input_->TriggerKey(DIK_SPACE))
+	{
+		jsonLoader->LoadFile("Resources/json/demo.json");
+		int i = 0;
+		for (std::unique_ptr<FbxObject3D>& object0 : object)
+		{
+			//プレイヤー以外のオブジェクト更新
+			if (object0->GetFileName() != "player")
+			{
+				object0->SetPosition(jsonLoader->GetPosition(i));
+				object0->SetScale(jsonLoader->GetScale(i));
+				object0->SetRotation(jsonLoader->GetRotation(i));
+			}
+			i++;
+		}
+	}
+	for (std::unique_ptr<FbxObject3D>& object0 : object)
+	{
+		object0->Update();
+	}
+
+	//コライダー更新
+	UpdateCollider();
+}
+
+void GameScene::UpdateCollider()
+{
+	//事前処理
+	ColliderManager::PreUpdate();
+
+	//プレイヤーと平面との判定
+	for (std::unique_ptr<FbxObject3D>& object0 : object)
+	{
+		if (object0->GetFileName() == "player")
+		{
+			for (std::unique_ptr<FbxObject3D>& object1 : object)
+			{
+				if (object1->GetFileName() == "plane")
+				{
+					//当たっていたら
+					while (ColliderManager::CheckCollider(object0->GetColliderData(), object1->GetColliderData()))
+					{
+						player->HitPlane();
+					}
+				}
+			}
+		}
+	}
+
+	//プレイヤーと平面との判定
+	for (std::unique_ptr<FbxObject3D>& object0 : object)
+	{
+		if (object0->GetFileName() == "player")
+		{
+			for (std::unique_ptr<FbxObject3D>& object1 : object)
+			{
+				if (object1->GetFileName() == "enemy")
+				{
+					ColliderManager::CheckCollider(object0->GetColliderData(), object1->GetColliderData());
+				}
+			}
+		}
+	}
+
+	//弾と敵との判定
+	for (std::unique_ptr<FbxObject3D>& object0 : object)
+	{
+		if (object0->GetFileName() == "enemy")
+		{
+			//弾が一つ以上あれば
+			if (playerBullet->GetBulletNum() >= 1)
+			{
+				for (int i = 0; i < playerBullet->GetBulletNum(); i++)
+				{
+					ColliderManager::CheckCollider(playerBullet->GetColliderData(i), object0->GetColliderData());
+				}
+			}
+		}
+	}
+
+	//後処理
+	ColliderManager::PostUpdate();
 }
 
 void GameScene::Draw()
 {
-	ImGui::Begin("Light");
-	ImGui::SetWindowPos(ImVec2(0, 0));
-	ImGui::SetWindowSize(ImVec2(500, 150));
-	ImGui::ColorEdit3("LightColor", lightColor);
-	ImGui::End();
+	//ImGui::Begin("Light");
+	//ImGui::SetWindowPos(ImVec2(0, 0));
+	//ImGui::SetWindowSize(ImVec2(500, 150));
+	///*ImGui::InputFloat3("lightDir", lightDir);*/
+	//ImGui::InputFloat3("lightTarget", lightTarget);
+	//ImGui::InputFloat3("lightPos", lightPos);
+	///*ImGui::InputFloat3("lightAtten", lightAtten);
+	//ImGui::InputFloat2("lightFactorAngle", lightFactorAngle);*/
+	//ImGui::End();
 
+	//コライダーの描画
+	DrawCollider();
+	//FBXの描画
 	DrawFBX();
 }
 
 void GameScene::DrawFBXLightView()
 {
+	for (std::unique_ptr<FbxObject3D>& object0 : object)
+	{
+		object0->DrawLightView(dxCommon_->GetCommandList());
+	}
+
+	//プレイヤー
+	player->DrawLightView(dxCommon_->GetCommandList());
 }
 
 void GameScene::DrawFBX()
 {
-	objectDemo0->Draw(dxCommon_->GetCommandList());
+	for (std::unique_ptr<FbxObject3D>& object0 : object)
+	{
+		object0->Draw(dxCommon_->GetCommandList());
+	}
+	//プレイヤー
+	player->Draw(dxCommon_->GetCommandList());
+}
+
+void GameScene::DrawCollider()
+{
+	ColliderManager::Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::SetSRV(ID3D12DescriptorHeap* SRV)
 {
-	/*objectTree->SetSRV(SRV);*/
+	for (std::unique_ptr<FbxObject3D>& object0 : object)
+	{
+		object0->SetSRV(SRV);
+	}
+	//プレイヤー
+	player->SetSRV(SRV);
 }
 
 DirectX::XMMATRIX GameScene::GetLightViewProjection()
