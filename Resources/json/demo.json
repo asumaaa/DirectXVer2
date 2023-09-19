@@ -154,44 +154,6 @@
             "textureNum1": "10",
             "textureNum2": "9",
             "shaderName": "MultiTextureTest"
-        },
-        {
-            "type": "MESH",
-            "name": "立方体.001",
-            "transform": {
-                "translation": [
-                    7.0,
-                    0.0,
-                    7.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scale": [
-                    4.0,
-                    4.0,
-                    4.0
-                ]
-            },
-            "file_name": "cube",
-            "collider": {
-                "type": "Box",
-                "center": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "size": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "textureNum1": "1",
-            "textureNum2": "1",
-            "shaderName": "NoizTest"
         }
     ]
 }

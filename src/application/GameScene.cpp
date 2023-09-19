@@ -228,6 +228,21 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	FbxObject3D::CreateGraphicsPipelineLightView();
 	FbxObject3D::CreateGraphicsPipeline();
 
+	playerObject = new FbxObject3D;
+	playerObject->Initialize();
+	//モデルセット
+	for (std::unique_ptr<FbxModel>& model : models)
+	{
+		if ("player" == model->GetFileName())
+		{
+			playerObject->SetModel(model.get());
+		}
+	}
+	playerObject->SetPosition(XMFLOAT3(0, 3, 0));
+	playerObject->SetScale(XMFLOAT3(1, 1, 1));
+	playerObject->SetRotation(XMFLOAT3(0, 0, 0));
+
+
 	//レベルエディタ
 	JSONLoader* newJsonLoader = new JSONLoader();
 	newJsonLoader->LoadFile("Resources/json/demo.json");
@@ -292,6 +307,8 @@ void GameScene::Finalize()
 
 void GameScene::Update()
 {
+	playerObject->Update();
+
 	//カメラ更新
 	/*camera_->UpdatePlayer(player->GetPosition(),player->GetRotation1());*/
 	camera_->DebugUpdate();
@@ -469,6 +486,8 @@ void GameScene::DrawFBXLightView()
 		object0->DrawLightView(dxCommon_->GetCommandList());
 	}
 
+	playerObject->DrawLightView(dxCommon_->GetCommandList());
+
 	//プレイヤー
 	player->DrawLightView(dxCommon_->GetCommandList());
 }
@@ -479,6 +498,8 @@ void GameScene::DrawFBX()
 	{
 		object0->Draw(dxCommon_->GetCommandList());
 	}
+	playerObject->Draw(dxCommon_->GetCommandList());
+
 	//プレイヤー
 	player->Draw(dxCommon_->GetCommandList());
 }
@@ -507,6 +528,9 @@ void GameScene::SetSRV(ID3D12DescriptorHeap* SRV)
 	{
 		object0->SetSRV(SRV);
 	}
+
+	playerObject->SetSRV(SRV);
+
 	//プレイヤー
 	player->SetSRV(SRV);
 }

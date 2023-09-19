@@ -139,4 +139,6 @@ private:
 	//ビルボード　
 	std::unique_ptr<BillboardSprite>billboardSprite;
 	std::unique_ptr<BillboardSpriteModel>billboardSpriteModel;
+
+	FbxObject3D* playerObject = nullptr;
 };
