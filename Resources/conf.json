@@ -1,9 +1,0 @@
-// gameobjectごとにnameで分けて項目設定
-
-{
-    "name":"player"
-    {
-        "HP":10,
-    }
-
-}
