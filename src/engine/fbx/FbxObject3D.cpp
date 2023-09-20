@@ -104,12 +104,26 @@ void FbxObject3D::Update()
 
 	XMMATRIX matScale, matRot, matTrans;
 
+
+	//blenderと軸が違うため角度を変える
+	XMFLOAT3 rot = rotation;
+	rot.x -= 0.5 * PI;
+
+	//ボーンがある場合スケールがでかくなるので調整(ボーンウェイトが上手く読み込めてないため)
+	XMFLOAT3 sca = scale;
+	if (model->GetArmature())
+	{
+		sca.x *= 0.1;
+		sca.y *= 0.1;
+		sca.z *= 0.1;
+	}
+
 	//スケール、回転、平行移動行列の計算
-	matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
+	matScale = XMMatrixScaling(sca.x, sca.y, sca.z);
 	matRot = XMMatrixIdentity();
-	matRot *= XMMatrixRotationZ(rotation.z);
-	matRot *= XMMatrixRotationX(rotation.x);
-	matRot *= XMMatrixRotationY(rotation.y);
+	matRot *= XMMatrixRotationZ(rot.z);
+	matRot *= XMMatrixRotationX(rot.x);
+	matRot *= XMMatrixRotationY(rot.y);
 	matTrans = XMMatrixTranslation(position.x, position.y, position.z);
 
 	//ワールド行列の生成

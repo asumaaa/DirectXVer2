@@ -59,7 +59,7 @@ private:
 	XMMATRIX matBillboard_ = XMMatrixIdentity();
 
 	//ターゲットまでの距離
-	float DebugTargetDistance = 20.0f;
+	float DebugTargetDistance = 40.0f;
 	//加算用
 	float DebugChangeRot = (float)PI;
 	float DebugChangeRot2 = 0.5f;
@@ -67,7 +67,7 @@ private:
 
 	//プレイヤー
 	//ターゲットまでの距離
-	float playerTargetDistance = 20.0f;
+	float playerTargetDistance = 50.0f;
 	//加算用
 	float playerChangeRot = (float)PI;
 	float playerChangeRot2 = 0.5f;

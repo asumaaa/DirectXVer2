@@ -67,6 +67,8 @@ public:
 	std::vector<VertexPosNormalUvSkin>vertices;
 	//頂点インデックス配列
 	std::vector<unsigned short>indices;
+	//ボーンを持つかのフラグ
+	bool armatureFlag = false;
 
 private:
 	//ファイルの名前
@@ -156,5 +158,7 @@ private:
 public:
 	//getter
 	FbxScene* GetFbxScene() { return fbxScene; }
+	//アーマチュア
+	bool GetArmature() { return armatureFlag; }
 };
 

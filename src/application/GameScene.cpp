@@ -60,6 +60,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("enemy"));
 	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("playerBullet"));
 	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("sphere"));
+	models.emplace_back(FbxLoader::GetInstance()->LoadModelFromFile("playerWait"));
 
 	//スプライト
 	Sprite::SetDevice(dxCommon->GetDevice());
@@ -85,6 +86,14 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	LightGroup* newLightGroup = new LightGroup();
 	newLightGroup = LightGroup::Create();
 	lightGroup.reset(newLightGroup);
+
+	//デバイスをセット
+	FbxObject3D::SetDevice(dxCommon_->GetDevice());
+	FbxObject3D::SetCamera(camera_.get());
+	FbxObject3D::SetLight(light.get());
+	FbxObject3D::SetLightGroup(lightGroup.get());
+	FbxObject3D::CreateGraphicsPipelineLightView();
+	FbxObject3D::CreateGraphicsPipeline();
 
 	//コライダーのキューブ
 	ColliderCubeModel* newCubeModel = new ColliderCubeModel();
@@ -182,20 +191,20 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	newBillboardSprite->Initialize();
 	billboardSprite.reset(newBillboardSprite);
 
-	//プレイヤーの弾
-	PlayerBullet::SetCamera(camera_.get());
-	PlayerBullet::SetInput(input);
-	PlayerBullet* newPlayerBullet = new PlayerBullet();
-	//モデルセット
-	for (std::unique_ptr<FbxModel>& model : models)
-	{
-		if (model->GetFileName() == "playerBullet")
-		{
-			newPlayerBullet->SetModel(model.get());
-		}
-	}
-	newPlayerBullet->Initialize();
-	playerBullet.reset(newPlayerBullet);
+	////プレイヤーの弾
+	//PlayerBullet::SetCamera(camera_.get());
+	//PlayerBullet::SetInput(input);
+	//PlayerBullet* newPlayerBullet = new PlayerBullet();
+	////モデルセット
+	//for (std::unique_ptr<FbxModel>& model : models)
+	//{
+	//	if (model->GetFileName() == "playerBullet")
+	//	{
+	//		newPlayerBullet->SetModel(model.get());
+	//	}
+	//}
+	//newPlayerBullet->Initialize();
+	//playerBullet.reset(newPlayerBullet);
 
 	//プレイヤー
 	Player::SetCamera(camera_.get());
@@ -203,15 +212,15 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	/*Player::SetDXInput()*/
 	Player* newPlayer = new Player();
 	newPlayer->Initialize();
-	newPlayer->SetBullet(playerBullet.get());
+	/*newPlayer->SetBullet(playerBullet.get());*/
 	player.reset(newPlayer);
 
-	//敵
-	Enemy::SetCamera(camera_.get());
-	Enemy::SetInput(input);
-	Enemy* newEnemy = new Enemy();
-	newEnemy->Initialize();
-	enemy.reset(newEnemy);
+	////敵
+	//Enemy::SetCamera(camera_.get());
+	//Enemy::SetInput(input);
+	//Enemy* newEnemy = new Enemy();
+	//newEnemy->Initialize();
+	//enemy.reset(newEnemy);
 
 	//平面
 	/*Plane::SetCamera(camera_.get());
@@ -219,29 +228,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	/*Plane* newPlane = new Plane();
 	newPlane->Initialize();
 	plane.reset(newPlane);*/
-
-	//デバイスをセット
-	FbxObject3D::SetDevice(dxCommon_->GetDevice());
-	FbxObject3D::SetCamera(camera_.get());
-	FbxObject3D::SetLight(light.get());
-	FbxObject3D::SetLightGroup(lightGroup.get());
-	FbxObject3D::CreateGraphicsPipelineLightView();
-	FbxObject3D::CreateGraphicsPipeline();
-
-	playerObject = new FbxObject3D;
-	playerObject->Initialize();
-	//モデルセット
-	for (std::unique_ptr<FbxModel>& model : models)
-	{
-		if ("player" == model->GetFileName())
-		{
-			playerObject->SetModel(model.get());
-		}
-	}
-	playerObject->SetPosition(XMFLOAT3(0, 3, 0));
-	playerObject->SetScale(XMFLOAT3(1, 1, 1));
-	playerObject->SetRotation(XMFLOAT3(0, 0, 0));
-
 
 	//レベルエディタ
 	JSONLoader* newJsonLoader = new JSONLoader();
@@ -272,23 +258,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 
 		object.push_back(std::move(newObject));
 
-		//プレイヤーのオブジェクトがあったら
-		if (jsonLoader->GetFileName(i) == "player")
-		{
-			player->SetObject(object.back().get());
-			/*object.pop_back();*/
-		}
-		//敵のオブジェクトがあったら
-		if (jsonLoader->GetFileName(i) == "enemy")
-		{
-			enemy->SetObject(object.back().get());
-		}
-		//平面のオブジェクトがあったら
-	/*	if (jsonLoader->GetFileName(i) == "plane")
-		{
-			plane->SetObject(object.back().get());
-		}*/
-
 		//コライダーのセット
 		ColliderManager::SetCollider(jsonLoader->GetColliderData(i));
 	}
@@ -307,11 +276,9 @@ void GameScene::Finalize()
 
 void GameScene::Update()
 {
-	playerObject->Update();
-
 	//カメラ更新
-	/*camera_->UpdatePlayer(player->GetPosition(),player->GetRotation1());*/
-	camera_->DebugUpdate();
+	camera_->UpdatePlayer(player->GetPosition(),player->GetRotation1());
+	/*camera_->DebugUpdate();*/
 	camera_->Update();
 	//コントローラー更新
 	dxInput->InputProcess();
@@ -355,8 +322,8 @@ void GameScene::Update()
 	//プレイヤー
 	player->Update();
 
-	//敵
-	enemy->Update();
+	////敵
+	//enemy->Update();
 
 	//平面
 	/*plane->Update();*/
@@ -393,63 +360,63 @@ void GameScene::UpdateCollider()
 	ColliderManager::PreUpdate();
 
 	//プレイヤーと平面との判定
-	for (std::unique_ptr<FbxObject3D>& object0 : object)
-	{
-		if (object0->GetFileName() == "player")
-		{
-			for (std::unique_ptr<FbxObject3D>& object1 : object)
-			{
-				if (object1->GetFileName() == "plane")
-				{
-					//当たっていたら
-					while (ColliderManager::CheckCollider(object0->GetColliderData(), object1->GetColliderData()))
-					{
-						player->HitPlane();
-					}
-				}
-			}
-		}
-	}
+	//for (std::unique_ptr<FbxObject3D>& object0 : object)
+	//{
+	//	if (object0->GetFileName() == "player")
+	//	{
+	//		for (std::unique_ptr<FbxObject3D>& object1 : object)
+	//		{
+	//			if (object1->GetFileName() == "plane")
+	//			{
+	//				//当たっていたら
+	//				while (ColliderManager::CheckCollider(object0->GetColliderData(), object1->GetColliderData()))
+	//				{
+	//					player->HitPlane();
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
 
-	//プレイヤーと平面との判定
-	for (std::unique_ptr<FbxObject3D>& object0 : object)
-	{
-		if (object0->GetFileName() == "player")
-		{
-			for (std::unique_ptr<FbxObject3D>& object1 : object)
-			{
-				if (object1->GetFileName() == "enemy")
-				{
-					ColliderManager::CheckCollider(object0->GetColliderData(), object1->GetColliderData());
-				}
-			}
-		}
-	}
+	////プレイヤーと平面との判定
+	//for (std::unique_ptr<FbxObject3D>& object0 : object)
+	//{
+	//	if (object0->GetFileName() == "player")
+	//	{
+	//		for (std::unique_ptr<FbxObject3D>& object1 : object)
+	//		{
+	//			if (object1->GetFileName() == "enemy")
+	//			{
+	//				ColliderManager::CheckCollider(object0->GetColliderData(), object1->GetColliderData());
+	//			}
+	//		}
+	//	}
+	//}
 
-	//弾と敵との判定
-	for (std::unique_ptr<FbxObject3D>& object0 : object)
-	{
-		if (object0->GetFileName() == "enemy")
-		{
-			//弾が一つ以上あれば
-			if (playerBullet->GetBulletNum() >= 1)
-			{
-				for (int i = 0; i < playerBullet->GetBulletNum(); i++)
-				{
-					if (ColliderManager::CheckCollider(playerBullet->GetColliderData(i),
-						object0->GetColliderData()))
-					{
-						//パーティクル
-						sparkParticle2->Add(XMFLOAT3(playerBullet->GetPosition(i)));
-						explosionParticle1->Add(XMFLOAT3(playerBullet->GetPosition(i)));
-						explosionParticle2->Add(XMFLOAT3(playerBullet->GetPosition(i)));
-						//弾
-						playerBullet->SetHitFlag(true, i);
-					}
-				}
-			}
-		}
-	}
+	////弾と敵との判定
+	//for (std::unique_ptr<FbxObject3D>& object0 : object)
+	//{
+	//	if (object0->GetFileName() == "enemy")
+	//	{
+	//		//弾が一つ以上あれば
+	//		if (playerBullet->GetBulletNum() >= 1)
+	//		{
+	//			for (int i = 0; i < playerBullet->GetBulletNum(); i++)
+	//			{
+	//				if (ColliderManager::CheckCollider(playerBullet->GetColliderData(i),
+	//					object0->GetColliderData()))
+	//				{
+	//					//パーティクル
+	//					sparkParticle2->Add(XMFLOAT3(playerBullet->GetPosition(i)));
+	//					explosionParticle1->Add(XMFLOAT3(playerBullet->GetPosition(i)));
+	//					explosionParticle2->Add(XMFLOAT3(playerBullet->GetPosition(i)));
+	//					//弾
+	//					playerBullet->SetHitFlag(true, i);
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
 
 	//後処理
 	ColliderManager::PostUpdate();
@@ -486,9 +453,6 @@ void GameScene::DrawFBXLightView()
 		object0->DrawLightView(dxCommon_->GetCommandList());
 	}
 
-	playerObject->DrawLightView(dxCommon_->GetCommandList());
-
-	//プレイヤー
 	player->DrawLightView(dxCommon_->GetCommandList());
 }
 
@@ -498,9 +462,7 @@ void GameScene::DrawFBX()
 	{
 		object0->Draw(dxCommon_->GetCommandList());
 	}
-	playerObject->Draw(dxCommon_->GetCommandList());
 
-	//プレイヤー
 	player->Draw(dxCommon_->GetCommandList());
 }
 
@@ -529,9 +491,6 @@ void GameScene::SetSRV(ID3D12DescriptorHeap* SRV)
 		object0->SetSRV(SRV);
 	}
 
-	playerObject->SetSRV(SRV);
-
-	//プレイヤー
 	player->SetSRV(SRV);
 }
 

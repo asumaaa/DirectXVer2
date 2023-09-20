@@ -70,12 +70,12 @@ void JSONLoader::LoadFile(const std::string fileName)
 			if (object["file_name"].get<std::string>() != "plane")
 			{
 				objectData1.rotation.x = (float)transform["rotation"][0] - 90;
-				objectData1.rotation.y = (float)transform["rotation"][2] - 180;
-				objectData1.rotation.z = -(float)transform["rotation"][1];
+				objectData1.rotation.y = (float)transform["rotation"][2];
+				objectData1.rotation.z = (float)transform["rotation"][1];
 			}
 			else
 			{
-				objectData1.rotation.x = (float)transform["rotation"][0];
+				objectData1.rotation.x = (float)transform["rotation"][0] - 90;
 				objectData1.rotation.y = (float)transform["rotation"][2];
 				objectData1.rotation.z = -(float)transform["rotation"][1];
 			}

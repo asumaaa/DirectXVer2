@@ -101,11 +101,11 @@ private:
 
 	//プレイヤー
 	std::unique_ptr<Player> player;
-	//プレイヤーの弾
-	std::unique_ptr<PlayerBullet>playerBullet;
+	////プレイヤーの弾
+	//std::unique_ptr<PlayerBullet>playerBullet;
 
-	//敵
-	std::unique_ptr<Enemy>enemy;
+	////敵
+	//std::unique_ptr<Enemy>enemy;
 	
 	//平面
 	/*std::unique_ptr<Plane> plane;*/
@@ -139,6 +139,4 @@ private:
 	//ビルボード　
 	std::unique_ptr<BillboardSprite>billboardSprite;
 	std::unique_ptr<BillboardSpriteModel>billboardSpriteModel;
-
-	FbxObject3D* playerObject = nullptr;
 };

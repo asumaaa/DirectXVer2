@@ -13,6 +13,14 @@ private:	//エイリアス
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
+
+private:
+	enum Status	//プレイヤーの状態
+	{
+		Wait,
+		Walk,
+		Run
+	};
 	//メンバ関数
 public:
 	//静的メンバ関数
@@ -45,12 +53,8 @@ public:
 
 	//セッター
 	void SetBullet(PlayerBullet* playerBullet) { Player::bullet = playerBullet; }
-	void SetObject(FbxObject3D* object);
 	void SetSRV(ID3D12DescriptorHeap* SRV);
 	void HitPlane();
-
-	//外部ファイルによる初期値読み込み
-	void LoadConfig();
 
 	//ゲッター
 	XMFLOAT3 GetPosition() { return position; }
@@ -73,8 +77,15 @@ public:
 	//弾
 	PlayerBullet*bullet;
 
-	//オブジェクト
-	std::unique_ptr<FbxObject3D>object;
+	//待ってる状態のオブジェクト
+	FbxObject3D* objectWait = nullptr;
+	//待ってる状態のモデル
+	FbxModel* modelWait = nullptr;
+
+	//走ってる状態のオブジェクト
+	FbxObject3D* objectRun = nullptr;
+	//走ってる状態のモデル
+	FbxModel* modelRun = nullptr;
 
 	//変形行列
 	//平行移動
@@ -113,7 +124,12 @@ public:
 	float jumpHeight = 0.4;
 
 	//スピード
-	float posSpeed = 0.15f;
+	float posSpeed = 0.5f;
 	float rotSpeed = (float)PI * 1.0f / 180.0f;
+
+	//状態
+	Status status = Wait;
+	//1フレーム前の状態
+	Status preStatus = Wait;
 };
 

@@ -45,80 +45,6 @@
         },
         {
             "type": "MESH",
-            "name": "立方体",
-            "transform": {
-                "translation": [
-                    0.0,
-                    -4.0,
-                    0.0
-                ],
-                "rotation": [
-                    -9.334667083749082e-06,
-                    0.0,
-                    0.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "player",
-            "collider": {
-                "type": "Sphere",
-                "center": [
-                    0.0,
-                    -4.0,
-                    2.0
-                ],
-                "size": [
-                    2.0,
-                    2.0,
-                    2.0
-                ]
-            },
-            "textureNum1": "0"
-        },
-        {
-            "type": "MESH",
-            "name": "球.001",
-            "transform": {
-                "translation": [
-                    0.0,
-                    5.0,
-                    2.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scale": [
-                    2.0,
-                    2.0,
-                    2.0
-                ]
-            },
-            "file_name": "enemy",
-            "collider": {
-                "type": "Sphere",
-                "center": [
-                    0.0,
-                    5.0,
-                    2.0
-                ],
-                "size": [
-                    2.0,
-                    2.0,
-                    2.0
-                ]
-            },
-            "textureNum1": "0",
-            "textureNum2": "12",
-            "shaderName": "DissolveTest"
-        },
-        {
-            "type": "MESH",
             "name": "平面.001",
             "transform": {
                 "translation": [
@@ -132,8 +58,8 @@
                     0.0
                 ],
                 "scale": [
-                    40.0,
-                    40.0,
+                    160.0,
+                    160.0,
                     1.0
                 ]
             },

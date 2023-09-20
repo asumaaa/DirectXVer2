@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "mathOriginal.h"
+#include "FbxLoader.h"
 #define G 6.674	//万有引力定数
 #define GAcceleration 9.80665 * 1/10	//重力加速度
 
@@ -9,6 +10,21 @@ DXInput* Player::dxInput = nullptr;
 
 void Player::Initialize()
 {
+	//待ってるモデル
+	modelWait = FbxLoader::GetInstance()->LoadModelFromFile("playerWait");
+	//待っているオブジェクト
+	objectWait = new FbxObject3D;
+	objectWait->Initialize();
+	objectWait->SetModel(modelWait);
+	objectWait->PlayAnimation();
+
+	//走ってるモデル
+	modelRun = FbxLoader::GetInstance()->LoadModelFromFile("playerRun");
+	//走ってるオブジェクト
+	objectRun = new FbxObject3D;
+	objectRun->Initialize();
+	objectRun->SetModel(modelRun);
+	objectRun->StopAnimation();
 }
 
 void Player::Update()
@@ -21,41 +37,88 @@ void Player::Update()
 
 	//オブジェクト更新
 	UpdateObject();
+
+	//1フレーム前の状態を代入
+	preStatus = status;
 }
 
 void Player::UpdateObject()
 {
-	object->SetPosition(position);
-	object->SetRotation(rotation0 + rotation1);
-	object->SetScale(scale);
+	//待ってるオブジェクト
+	if (status == Wait)
+	{
+		objectWait->SetPosition(position);
+		objectWait->SetRotation(rotation0 + rotation1);
+		objectWait->SetScale(scale);
+		if (status != preStatus)
+		{
+			objectWait->PlayAnimation();
+		}
 
-	object->Update();
+		objectWait->Update();
+	}
+	else
+	{
+		objectWait->StopAnimation();
+	}
+
+	//走ってるオブジェクト
+	if (status == Run)
+	{
+		objectRun->SetPosition(position);
+		objectRun->SetRotation(rotation0 + rotation1);
+		objectRun->SetScale(scale);
+		if (status != preStatus)
+		{
+			objectRun->PlayAnimation();
+		}
+
+		objectRun->Update();
+	}
+	else
+	{
+		objectRun->StopAnimation();
+	}
 }
 
 void Player::UpdateBullet()
 {
-	if (input->TriggerKey(DIK_RETURN))
-	{
-		//ショットフラグを立てる
-		bullet->SetShotFlag(true);
-		
-		//弾ベクトル
-		XMFLOAT3 bulletVelocity = rollRotation(XMFLOAT3(0.0f, 0.0f, 1.0f), rotation1);
+	//if (input->TriggerKey(DIK_RETURN))
+	//{
+	//	//ショットフラグを立てる
+	//	bullet->SetShotFlag(true);
+	//	
+	//	//弾ベクトル
+	//	XMFLOAT3 bulletVelocity = rollRotation(XMFLOAT3(0.0f, 0.0f, 1.0f), rotation1);
 
-		//弾生成場所とvelocityをセット
-		bullet->SetBullet(position, bulletVelocity);
-	}
-	bullet->Update();
+	//	//弾生成場所とvelocityをセット
+	//	bullet->SetBullet(position, bulletVelocity);
+	//}
+	//bullet->Update();
 }
 
 void Player::Draw(ID3D12GraphicsCommandList* cmdList)
 {
-	bullet->Draw(cmdList);
+	if (status == Wait)
+	{
+		objectWait->Draw(cmdList);
+	}
+	if (status == Run)
+	{
+		objectRun->Draw(cmdList);
+	}
 }
 
 void Player::DrawLightView(ID3D12GraphicsCommandList* cmdList)
 {
-	bullet->DrawLightView(cmdList);
+	if (status == Wait)
+	{
+		objectWait->DrawLightView(cmdList);
+	}
+	if (status == Run)
+	{
+		objectRun->DrawLightView(cmdList);
+	}
 }
 
 void Player::Move()
@@ -84,66 +147,74 @@ void Player::KeyControl()
 	posVelocity = rollRotation(posVelocity, rotation1);
 	//進行ベクトルを加算
 	position = position + posVelocity;
+
+	//進行速度によってステータスを変更
+	if (length(posVelocity) >= 0.01f)
+	{
+		status = Run;
+	}
+	else
+	{
+		status = Wait;
+	}
 }
 
 void Player::UpdateGravity()
 {
-	//接地していたらタイマーとベクトルリセット
-	if (groundFlag == true)
-	{
-		fallTimer = 0.0f;
-		fallVelocity = XMFLOAT3(0.0f, 0.0f, 0.0f);
-	}
+	////接地していたらタイマーとベクトルリセット
+	//if (groundFlag == true)
+	//{
+	//	fallTimer = 0.0f;
+	//	fallVelocity = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	//}
 
-	//接地していなければ
-	if (groundFlag == false)
-	{
-		//落下タイマーが最大値より小さければ
-		if (fallTimer < fallTime)
-		{
-			fallTimer += fallFrame;
-		}
-	}
+	////接地していなければ
+	//if (groundFlag == false)
+	//{
+	//	//落下タイマーが最大値より小さければ
+	//	if (fallTimer < fallTime)
+	//	{
+	//		fallTimer += fallFrame;
+	//	}
+	//}
 
-	//落下ベクトル計算
-	fallVelocity.y = -(GAcceleration * fallTimer);
+	////落下ベクトル計算
+	//fallVelocity.y = -(GAcceleration * fallTimer);
 
-	//座標に落下ベクトルを加算
-	position = position + fallVelocity;
+	////座標に落下ベクトルを加算
+	//position = position + fallVelocity;
 }
 
 void Player::UpdateJump()
 {
-	//接地していたら
-	if (groundFlag == true)
-	{
-		//スペースキーでジャンプ
-		if (input->TriggerKey(DIK_SPACE))
-		{
-			groundFlag = false;
-			fallTimer = -jumpHeight;
-			fallVelocity = XMFLOAT3(0.0f, 0.0f, 0.0f);
-		}
-	}
+	////接地していたら
+	//if (groundFlag == true)
+	//{
+	//	//スペースキーでジャンプ
+	//	if (input->TriggerKey(DIK_SPACE))
+	//	{
+	//		groundFlag = false;
+	//		fallTimer = -jumpHeight;
+	//		fallVelocity = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	//	}
+	//}
 }
 
 void Player::UpdateAttack()
 {
 }
 
-void Player::SetObject(FbxObject3D* object)
-{
-	//引数のオブジェクトをセット
-	Player::object.reset(object);
-
-	position = object->GetPosition();
-	rotation0 = object->GetRotation();
-	scale = object->GetScale();
-}
-
 void Player::SetSRV(ID3D12DescriptorHeap* SRV)
 {
-	bullet->SetSRV(SRV);
+	objectWait->SetSRV(SRV);
+	if (status == Wait)
+	{
+		objectWait->SetSRV(SRV);
+	}
+	if (status == Run)
+	{
+		objectRun->SetSRV(SRV);
+	}
 }
 
 void Player::HitPlane()

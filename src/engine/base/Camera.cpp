@@ -130,7 +130,7 @@ void Camera::UpdatePlayer(XMFLOAT3 playerPos, XMFLOAT3 playerRot)
 	eye_.z = cos(playerChangeRot) * playerTargetDistance + target_.z;*/
 
 	eye_.x = playerPos.x + (cos(-playerRot.y - (PI / 2)) * playerTargetDistance);
-	eye_.y = playerPos.y + (cos(-playerRot.x + (PI * 18 / 40)) * playerTargetDistance);
+	eye_.y = playerPos.y + (cos(-playerRot.x + (PI * 15 / 40)) * playerTargetDistance);
 	eye_.z = playerPos.z + (sin(-playerRot.y - (PI / 2)) * playerTargetDistance);
 
 }

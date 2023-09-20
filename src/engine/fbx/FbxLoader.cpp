@@ -377,6 +377,8 @@ void FbxLoader::ParseSkin(FbxModel* model, FbxMesh* fbxMesh)
 
         return;
     }
+    //アーマチュアフラグを立てる
+    model->armatureFlag = true;
     //ボーン配列の参照
     std::vector<FbxModel::Bone>& bones = model->bones;
     //ボーンの数

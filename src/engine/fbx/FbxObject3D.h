@@ -80,6 +80,8 @@ public://メンバ関数
 
 	//アニメーション開始
 	void PlayAnimation();
+	//アニメーション終了
+	void StopAnimation() { isPlay = false; }
 
 	//セッター
 	void SetPosition(XMFLOAT3 pos) { position = pos; }
