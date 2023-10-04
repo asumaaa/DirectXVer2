@@ -1,6 +1,7 @@
 ﻿#include "WinApp.h"
 #include "Message.h"
 #include "Input.h"
+#include "DXInput.h"
 #include "DirectXCommon.h"
 #include "DirectXTex.h"
 #include "FPS.h"
@@ -47,6 +48,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	input = Input::GetInstance();
 	input->Initialize(winApp);
 
+	//コントローラー
+	DXInput* dxInput = nullptr;
+	dxInput = DXInput::GetInstance();
+
 	//ImGuiManager
 	ImGuiManager* imGuiManager = nullptr;
 	imGuiManager = new ImGuiManager();
@@ -62,7 +67,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//ゲームシーン
 	GameScene* gameScene = nullptr;
 	gameScene = new GameScene();
-	gameScene->Initialize(dxCommon, input);
+	gameScene->Initialize(dxCommon, input,dxInput);
 
 	//FPSを固定
 	FPS* fps = nullptr;
@@ -120,6 +125,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		//キーボード更新
 		input->Update();
+		
+		//コントローラ更新
+		dxInput->Update();
 
 		imGuiManager->Begin();
 

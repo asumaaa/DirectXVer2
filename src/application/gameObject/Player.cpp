@@ -8,6 +8,27 @@ Camera* Player::camera = nullptr;
 Input* Player::input = nullptr;
 DXInput* Player::dxInput = nullptr;
 
+Player::~Player()
+{
+	//オブジェクトの削除
+	delete objectWait;
+	delete objectRun;
+	delete objectBackRun;
+	delete objectRunLeft;
+	delete objectRunRight;
+	delete objectAttack1;
+	delete objectAttack2;
+
+	//モデルの削除
+	delete modelWait;
+	delete modelRun;
+	delete modelBackRun;
+	delete modelRunLeft;
+	delete modelRunRight;
+	delete modelAttack1;
+	delete modelAttack2;
+}
+
 void Player::Initialize()
 {
 	//待ってるモデル
@@ -25,6 +46,46 @@ void Player::Initialize()
 	objectRun->Initialize();
 	objectRun->SetModel(modelRun);
 	objectRun->StopAnimation();
+
+	//後方に走るモデル
+	modelBackRun = FbxLoader::GetInstance()->LoadModelFromFile("playerBackRun");
+	//後方に走るオブジェクト
+	objectBackRun = new FbxObject3D;
+	objectBackRun->Initialize();
+	objectBackRun->SetModel(modelBackRun);
+	objectBackRun->StopAnimation();
+
+	//左に走るモデル
+	modelRunLeft = FbxLoader::GetInstance()->LoadModelFromFile("playerRunLeft");
+	//左に走るオブジェクト
+	objectRunLeft = new FbxObject3D;
+	objectRunLeft->Initialize();
+	objectRunLeft->SetModel(modelRunLeft);
+	objectRunLeft->StopAnimation();
+
+	//右に走るモデル
+	modelRunRight = FbxLoader::GetInstance()->LoadModelFromFile("playerRunRight");
+	//右に走るオブジェクト
+	objectRunRight = new FbxObject3D;
+	objectRunRight->Initialize();
+	objectRunRight->SetModel(modelRunRight);
+	objectRunRight->StopAnimation();
+
+	//攻撃1のモデル
+	modelAttack1 = FbxLoader::GetInstance()->LoadModelFromFile("playerAttack1");
+	//攻撃1のオブジェクト
+	objectAttack1 = new FbxObject3D;
+	objectAttack1->Initialize();
+	objectAttack1->SetModel(modelAttack1);
+	objectAttack1->StopAnimation();
+
+	//攻撃2のモデル
+	modelAttack2 = FbxLoader::GetInstance()->LoadModelFromFile("playerAttack2");
+	//攻撃2のオブジェクト
+	objectAttack2 = new FbxObject3D;
+	objectAttack2->Initialize();
+	objectAttack2->SetModel(modelAttack2);
+	objectAttack2->StopAnimation();
 }
 
 void Player::Update()
@@ -32,8 +93,14 @@ void Player::Update()
 	//弾更新
 	UpdateBullet();
 
-	//動く
-	Move();
+	//挙動
+	Control();
+
+	//攻撃
+	UpdateAttack();
+
+	//ステータスマネージャー
+	StatusManager();
 
 	//オブジェクト更新
 	UpdateObject();
@@ -44,40 +111,30 @@ void Player::Update()
 
 void Player::UpdateObject()
 {
-	//待ってるオブジェクト
-	if (status == Wait)
+	UpdateObject(Wait, objectWait);
+	UpdateObject(Run, objectRun);
+	UpdateObject(BackRun, objectBackRun);
+	UpdateObject(Attack1, objectAttack1);
+	UpdateObject(Attack2, objectAttack2);
+}
+
+void Player::UpdateObject(Status status, FbxObject3D* object)
+{
+	if (this->status == status)
 	{
-		objectWait->SetPosition(position);
-		objectWait->SetRotation(rotation0 + rotation1);
-		objectWait->SetScale(scale);
-		if (status != preStatus)
+		object->SetPosition(position);
+		object->SetRotation(rotation0 + rotation1);
+		object->SetScale(scale);
+		if (this->status != preStatus)
 		{
-			objectWait->PlayAnimation();
+			object->PlayAnimation();
 		}
 
-		objectWait->Update();
+		object->Update();
 	}
 	else
 	{
-		objectWait->StopAnimation();
-	}
-
-	//走ってるオブジェクト
-	if (status == Run)
-	{
-		objectRun->SetPosition(position);
-		objectRun->SetRotation(rotation0 + rotation1);
-		objectRun->SetScale(scale);
-		if (status != preStatus)
-		{
-			objectRun->PlayAnimation();
-		}
-
-		objectRun->Update();
-	}
-	else
-	{
-		objectRun->StopAnimation();
+		object->StopAnimation();
 	}
 }
 
@@ -107,6 +164,18 @@ void Player::Draw(ID3D12GraphicsCommandList* cmdList)
 	{
 		objectRun->Draw(cmdList);
 	}
+	if (status == BackRun)
+	{
+		objectBackRun->Draw(cmdList);
+	}
+	if (status == Attack1)
+	{
+		objectAttack1->Draw(cmdList);
+	}
+	if (status == Attack2)
+	{
+		objectAttack2->Draw(cmdList);
+	}
 }
 
 void Player::DrawLightView(ID3D12GraphicsCommandList* cmdList)
@@ -119,44 +188,49 @@ void Player::DrawLightView(ID3D12GraphicsCommandList* cmdList)
 	{
 		objectRun->DrawLightView(cmdList);
 	}
+	if (status == BackRun)
+	{
+		objectBackRun->DrawLightView(cmdList);
+	}
+	if (status == Attack1)
+	{
+		objectAttack1->DrawLightView(cmdList);
+	}
+	if (status == Attack2)
+	{
+		objectAttack2->DrawLightView(cmdList);
+	}
 }
 
-void Player::Move()
+void Player::Control()
 {
 	//ジャンプ更新
 	UpdateJump();
 
 	//重力更新
 	UpdateGravity();
-	
-	//キー操作
-	KeyControl();
+
+	//移動
+	Move();
 }
 
-void Player::KeyControl()
+void Player::Move()
 {
 	//AROWキーで角度変更
-	rotVelocity.y = (input->PushKey(DIK_RIGHT) - input->PushKey(DIK_LEFT)) * rotSpeed;
+	rotVelocity.y = dxInput->GetStick(DXInput::RStickX) * rotSpeed;
+	/*rotVelocity.y = (input->PushKey(DIK_RIGHT) - input->PushKey(DIK_LEFT)) * rotSpeed;*/
 	//角度ベクトルを加算
 	rotation1 = rotation1 + rotVelocity;
 
 	//ASDWで移動
-	posVelocity.x = (input->PushKey(DIK_D) - input->PushKey(DIK_A)) * posSpeed;
-	posVelocity.z = (input->PushKey(DIK_W) - input->PushKey(DIK_S)) * posSpeed;
+	posVelocity.x = dxInput->GetStick(DXInput::LStickX) * posSpeed;
+	posVelocity.z = dxInput->GetStick(DXInput::LStickY) * posSpeed;
+	/*posVelocity.x = (input->PushKey(DIK_D) - input->PushKey(DIK_A)) * posSpeed;
+	posVelocity.z = (input->PushKey(DIK_W) - input->PushKey(DIK_S)) * posSpeed;*/
 	//進行ベクトルを回転
 	posVelocity = rollRotation(posVelocity, rotation1);
 	//進行ベクトルを加算
 	position = position + posVelocity;
-
-	//進行速度によってステータスを変更
-	if (length(posVelocity) >= 0.01f)
-	{
-		status = Run;
-	}
-	else
-	{
-		status = Wait;
-	}
 }
 
 void Player::UpdateGravity()
@@ -200,13 +274,68 @@ void Player::UpdateJump()
 	//}
 }
 
+void Player::StatusManager()
+{
+	if (dxInput->TriggerKey(DXInput::PAD_B) && Attack1Timer == 0)
+	{
+		status = Attack1;
+	}
+	else if(Attack1Timer >= 1)
+	{
+		status = Attack1;
+	}
+
+	else if (dxInput->TriggerKey(DXInput::PAD_B) && status == Attack1 &&
+		0 <= Attack1Time - Attack1Timer <= Attack1IntervalTime)
+	{
+		status = Attack2;
+	}
+	else if (Attack2Timer >= 1)
+	{
+		status = Attack2;
+	}
+
+	//立ち止まっている場合
+	else if (length(posVelocity) <= 0.01f)
+	{
+		status = Wait;
+	}
+	//後ろに入力しながら走っている場合
+	else if (dxInput->GetStick(DXInput::LStickY) <= -0.3)
+	{
+		status = BackRun;
+	}
+	//普通に走っている場合
+	else
+	{
+		status = Run;
+	}
+}
+
 void Player::UpdateAttack()
 {
+	if (status == Attack1)
+	{
+		Attack1Timer++;
+	}
+	if (Attack1Timer >= Attack1Time)
+	{
+		Attack1Timer = 0.0f;
+	}
+
+	if (status == Attack2)
+	{
+		Attack2Timer++;
+		Attack1Timer = 0;
+	}
+	if (Attack2Timer >= Attack2Time)
+	{
+		Attack2Timer = 0.0f;
+	}
 }
 
 void Player::SetSRV(ID3D12DescriptorHeap* SRV)
 {
-	objectWait->SetSRV(SRV);
 	if (status == Wait)
 	{
 		objectWait->SetSRV(SRV);
@@ -214,6 +343,18 @@ void Player::SetSRV(ID3D12DescriptorHeap* SRV)
 	if (status == Run)
 	{
 		objectRun->SetSRV(SRV);
+	}
+	if (status == BackRun)
+	{
+		objectBackRun->SetSRV(SRV);
+	}
+	if (status == Attack1)
+	{
+		objectAttack1->SetSRV(SRV);
+	}
+	if (status == Attack2)
+	{
+		objectAttack2->SetSRV(SRV);
 	}
 }
 

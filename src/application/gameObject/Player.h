@@ -18,11 +18,20 @@ private:
 	enum Status	//プレイヤーの状態
 	{
 		Wait,
-		Walk,
-		Run
+		Run,
+		BackRun,
+		RunLeft,
+		RunRight,
+		Attack1,
+		Attack2,
+		Attack3,
 	};
 	//メンバ関数
 public:
+
+	Player() {};
+	~Player();
+
 	//静的メンバ関数
 	static void SetCamera(Camera* camera) { Player::camera = camera; }
 	static void SetInput(Input* input) { Player::input = input; }
@@ -33,6 +42,7 @@ public:
 	//更新
 	void Update();
 	void UpdateObject();
+	void UpdateObject(Status status,FbxObject3D* object);
 	void UpdateBullet();
 	//描画
 	void Draw(ID3D12GraphicsCommandList* cmdList);
@@ -40,13 +50,16 @@ public:
 
 	//挙動関連
 	//挙動全般
+	void Control();
+	//移動
 	void Move();
-	//キー操作
-	void KeyControl();
 	//落下
 	void UpdateGravity();
 	//ジャンプ
 	void UpdateJump();
+
+	//ステータスマネージャー
+	void StatusManager();
 
 	//攻撃系全般
 	void UpdateAttack();
@@ -87,6 +100,31 @@ public:
 	//走ってる状態のモデル
 	FbxModel* modelRun = nullptr;
 
+	//後ろ走りしているプレイヤー
+	FbxObject3D* objectBackRun = nullptr;
+	//後ろ走りしてるモデル
+	FbxModel* modelBackRun = nullptr;
+
+	//左に走ってるオブジェクト
+	FbxObject3D* objectRunLeft = nullptr;
+	//左に走っているモデル
+	FbxModel* modelRunLeft = nullptr;
+	
+	//右に走ってるオブジェクト
+	FbxObject3D* objectRunRight = nullptr;
+	//右に走っているモデル
+	FbxModel* modelRunRight = nullptr;
+
+	//攻撃1のモデル
+	FbxObject3D* objectAttack1 = nullptr;
+	//攻撃1のオブジェクト
+	FbxModel* modelAttack1 = nullptr;
+
+	//攻撃2のオブジェクト
+	FbxObject3D* objectAttack2 = nullptr;
+	//攻撃2のモデル
+	FbxModel* modelAttack2 = nullptr;
+
 	//変形行列
 	//平行移動
 	XMFLOAT3 position = {0.0f,0.0f,0.0f};
@@ -124,8 +162,18 @@ public:
 	float jumpHeight = 0.4;
 
 	//スピード
-	float posSpeed = 0.5f;
-	float rotSpeed = (float)PI * 1.0f / 180.0f;
+	float posSpeed = 1.0f;
+	float rotSpeed = (float)PI * 1.5f / 180.0f;
+
+	//攻撃関連
+	//Attack1のタイマー
+	float Attack1Time = 150.0f;
+	float Attack1Timer = 0.0f;
+	//Attack2のタイマー
+	float Attack2Time = 145.0f;
+	float Attack2Timer = 0.0f;
+	//連続攻撃の入力フレーム
+	float Attack1IntervalTime = 20.0f;
 
 	//状態
 	Status status = Wait;

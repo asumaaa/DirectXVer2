@@ -15,10 +15,11 @@ GameScene::~GameScene()
 {
 }
 
-void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
+void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInput)
 {
 	this->dxCommon_ = dxCommon;
 	this->input_ = input;
+	this->dxInput = dxInput;
 
 	//テクスチャマネージャー
 	TextureManager::SetDevice(dxCommon->GetDevice());
@@ -41,6 +42,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	newTextureManager->LoadFile(14, L"Resources/pictures/black.png");
 	newTextureManager->LoadFile(15, L"Resources/pictures/blackParticle.png");
 	newTextureManager->LoadFile(16, L"Resources/pictures/effect4.png");
+	newTextureManager->LoadFile(17, L"Resources/pictures/skyBox.png");
 
 	textureManager.reset(newTextureManager);
 
@@ -191,24 +193,21 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input)
 	newBillboardSprite->Initialize();
 	billboardSprite.reset(newBillboardSprite);
 
-	////プレイヤーの弾
-	//PlayerBullet::SetCamera(camera_.get());
-	//PlayerBullet::SetInput(input);
-	//PlayerBullet* newPlayerBullet = new PlayerBullet();
-	////モデルセット
-	//for (std::unique_ptr<FbxModel>& model : models)
-	//{
-	//	if (model->GetFileName() == "playerBullet")
-	//	{
-	//		newPlayerBullet->SetModel(model.get());
-	//	}
-	//}
-	//newPlayerBullet->Initialize();
-	//playerBullet.reset(newPlayerBullet);
+	//天球
+	ObjModel* newObjModel = new ObjModel();
+	newObjModel->Initialize(dxCommon_->GetDevice(), "skyBox", "Resources/pictures/skyBox.png");
+	skySphereModel.reset(newObjModel);
+	ObjObject3D* newObject = new ObjObject3D();
+	newObject->Initialize(dxCommon_->GetDevice(), newObjModel,camera_.get());
+	skySphereObject.reset(newObject);
+	skySphereObject->setScale(XMFLOAT3(30.0f,30.0f,30.0f));
+	skySphereObject->setRotation(XMFLOAT3(0.0f,0.0f,0.0f));
+	skySphereObject->setPosition(XMFLOAT3(0.0f,0.0f,0.0f));
 
 	//プレイヤー
 	Player::SetCamera(camera_.get());
 	Player::SetInput(input);
+	Player::SetDXInput(dxInput);
 	/*Player::SetDXInput()*/
 	Player* newPlayer = new Player();
 	newPlayer->Initialize();
@@ -318,6 +317,9 @@ void GameScene::Update()
 	lightGroup->SetDirLightActive(1, false);
 	lightGroup->SetDirLightActive(2, false);
 	lightGroup->Update();
+
+	//天球
+	skySphereObject->Update();
 
 	//プレイヤー
 	player->Update();
@@ -442,6 +444,9 @@ void GameScene::Draw()
 	if (*drawFbx == 1)DrawFBX();
 	//パーティクルの描画
 	if (*drawParticle == 1)DrawParticle();
+
+	//天球描画
+	skySphereObject->Draw(dxCommon_->GetCommandList(),skySphereModel->vbView, skySphereModel->ibView);
 
 	/*billboardSprite->Draw(dxCommon_->GetCommandList());*/
 }

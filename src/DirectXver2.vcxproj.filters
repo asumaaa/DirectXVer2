@@ -136,6 +136,15 @@
     <Filter Include="リソース ファイル\Shaders\Object\NoizTest">
       <UniqueIdentifier>{4eaf3cca-8d8e-4ec4-847e-38a6e45e4286}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\obb">
+      <UniqueIdentifier>{985fa10c-b295-4f7b-b2d0-be3183dde57e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\obb">
+      <UniqueIdentifier>{c7a73639-9778-4e6a-86a9-5a450cc59cef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\Shaders\Object\Obj">
+      <UniqueIdentifier>{d707f0ec-e997-41a0-8495-2e6f4c0c7769}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="2d\MonochromeEffect.cpp">
@@ -299,6 +308,12 @@
     </ClCompile>
     <ClCompile Include="engine\base\SoundManager.cpp">
       <Filter>ソース ファイル\base</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\Obj\ObjModel.cpp">
+      <Filter>ソース ファイル\obb</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\Obj\ObjObject3D.cpp">
+      <Filter>ソース ファイル\obb</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -467,6 +482,12 @@
     <ClInclude Include="engine\base\SoundManager.h">
       <Filter>ヘッダー ファイル\base</Filter>
     </ClInclude>
+    <ClInclude Include="engine\Obj\ObjModel.h">
+      <Filter>ヘッダー ファイル\obb</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\Obj\ObjObject3D.h">
+      <Filter>ヘッダー ファイル\obb</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\Resources\Shaders\PixelShader.hlsl">
@@ -625,6 +646,12 @@
     <FxCompile Include="..\Resources\Shaders\NoizTest\NoizTestVertexShader.hlsl">
       <Filter>リソース ファイル\Shaders\Object\NoizTest</Filter>
     </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\Obj\ObjPixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Object\Obj</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\Obj\ObjVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Object\Obj</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\Shaders\ShaderHeader.hlsli">
@@ -698,6 +725,9 @@
     </None>
     <None Include="..\Resources\Shaders\NoizTest\NoizTestHeader.hlsli">
       <Filter>リソース ファイル\Shaders\Object\NoizTest</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\Obj\ObjHeader.hlsli">
+      <Filter>リソース ファイル\Shaders\Object\Obj</Filter>
     </None>
   </ItemGroup>
 </Project>

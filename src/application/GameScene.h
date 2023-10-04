@@ -1,4 +1,5 @@
 #pragma once
+
 #include "memory"
 #include "list"
 
@@ -27,6 +28,8 @@
 #include "ExplosionParticle2.h"
 #include "BillboardSprite.h"
 #include "BillboardSpriteModel.h"
+#include "ObjModel.h"
+#include "ObjObject3D.h"
 
 enum Mode
 {
@@ -41,7 +44,7 @@ public:
 	GameScene();
 	~GameScene();
 	//初期化
-	void Initialize(DirectXCommon* dxCommon, Input* input);
+	void Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInput);
 	//終了時
 	void Finalize();
 	//更新
@@ -65,7 +68,7 @@ private:
 	//デバイスとinput
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
-	DXInput* dxInput = new DXInput();
+	DXInput* dxInput = nullptr;
 	//カメラ
 	std::unique_ptr<Camera> camera_;
 
@@ -109,6 +112,10 @@ private:
 	
 	//平面
 	/*std::unique_ptr<Plane> plane;*/
+
+	//天球
+	std::unique_ptr<ObjModel>skySphereModel;
+	std::unique_ptr<ObjObject3D>skySphereObject;
 
 	//コライダーのモデル
 	std::unique_ptr<ColliderCubeModel>colliderCubeModel;

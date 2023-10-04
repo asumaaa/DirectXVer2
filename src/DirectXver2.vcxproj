@@ -124,7 +124,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)engine\base;$(ProjectDir);$(ProjectDir)engine\fbx;$(ProjectDir)Resources;$(ProjectDir)Resources\Shaders;$(ProjectDir)engine\particle;$(ProjectDir)engine\light;$(ProjectDir)fbxsdk;$(ProjectDir)2d;$(ProjectDir)Resources\Shaders\Bulr;$(ProjectDir)Resources\Shaders\Monochrome;$(ProjectDir)Resources\Shaders\Mosaic;$(ProjectDir)Resources\Shaders\Reversal;$(ProjectDir)Resources\Shaders\ChromaticAberration;$(ProjectDir)Resources\Shaders\DepthOfField;$(ProjectDir)Resources\Shaders\ShadowMap;$(ProjectDir)Resources\Shaders\Fbx;$(ProjectDir)Resources\Shaders\Sprite;$(ProjectDir)Resources\Shaders\VolumeLight;$(ProjectDir)Resources\Shaders\Fog;$(ProjectDir)Resources\Shaders\Vignette;$(ProjectDir)Resources\Shaders\ColliderCube;$(ProjectDir)engine\collision;$(ProjectDir)application\gameObject;$(ProjectDir)Resource\Shader\Particle;$(ProjectDir)engine\math;$(ProjectDir)Resource\Shader\SparkParticlr;$(ProjectDir)application;$(ProjectDir)Resources\Shaders\BillboardSprite;$(ProjectDir)Resources\Shaders\Ground;$(ProjectDir)Resources\Shaders\Explosion1;$(ProjectDir)Resources\Shaders\Explosion2;$(SolutionDir)external\Effekseer\include\EffekseerRendererDX12\;$(SolutionDir)external\Effekseer\include\Effekseer\;$(SolutionDir)external\Effekseer\include\EffekseerRendererCommon\;$(SolutionDir)external\Effekseer\include\EffekseerRendererLLGI\;$(Projectdir)Resources\Shaders\MultiTextureTest;$(ProjectDir)Resources\Shaders\NoizTest</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)engine\base;$(ProjectDir);$(ProjectDir)engine\fbx;$(ProjectDir)Resources;$(ProjectDir)Resources\Shaders;$(ProjectDir)engine\particle;$(ProjectDir)engine\light;$(ProjectDir)fbxsdk;$(ProjectDir)2d;$(ProjectDir)Resources\Shaders\Bulr;$(ProjectDir)Resources\Shaders\Monochrome;$(ProjectDir)Resources\Shaders\Mosaic;$(ProjectDir)Resources\Shaders\Reversal;$(ProjectDir)Resources\Shaders\ChromaticAberration;$(ProjectDir)Resources\Shaders\DepthOfField;$(ProjectDir)Resources\Shaders\ShadowMap;$(ProjectDir)Resources\Shaders\Fbx;$(ProjectDir)Resources\Shaders\Sprite;$(ProjectDir)Resources\Shaders\VolumeLight;$(ProjectDir)Resources\Shaders\Fog;$(ProjectDir)Resources\Shaders\Vignette;$(ProjectDir)Resources\Shaders\ColliderCube;$(ProjectDir)engine\collision;$(ProjectDir)application\gameObject;$(ProjectDir)Resource\Shader\Particle;$(ProjectDir)engine\math;$(ProjectDir)Resource\Shader\SparkParticlr;$(ProjectDir)application;$(ProjectDir)Resources\Shaders\BillboardSprite;$(ProjectDir)Resources\Shaders\Ground;$(ProjectDir)Resources\Shaders\Explosion1;$(ProjectDir)Resources\Shaders\Explosion2;$(SolutionDir)external\Effekseer\include\EffekseerRendererDX12\;$(SolutionDir)external\Effekseer\include\Effekseer\;$(SolutionDir)external\Effekseer\include\EffekseerRendererCommon\;$(SolutionDir)external\Effekseer\include\EffekseerRendererLLGI\;$(Projectdir)Resources\Shaders\MultiTextureTest;$(ProjectDir)Resources\Shaders\NoizTest;$(ProjectDir)engine\Obj;$(SolutionDir)Resources\Shaders\Obj;$(SolutionDir)Resources\obj</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4099;26495;26451;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -144,7 +144,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)engine\base;$(ProjectDir);$(ProjectDir)engine\fbx;$(ProjectDir)Resources;$(ProjectDir)Resources\Shaders;$(ProjectDir)engine\particle;$(ProjectDir)engine\light;$(ProjectDir)fbxsdk;$(ProjectDir)2d;$(ProjectDir)Resources\Shaders\Bulr;$(ProjectDir)Resources\Shaders\Monochrome;$(ProjectDir)Resources\Shaders\Mosaic;$(ProjectDir)Resources\Shaders\Reversal;$(ProjectDir)Resources\Shaders\ChromaticAberration;$(ProjectDir)Resources\Shaders\DepthOfField;$(ProjectDir)Resources\Shaders\ShadowMap;$(ProjectDir)Resources\Shaders\Fbx;$(ProjectDir)Resources\Shaders\Sprite;$(ProjectDir)Resources\Shaders\VolumeLight;$(ProjectDir)Resources\Shaders\Fog;$(ProjectDir)Resources\Shaders\Vignette;$(ProjectDir)Resources\Shaders\ColliderCube;$(ProjectDir)engine\collision;$(ProjectDir)application\gameObject;$(ProjectDir)Resource\Shader\Particle;$(ProjectDir)engine\math;$(ProjectDir)Resource\Shader\SparkParticlr;$(ProjectDir)application;$(ProjectDir)Resources\Shaders\BillboardSprite;$(ProjectDir)Resources\Shaders\Ground;$(ProjectDir)Resources\Shaders\Explosion1;$(ProjectDir)Resources\Shaders\Explosion2;$(SolutionDir)external\Effekseer\include\EffekseerRendererDX12\;$(SolutionDir)external\Effekseer\include\Effekseer\;$(SolutionDir)external\Effekseer\include\EffekseerRendererCommon\;$(SolutionDir)external\Effekseer\include\EffekseerRendererLLGI\;$(Projectdir)Resources\Shaders\MultiTextureTest;$(ProjectDir)Resources\Shaders\NoizTest</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)engine\base;$(ProjectDir);$(ProjectDir)engine\fbx;$(ProjectDir)Resources;$(ProjectDir)Resources\Shaders;$(ProjectDir)engine\particle;$(ProjectDir)engine\light;$(ProjectDir)fbxsdk;$(ProjectDir)2d;$(ProjectDir)Resources\Shaders\Bulr;$(ProjectDir)Resources\Shaders\Monochrome;$(ProjectDir)Resources\Shaders\Mosaic;$(ProjectDir)Resources\Shaders\Reversal;$(ProjectDir)Resources\Shaders\ChromaticAberration;$(ProjectDir)Resources\Shaders\DepthOfField;$(ProjectDir)Resources\Shaders\ShadowMap;$(ProjectDir)Resources\Shaders\Fbx;$(ProjectDir)Resources\Shaders\Sprite;$(ProjectDir)Resources\Shaders\VolumeLight;$(ProjectDir)Resources\Shaders\Fog;$(ProjectDir)Resources\Shaders\Vignette;$(ProjectDir)Resources\Shaders\ColliderCube;$(ProjectDir)engine\collision;$(ProjectDir)application\gameObject;$(ProjectDir)Resource\Shader\Particle;$(ProjectDir)engine\math;$(ProjectDir)Resource\Shader\SparkParticlr;$(ProjectDir)application;$(ProjectDir)Resources\Shaders\BillboardSprite;$(ProjectDir)Resources\Shaders\Ground;$(ProjectDir)Resources\Shaders\Explosion1;$(ProjectDir)Resources\Shaders\Explosion2;$(SolutionDir)external\Effekseer\include\EffekseerRendererDX12\;$(SolutionDir)external\Effekseer\include\Effekseer\;$(SolutionDir)external\Effekseer\include\EffekseerRendererCommon\;$(SolutionDir)external\Effekseer\include\EffekseerRendererLLGI\;$(Projectdir)Resources\Shaders\MultiTextureTest;$(ProjectDir)Resources\Shaders\NoizTest;$(ProjectDir)engine\Obj;$(SolutionDir)Resources\Shaders\Obj;$(SolutionDir)Resources\obj</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <DisableSpecificWarnings>4099;26495;26451;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
@@ -209,6 +209,8 @@
     <ClCompile Include="engine\main.cpp" />
     <ClCompile Include="engine\math\mathOriginal.cpp" />
     <ClCompile Include="engine\math\Matrix4.cpp" />
+    <ClCompile Include="engine\Obj\ObjModel.cpp" />
+    <ClCompile Include="engine\Obj\ObjObject3D.cpp" />
     <ClCompile Include="engine\particle\ExplosionParticle1.cpp" />
     <ClCompile Include="engine\particle\ExplosionParticle2.cpp" />
     <ClCompile Include="engine\particle\FireParticle.cpp" />
@@ -266,6 +268,8 @@
     <ClInclude Include="engine\light\SpotLight.h" />
     <ClInclude Include="engine\math\mathOriginal.h" />
     <ClInclude Include="engine\math\Matrix4.h" />
+    <ClInclude Include="engine\Obj\ObjModel.h" />
+    <ClInclude Include="engine\Obj\ObjObject3D.h" />
     <ClInclude Include="engine\particle\ExplosionParticle1.h" />
     <ClInclude Include="engine\particle\ExplosionParticle2.h" />
     <ClInclude Include="engine\particle\FireParticle.h" />
@@ -423,6 +427,14 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\Obj\ObjPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\Obj\ObjVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="..\Resources\Shaders\PixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
@@ -513,6 +525,7 @@
     <None Include="..\Resources\Shaders\Mosaic\MosaicEffectHeader.hlsli" />
     <None Include="..\Resources\Shaders\MultiTextureTest\MultiTextureTestHeader.hlsli" />
     <None Include="..\Resources\Shaders\NoizTest\NoizTestHeader.hlsli" />
+    <None Include="..\Resources\Shaders\Obj\ObjHeader.hlsli" />
     <None Include="..\Resources\Shaders\Reversal\ReversalEffectHeader.hlsli" />
     <None Include="..\Resources\Shaders\ShaderHeader.hlsli" />
     <None Include="..\Resources\Shaders\ShadowMap\ShadowMapHeader.hlsli" />
