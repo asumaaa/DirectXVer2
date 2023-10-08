@@ -15,22 +15,22 @@
 #include <wrl.h>
 
 
-//ƒ`ƒƒƒ“ƒNƒwƒbƒ_
+//ãƒãƒ£ãƒ³ã‚¯ãƒ˜ãƒƒãƒ€
 struct ChunkHeader {
-	char id[4];		//ƒ`ƒƒƒ“ƒN–ˆ‚ÌID
-	int32_t size;	//ƒ`ƒƒƒ“ƒNƒTƒCƒY
+	char id[4];		//ãƒãƒ£ãƒ³ã‚¯æ¯ã®ID
+	int32_t size;	//ãƒãƒ£ãƒ³ã‚¯ã‚µã‚¤ã‚º
 };
 
-//RIFFƒwƒbƒ_ƒ`ƒƒƒ“ƒN
+//RIFFãƒ˜ãƒƒãƒ€ãƒãƒ£ãƒ³ã‚¯
 struct RiffHeader {
 	ChunkHeader chunk;	//"RIFF"
 	char type[4];		//"WAVE"
 };
 
-//FMTƒ`ƒƒƒ“ƒN
+//FMTãƒãƒ£ãƒ³ã‚¯
 struct FormatChunk {
 	ChunkHeader chunk;	//"fmt"
-	WAVEFORMATEX fmt;	//”gŒ`ƒtƒH[ƒ}ƒbƒg
+	WAVEFORMATEX fmt;	//æ³¢å½¢ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ
 };
 
 class SoundManager final
@@ -42,39 +42,39 @@ public:
 
 public:
 
-	//ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^–³Œø
+	//ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç„¡åŠ¹
 	SoundManager(const SoundManager& obj) = delete;
-	//‘ã“ü‰‰Zq‚ğ–³Œø
+	//ä»£å…¥æ¼”ç®—å­ã‚’ç„¡åŠ¹
 	SoundManager& operator=(const SoundManager& obj) = delete;
 
-	//ƒCƒ“ƒXƒ^ƒ“ƒXƒAƒNƒZƒXê—pŠÖ”
+	//ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚¢ã‚¯ã‚»ã‚¹å°‚ç”¨é–¢æ•°
 	static SoundManager* GetInstance();
 
 	static Microsoft::WRL::ComPtr<IXAudio2> xAudio2_;
 	static IXAudio2MasteringVoice* masterVoice_;
 
 
-	// ‰Šú‰»
+	// åˆæœŸåŒ–
 	static void StaticInitialize();
-	//‰¹º“Ç‚İ‚İ
+	//éŸ³å£°èª­ã¿è¾¼ã¿
 	void SoundLoadWave(const char* filename);
-	//‰¹ºÄ¶
+	//éŸ³å£°å†ç”Ÿ
 	void SoundPlayWave(bool loop = false, float volume = 1.0f);
-	// ‰¹º’â~
+	// éŸ³å£°åœæ­¢
 	void StopWave();
 
-	//‰¹ºƒf[ƒ^‰ğ•ú
+	//éŸ³å£°ãƒ‡ãƒ¼ã‚¿è§£æ”¾
 	void SoundUnload();
 
 
 private:
-	//‰¹ºƒf[ƒ^
+	//éŸ³å£°ãƒ‡ãƒ¼ã‚¿
 	struct SoundData {
-		//”gŒ`ƒtƒH[ƒ}ƒbƒg
+		//æ³¢å½¢ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ
 		WAVEFORMATEX wfex;
-		//ƒoƒbƒtƒ@‚Ìæ“ªƒAƒhƒŒƒX
+		//ãƒãƒƒãƒ•ã‚¡ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
 		BYTE* pBuffer;
-		//ƒoƒbƒtƒ@ƒTƒCƒY
+		//ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
 		unsigned int bufferSize;
 	};
 
@@ -82,7 +82,7 @@ private:
 
 	IXAudio2SourceVoice* pSourceVoice = nullptr;
 
-	//Ä¶‚·‚é”gŒ`ƒf[ƒ^‚Ìİ’è
+	//å†ç”Ÿã™ã‚‹æ³¢å½¢ãƒ‡ãƒ¼ã‚¿ã®è¨­å®š
 	XAUDIO2_BUFFER buf{};
 
 	bool isPlay = false;

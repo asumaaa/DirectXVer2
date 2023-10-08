@@ -39,111 +39,111 @@ enum Mode
 
 class GameScene
 {
-	//ƒƒ“ƒoŠÖ”
+	//ãƒ¡ãƒ³ãƒé–¢æ•°
 public:
 	GameScene();
 	~GameScene();
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	void Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInput);
-	//I—¹
+	//çµ‚äº†æ™‚
 	void Finalize();
-	//XV
+	//æ›´æ–°
 	void Update();
 	void UpdateCollider();
-	//•`‰æ
+	//æç”»
 	void Draw();
 	void DrawFBXLightView();
 	void DrawFBX();
 	void DrawCollider();
 	void DrawSprite();
 	void DrawParticle();
-	
-	//ƒZƒbƒ^[
+
+	//ã‚»ãƒƒã‚¿ãƒ¼
 	void SetSRV(ID3D12DescriptorHeap* SRV);
-	//ƒQƒbƒ^[
+	//ã‚²ãƒƒã‚¿ãƒ¼
 	DirectX::XMMATRIX GetLightViewProjection();
 
-	//ƒƒ“ƒo•Ï”
+	//ãƒ¡ãƒ³ãƒå¤‰æ•°
 private:
-	//ƒfƒoƒCƒX‚Æinput
+	//ãƒ‡ãƒã‚¤ã‚¹ã¨input
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	DXInput* dxInput = nullptr;
-	//ƒJƒƒ‰
+	//ã‚«ãƒ¡ãƒ©
 	std::unique_ptr<Camera> camera_;
 
 	//fbx
 	std::list<std::unique_ptr<FbxModel>> models;
 
-	//ƒŒƒxƒ‹ƒGƒfƒBƒ^
+	//ãƒ¬ãƒ™ãƒ«ã‚¨ãƒ‡ã‚£ã‚¿
 	std::unique_ptr<JSONLoader> jsonLoader;
 
-	//ƒIƒuƒWƒFƒNƒg
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	std::list<std::unique_ptr<FbxObject3D>> object;
 
-	//ƒ‰ƒCƒg ‰e—p
+	//ãƒ©ã‚¤ãƒˆ å½±ç”¨
 	std::unique_ptr<Light> light;
-	float lightDir[3] = {0.0f,-1.0f , -1.0f};
-	float lightPos[3] = {0.0f,25.0f,25.0f};
+	float lightDir[3] = { 0.0f,-1.0f , -1.0f };
+	float lightPos[3] = { 0.0f,25.0f,25.0f };
 	float lightTarget[3] = { 0.0f,0.0f,0.0f };
 	float lightFactorAngle[2] = { 20.0f,30.0f, };
-	float lightAtten[3] = {0.0f,0.0f,0.0f};
+	float lightAtten[3] = { 0.0f,0.0f,0.0f };
 
-	//ƒ‰ƒCƒg
+	//ãƒ©ã‚¤ãƒˆ
 	std::unique_ptr<LightGroup> lightGroup;
 	float lightManagerDir[3] = { 0.0f,-1.0f , 1.0f };
 
-	//ƒeƒNƒXƒ`ƒƒƒ}ƒl[ƒWƒƒ[
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼
 	std::unique_ptr <TextureManager> textureManager;
 
-	//•ÏŒ`s—ñ
+	//å¤‰å½¢è¡Œåˆ—
 	DirectX::XMFLOAT3 position = { 0.0f,0.0f,0.0f };
 	DirectX::XMFLOAT3 rotation0 = { 0.0f,0.0f,0.0f };
 	DirectX::XMFLOAT3 scale = { 0.010f,0.010f,0.010f };
 	DirectX::XMFLOAT3 rotation1 = { 0.0f,0.0f,0.0f };
 
-	//ƒvƒŒƒCƒ„[
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
 	std::unique_ptr<Player> player;
-	////ƒvƒŒƒCƒ„[‚Ì’e
+	////ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å¼¾
 	//std::unique_ptr<PlayerBullet>playerBullet;
 
-	////“G
+	////æ•µ
 	//std::unique_ptr<Enemy>enemy;
-	
-	//•½–Ê
+
+	//å¹³é¢
 	/*std::unique_ptr<Plane> plane;*/
 
-	//“V‹…
+	//å¤©çƒ
 	std::unique_ptr<ObjModel>skySphereModel;
 	std::unique_ptr<ObjObject3D>skySphereObject;
 
-	//ƒRƒ‰ƒCƒ_[‚Ìƒ‚ƒfƒ‹
+	//ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ãƒ¢ãƒ‡ãƒ«
 	std::unique_ptr<ColliderCubeModel>colliderCubeModel;
 	std::unique_ptr<ColliderSphereModel>colliderSphereModel;
 	std::unique_ptr<ColliderPlaneModel>colliderPlaneModel;
 
-	//ƒRƒ‰ƒCƒ_[
+	//ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 	std::unique_ptr<ColliderManager> colliderManager;
 
-	//’e‚¯‚éƒp[ƒeƒBƒNƒ‹
+	//å¼¾ã‘ã‚‹ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«
 	std::unique_ptr<SparkParticle>sparkParticle;
 
-	//’e‚¯‚éƒp[ƒeƒBƒNƒ‹2
+	//å¼¾ã‘ã‚‹ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«2
 	std::unique_ptr<SparkParticle2>sparkParticle2;
 
-	//”š”­ƒp[ƒeƒCƒNƒ‹1
+	//çˆ†ç™ºãƒ‘ãƒ¼ãƒ†ã‚¤ã‚¯ãƒ«1
 	std::unique_ptr<ExplosionParticle1>explosionParticle1;
 
-	//”š”­ƒp[ƒeƒCƒNƒ‹2
+	//çˆ†ç™ºãƒ‘ãƒ¼ãƒ†ã‚¤ã‚¯ãƒ«2
 	std::unique_ptr<ExplosionParticle2>explosionParticle2;
 
-	//•`‰æƒtƒ‰ƒO
+	//æç”»ãƒ•ãƒ©ã‚°
 	int drawParticle[1] = { 1 };
 	int drawFbx[1] = { 1 };
 	int drawSprite[1] = { 0 };
 	int drawCollider[1] = { 1 };
 
-	//ƒrƒ‹ƒ{[ƒh@
+	//ãƒ“ãƒ«ãƒœãƒ¼ãƒ‰ã€€
 	std::unique_ptr<BillboardSprite>billboardSprite;
 	std::unique_ptr<BillboardSpriteModel>billboardSpriteModel;
 };

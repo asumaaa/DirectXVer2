@@ -16,15 +16,15 @@
 #define MaxVibration 65535
 
 /// <summary>
-/// ƒQ[ƒ€ƒpƒbƒh
+/// ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰
 /// </summary>
 class DXInput
 {
 public:
     struct CountrolerState
     {
-        XINPUT_STATE state; // ƒRƒ“ƒgƒ[ƒ‰[‚Ìó‘Ô‚Ìæ“¾
-        XINPUT_VIBRATION vibration;  // ƒoƒCƒuƒŒ[ƒVƒ‡ƒ“
+        XINPUT_STATE state; // ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã®çŠ¶æ…‹ã®å–å¾—
+        XINPUT_VIBRATION vibration;  // ãƒã‚¤ãƒ–ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³
         //bool Connected;
     };
     CountrolerState GamePad;
@@ -73,8 +73,8 @@ public:
         LStickY,
     };
 
-public:// ƒƒ“ƒoŠÖ”
-    static DXInput *GetInstance();
+public:// ãƒ¡ãƒ³ãƒé–¢æ•°
+    static DXInput* GetInstance();
     DXInput();
     ~DXInput();
 
@@ -82,22 +82,22 @@ public:// ƒƒ“ƒoŠÖ”
 
     void XInputInvaid();
 
-    //XV
+    //æ›´æ–°
     void Update();
     void UpdateKey();
     void UpdateOldKey();
     void UpdateStick();
 
-    //ƒ{ƒ^ƒ“æ“¾
+    //ãƒœã‚¿ãƒ³å–å¾—
     bool PushKey(Pad pad);
     bool TriggerKey(Pad pad);
 
-    //ƒXƒeƒBƒbƒNæ“¾
+    //ã‚¹ãƒ†ã‚£ãƒƒã‚¯å–å¾—
     float GetStick(Stick stick);
 
     /*HRESULT UpdateCountrollerState();*/
 
-private:// ƒƒ“ƒo•Ï”
+private:// ãƒ¡ãƒ³ãƒå¤‰æ•°
     //WinApp* winApp = nullptr;    // WindowsAPI
 
     Key key;

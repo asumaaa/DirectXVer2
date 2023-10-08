@@ -6,11 +6,10 @@ class Message
 {
 public:
 	static Message* GetInstance();
-	//Xƒ{ƒ^ƒ“‚ÅI—¹ƒƒbƒZ‚ª—ˆ‚½‚çƒQ[ƒ€ƒ‹[ƒv‚ğ”²‚¯‚é 
+	//Xãƒœã‚¿ãƒ³ã§çµ‚äº†ãƒ¡ãƒƒã‚»æ™‚ãŒæ¥ãŸã‚‰ã‚²ãƒ¼ãƒ ãƒ«ãƒ¼ãƒ—ã‚’æŠœã‘ã‚‹ 
 	bool Update();
-	//ŒÄ‚Ño‚µ‚½‚ÌƒGƒ‰[‚ğo‚·
+	//å‘¼ã³å‡ºã—ãŸæ™‚ã®ã‚¨ãƒ©ãƒ¼ã‚’å‡ºã™
 	bool CheckError();
 public:
 	MSG msg{};
 };
-

@@ -2,101 +2,101 @@
 #include "DirectXMath.h"
 #define PI 3.14159265359
 
-#pragma region •Ö—˜ŠÖ”
+#pragma region ä¾¿åˆ©é–¢æ•°
 
-//ƒ‰ƒ“ƒ_ƒ€‚Å’l‚ğ•Ô‚·ŠÖ”
+//ãƒ©ãƒ³ãƒ€ãƒ ã§å€¤ã‚’è¿”ã™é–¢æ•°
 int RNG(int min, int max, bool preciseMode = false);
 
 #pragma endregion
 
-#pragma region ƒC[ƒWƒ“ƒO
+#pragma region ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°
 
-//ƒC[ƒWƒ“ƒOŠÖ”:easeInSine
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeInSine
 float easeInSine(float x);
-//ƒC[ƒWƒ“ƒOŠÖ”:easeOutSine
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeOutSine
 float easeOutSine(float x);
-//ƒC[ƒWƒ“ƒOŠÖ”:easeInOutSine
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeInOutSine
 float easeInOutSine(float x);
-//ƒC[ƒWƒ“ƒOŠÖ”:easeInQuad
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeInQuad
 float easeInQuad(float x);
-//ƒC[ƒWƒ“ƒOŠÖ”:easeOutQuad
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeOutQuad
 float easeOutQuad(float x);
-//ƒC[ƒWƒ“ƒOŠÖ”:easeInOutQuad
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeInOutQuad
 float easeInOutQuad(float x);
-//ƒC[ƒWƒ“ƒOŠÖ”:easeInCubic
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeInCubic
 float easeInCubic(float x);
-//ƒC[ƒWƒ“ƒOŠÖ”:easeOutCubic
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeOutCubic
 float easeOutCubic(float x);
-//ƒC[ƒWƒ“ƒOŠÖ”:easeInOutCubic
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeInOutCubic
 float easeInOutCubic(float x);
-//ƒC[ƒWƒ“ƒOŠÖ”:easeInQuart
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeInQuart
 float easeInQuart(float x);
-//ƒC[ƒWƒ“ƒOŠÖ”:easeOutQuart
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeOutQuart
 float easeOutQuart(float x);
-//ƒC[ƒWƒ“ƒOŠÖ”:easeInOutQuart
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeInOutQuart
 float easeInOutQuart(float x);
-//ƒC[ƒWƒ“ƒOŠÖ”:easeInQuint
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeInQuint
 float easeInQuint(float x);
-//ƒC[ƒWƒ“ƒOŠÖ”:easeOutQuint
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeOutQuint
 float easeOutQuint(float x);
-//ƒC[ƒWƒ“ƒOŠÖ”:easeInOutQuint
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeInOutQuint
 float easeInOutQuint(float x);
-//ƒC[ƒWƒ“ƒOŠÖ”:easeInExpo
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeInExpo
 float easeInExpo(float x);
-//ƒC[ƒWƒ“ƒOŠÖ”:easeOutExpo
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeOutExpo
 float easeOutExpo(float x);
-//ƒC[ƒWƒ“ƒOŠÖ”:easeInOutExpo
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeInOutExpo
 float easeInOutExpo(float x);
-//ƒC[ƒWƒ“ƒOŠÖ”:easeInCirc
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeInCirc
 float easeInCirc(float x);
-//ƒC[ƒWƒ“ƒOŠÖ”:easeOutCirc
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeOutCirc
 float easeOutCirc(float x);
-//ƒC[ƒWƒ“ƒOŠÖ”:easeInOutCirc
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeInOutCirc
 float easeInOutCirc(float x);
-//ƒC[ƒWƒ“ƒOŠÖ”:easeInBack
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeInBack
 float easeInBack(float x);
-//ƒC[ƒWƒ“ƒOŠÖ”:easeOutBack
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeOutBack
 float easeOutBack(float x);
-//ƒC[ƒWƒ“ƒOŠÖ”:easeInOutBack
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeInOutBack
 float easeInOutBack(float x);
 
-//ƒC[ƒWƒ“ƒOŠÖ”:easeInElastic
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeInElastic
 float easeInElastic(float x);
-//ƒC[ƒWƒ“ƒOŠÖ”:easeOutElastic
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeOutElastic
 float easeOutElastic(float x);
-//ƒC[ƒWƒ“ƒOŠÖ”:easeInOutElastic
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeInOutElastic
 float easeInOutElastic(float x);
-//ƒC[ƒWƒ“ƒOŠÖ”:easeInBounce
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeInBounce
 float easeInBounce(float x);
-//ƒC[ƒWƒ“ƒOŠÖ”:easeOutBounce
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeOutBounce
 float easeOutBounce(float x);
-//ƒC[ƒWƒ“ƒOŠÖ”:easeInOutBounce
+//ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢æ•°:easeInOutBounce
 float easeInOutBounce(float x);
 
 #pragma endregion
 
-#pragma region XMFLOAT3ŠÖ˜A
+#pragma region XMFLOAT3é–¢é€£
 
-//‰ÁZ
+//åŠ ç®—
 const DirectX::XMFLOAT3 operator+(DirectX::XMFLOAT3 v1, DirectX::XMFLOAT3 v2);
-//Œ¸Z
+//æ¸›ç®—
 const DirectX::XMFLOAT3 operator-(DirectX::XMFLOAT3 v1, DirectX::XMFLOAT3 v2);
-//æZ
+//ä¹—ç®—
 const DirectX::XMFLOAT3 operator*(DirectX::XMFLOAT3 v, float s);
-//œZ
+//é™¤ç®—
 const DirectX::XMFLOAT3 operator/(DirectX::XMFLOAT3 v, float s);
-//“àÏ
-float dot(DirectX::XMFLOAT3 v1,DirectX::XMFLOAT3 v2);
-//ŠOÏ
+//å†…ç©
+float dot(DirectX::XMFLOAT3 v1, DirectX::XMFLOAT3 v2);
+//å¤–ç©
 DirectX::XMFLOAT3 cross(DirectX::XMFLOAT3 v1, DirectX::XMFLOAT3 v2);
-//’·‚³
+//é•·ã•
 float length(DirectX::XMFLOAT3 v);
-//³‹K‰»
+//æ­£è¦åŒ–
 DirectX::XMFLOAT3 normalize(DirectX::XMFLOAT3 v);
-//•ª—£²‚É“Š‰e‚³‚ê‚½²¬•ª‚©‚ç“Š‰eü•ª’·‚ğZo
-float LenSegOnSeparateAxis(DirectX::XMFLOAT3 Sep, DirectX::XMFLOAT3 e1, 
+//åˆ†é›¢è»¸ã«æŠ•å½±ã•ã‚ŒãŸè»¸æˆåˆ†ã‹ã‚‰æŠ•å½±ç·šåˆ†é•·ã‚’ç®—å‡º
+float LenSegOnSeparateAxis(DirectX::XMFLOAT3 Sep, DirectX::XMFLOAT3 e1,
 	DirectX::XMFLOAT3 e2, DirectX::XMFLOAT3 e3 = { 0,0,0 });
-//velocity‚ÌŒü‚«‚Érotation‚ğ‡‚í‚¹‚é
-DirectX::XMFLOAT3 rollRotation(DirectX::XMFLOAT3 vector,DirectX::XMFLOAT3 rotation);
+//velocityã®å‘ãã«rotationã‚’åˆã‚ã›ã‚‹
+DirectX::XMFLOAT3 rollRotation(DirectX::XMFLOAT3 vector, DirectX::XMFLOAT3 rotation);
 
 #pragma endregion

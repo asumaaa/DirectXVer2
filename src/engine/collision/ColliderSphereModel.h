@@ -10,9 +10,9 @@
 
 class ColliderSphereModel
 {
-private:	//ƒGƒCƒŠƒAƒX
-	//Microsoft::WRL::‚ğÈ—ª
-	//DirectX::‚ğÈ—ª
+private:	//ã‚¨ã‚¤ãƒªã‚¢ã‚¹
+	//Microsoft::WRL::ã‚’çœç•¥
+	//DirectX::ã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
@@ -20,28 +20,28 @@ private:	//ƒGƒCƒŠƒAƒX
 	using XMVECTOR = DirectX::XMVECTOR;
 	using TexMetadata = DirectX::TexMetadata;
 	using ScracthImage = DirectX::ScratchImage;
-	//std::‚ğÈ—ª
+	//std::ã‚’çœç•¥
 	using string = std::string;
 	template<class T>using vector = std::vector<T>;
 
 public:
-	//ƒoƒbƒtƒ@¶¬
+	//ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 	void CreateBuffers(ID3D12Device* device);
-	//’¸“_¶¬
+	//é ‚ç‚¹ç”Ÿæˆ
 	void CreateVertex();
-	//Fİ’è
+	//è‰²è¨­å®š
 	void SetImageData(XMFLOAT4 color);
-	//XV
+	//æ›´æ–°
 	void Update();
-	//•`‰æ
+	//æç”»
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 public:
-	//’¸“_ƒf[ƒ^”z—ñ
+	//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿é…åˆ—
 	struct VertexPosNormalUv
 	{
-		XMFLOAT3 pos;	//À•W
-		XMFLOAT3 normal = XMFLOAT3(0, 0, 0);	//–@üƒxƒNƒgƒ‹
-		XMFLOAT2 uv = XMFLOAT2(0, 0);	//uvÀ•W
+		XMFLOAT3 pos;	//åº§æ¨™
+		XMFLOAT3 normal = XMFLOAT3(0, 0, 0);	//æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«
+		XMFLOAT2 uv = XMFLOAT2(0, 0);	//uvåº§æ¨™
 
 		/*VertexPosNormalUv(XMFLOAT3 p)
 		{
@@ -50,41 +50,40 @@ public:
 			this->uv = XMFLOAT2(0, 0);
 		}*/
 	};
-	//’¸“_ƒf[ƒ^”z—ñ
+	//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿é…åˆ—
 	vector<VertexPosNormalUv>vertices;
-	//’¸“_ƒCƒ“ƒfƒbƒNƒX”z—ñ
+	//é ‚ç‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹é…åˆ—
 	vector<unsigned short>indices;
 private:
-	//‹…‘Ì‚Ì•ªŠ„” ‘½‚­‚·‚é‚Ù‚Çd‚­‚È‚é
+	//çƒä½“ã®åˆ†å‰²æ•° å¤šãã™ã‚‹ã»ã©é‡ããªã‚‹
 	size_t divNum = 8;
 private:
-	//’¸“_ƒoƒbƒtƒ@
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource> vertBuff;
-	//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource>indexBuff;
-	//ƒeƒNƒXƒ`ƒƒƒoƒbƒtƒ@
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource>texBuff;
-	//’¸“_ƒoƒbƒtƒ@ƒrƒ…[
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼
 	D3D12_VERTEX_BUFFER_VIEW vbView = {};
-	//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@ƒrƒ…[
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼
 	D3D12_INDEX_BUFFER_VIEW ibView = {};
-	//SRV—pƒfƒXƒNƒŠƒvƒ^ƒq[ƒv
+	//SRVç”¨ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—
 	ComPtr<ID3D12DescriptorHeap>descHeapSRV;
-	//ƒAƒ“ƒrƒGƒ“ƒgŒW”
+	//ã‚¢ãƒ³ãƒ“ã‚¨ãƒ³ãƒˆä¿‚æ•°
 	XMFLOAT3 ambient = { 1,1,1 };
-	//ƒfƒBƒtƒ…[ƒYŒW”
+	//ãƒ‡ã‚£ãƒ•ãƒ¥ãƒ¼ã‚ºä¿‚æ•°
 	XMFLOAT3 diffuse = { 1,1,1 };
-	//ƒeƒNƒXƒ`ƒƒƒƒ^ƒf[ƒ^
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
 	TexMetadata metadata = {};
-	//ƒXƒNƒ‰ƒbƒ`ƒCƒ[ƒW
+	//ã‚¹ã‚¯ãƒ©ãƒƒãƒã‚¤ãƒ¡ãƒ¼ã‚¸
 	ScracthImage scratchImg = {};
-	//‰æ‘œ—pƒfƒXƒNƒŠƒvƒ^ƒq[ƒv
+	//ç”»åƒç”¨ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—
 	ComPtr<ID3D12DescriptorHeap> srvHeap;
 	const size_t textureWidth = 256;
 	const size_t textureHeight = 256;
 	const size_t imageDataCount = textureWidth * textureHeight;
 	XMFLOAT4* imageData = new XMFLOAT4[imageDataCount];
-	//ƒeƒNƒXƒ`ƒƒ[‚ÌGPU‚Ìƒnƒ“ƒhƒ‹
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ¼ã®GPUã®ãƒãƒ³ãƒ‰ãƒ«
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
 };
-

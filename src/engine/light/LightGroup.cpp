@@ -2,14 +2,14 @@
 
 using namespace DirectX;
 
-//Ã“Iƒƒ“ƒo•Ï”‚ÌÀ‘Ì
+//é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°ã®å®Ÿä½“
 ID3D12Device* LightGroup::device = nullptr;
 
 void LightGroup::StaticInitialize(ID3D12Device* device)
 {
-	//Ä‰Šú‰»ƒ`ƒFƒbƒN
+	//å†åˆæœŸåŒ–ãƒã‚§ãƒƒã‚¯
 	assert(!LightGroup::device);
-	// nullptrƒ`ƒFƒbƒN
+	// nullptrãƒã‚§ãƒƒã‚¯
 	assert(device);
 
 	LightGroup::device = device;
@@ -18,9 +18,9 @@ void LightGroup::StaticInitialize(ID3D12Device* device)
 
 LightGroup* LightGroup::Create()
 {
-	//3DƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬ 
-	LightGroup * instance = new LightGroup();
-	// ‰Šú‰»
+	//3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆ 
+	LightGroup* instance = new LightGroup();
+	// åˆæœŸåŒ–
 	instance->Initialize();
 	return instance;
 
@@ -29,70 +29,70 @@ LightGroup* LightGroup::Create()
 void LightGroup::TransferConstBuffer()
 {
 	HRESULT result;
-	// ’è”ƒoƒbƒtƒ@ƒwƒf[ƒ^“]‘—
+	// å®šæ•°ãƒãƒƒãƒ•ã‚¡ãƒ˜ãƒ‡ãƒ¼ã‚¿è»¢é€
 	ConstBufferData* constMap = nullptr;
 	result = constBuff->Map(0, nullptr, (void**)&constMap);
 	if (SUCCEEDED(result)) {
-		//ŠÂ‹«Œõ
+		//ç’°å¢ƒå…‰
 		constMap->ambientColor = ambientColor;
-		//•½sŒõŒ¹
+		//å¹³è¡Œå…‰æº
 		for (int i = 0; i < DirLightNum; i++) {
-			//ƒ‰ƒCƒg‚ª—LŒø‚È‚çİ’è‚ğ“]‘—
+			//ãƒ©ã‚¤ãƒˆãŒæœ‰åŠ¹ãªã‚‰è¨­å®šã‚’è»¢é€
 			if (dirLights[i].IsActive()) {
 				constMap->dirLights[i].active = 1;
 				constMap->dirLights[i].lightv = -dirLights[i].GetLightDir();
 				constMap->dirLights[i].lightcolor = dirLights[i].GetLightColor();
 			}
-			//ƒ‰ƒCƒg‚ª–³Œø‚È‚ç“]‘—‚µ‚È‚¢
+			//ãƒ©ã‚¤ãƒˆãŒç„¡åŠ¹ãªã‚‰è»¢é€ã—ãªã„
 			else {
-			constMap->dirLights[i].active = 0;
+				constMap->dirLights[i].active = 0;
 			}
 		}
-		// “_ŒõŒ¹
+		// ç‚¹å…‰æº
 		for (int i = 0; i < PointLightNum; i++) {
-			//ƒ‰ƒCƒg‚ª—LŒø‚È‚çİ’è‚ğ“]‘—
+			//ãƒ©ã‚¤ãƒˆãŒæœ‰åŠ¹ãªã‚‰è¨­å®šã‚’è»¢é€
 			if (pointLights[i].IsActive()) {
 				constMap->pointLights[i].active = 1;
 				constMap->pointLights[i].lightpos = pointLights[i].GetLightPos();
-				constMap->pointLights[i].lightcolor =pointLights[i].GetLightColor();
-				constMap->pointLights[i].lightatten =pointLights[i].GetLightAtten();
-				}
-			//ƒ‰ƒCƒg‚ª–³Œø‚È‚çƒ‰ƒCƒgF‚ğ0‚É
+				constMap->pointLights[i].lightcolor = pointLights[i].GetLightColor();
+				constMap->pointLights[i].lightatten = pointLights[i].GetLightAtten();
+			}
+			//ãƒ©ã‚¤ãƒˆãŒç„¡åŠ¹ãªã‚‰ãƒ©ã‚¤ãƒˆè‰²ã‚’0ã«
 			else {
 				constMap->pointLights[i].active = 0;
 			}
 		}
-		//ƒXƒ|ƒbƒgƒ‰ƒCƒg
+		//ã‚¹ãƒãƒƒãƒˆãƒ©ã‚¤ãƒˆ
 		for (int i = 0; i < SpotLightNum; i++) {
-			//ƒ‰ƒCƒg‚ª—LŒø‚È‚çİ’è‚ğ“]‘—
+			//ãƒ©ã‚¤ãƒˆãŒæœ‰åŠ¹ãªã‚‰è¨­å®šã‚’è»¢é€
 			if (spotLights[i].IsActive()) {
 				constMap->spotLights[i].active = 1;
 				constMap->spotLights[i].lightv = -spotLights[i].GetLightDir();
 				constMap->spotLights[i].lightpos = spotLights[i].GetLightPos();
-				constMap->spotLights[i].lightcolor = spotLights[i].GetLightColor(); 
-				constMap->spotLights[i].lightatten = spotLights[i].GetLightAtten(); 
+				constMap->spotLights[i].lightcolor = spotLights[i].GetLightColor();
+				constMap->spotLights[i].lightatten = spotLights[i].GetLightAtten();
 				constMap->spotLights[i].lightfactoranglecos =
-				spotLights[i].GetLightFactorAngleCos();
+					spotLights[i].GetLightFactorAngleCos();
 			}
-			//ƒ‰ƒCƒg‚ª–³Œø‚È‚çƒ‰ƒCƒgF‚ğ0‚É
+			//ãƒ©ã‚¤ãƒˆãŒç„¡åŠ¹ãªã‚‰ãƒ©ã‚¤ãƒˆè‰²ã‚’0ã«
 			else {
 				constMap->spotLights[i].active = 0;
 			}
 		}
-		//ŠÛ‰e
-		for (int i = 0; i < CircleShadowNum; i++) { 
-			// —LŒø‚È‚çİ’è‚ğ“]‘—
+		//ä¸¸å½±
+		for (int i = 0; i < CircleShadowNum; i++) {
+			// æœ‰åŠ¹ãªã‚‰è¨­å®šã‚’è»¢é€
 			if (circleShadows[i].IsActive()) {
 				constMap->circleShadows[i].active = 1;
-				constMap->circleShadows[i].dir = -circleShadows[i].GetDir(); 
-				constMap->circleShadows[i].casterPos = circleShadows[i].GetCasterPos(); 
+				constMap->circleShadows[i].dir = -circleShadows[i].GetDir();
+				constMap->circleShadows[i].casterPos = circleShadows[i].GetCasterPos();
 				constMap->circleShadows[i].dintanceCasterLight =
 					circleShadows[i].GetDistanceCasterLight();
 				constMap->circleShadows[i].atten = circleShadows[i].GetAtten();
 				constMap->circleShadows[i].factorAngleCos =
 					circleShadows[i].GetFactorAngleCos();
 			}
-			// –³Œø‚È‚çF‚ğ0‚É
+			// ç„¡åŠ¹ãªã‚‰è‰²ã‚’0ã«
 			else {
 				constMap->circleShadows[i].active = 0;
 			}
@@ -180,7 +180,7 @@ void LightGroup::SetSpotLightActive(int index, bool active)
 void LightGroup::SetSpotLightDir(int index, const XMVECTOR& lightdir)
 {
 	assert(0 <= index && index < SpotLightNum);
-	
+
 	spotLights[index].SetLightDir(lightdir);
 	dirty = true;
 }
@@ -270,7 +270,7 @@ void LightGroup::Initialize()
 
 	DefaultLightSetting();
 
-	//’è”ƒoƒbƒtƒ@‚Ì¶¬
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 	CD3DX12_HEAP_PROPERTIES v1 = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
 	CD3DX12_RESOURCE_DESC v2 = CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferData) + 0xff) & ~0xff);
 	result = device->CreateCommittedResource(
@@ -287,7 +287,7 @@ void LightGroup::Initialize()
 
 void LightGroup::Update()
 {
-	//’l‚Ì•ÏX‚ª‚ ‚Á‚½‚Æ‚«‚¾‚¯’è”ƒoƒbƒtƒ@‚É“]‘—‚·‚é
+	//å€¤ã®å¤‰æ›´ãŒã‚ã£ãŸã¨ãã ã‘å®šæ•°ãƒãƒƒãƒ•ã‚¡ã«è»¢é€ã™ã‚‹
 	if (dirty)
 	{
 		TransferConstBuffer();
@@ -297,7 +297,7 @@ void LightGroup::Update()
 
 void LightGroup::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParameterIndex)
 {
-	// ’è”ƒoƒbƒtƒ@ƒsƒ…[‚ğƒZƒbƒg
+	// å®šæ•°ãƒãƒƒãƒ•ã‚¡ãƒ”ãƒ¥ãƒ¼ã‚’ã‚»ãƒƒãƒˆ
 	cmdList->SetGraphicsRootConstantBufferView(rootParameterIndex,
 		constBuff->GetGPUVirtualAddress());
 

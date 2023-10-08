@@ -3,34 +3,33 @@
 
 class CollisionPrimitive
 {
-private:	//ƒGƒCƒŠƒAƒX
-	//Microsoft::WRL::‚ğÈ—ª
+private:	//ã‚¨ã‚¤ãƒªã‚¢ã‚¹
+	//Microsoft::WRL::ã‚’çœç•¥
 	/*template<class T>using ComPtr = Microsoft::WRL::ComPtr<T>;*/
-	//DirectX::‚ğÈ—ª
+	//DirectX::ã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 	using XMVECTOR = DirectX::XMVECTOR;
 
-public:	//ƒTƒuƒNƒ‰ƒX
+public:	//ã‚µãƒ–ã‚¯ãƒ©ã‚¹
 
-	//‹…
+	//çƒ
 	struct Sphere
 	{
-		//’†SÀ•W
+		//ä¸­å¿ƒåº§æ¨™
 		XMVECTOR center = { 0,0,0,1 };
-		//”¼Œa
+		//åŠå¾„
 		float redius = 1.0f;
 	};
 
-	//•½–Ê
+	//å¹³é¢
 	struct Plane
 	{
-		//–@üƒxƒNƒgƒ‹
+		//æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«
 		XMVECTOR normal = { 0,1,0,0 };
-		//Œ´“_‚©‚ç‚Ì‹——£
+		//åŸç‚¹ã‹ã‚‰ã®è·é›¢
 		float distance = 0.0f;
 	};
 };
-

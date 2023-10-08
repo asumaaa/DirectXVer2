@@ -14,7 +14,7 @@ XMFLOAT4 ColliderManager::isHitColor = { 0,1,0,1 };
 
 void ColliderManager::SetCollider(JSONLoader::ColliderData colliderData)
 {
-	//ƒRƒ‰ƒCƒ_[ƒZƒbƒg
+	//ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã‚»ãƒƒãƒˆ
 	std::unique_ptr<Collider>newColliderData = std::make_unique<Collider>();
 	newColliderData->colliderData.type = colliderData.type;
 	newColliderData->colliderData.objectName = colliderData.objectName;
@@ -22,22 +22,22 @@ void ColliderManager::SetCollider(JSONLoader::ColliderData colliderData)
 	newColliderData->colliderData.rotation = colliderData.rotation;
 	newColliderData->colliderData.center = colliderData.center;
 
-	//ƒIƒuƒWƒFƒNƒg¶¬
-	//‹…‘Ì‚Ìê‡
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆ
+	//çƒä½“ã®å ´åˆ
 	if (colliderData.type == "Sphere")
 	{
 		ColliderSphereObject* newCollider = new ColliderSphereObject();
 		newCollider->Initialize();
 		newColliderData->colliderSphereObject = newCollider;
 	}
-	//ƒ{ƒbƒNƒX‚Ìê‡
+	//ãƒœãƒƒã‚¯ã‚¹ã®å ´åˆ
 	if (colliderData.type == "Box")
 	{
 		ColliderCubeObject* newCollider = new ColliderCubeObject();
 		newCollider->Initialize();
 		newColliderData->colliderCubeObject = newCollider;
 	}
-	//•½–Ê‚Ìê‡
+	//å¹³é¢ã®å ´åˆ
 	if (colliderData.type == "Plane")
 	{
 		ColliderPlaneObject* newCollider = new ColliderPlaneObject();
@@ -54,7 +54,7 @@ void ColliderManager::Initialize()
 
 void ColliderManager::PreUpdate()
 {
-	//ƒIƒuƒWƒFƒNƒg‚ÌXV
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ›´æ–°
 	for (std::unique_ptr<Collider>& colliders : collider)
 	{
 		/*colliders->drawFlag = false;*/
@@ -76,7 +76,7 @@ void ColliderManager::PreUpdate()
 
 void ColliderManager::PostUpdate()
 {
-	//ƒIƒuƒWƒFƒNƒg‚ÌXV
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ›´æ–°
 	for (std::unique_ptr<Collider>& colliders : collider)
 	{
 		if (colliders->colliderData.type == "Box")
@@ -130,7 +130,7 @@ bool ColliderManager::CheckCollider(JSONLoader::ColliderData colliderData0, JSON
 
 	for (std::unique_ptr<Collider>& colliders : collider)
 	{
-		//•`‰æƒtƒ‰ƒO‚ğ—§‚Ä‚é ˆÊ’uXV
+		//æç”»ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹ ä½ç½®æ›´æ–°
 		if (colliders->colliderData.objectName == colliderData0.objectName)
 		{
 			colliders->drawFlag = true;
@@ -147,13 +147,13 @@ bool ColliderManager::CheckCollider(JSONLoader::ColliderData colliderData0, JSON
 		}
 	}
 
-	//‹…‚Æ‹…‚Ìê‡
+	//çƒã¨çƒã®å ´åˆ
 	if (colliderData0.type == "Sphere" && colliderData1.type == "Sphere")
 	{
 		return CheckSphereSphere(colliderData0, colliderData1);
 	}
 
-	//•½–Ê‚Æ‹…‚Ìê‡
+	//å¹³é¢ã¨çƒã®å ´åˆ
 	if (colliderData0.type == "Plane" && colliderData1.type == "Sphere")
 	{
 		return CheckPlaneSphere(colliderData0, colliderData1);
@@ -163,7 +163,7 @@ bool ColliderManager::CheckCollider(JSONLoader::ColliderData colliderData0, JSON
 		return CheckPlaneSphere(colliderData1, colliderData0);
 	}
 
-	//•½–Ê‚Æƒ{ƒbƒNƒX‚Ìê‡
+	//å¹³é¢ã¨ãƒœãƒƒã‚¯ã‚¹ã®å ´åˆ
 	if (colliderData0.type == "Plane" && colliderData1.type == "Box")
 	{
 		return CheckPlaneBox(colliderData0, colliderData1);
@@ -178,14 +178,14 @@ bool ColliderManager::CheckCollider(JSONLoader::ColliderData colliderData0, JSON
 
 bool ColliderManager::CheckSphereSphere(JSONLoader::ColliderData colliderSphere0, JSONLoader::ColliderData colliderSphere1)
 {
-	//’†S“¯m‚Ì‹——£‚ğ‹‚ß‚é
+	//ä¸­å¿ƒåŒå£«ã®è·é›¢ã‚’æ±‚ã‚ã‚‹
 	XMFLOAT3 distanceCenter0 = colliderSphere0.center - colliderSphere1.center;
 	float distanceCenter1 = sqrt(pow(distanceCenter0.x, 2) + pow(distanceCenter0.y, 2) + pow(distanceCenter0.z, 2));
 
-	//“ñ‚Â‚ÌƒRƒ‰ƒCƒ_[‚Ì”¼Œa‚Ì‡Œv
+	//äºŒã¤ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®åŠå¾„ã®åˆè¨ˆ
 	float r = colliderSphere0.scale.x + colliderSphere1.scale.x;
 
-	//’†S‚Æ‚Ì‹——£‚ª”¼Œa‚Ì‡Œv‚æ‚è‘å‚«‚¯‚ê‚Î“–‚½‚Á‚Ä‚¢‚È‚¢
+	//ä¸­å¿ƒã¨ã®è·é›¢ãŒåŠå¾„ã®åˆè¨ˆã‚ˆã‚Šå¤§ãã‘ã‚Œã°å½“ãŸã£ã¦ã„ãªã„
 	if (r < distanceCenter1) return false;
 
 	/*ChangeHitColor(colliderSphere0);*/
@@ -195,27 +195,27 @@ bool ColliderManager::CheckSphereSphere(JSONLoader::ColliderData colliderSphere0
 
 bool ColliderManager::CheckPlaneSphere(JSONLoader::ColliderData colliderPlane, JSONLoader::ColliderData colliderSphere)
 {
-	//‹…‚Ì’†S
+	//çƒã®ä¸­å¿ƒ
 	XMVECTOR sphereCenter = { colliderSphere.center.x, colliderSphere.center.y, colliderSphere.center.z, 1 };
-	//•½–Ê‚Ì–@üƒxƒNƒgƒ‹
+	//å¹³é¢ã®æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«
 	XMVECTOR planeNormal = { 0.0f,1.0f,0.0f,0.0f };
-	//À•WŒn‚ÌŒ´“_‚©‚ç‹…‚Ì’†SÀ•W‚Ö‚Ì‹——£
-	XMVECTOR distV = {100,100,100,100};
+	//åº§æ¨™ç³»ã®åŸç‚¹ã‹ã‚‰çƒã®ä¸­å¿ƒåº§æ¨™ã¸ã®è·é›¢
+	XMVECTOR distV = { 100,100,100,100 };
 	if (colliderPlane.center.x + colliderPlane.scale.x > colliderSphere.center.x - colliderSphere.scale.x &&
 		colliderPlane.center.x - colliderPlane.scale.x < colliderSphere.center.x + colliderSphere.scale.x)
 	{
 		distV = XMVector3Dot(sphereCenter, planeNormal);
 	}
-	//•½–Ê‚Ì’†S‚Æ‚Ì‹——£
-	float planeDistance = sqrt(pow(colliderPlane.center.x, 2) + 
+	//å¹³é¢ã®ä¸­å¿ƒã¨ã®è·é›¢
+	float planeDistance = sqrt(pow(colliderPlane.center.x, 2) +
 		pow(colliderPlane.center.y, 2) + pow(colliderPlane.center.z, 2));
-	//•½–Ê‚ÌŒ´“_‹——£‚ğŒ¸Z‚·‚é‚±‚Æ‚ÅA•½–Ê‚Æ‹…‚Ì’†S‚Æ‚Ì‹——£‚ªo‚é
+	//å¹³é¢ã®åŸç‚¹è·é›¢ã‚’æ¸›ç®—ã™ã‚‹ã“ã¨ã§ã€å¹³é¢ã¨çƒã®ä¸­å¿ƒã¨ã®è·é›¢ãŒå‡ºã‚‹
 	float dist = distV.m128_f32[0] - planeDistance;
 
-	//‹——£‚Ìâ‘Î’l‚ª”¼Œa‚æ‚è‘å‚«‚¯‚ê‚Î“–‚½‚Á‚Ä‚¢‚È‚¢
+	//è·é›¢ã®çµ¶å¯¾å€¤ãŒåŠå¾„ã‚ˆã‚Šå¤§ãã‘ã‚Œã°å½“ãŸã£ã¦ã„ãªã„
 	if (fabsf(dist) > colliderSphere.scale.x)return false;
 
-	//‹^—Œğ“_‚ğŒvZ
+	//ç–‘ä¼¼äº¤ç‚¹ã‚’è¨ˆç®—
 	/*if(inter)*/
 
 	ChangeHitColor(colliderPlane);
@@ -225,27 +225,27 @@ bool ColliderManager::CheckPlaneSphere(JSONLoader::ColliderData colliderPlane, J
 
 bool ColliderManager::CheckPlaneBox(JSONLoader::ColliderData colliderPlane, JSONLoader::ColliderData colliderBox)
 {
-	//‹…‚Ì’†S
+	//çƒã®ä¸­å¿ƒ
 	XMVECTOR sphereCenter = { colliderBox.center.x, colliderBox.center.y, colliderBox.center.z, 1 };
-	//•½–Ê‚Ì–@üƒxƒNƒgƒ‹
+	//å¹³é¢ã®æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«
 	XMVECTOR planeNormal = { 0.0f,1.0f,0.0f,0.0f };
-	//À•WŒn‚ÌŒ´“_‚©‚ç‹…‚Ì’†SÀ•W‚Ö‚Ì‹——£
+	//åº§æ¨™ç³»ã®åŸç‚¹ã‹ã‚‰çƒã®ä¸­å¿ƒåº§æ¨™ã¸ã®è·é›¢
 	XMVECTOR distV = { 100,100,100,100 };
 	if (colliderPlane.center.x + colliderPlane.scale.x > colliderBox.center.x - colliderBox.scale.x &&
 		colliderPlane.center.x - colliderPlane.scale.x < colliderBox.center.x + colliderBox.scale.x)
 	{
 		distV = XMVector3Dot(sphereCenter, planeNormal);
 	}
-	//•½–Ê‚Ì’†S‚Æ‚Ì‹——£
+	//å¹³é¢ã®ä¸­å¿ƒã¨ã®è·é›¢
 	float planeDistance = sqrt(pow(colliderPlane.center.x, 2) +
 		pow(colliderPlane.center.y, 2) + pow(colliderPlane.center.z, 2));
-	//•½–Ê‚ÌŒ´“_‹——£‚ğŒ¸Z‚·‚é‚±‚Æ‚ÅA•½–Ê‚Æ‹…‚Ì’†S‚Æ‚Ì‹——£‚ªo‚é
+	//å¹³é¢ã®åŸç‚¹è·é›¢ã‚’æ¸›ç®—ã™ã‚‹ã“ã¨ã§ã€å¹³é¢ã¨çƒã®ä¸­å¿ƒã¨ã®è·é›¢ãŒå‡ºã‚‹
 	float dist = distV.m128_f32[0] - planeDistance;
 
-	//‹——£‚Ìâ‘Î’l‚ª”¼Œa‚æ‚è‘å‚«‚¯‚ê‚Î“–‚½‚Á‚Ä‚¢‚È‚¢
+	//è·é›¢ã®çµ¶å¯¾å€¤ãŒåŠå¾„ã‚ˆã‚Šå¤§ãã‘ã‚Œã°å½“ãŸã£ã¦ã„ãªã„
 	if (fabsf(dist) > colliderBox.scale.y)return false;
 
-	//‹^—Œğ“_‚ğŒvZ
+	//ç–‘ä¼¼äº¤ç‚¹ã‚’è¨ˆç®—
 	/*if(inter)*/
 
 	ChangeHitColor(colliderPlane);
@@ -257,10 +257,10 @@ ColliderManager::OBB ColliderManager::GetObbFromColliderData(JSONLoader::Collide
 {
 	OBB o;
 
-	//’†S“_‚ğ‹‚ß‚é
+	//ä¸­å¿ƒç‚¹ã‚’æ±‚ã‚ã‚‹
 	o.c = colliderData.center;
 
-	//ŠeÀ•W²‚É‰ˆ‚Á‚½’·‚³‚Ì”¼•ª‚ğ‹‚ß‚é
+	//å„åº§æ¨™è»¸ã«æ²¿ã£ãŸé•·ã•ã®åŠåˆ†ã‚’æ±‚ã‚ã‚‹
 	o.e = colliderData.scale;
 
 	XMMATRIX matRot;
@@ -268,7 +268,7 @@ ColliderManager::OBB ColliderManager::GetObbFromColliderData(JSONLoader::Collide
 	matRot *= XMMatrixRotationZ(colliderData.rotation.z);
 	matRot *= XMMatrixRotationX(colliderData.rotation.x);
 	matRot *= XMMatrixRotationY(colliderData.rotation.y);
-	//Še²‚ÌŒX‚«‚Ì•ûŒüƒxƒNƒgƒ‹‚ğ‹‚ß‚é
+	//å„è»¸ã®å‚¾ãã®æ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«ã‚’æ±‚ã‚ã‚‹
 	o.u[0] = { matRot.r[0].m128_f32[0],matRot.r[1].m128_f32[0] ,matRot.r[2].m128_f32[0] };
 	o.u[1] = { matRot.r[0].m128_f32[1],matRot.r[1].m128_f32[1] ,matRot.r[2].m128_f32[1] };
 	o.u[2] = { matRot.r[0].m128_f32[2],matRot.r[1].m128_f32[2] ,matRot.r[2].m128_f32[2] };
@@ -278,7 +278,7 @@ ColliderManager::OBB ColliderManager::GetObbFromColliderData(JSONLoader::Collide
 
 void ColliderManager::ChangeHitColor(JSONLoader::ColliderData colliderData)
 {
-	//“–‚½‚Á‚Ä‚¢‚é•½–Ê‚ÌF‚ğ•ÏX
+	//å½“ãŸã£ã¦ã„ã‚‹å¹³é¢ã®è‰²ã‚’å¤‰æ›´
 	for (std::unique_ptr<Collider>& colliders : collider)
 	{
 		if (colliders->colliderData.objectName == colliderData.objectName)

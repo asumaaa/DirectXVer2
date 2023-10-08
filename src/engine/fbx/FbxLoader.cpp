@@ -8,7 +8,7 @@ const std::string FbxLoader::defaultTextureFileName = "white1x1.png";
 
 //const char* FbxSurfaceMaterial::sDiffuse;
 //FbxClassId FbxSurfaceLambert::ClassId;
-//FbxClassId FbxFileTexture::ClassId;
+//FbxClassId FbxFileTexture::ClassId;#include "FbxLoader.h"
 
 FbxLoader* FbxLoader::GetInstance()
 {
@@ -19,7 +19,7 @@ FbxLoader* FbxLoader::GetInstance()
 void FbxLoader::Initialize(ID3D12Device* device)
 {
     assert(fbxManager == nullptr);
-   
+
     //引数をメンバ変数に代入
     this->device = device;
     //FBXマネージャーの生成
@@ -93,14 +93,14 @@ void FbxLoader::ParseNodeRecursive(FbxModel* model, FbxNode* fbxNode, Node* pare
     node.name = fbxNode->GetName();
 
     //FBXノードのローカル移動情報
-    FbxDouble3 rotation     = fbxNode->LclRotation.Get();
-    FbxDouble3 scaling      = fbxNode->LclScaling.Get();
-    FbxDouble3 translation  = fbxNode->LclTranslation.Get();
+    FbxDouble3 rotation = fbxNode->LclRotation.Get();
+    FbxDouble3 scaling = fbxNode->LclScaling.Get();
+    FbxDouble3 translation = fbxNode->LclTranslation.Get();
 
     //形式変換して代入
-    node.rotation       = { (float)rotation[0]      ,(float)rotation[1]     ,(float)rotation[2],0.0f };
-    node.scaling        = { (float)scaling[0]       ,(float)scaling[1]      ,(float)scaling[2],0.0f };
-    node.translation    = { (float)translation[0]   ,(float)translation[1]  ,(float)translation[2],1.0f };
+    node.rotation = { (float)rotation[0]      ,(float)rotation[1]     ,(float)rotation[2],0.0f };
+    node.scaling = { (float)scaling[0]       ,(float)scaling[1]      ,(float)scaling[2],0.0f };
+    node.translation = { (float)translation[0]   ,(float)translation[1]  ,(float)translation[2],1.0f };
 
     //回転角をラジアンに変換
     node.rotation.m128_f32[0] = XMConvertToRadians(node.rotation.m128_f32[0]);
@@ -363,7 +363,7 @@ void FbxLoader::ConvertMatrixFromFbx(DirectX::XMMATRIX* dst, const FbxAMatrix& s
 void FbxLoader::ParseSkin(FbxModel* model, FbxMesh* fbxMesh)
 {
     //スキニング情報
-    FbxSkin* fbxSkin = static_cast<FbxSkin*>(fbxMesh->GetDeformer(0,FbxDeformer::eSkin));
+    FbxSkin* fbxSkin = static_cast<FbxSkin*>(fbxMesh->GetDeformer(0, FbxDeformer::eSkin));
     //スキニング情報がなければ終了
     if (fbxSkin == nullptr)
     {
@@ -478,3 +478,4 @@ void FbxLoader::ParseSkin(FbxModel* model, FbxMesh* fbxMesh)
         }
     }
 }
+

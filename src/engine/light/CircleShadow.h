@@ -7,19 +7,19 @@
 
 class CircleShadow
 {
-private: // ƒGƒCƒŠƒAƒX 
-// Microsoft::WRL‚ğÈ—ª
+private: // ã‚¨ã‚¤ãƒªã‚¢ã‚¹ 
+	// Microsoft::WRLã‚’çœç•¥
 	template<class T>using ComPtr = Microsoft::WRL::ComPtr<T>;
-	// DirectX::‚ğÈ—ª
+	// DirectX::ã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMVECTOR = DirectX::XMVECTOR;
 	using XMMATRIX = DirectX::XMMATRIX;
 
-public://ƒTƒuƒNƒ‰ƒX
+public://ã‚µãƒ–ã‚¯ãƒ©ã‚¹
 
-//’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
 	struct ConstBufferData
 	{
 		XMVECTOR dir;
@@ -32,17 +32,17 @@ public://ƒTƒuƒNƒ‰ƒX
 		float pad4;
 	};
 
-public: //ƒƒ“ƒoŠÖ”
-	inline void SetDir(const XMVECTOR& dir) { this->dir = DirectX::XMVector3Normalize(dir); } 
+public: //ãƒ¡ãƒ³ãƒé–¢æ•°
+	inline void SetDir(const XMVECTOR& dir) { this->dir = DirectX::XMVector3Normalize(dir); }
 	inline const XMVECTOR& GetDir() { return dir; }
 	inline void SetCasterPos(const XMFLOAT3& casterPos) { this->casterPos = casterPos; }
 	inline const XMFLOAT3& GetCasterPos() { return casterPos; }
-	inline void SetDistanceCasterLight(float distanceCasterLight) { this->distanceCasterLight = distanceCasterLight; } 
+	inline void SetDistanceCasterLight(float distanceCasterLight) { this->distanceCasterLight = distanceCasterLight; }
 	inline float GetDistanceCasterLight() { return distanceCasterLight; }
 	inline void SetAtten(const XMFLOAT3& atten) { this->atten = atten; }
 	inline const XMFLOAT3& GetAtten() { return atten; }
 	inline void SetFactorAngle(const XMFLOAT2& factorAngle) {
-		this->factorAngleCos.x = cosf(DirectX::XMConvertToRadians(factorAngle.x)); 
+		this->factorAngleCos.x = cosf(DirectX::XMConvertToRadians(factorAngle.x));
 		this->factorAngleCos.y = cosf(DirectX::XMConvertToRadians(factorAngle.y));
 	}
 	inline const XMFLOAT2& GetFactorAngleCos() { return factorAngleCos; }
@@ -50,20 +50,19 @@ public: //ƒƒ“ƒoŠÖ”
 	inline bool IsActive() { return active; }
 
 
-private:	//ƒƒ“ƒo•Ï”
+private:	//ãƒ¡ãƒ³ãƒå¤‰æ•°
 
-	// •ûŒü (’PˆÊƒxƒNƒgƒ‹)
+	// æ–¹å‘ (å˜ä½ãƒ™ã‚¯ãƒˆãƒ«)
 	XMVECTOR dir = { 1,0,0,0 };
-	//ƒLƒƒƒXƒ^[‚Æƒ‰ƒCƒg‚Ì‹——£
+	//ã‚­ãƒ£ã‚¹ã‚¿ãƒ¼ã¨ãƒ©ã‚¤ãƒˆã®è·é›¢
 	float distanceCasterLight = 100.0f;
-	// ƒLƒƒƒXƒ^[À•W(ƒ[ƒ‹ƒhÀ•WŒn)
+	// ã‚­ãƒ£ã‚¹ã‚¿ãƒ¼åº§æ¨™(ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ç³»)
 	XMFLOAT3 casterPos = { 0,0,0 };
-	// ‹——£Œ¸ŠŒW”
+	// è·é›¢æ¸›è¡°ä¿‚æ•°
 	XMFLOAT3 atten = { 0.5f, 0.6f, 0.0f };
-	// Œ¸ŠŠp“x
-	XMFLOAT2 factorAngleCos = { 0.2f, 0.5f }; 
-	// —LŒøƒtƒ‰ƒO
+	// æ¸›è¡°è§’åº¦
+	XMFLOAT2 factorAngleCos = { 0.2f, 0.5f };
+	// æœ‰åŠ¹ãƒ•ãƒ©ã‚°
 	bool active = false;
 
 };
-

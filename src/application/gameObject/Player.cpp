@@ -1,8 +1,8 @@
 #include "Player.h"
 #include "mathOriginal.h"
 #include "FbxLoader.h"
-#define G 6.674	//–œ—Lˆø—Í’è”
-#define GAcceleration 9.80665 * 1/10	//d—Í‰Á‘¬“x
+#define G 6.674	//ä¸‡æœ‰å¼•åŠ›å®šæ•°
+#define GAcceleration 9.80665 * 1/10	//é‡åŠ›åŠ é€Ÿåº¦
 
 Camera* Player::camera = nullptr;
 Input* Player::input = nullptr;
@@ -10,7 +10,7 @@ DXInput* Player::dxInput = nullptr;
 
 Player::~Player()
 {
-	//ƒIƒuƒWƒFƒNƒg‚Ìíœ
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å‰Šé™¤
 	delete objectWait;
 	delete objectRun;
 	delete objectBackRun;
@@ -19,7 +19,7 @@ Player::~Player()
 	delete objectAttack1;
 	delete objectAttack2;
 
-	//ƒ‚ƒfƒ‹‚Ìíœ
+	//ãƒ¢ãƒ‡ãƒ«ã®å‰Šé™¤
 	delete modelWait;
 	delete modelRun;
 	delete modelBackRun;
@@ -31,57 +31,57 @@ Player::~Player()
 
 void Player::Initialize()
 {
-	//‘Ò‚Á‚Ä‚éƒ‚ƒfƒ‹
+	//å¾…ã£ã¦ã‚‹ãƒ¢ãƒ‡ãƒ«
 	modelWait = FbxLoader::GetInstance()->LoadModelFromFile("playerWait");
-	//‘Ò‚Á‚Ä‚¢‚éƒIƒuƒWƒFƒNƒg
+	//å¾…ã£ã¦ã„ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	objectWait = new FbxObject3D;
 	objectWait->Initialize();
 	objectWait->SetModel(modelWait);
 	objectWait->PlayAnimation();
 
-	//‘–‚Á‚Ä‚éƒ‚ƒfƒ‹
+	//èµ°ã£ã¦ã‚‹ãƒ¢ãƒ‡ãƒ«
 	modelRun = FbxLoader::GetInstance()->LoadModelFromFile("playerRun");
-	//‘–‚Á‚Ä‚éƒIƒuƒWƒFƒNƒg
+	//èµ°ã£ã¦ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	objectRun = new FbxObject3D;
 	objectRun->Initialize();
 	objectRun->SetModel(modelRun);
 	objectRun->StopAnimation();
 
-	//Œã•û‚É‘–‚éƒ‚ƒfƒ‹
+	//å¾Œæ–¹ã«èµ°ã‚‹ãƒ¢ãƒ‡ãƒ«
 	modelBackRun = FbxLoader::GetInstance()->LoadModelFromFile("playerBackRun");
-	//Œã•û‚É‘–‚éƒIƒuƒWƒFƒNƒg
+	//å¾Œæ–¹ã«èµ°ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	objectBackRun = new FbxObject3D;
 	objectBackRun->Initialize();
 	objectBackRun->SetModel(modelBackRun);
 	objectBackRun->StopAnimation();
 
-	//¶‚É‘–‚éƒ‚ƒfƒ‹
+	//å·¦ã«èµ°ã‚‹ãƒ¢ãƒ‡ãƒ«
 	modelRunLeft = FbxLoader::GetInstance()->LoadModelFromFile("playerRunLeft");
-	//¶‚É‘–‚éƒIƒuƒWƒFƒNƒg
+	//å·¦ã«èµ°ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	objectRunLeft = new FbxObject3D;
 	objectRunLeft->Initialize();
 	objectRunLeft->SetModel(modelRunLeft);
 	objectRunLeft->StopAnimation();
 
-	//‰E‚É‘–‚éƒ‚ƒfƒ‹
+	//å³ã«èµ°ã‚‹ãƒ¢ãƒ‡ãƒ«
 	modelRunRight = FbxLoader::GetInstance()->LoadModelFromFile("playerRunRight");
-	//‰E‚É‘–‚éƒIƒuƒWƒFƒNƒg
+	//å³ã«èµ°ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	objectRunRight = new FbxObject3D;
 	objectRunRight->Initialize();
 	objectRunRight->SetModel(modelRunRight);
 	objectRunRight->StopAnimation();
 
-	//UŒ‚1‚Ìƒ‚ƒfƒ‹
+	//æ”»æ’ƒ1ã®ãƒ¢ãƒ‡ãƒ«
 	modelAttack1 = FbxLoader::GetInstance()->LoadModelFromFile("playerAttack1");
-	//UŒ‚1‚ÌƒIƒuƒWƒFƒNƒg
+	//æ”»æ’ƒ1ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	objectAttack1 = new FbxObject3D;
 	objectAttack1->Initialize();
 	objectAttack1->SetModel(modelAttack1);
 	objectAttack1->StopAnimation();
 
-	//UŒ‚2‚Ìƒ‚ƒfƒ‹
+	//æ”»æ’ƒ2ã®ãƒ¢ãƒ‡ãƒ«
 	modelAttack2 = FbxLoader::GetInstance()->LoadModelFromFile("playerAttack2");
-	//UŒ‚2‚ÌƒIƒuƒWƒFƒNƒg
+	//æ”»æ’ƒ2ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	objectAttack2 = new FbxObject3D;
 	objectAttack2->Initialize();
 	objectAttack2->SetModel(modelAttack2);
@@ -90,22 +90,22 @@ void Player::Initialize()
 
 void Player::Update()
 {
-	//’eXV
+	//å¼¾æ›´æ–°
 	UpdateBullet();
 
-	//‹““®
+	//æŒ™å‹•
 	Control();
 
-	//UŒ‚
+	//æ”»æ’ƒ
 	UpdateAttack();
 
-	//ƒXƒe[ƒ^ƒXƒ}ƒl[ƒWƒƒ[
+	//ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼
 	StatusManager();
 
-	//ƒIƒuƒWƒFƒNƒgXV
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ›´æ–°
 	UpdateObject();
 
-	//1ƒtƒŒ[ƒ€‘O‚Ìó‘Ô‚ğ‘ã“ü
+	//1ãƒ•ãƒ¬ãƒ¼ãƒ å‰ã®çŠ¶æ…‹ã‚’ä»£å…¥
 	preStatus = status;
 }
 
@@ -142,13 +142,13 @@ void Player::UpdateBullet()
 {
 	//if (input->TriggerKey(DIK_RETURN))
 	//{
-	//	//ƒVƒ‡ƒbƒgƒtƒ‰ƒO‚ğ—§‚Ä‚é
+	//	//ã‚·ãƒ§ãƒƒãƒˆãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹
 	//	bullet->SetShotFlag(true);
 	//	
-	//	//’eƒxƒNƒgƒ‹
+	//	//å¼¾ãƒ™ã‚¯ãƒˆãƒ«
 	//	XMFLOAT3 bulletVelocity = rollRotation(XMFLOAT3(0.0f, 0.0f, 1.0f), rotation1);
 
-	//	//’e¶¬êŠ‚Ævelocity‚ğƒZƒbƒg
+	//	//å¼¾ç”Ÿæˆå ´æ‰€ã¨velocityã‚’ã‚»ãƒƒãƒˆ
 	//	bullet->SetBullet(position, bulletVelocity);
 	//}
 	//bullet->Update();
@@ -204,67 +204,67 @@ void Player::DrawLightView(ID3D12GraphicsCommandList* cmdList)
 
 void Player::Control()
 {
-	//ƒWƒƒƒ“ƒvXV
+	//ã‚¸ãƒ£ãƒ³ãƒ—æ›´æ–°
 	UpdateJump();
 
-	//d—ÍXV
+	//é‡åŠ›æ›´æ–°
 	UpdateGravity();
 
-	//ˆÚ“®
+	//ç§»å‹•
 	Move();
 }
 
 void Player::Move()
 {
-	//AROWƒL[‚ÅŠp“x•ÏX
+	//AROWã‚­ãƒ¼ã§è§’åº¦å¤‰æ›´
 	rotVelocity.y = dxInput->GetStick(DXInput::RStickX) * rotSpeed;
 	/*rotVelocity.y = (input->PushKey(DIK_RIGHT) - input->PushKey(DIK_LEFT)) * rotSpeed;*/
-	//Šp“xƒxƒNƒgƒ‹‚ğ‰ÁZ
+	//è§’åº¦ãƒ™ã‚¯ãƒˆãƒ«ã‚’åŠ ç®—
 	rotation1 = rotation1 + rotVelocity;
 
-	//ASDW‚ÅˆÚ“®
+	//ASDWã§ç§»å‹•
 	posVelocity.x = dxInput->GetStick(DXInput::LStickX) * posSpeed;
 	posVelocity.z = dxInput->GetStick(DXInput::LStickY) * posSpeed;
 	/*posVelocity.x = (input->PushKey(DIK_D) - input->PushKey(DIK_A)) * posSpeed;
 	posVelocity.z = (input->PushKey(DIK_W) - input->PushKey(DIK_S)) * posSpeed;*/
-	//isƒxƒNƒgƒ‹‚ğ‰ñ“]
+	//é€²è¡Œãƒ™ã‚¯ãƒˆãƒ«ã‚’å›è»¢
 	posVelocity = rollRotation(posVelocity, rotation1);
-	//isƒxƒNƒgƒ‹‚ğ‰ÁZ
+	//é€²è¡Œãƒ™ã‚¯ãƒˆãƒ«ã‚’åŠ ç®—
 	position = position + posVelocity;
 }
 
 void Player::UpdateGravity()
 {
-	////Ú’n‚µ‚Ä‚¢‚½‚çƒ^ƒCƒ}[‚ÆƒxƒNƒgƒ‹ƒŠƒZƒbƒg
+	////æ¥åœ°ã—ã¦ã„ãŸã‚‰ã‚¿ã‚¤ãƒãƒ¼ã¨ãƒ™ã‚¯ãƒˆãƒ«ãƒªã‚»ãƒƒãƒˆ
 	//if (groundFlag == true)
 	//{
 	//	fallTimer = 0.0f;
 	//	fallVelocity = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	//}
 
-	////Ú’n‚µ‚Ä‚¢‚È‚¯‚ê‚Î
+	////æ¥åœ°ã—ã¦ã„ãªã‘ã‚Œã°
 	//if (groundFlag == false)
 	//{
-	//	//—‰ºƒ^ƒCƒ}[‚ªÅ‘å’l‚æ‚è¬‚³‚¯‚ê‚Î
+	//	//è½ä¸‹ã‚¿ã‚¤ãƒãƒ¼ãŒæœ€å¤§å€¤ã‚ˆã‚Šå°ã•ã‘ã‚Œã°
 	//	if (fallTimer < fallTime)
 	//	{
 	//		fallTimer += fallFrame;
 	//	}
 	//}
 
-	////—‰ºƒxƒNƒgƒ‹ŒvZ
+	////è½ä¸‹ãƒ™ã‚¯ãƒˆãƒ«è¨ˆç®—
 	//fallVelocity.y = -(GAcceleration * fallTimer);
 
-	////À•W‚É—‰ºƒxƒNƒgƒ‹‚ğ‰ÁZ
+	////åº§æ¨™ã«è½ä¸‹ãƒ™ã‚¯ãƒˆãƒ«ã‚’åŠ ç®—
 	//position = position + fallVelocity;
 }
 
 void Player::UpdateJump()
 {
-	////Ú’n‚µ‚Ä‚¢‚½‚ç
+	////æ¥åœ°ã—ã¦ã„ãŸã‚‰
 	//if (groundFlag == true)
 	//{
-	//	//ƒXƒy[ƒXƒL[‚ÅƒWƒƒƒ“ƒv
+	//	//ã‚¹ãƒšãƒ¼ã‚¹ã‚­ãƒ¼ã§ã‚¸ãƒ£ãƒ³ãƒ—
 	//	if (input->TriggerKey(DIK_SPACE))
 	//	{
 	//		groundFlag = false;
@@ -280,7 +280,7 @@ void Player::StatusManager()
 	{
 		status = Attack1;
 	}
-	else if(Attack1Timer >= 1)
+	else if (Attack1Timer >= 1)
 	{
 		status = Attack1;
 	}
@@ -295,17 +295,17 @@ void Player::StatusManager()
 		status = Attack2;
 	}
 
-	//—§‚¿~‚Ü‚Á‚Ä‚¢‚éê‡
+	//ç«‹ã¡æ­¢ã¾ã£ã¦ã„ã‚‹å ´åˆ
 	else if (length(posVelocity) <= 0.01f)
 	{
 		status = Wait;
 	}
-	//Œã‚ë‚É“ü—Í‚µ‚È‚ª‚ç‘–‚Á‚Ä‚¢‚éê‡
+	//å¾Œã‚ã«å…¥åŠ›ã—ãªãŒã‚‰èµ°ã£ã¦ã„ã‚‹å ´åˆ
 	else if (dxInput->GetStick(DXInput::LStickY) <= -0.3)
 	{
 		status = BackRun;
 	}
-	//•’Ê‚É‘–‚Á‚Ä‚¢‚éê‡
+	//æ™®é€šã«èµ°ã£ã¦ã„ã‚‹å ´åˆ
 	else
 	{
 		status = Run;
@@ -360,12 +360,12 @@ void Player::SetSRV(ID3D12DescriptorHeap* SRV)
 
 void Player::HitPlane()
 {
-	//Ú’nƒtƒ‰ƒO‚ğ—§‚Ä‚é
+	//æ¥åœ°ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹
 	groundFlag = true;
 
-	//‚ß‚è‚Ü‚È‚­‚È‚é‚Ü‚Å‰ÁZ
+	//ã‚ã‚Šè¾¼ã¾ãªããªã‚‹ã¾ã§åŠ ç®—
 	position.y += 0.1f;
 
-	//ƒIƒuƒWƒFƒNƒgXV
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ›´æ–°
 	UpdateObject();
 }

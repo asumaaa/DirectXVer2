@@ -6,27 +6,27 @@
 
 class CSVLoader
 {
-private:	//エイリアス
-	//DirectX::を省略
+private:	//繧ｨ繧､繝ｪ繧｢繧ｹ
+	//DirectX::繧堤怐逡･
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 
 public:
-	//csvファイルを読み込んで変数に代入する
+	//csv繝輔ぃ繧､繝ｫ繧定ｪｭ縺ｿ霎ｼ繧薙〒螟画焚縺ｫ莉｣蜈･縺吶ｋ
 	void LoadCSV(const std::string fileName);
 	void LoadInitialValue();
 
 	void Draw();
 
-	//ゲッター
+	//繧ｲ繝�繧ｿ繝ｼ
 	XMFLOAT3 GetPosition(int num) { return position[num]; };
 	XMFLOAT3 GetRotation(int num) { return rotation[num]; };
 	XMFLOAT3 GetScale(int num) { return scale[num]; };
 
 private:
-	//読み込むオブジェクトの数
+	//隱ｭ縺ｿ霎ｼ繧繧ｪ繝悶ず繧ｧ繧ｯ繝医�ｮ謨ｰ
 	int objectNum = 0;
 
 	std::vector<XMFLOAT3> position;

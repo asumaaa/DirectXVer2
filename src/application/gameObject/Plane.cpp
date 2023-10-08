@@ -10,7 +10,7 @@ void Plane::Initialize()
 
 void Plane::Update()
 {
-	//“®‚­
+	//å‹•ã
 	Move();
 
 	/*object->SetPosition(position);

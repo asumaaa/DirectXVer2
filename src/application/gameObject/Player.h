@@ -5,17 +5,17 @@
 
 class Player
 {
-private:	//ƒGƒCƒŠƒAƒX
-	//Microsoft::WRL::‚ğÈ—ª
+private:	//ã‚¨ã‚¤ãƒªã‚¢ã‚¹
+	//Microsoft::WRL::ã‚’çœç•¥
 	template<class T>using ComPtr = Microsoft::WRL::ComPtr<T>;
-	//DirectX::‚ğÈ—ª
+	//DirectX::ã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 
 private:
-	enum Status	//ƒvƒŒƒCƒ„[‚Ìó‘Ô
+	enum Status	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®çŠ¶æ…‹
 	{
 		Wait,
 		Run,
@@ -26,158 +26,157 @@ private:
 		Attack2,
 		Attack3,
 	};
-	//ƒƒ“ƒoŠÖ”
+	//ãƒ¡ãƒ³ãƒé–¢æ•°
 public:
 
 	Player() {};
 	~Player();
 
-	//Ã“Iƒƒ“ƒoŠÖ”
+	//é™çš„ãƒ¡ãƒ³ãƒé–¢æ•°
 	static void SetCamera(Camera* camera) { Player::camera = camera; }
 	static void SetInput(Input* input) { Player::input = input; }
 	static void SetDXInput(DXInput* dxInput) { Player::dxInput = dxInput; }
 
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	void Initialize();
-	//XV
+	//æ›´æ–°
 	void Update();
 	void UpdateObject();
-	void UpdateObject(Status status,FbxObject3D* object);
+	void UpdateObject(Status status, FbxObject3D* object);
 	void UpdateBullet();
-	//•`‰æ
+	//æç”»
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 	void DrawLightView(ID3D12GraphicsCommandList* cmdList);
 
-	//‹““®ŠÖ˜A
-	//‹““®‘S”Ê
+	//æŒ™å‹•é–¢é€£
+	//æŒ™å‹•å…¨èˆ¬
 	void Control();
-	//ˆÚ“®
+	//ç§»å‹•
 	void Move();
-	//—‰º
+	//è½ä¸‹
 	void UpdateGravity();
-	//ƒWƒƒƒ“ƒv
+	//ã‚¸ãƒ£ãƒ³ãƒ—
 	void UpdateJump();
 
-	//ƒXƒe[ƒ^ƒXƒ}ƒl[ƒWƒƒ[
+	//ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼
 	void StatusManager();
 
-	//UŒ‚Œn‘S”Ê
+	//æ”»æ’ƒç³»å…¨èˆ¬
 	void UpdateAttack();
 
-	//ƒZƒbƒ^[
+	//ã‚»ãƒƒã‚¿ãƒ¼
 	void SetBullet(PlayerBullet* playerBullet) { Player::bullet = playerBullet; }
 	void SetSRV(ID3D12DescriptorHeap* SRV);
 	void HitPlane();
 
-	//ƒQƒbƒ^[
+	//ã‚²ãƒƒã‚¿ãƒ¼
 	XMFLOAT3 GetPosition() { return position; }
 	XMFLOAT3 GetRotation0() { return rotation0; }
 	XMFLOAT3 GetRotation1() { return rotation1; }
 	XMFLOAT3 GetScale() { return scale; }
 
-	//Ã“Iƒƒ“ƒo•Ï”
+	//é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°
 private:
-	//ƒJƒƒ‰
+	//ã‚«ãƒ¡ãƒ©
 	static Camera* camera;
-	//ƒL[ƒ{[ƒh
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰
 	static Input* input;
-	//ƒRƒ“ƒgƒ[ƒ‰[
+	//ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼
 	static DXInput* dxInput;
 
-	//ƒƒ“ƒo•Ï”
+	//ãƒ¡ãƒ³ãƒå¤‰æ•°
 public:
 
-	//’e
-	PlayerBullet*bullet;
+	//å¼¾
+	PlayerBullet* bullet;
 
-	//‘Ò‚Á‚Ä‚éó‘Ô‚ÌƒIƒuƒWƒFƒNƒg
+	//å¾…ã£ã¦ã‚‹çŠ¶æ…‹ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	FbxObject3D* objectWait = nullptr;
-	//‘Ò‚Á‚Ä‚éó‘Ô‚Ìƒ‚ƒfƒ‹
+	//å¾…ã£ã¦ã‚‹çŠ¶æ…‹ã®ãƒ¢ãƒ‡ãƒ«
 	FbxModel* modelWait = nullptr;
 
-	//‘–‚Á‚Ä‚éó‘Ô‚ÌƒIƒuƒWƒFƒNƒg
+	//èµ°ã£ã¦ã‚‹çŠ¶æ…‹ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	FbxObject3D* objectRun = nullptr;
-	//‘–‚Á‚Ä‚éó‘Ô‚Ìƒ‚ƒfƒ‹
+	//èµ°ã£ã¦ã‚‹çŠ¶æ…‹ã®ãƒ¢ãƒ‡ãƒ«
 	FbxModel* modelRun = nullptr;
 
-	//Œã‚ë‘–‚è‚µ‚Ä‚¢‚éƒvƒŒƒCƒ„[
+	//å¾Œã‚èµ°ã‚Šã—ã¦ã„ã‚‹ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
 	FbxObject3D* objectBackRun = nullptr;
-	//Œã‚ë‘–‚è‚µ‚Ä‚éƒ‚ƒfƒ‹
+	//å¾Œã‚èµ°ã‚Šã—ã¦ã‚‹ãƒ¢ãƒ‡ãƒ«
 	FbxModel* modelBackRun = nullptr;
 
-	//¶‚É‘–‚Á‚Ä‚éƒIƒuƒWƒFƒNƒg
+	//å·¦ã«èµ°ã£ã¦ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	FbxObject3D* objectRunLeft = nullptr;
-	//¶‚É‘–‚Á‚Ä‚¢‚éƒ‚ƒfƒ‹
+	//å·¦ã«èµ°ã£ã¦ã„ã‚‹ãƒ¢ãƒ‡ãƒ«
 	FbxModel* modelRunLeft = nullptr;
-	
-	//‰E‚É‘–‚Á‚Ä‚éƒIƒuƒWƒFƒNƒg
+
+	//å³ã«èµ°ã£ã¦ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	FbxObject3D* objectRunRight = nullptr;
-	//‰E‚É‘–‚Á‚Ä‚¢‚éƒ‚ƒfƒ‹
+	//å³ã«èµ°ã£ã¦ã„ã‚‹ãƒ¢ãƒ‡ãƒ«
 	FbxModel* modelRunRight = nullptr;
 
-	//UŒ‚1‚Ìƒ‚ƒfƒ‹
+	//æ”»æ’ƒ1ã®ãƒ¢ãƒ‡ãƒ«
 	FbxObject3D* objectAttack1 = nullptr;
-	//UŒ‚1‚ÌƒIƒuƒWƒFƒNƒg
+	//æ”»æ’ƒ1ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	FbxModel* modelAttack1 = nullptr;
 
-	//UŒ‚2‚ÌƒIƒuƒWƒFƒNƒg
+	//æ”»æ’ƒ2ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	FbxObject3D* objectAttack2 = nullptr;
-	//UŒ‚2‚Ìƒ‚ƒfƒ‹
+	//æ”»æ’ƒ2ã®ãƒ¢ãƒ‡ãƒ«
 	FbxModel* modelAttack2 = nullptr;
 
-	//•ÏŒ`s—ñ
-	//•½sˆÚ“®
-	XMFLOAT3 position = {0.0f,0.0f,0.0f};
-	//‰ñ“]
+	//å¤‰å½¢è¡Œåˆ—
+	//å¹³è¡Œç§»å‹•
+	XMFLOAT3 position = { 0.0f,0.0f,0.0f };
+	//å›è»¢
 	XMFLOAT3 rotation0 = { 0.0f,0.0f,0.0f };
-	XMFLOAT3 rotation1 = {0.0f,0.0f,0.0f};
-	//ƒTƒCƒY
-	XMFLOAT3 scale = {1.0f,1.0f,1.0f};
-	//isƒxƒNƒgƒ‹
+	XMFLOAT3 rotation1 = { 0.0f,0.0f,0.0f };
+	//ã‚µã‚¤ã‚º
+	XMFLOAT3 scale = { 1.0f,1.0f,1.0f };
+	//é€²è¡Œãƒ™ã‚¯ãƒˆãƒ«
 	XMFLOAT3 posVelocity = { 0.0f,0.0f,0.0f };
-	//Šp“xƒxƒNƒgƒ‹
+	//è§’åº¦ãƒ™ã‚¯ãƒˆãƒ«
 	XMFLOAT3 rotVelocity = { 0.0f,0.0f,0.0f };
 
-	//“–‚½‚è”»’èŠÖ˜A
-	//Ú’nƒtƒ‰ƒO
+	//å½“ãŸã‚Šåˆ¤å®šé–¢é€£
+	//æ¥åœ°ãƒ•ãƒ©ã‚°
 	bool groundFlag = false;
 
-	//ƒXƒe[ƒ^ƒXŠÖ˜A
-	//ƒvƒŒƒCƒ„[‚ÌHP
+	//ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹é–¢é€£
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®HP
 	float HP = 10;
 
 
-	//‹““®ŠÖ˜A
-	//—‰º
-	//—‰ºƒxƒNƒgƒ‹
+	//æŒ™å‹•é–¢é€£
+	//è½ä¸‹
+	//è½ä¸‹ãƒ™ã‚¯ãƒˆãƒ«
 	XMFLOAT3 fallVelocity = { 0.0f,0.0f,0.0f };
-	//—‰ºƒ^ƒCƒ}[
+	//è½ä¸‹ã‚¿ã‚¤ãƒãƒ¼
 	float fallTimer = 0.0f;
-	//—‰ºÅ‘å’l‚Ü‚Å‚É‚©‚©‚éŠÔ
+	//è½ä¸‹æœ€å¤§å€¤ã¾ã§ã«ã‹ã‹ã‚‹æ™‚é–“
 	float fallTime = 1.0f;
-	//1ƒtƒŒ[ƒ€‚ ‚½‚è‚Ì—‰º—Ê
+	//1ãƒ•ãƒ¬ãƒ¼ãƒ ã‚ãŸã‚Šã®è½ä¸‹é‡
 	float fallFrame = 1.0f / 60.0f;
 
-	//ƒWƒƒƒ“ƒv
+	//ã‚¸ãƒ£ãƒ³ãƒ—
 	float jumpHeight = 0.4;
 
-	//ƒXƒs[ƒh
+	//ã‚¹ãƒ”ãƒ¼ãƒ‰
 	float posSpeed = 1.0f;
 	float rotSpeed = (float)PI * 1.5f / 180.0f;
 
-	//UŒ‚ŠÖ˜A
-	//Attack1‚Ìƒ^ƒCƒ}[
+	//æ”»æ’ƒé–¢é€£
+	//Attack1ã®ã‚¿ã‚¤ãƒãƒ¼
 	float Attack1Time = 150.0f;
 	float Attack1Timer = 0.0f;
-	//Attack2‚Ìƒ^ƒCƒ}[
+	//Attack2ã®ã‚¿ã‚¤ãƒãƒ¼
 	float Attack2Time = 145.0f;
 	float Attack2Timer = 0.0f;
-	//˜A‘±UŒ‚‚Ì“ü—ÍƒtƒŒ[ƒ€
+	//é€£ç¶šæ”»æ’ƒã®å…¥åŠ›ãƒ•ãƒ¬ãƒ¼ãƒ 
 	float Attack1IntervalTime = 20.0f;
 
-	//ó‘Ô
+	//çŠ¶æ…‹
 	Status status = Wait;
-	//1ƒtƒŒ[ƒ€‘O‚Ìó‘Ô
+	//1ãƒ•ãƒ¬ãƒ¼ãƒ å‰ã®çŠ¶æ…‹
 	Status preStatus = Wait;
 };
-

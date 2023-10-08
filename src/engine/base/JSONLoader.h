@@ -8,74 +8,73 @@
 
 class JSONLoader
 {
-private:	//ƒGƒCƒŠƒAƒX
-	//DirectX::‚ğÈ—ª
+private:	//ã‚¨ã‚¤ãƒªã‚¢ã‚¹
+	//DirectX::ã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 
-public:	//ƒTƒuƒNƒ‰ƒX
+public:	//ã‚µãƒ–ã‚¯ãƒ©ã‚¹
 	struct ObjectData {
-		// ƒtƒ@ƒCƒ‹–¼
+		// ãƒ•ã‚¡ã‚¤ãƒ«å
 		std::string fileName;
-		//ƒIƒuƒWƒFƒNƒg‚Ì–¼‘O
+		//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®åå‰
 		std::string objectName;
-		// •½sˆÚ“®
+		// å¹³è¡Œç§»å‹•
 		DirectX::XMFLOAT3 position;
-		// ‰ñ“]Šp
+		// å›è»¢è§’
 		DirectX::XMFLOAT3 rotation;
-		// ƒXƒP[ƒŠƒ“ƒO
+		// ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°
 		DirectX::XMFLOAT3 scale;
 	};
 
 	struct ColliderData {
-		// ƒRƒ‰ƒCƒ_[‚Ìí—Ş
+		// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ç¨®é¡
 		std::string type;
-		//ƒIƒuƒWƒFƒNƒg‚Ì–¼‘O
+		//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®åå‰
 		std::string objectName;
-		// ƒXƒP[ƒŠƒ“ƒO
+		// ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°
 		DirectX::XMFLOAT3 scale;
-		// ‰ñ“]Šp
+		// å›è»¢è§’
 		DirectX::XMFLOAT3 rotation;
-		//’†S
+		//ä¸­å¿ƒ
 		DirectX::XMFLOAT3 center;
 	};
 
-	struct TextureData{
-		//ƒeƒNƒXƒ`ƒƒ1
+	struct TextureData {
+		//ãƒ†ã‚¯ã‚¹ãƒãƒ£1
 		int textureNum1;
-		//ƒeƒNƒXƒ`ƒƒ2
+		//ãƒ†ã‚¯ã‚¹ãƒãƒ£2
 		int textureNum2;
-		//ƒeƒNƒXƒ`ƒƒ3
+		//ãƒ†ã‚¯ã‚¹ãƒãƒ£3
 		int textureNum3;
-		//ƒeƒNƒXƒ`ƒƒ4
+		//ãƒ†ã‚¯ã‚¹ãƒãƒ£4
 		int textureNum4;
-		//ƒVƒF[ƒ_–¼
+		//ã‚·ã‚§ãƒ¼ãƒ€å
 		std::string shaderName;
-		//ƒeƒNƒXƒ`ƒƒ‚Ì–‡”
+		//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®æšæ•°
 		int textureVol;
 	};
 
-	//ƒƒ“ƒoŠÖ”
+	//ãƒ¡ãƒ³ãƒé–¢æ•°
 public:
 	void LoadFile(const std::string fileName);
 
-	//ƒQƒbƒ^[
+	//ã‚²ãƒƒã‚¿ãƒ¼
 	ObjectData GetObjectData(int number) { return objectData[number]; }
 	ColliderData GetColliderData(int number) { return colliderData[number]; }
 	TextureData GetTextureData(int number) { return textureData[number]; }
 	std::string GetFileName(int number) { return objectData[number].fileName; }
 	XMFLOAT3 GetPosition(int number) { return objectData[number].position; }
 	XMFLOAT3 GetRotation(int number) { return objectData[number].rotation; }
-	XMFLOAT3 GetScale(int number){ return objectData[number].scale; }
+	XMFLOAT3 GetScale(int number) { return objectData[number].scale; }
 	size_t GetObjectNum() { return objectNum; }
 
-	//ƒƒ“ƒo•Ï”
+	//ãƒ¡ãƒ³ãƒå¤‰æ•°
 private:
 	std::vector<ObjectData>objectData;
 	std::vector<ColliderData>colliderData;
 	std::vector<TextureData>textureData;
 	size_t objectNum = 0.0f;
 };
-

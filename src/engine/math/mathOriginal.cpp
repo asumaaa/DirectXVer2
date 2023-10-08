@@ -240,7 +240,7 @@ const DirectX::XMFLOAT3 operator/(DirectX::XMFLOAT3 v, float s)
 	return DirectX::XMFLOAT3(v.x / s, v.y / s, v.z / s);
 }
 
-float dot( DirectX::XMFLOAT3 v1,DirectX::XMFLOAT3 v2)
+float dot(DirectX::XMFLOAT3 v1, DirectX::XMFLOAT3 v2)
 {
 	return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 }

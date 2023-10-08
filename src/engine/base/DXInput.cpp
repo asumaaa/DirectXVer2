@@ -1,9 +1,9 @@
 #include "DXInput.h"
 
-DXInput *DXInput::GetInstance()
+DXInput* DXInput::GetInstance()
 {
     static DXInput instance;
-    return& instance;
+    return&instance;
 }
 
 DXInput::DXInput()
@@ -22,18 +22,18 @@ void DXInput::InputProcess() {
     //int pad_leftShoulder = 0, pad_rightShoulder = 0;
     //int pad_left = 0, pad_right = 0, pad_up = 0, pad_down = 0;
 
-    //if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT) pad_left = 1;               //ƒQ[ƒ€ƒpƒbƒh\šƒL[¶
-    //if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT) pad_right = 1;             //ƒQ[ƒ€ƒpƒbƒh\šƒL[‰E
-    //if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP) pad_up = 1;                   //ƒQ[ƒ€ƒpƒbƒh\šƒL[ã
-    //if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN) pad_down = 1;               //ƒQ[ƒ€ƒpƒbƒh\šƒL[‰º
-    //if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_A) pad_A = 1;                          //ƒQ[ƒ€ƒpƒbƒhA
-    //if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_B) pad_B = 1;                          //ƒQ[ƒ€ƒpƒbƒhB
-    //if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_X) pad_X = 1;                          //ƒQ[ƒ€ƒpƒbƒhX
-    //if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_Y) pad_Y = 1;                          //ƒQ[ƒ€ƒpƒbƒhY
-    //if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) pad_leftShoulder = 1;   //ƒQ[ƒ€ƒpƒbƒhL
-    //if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) pad_rightShoulder = 1; //ƒQ[ƒ€ƒpƒbƒhR
+    //if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT) pad_left = 1;               //ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰åå­—ã‚­ãƒ¼å·¦
+    //if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT) pad_right = 1;             //ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰åå­—ã‚­ãƒ¼å³
+    //if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP) pad_up = 1;                   //ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰åå­—ã‚­ãƒ¼ä¸Š
+    //if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN) pad_down = 1;               //ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰åå­—ã‚­ãƒ¼ä¸‹
+    //if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_A) pad_A = 1;                          //ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰A
+    //if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_B) pad_B = 1;                          //ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰B
+    //if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_X) pad_X = 1;                          //ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰X
+    //if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_Y) pad_Y = 1;                          //ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰Y
+    //if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) pad_leftShoulder = 1;   //ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰L
+    //if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) pad_rightShoulder = 1; //ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰R
 
-    // ƒQ[ƒ€ƒpƒbƒhƒfƒbƒhƒ][ƒ“ˆ—
+    // ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ãƒ‡ãƒƒãƒ‰ã‚¾ãƒ¼ãƒ³å‡¦ç†
     if ((GamePad.state.Gamepad.sThumbLX < XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
         GamePad.state.Gamepad.sThumbLX > -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) &&
         (GamePad.state.Gamepad.sThumbLY < XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
@@ -51,7 +51,7 @@ void DXInput::InputProcess() {
         GamePad.state.Gamepad.sThumbRY = 0;
     }
 
-    // ƒQ[ƒ€ƒpƒbƒh‚ÌU“®
+    // ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰ã®æŒ¯å‹•
     /*XInputSetState(0, &GamePad.vibration);*/
 
     //if (pad_A)
@@ -82,37 +82,37 @@ void DXInput::InputProcess() {
 
 void DXInput::XInputInvaid() {
 
-    //XInputEnable(false); // XInput‚ğ–³Œø
+    //XInputEnable(false); // XInputã‚’ç„¡åŠ¹
 
 }
 
 void DXInput::Update()
 {
-    //1ƒtƒŒ[ƒ€‘O‚ÌƒRƒ“ƒgƒ[ƒ‰[‚ğ•Û‘¶
+    //1ãƒ•ãƒ¬ãƒ¼ãƒ å‰ã®ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã‚’ä¿å­˜
     UpdateOldKey();
 
-    //XV
+    //æ›´æ–°
     InputProcess();
 
-    //Œ»İ‚ÌƒtƒŒ[ƒ€‚ÌƒL[‚ğæ“¾
+    //ç¾åœ¨ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã®ã‚­ãƒ¼ã‚’å–å¾—
     UpdateKey();
 
-    //Œ»İ‚ÌƒtƒŒ[ƒ€‚ÌƒXƒeƒBƒbƒN‚ğæ“¾
+    //ç¾åœ¨ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã®ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã‚’å–å¾—
     UpdateStick();
 }
 
 void DXInput::UpdateKey()
 {
     if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT) key.PAD_LEFT = 1; else { key.PAD_LEFT = 0; }
-    if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT) key.PAD_RIGHT = 1; else { key.PAD_RIGHT = 0; }             //ƒQ[ƒ€ƒpƒbƒh\šƒL[‰E
-    if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP) key.PAD_UP = 1; else { key.PAD_UP = 0; }                  //ƒQ[ƒ€ƒpƒbƒh\šƒL[ã
-    if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN) key.PAD_DOWN = 1; else { key.PAD_DOWN = 0; }              //ƒQ[ƒ€ƒpƒbƒh\šƒL[‰º
-    if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_A) key.PAD_A = 1; else { key.PAD_A = 0; }                         //ƒQ[ƒ€ƒpƒbƒhA
-    if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_B) key.PAD_B = 1; else { key.PAD_B = 0; }                         //ƒQ[ƒ€ƒpƒbƒhB
-    if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_X) key.PAD_X = 1; else { key.PAD_X = 0; }                         //ƒQ[ƒ€ƒpƒbƒhX
-    if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_Y) key.PAD_Y = 1; else { key.PAD_Y = 0; }                         //ƒQ[ƒ€ƒpƒbƒhY
-    if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) key.PAD_LEFT_SHOULDER = 1; else { key.PAD_LEFT_SHOULDER = 0; }  //ƒQ[ƒ€ƒpƒbƒhL
-    if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) key.PAD_RIGHT_SHOULDER = 1; else { key.PAD_RIGHT_SHOULDER = 0; } //ƒQ[ƒ€ƒpƒbƒhR
+    if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT) key.PAD_RIGHT = 1; else { key.PAD_RIGHT = 0; }             //ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰åå­—ã‚­ãƒ¼å³
+    if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP) key.PAD_UP = 1; else { key.PAD_UP = 0; }                  //ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰åå­—ã‚­ãƒ¼ä¸Š
+    if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN) key.PAD_DOWN = 1; else { key.PAD_DOWN = 0; }              //ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰åå­—ã‚­ãƒ¼ä¸‹
+    if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_A) key.PAD_A = 1; else { key.PAD_A = 0; }                         //ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰A
+    if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_B) key.PAD_B = 1; else { key.PAD_B = 0; }                         //ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰B
+    if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_X) key.PAD_X = 1; else { key.PAD_X = 0; }                         //ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰X
+    if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_Y) key.PAD_Y = 1; else { key.PAD_Y = 0; }                         //ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰Y
+    if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) key.PAD_LEFT_SHOULDER = 1; else { key.PAD_LEFT_SHOULDER = 0; }  //ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰L
+    if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) key.PAD_RIGHT_SHOULDER = 1; else { key.PAD_RIGHT_SHOULDER = 0; } //ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰R
 }
 
 void DXInput::UpdateOldKey()
@@ -148,7 +148,7 @@ bool DXInput::PushKey(Pad pad)
 
 bool DXInput::TriggerKey(Pad pad)
 {
-    if (pad == PAD_LEFT){
+    if (pad == PAD_LEFT) {
         if (key.PAD_LEFT != oldKey.PAD_LEFT)return true;
         return false;
     }

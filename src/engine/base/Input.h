@@ -7,7 +7,7 @@
 #include <XInput.h>
 #include "WinApp.h"
 
-#define DIRECTINPUT_VERSION 0x0800 // DirectInput‚Ìƒo[ƒWƒ‡ƒ“w’è
+#define DIRECTINPUT_VERSION 0x0800 // DirectInputã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³æŒ‡å®š
 using namespace Microsoft::WRL;
 #include <dinput.h>
 
@@ -24,10 +24,10 @@ public:
 	bool TriggerKey(BYTE keyNumber);
 
 public:
-	//ƒEƒBƒ“ƒhƒE
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 	WinApp* winApp_;
 	ComPtr<IDirectInput8> directInput;
-	//ƒL[ƒ{[ƒh
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰
 	ComPtr<IDirectInputDevice8> keyboard;
 	BYTE key[256] = {};
 	BYTE keyPre[256] = {};

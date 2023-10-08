@@ -3,54 +3,53 @@
 
 class FireParticle
 {
-private:	//ƒGƒCƒŠƒAƒX
-	//Microsoft::WRL::‚ğÈ—ª
+private:	//ã‚¨ã‚¤ãƒªã‚¢ã‚¹
+	//Microsoft::WRL::ã‚’çœç•¥
 	template<class T>using ComPtr = Microsoft::WRL::ComPtr<T>;
-	//DirectX::‚ğÈ—ª
+	//DirectX::ã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 
-public:	//’è”
-	//ƒeƒNƒXƒ`ƒƒ‚Ì”
+public:	//å®šæ•°
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®æ•°
 	static const int spriteNum = 25;
 	static const int textureNum = 2;
 
-public:	//ƒƒ“ƒoŠÖ”
+public:	//ãƒ¡ãƒ³ãƒé–¢æ•°
 	void Initialize();
 	void Update();
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 
-public:	//ƒZƒbƒ^[
-	//g‚¤ƒXƒvƒ‰ƒCƒg‚Ì”Ô†‚ğw’è
-	void SetTextureNum(int num0, int num1) { textureNum0 = num0; textureNum1 = num1;}
+public:	//ã‚»ãƒƒã‚¿ãƒ¼
+	//ä½¿ã†ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®ç•ªå·ã‚’æŒ‡å®š
+	void SetTextureNum(int num0, int num1) { textureNum0 = num0; textureNum1 = num1; }
 	void SetPosition(XMFLOAT3 position) { FireParticle::position = position; }
 	void SetRotation(XMFLOAT3 rotation) { FireParticle::rotation = rotation; }
 	void SetScale(XMFLOAT3 scale) { FireParticle::scale = scale; }
 
-private:	//ƒƒ“ƒo•Ï”
-	//À•W
+private:	//ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//åº§æ¨™
 	XMFLOAT3 position = { 0,0,0 };
 	XMFLOAT3 scale = { 0,0,0 };
 	XMFLOAT3 rotation = { 0,0,0 };
 
-	//g—p‚·‚éƒeƒNƒXƒ`ƒƒ‚Ì”Ô†
+	//ä½¿ç”¨ã™ã‚‹ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ç•ªå·
 	int textureNum0 = 0;
 	int textureNum1 = 1;
 
-	//ƒXƒvƒ‰ƒCƒg
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ
 	std::list < std::unique_ptr<Sprite>> sprite;
-	//ŠeƒXƒvƒ‰ƒCƒg‚Ì•ÏŒ`s—ñ
+	//å„ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆã®å¤‰å½¢è¡Œåˆ—
 	std::vector<XMFLOAT3> positions;
 	std::vector<XMFLOAT3> scales;
 	std::vector<XMFLOAT3> rotations;
-	//ŠeƒxƒNƒgƒ‹
+	//å„ãƒ™ã‚¯ãƒˆãƒ«
 	std::vector<XMFLOAT2> velocitys;
 	std::vector<XMFLOAT3> colors;
 
-	//ƒ^ƒCƒ}[
+	//ã‚¿ã‚¤ãƒãƒ¼
 	float timer = 0;
 	float time = spriteNum;
 };
-

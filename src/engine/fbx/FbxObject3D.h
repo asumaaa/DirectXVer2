@@ -15,20 +15,20 @@
 
 class FbxObject3D
 {
-private:	//ƒGƒCƒŠƒAƒX
-	//Microsoft::WRL::‚ğÈ—ª
+private:	//ã‚¨ã‚¤ãƒªã‚¢ã‚¹
+	//Microsoft::WRL::ã‚’çœç•¥
 	template<class T>using ComPtr = Microsoft::WRL::ComPtr<T>;
-	//DirectX::‚ğÈ—ª
+	//DirectX::ã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 
 public:
-	//’è”
+	//å®šæ•°
 	static const int MAX_BONES = 320;
-	//ƒTƒuƒNƒ‰ƒX
-	//’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì
+	//ã‚µãƒ–ã‚¯ãƒ©ã‚¹
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
 	struct ConstBufferDataTransform
 	{
 		XMMATRIX viewproj;
@@ -37,53 +37,53 @@ public:
 		XMMATRIX lightviewproj;
 		float timer;
 	};
-	//’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì(ƒXƒLƒjƒ“ƒO)
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“(ã‚¹ã‚­ãƒ‹ãƒ³ã‚°)
 	struct ConstBufferDataSkin
 	{
 		XMMATRIX bones[MAX_BONES];
 	};
 
-public:	//Ã“Iƒƒ“ƒoŠÖ”
-	//ƒZƒbƒ^[
+public:	//é™çš„ãƒ¡ãƒ³ãƒé–¢æ•°
+	//ã‚»ãƒƒã‚¿ãƒ¼
 	static void SetDevice(ID3D12Device* device) { FbxObject3D::device = device; }
 	static void SetCamera(Camera* camera) { FbxObject3D::camera = camera; }
 	static void SetLight(Light* light) { FbxObject3D::light = light; }
 	static void SetLightGroup(LightGroup* lightGroup) { FbxObject3D::lightGroup = lightGroup; }
 
-private://Ã“Iƒƒ“ƒo•Ï”
+private://é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°
 	static ID3D12Device* device;
 	static Camera* camera;
 	static Light* light;
 	static LightGroup* lightGroup;
 
-public://ƒƒ“ƒoŠÖ”
-	//‰Šú‰»
+public://ãƒ¡ãƒ³ãƒé–¢æ•°
+	//åˆæœŸåŒ–
 	void Initialize();
-	//XV
+	//æ›´æ–°
 	void Update();
 	void UpdateBillboard();
 	void UpdateCollider();
-	//•`‰æ
+	//æç”»
 	void DrawLightView(ID3D12GraphicsCommandList* cmdList);
 	void Draw(ID3D12GraphicsCommandList* cmdList);
-	//ƒ‚ƒfƒ‹‚ÌƒZƒbƒg
+	//ãƒ¢ãƒ‡ãƒ«ã®ã‚»ãƒƒãƒˆ
 	void SetModel(FbxModel* model) { this->model = model; }
-	//ƒ‰ƒCƒg‹“_‚ÌƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“‚Ì¶¬
+	//ãƒ©ã‚¤ãƒˆè¦–ç‚¹ã®ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã®ç”Ÿæˆ
 	static void CreateGraphicsPipelineLightView();
-	//‰e•t‚«ƒJƒƒ‰‹“_‚ÌƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“‚Ì¶¬
+	//å½±ä»˜ãã‚«ãƒ¡ãƒ©è¦–ç‚¹ã®ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã®ç”Ÿæˆ
 	static void CreateGraphicsPipeline();
-	//ƒŒƒxƒ‹ƒGƒfƒBƒ^‚Åİ’è‚µ‚½ƒVƒF[ƒ_‚ğg‚¤ƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“‚Ì¶¬
-	void CreateGraphicsPipelineTexture1();	//ƒeƒNƒXƒ`ƒƒ1–‡‚Ìê‡
-	void CreateGraphicsPipelineTexture2();	//ƒeƒNƒXƒ`ƒƒ2–‡‚Ìê‡
-	void CreateGraphicsPipelineTexture3();	//ƒeƒNƒXƒ`ƒƒ3–‡‚Ìê‡
-	void CreateGraphicsPipelineTexture4();	//ƒeƒNƒXƒ`ƒƒ4–‡‚Ìê‡
+	//ãƒ¬ãƒ™ãƒ«ã‚¨ãƒ‡ã‚£ã‚¿ã§è¨­å®šã—ãŸã‚·ã‚§ãƒ¼ãƒ€ã‚’ä½¿ã†ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã®ç”Ÿæˆ
+	void CreateGraphicsPipelineTexture1();	//ãƒ†ã‚¯ã‚¹ãƒãƒ£1æšã®å ´åˆ
+	void CreateGraphicsPipelineTexture2();	//ãƒ†ã‚¯ã‚¹ãƒãƒ£2æšã®å ´åˆ
+	void CreateGraphicsPipelineTexture3();	//ãƒ†ã‚¯ã‚¹ãƒãƒ£3æšã®å ´åˆ
+	void CreateGraphicsPipelineTexture4();	//ãƒ†ã‚¯ã‚¹ãƒãƒ£4æšã®å ´åˆ
 
-	//ƒAƒjƒ[ƒVƒ‡ƒ“ŠJn
+	//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³é–‹å§‹
 	void PlayAnimation();
-	//ƒAƒjƒ[ƒVƒ‡ƒ“I—¹
+	//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³çµ‚äº†
 	void StopAnimation() { isPlay = false; }
 
-	//ƒZƒbƒ^[
+	//ã‚»ãƒƒã‚¿ãƒ¼
 	void SetPosition(XMFLOAT3 pos) { position = pos; }
 	void SetRotation(XMFLOAT3 rot) { rotation = rot; }
 	void SetScale(XMFLOAT3 sca) { scale = sca; }
@@ -94,7 +94,7 @@ public://ƒƒ“ƒoŠÖ”
 	void SetBillboardFlag() { billboardFlag = true; }
 	void SetTextureNum(int textureNum) { this->textureNum1 = textureNum; }
 
-	//ƒQƒbƒ^[
+	//ã‚²ãƒƒã‚¿ãƒ¼
 	XMFLOAT3 GetPosition() { return position; }
 	XMFLOAT3 GetRotation() { return rotation; }
 	XMFLOAT3 GetScale() { return scale; }
@@ -102,81 +102,81 @@ public://ƒƒ“ƒoŠÖ”
 	std::string GetObjectName() { return objectName; }
 	JSONLoader::ColliderData GetColliderData() { return colliderData; }
 
-private://ƒƒ“ƒo•Ï”
-	//’è”ƒoƒbƒtƒ@
+private://ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource>constBuffTransform;
-	//ƒ‰ƒCƒg‹“_‚Ìƒ‹[ƒgƒVƒOƒlƒ`ƒƒ‚ÆƒpƒCƒvƒ‰ƒCƒ“(shadowMap—p)
+	//ãƒ©ã‚¤ãƒˆè¦–ç‚¹ã®ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒãƒãƒ£ã¨ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³(shadowMapç”¨)
 	static ComPtr<ID3D12RootSignature>rootsignature0;
 	static ComPtr<ID3D12PipelineState>pipelinestate0;
-	//ƒVƒF[ƒ_‚ğw’è‚·‚éê‡‚Ìƒ‹[ƒgƒVƒOƒlƒ`ƒƒ‚ÆƒpƒCƒvƒ‰ƒCƒ“
+	//ã‚·ã‚§ãƒ¼ãƒ€ã‚’æŒ‡å®šã™ã‚‹å ´åˆã®ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒãƒãƒ£ã¨ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³
 	ComPtr<ID3D12RootSignature>rootsignature1;
 	ComPtr<ID3D12PipelineState>pipelinestate1;
-	//‰e•t‚«ƒJƒƒ‰‹“_‚Ìƒ‹[ƒgƒVƒOƒlƒ`ƒƒ‚ÆƒpƒCƒvƒ‰ƒCƒ“
+	//å½±ä»˜ãã‚«ãƒ¡ãƒ©è¦–ç‚¹ã®ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒãƒãƒ£ã¨ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³
 	static ComPtr<ID3D12RootSignature>rootsignature2;
 	static ComPtr<ID3D12PipelineState>pipelinestate2;
 
 private:
-	//ƒ[ƒJƒ‹ƒXƒP[ƒ‹
+	//ãƒ­ãƒ¼ã‚«ãƒ«ã‚¹ã‚±ãƒ¼ãƒ«
 	XMFLOAT3 scale = { 1,1,1 };
-	//X,Y,Z²‰ñ‚è‚Ìƒ[ƒJƒ‹s—ñ
+	//X,Y,Zè»¸å›ã‚Šã®ãƒ­ãƒ¼ã‚«ãƒ«è¡Œåˆ—
 	XMFLOAT3 rotation = { 0,0,0 };
-	//ƒ[ƒJƒ‹À•W
+	//ãƒ­ãƒ¼ã‚«ãƒ«åº§æ¨™
 	XMFLOAT3 position = { 0,0,0 };
-	//ƒ[ƒJƒ‹ƒ[ƒ‹ƒh•ÏŠ·s—ñ
+	//ãƒ­ãƒ¼ã‚«ãƒ«ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›è¡Œåˆ—
 	XMMATRIX matWorld;
-	//ƒrƒ‹ƒ{[ƒhs—ñ
+	//ãƒ“ãƒ«ãƒœãƒ¼ãƒ‰è¡Œåˆ—
 	XMMATRIX matBillboard;
-	//Y²ü‚èƒrƒ‹ƒ{[ƒhs—ñ
+	//Yè»¸å‘¨ã‚Šãƒ“ãƒ«ãƒœãƒ¼ãƒ‰è¡Œåˆ—
 	XMMATRIX matBillboiadY;
-	//ƒ‚ƒfƒ‹
+	//ãƒ¢ãƒ‡ãƒ«
 	FbxModel* model = nullptr;
-	//ƒRƒ‰ƒCƒ_[‚Ì’†S‚ÆÀ•W‚Ì·•ª
+	//ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ä¸­å¿ƒã¨åº§æ¨™ã®å·®åˆ†
 	XMFLOAT3 colliderPos0 = { 0.0f,0.0f,0.0f };
-	XMFLOAT3 colliderPos1 = {0.0f,0.0f,0.0f};
+	XMFLOAT3 colliderPos1 = { 0.0f,0.0f,0.0f };
 	XMFLOAT3 colliderCenter = { 0.0f,0.0f,0.0f };
 	XMFLOAT3 colliderRotation = { 0.0f,0.0f,0.0f };
 	XMFLOAT3 colliderScale = { 0.0f,0.0f,0.0f };
 
-	//ƒrƒ‹ƒ{[ƒhƒtƒ‰ƒO
+	//ãƒ“ãƒ«ãƒœãƒ¼ãƒ‰ãƒ•ãƒ©ã‚°
 	bool billboardFlag = false;
 
-	//’è”ƒoƒbƒtƒ@
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource>constBuffSkin;
 
-	//ŠO•”‚©‚çó‚¯æ‚éSRV
+	//å¤–éƒ¨ã‹ã‚‰å—ã‘å–ã‚‹SRV
 	ID3D12DescriptorHeap* depthSRV;
 
-	//1ƒtƒŒ[ƒ€‚ÌŠÔ
+	//1ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ™‚é–“
 	FbxTime frameTime;
-	//ƒAƒjƒ[ƒVƒ‡ƒ“ŠJnŠÔ
+	//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³é–‹å§‹æ™‚é–“
 	FbxTime startTime;
-	//ƒAƒjƒ[ƒVƒ‡ƒ“I—¹ŠÔ
+	//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³çµ‚äº†æ™‚é–“
 	FbxTime endTime;
-	//Œ»İŠÔ
+	//ç¾åœ¨æ™‚é–“
 	FbxTime currentTime;
-	//ƒAƒjƒ[ƒVƒ‡ƒ“Ä¶’†
+	//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³å†ç”Ÿä¸­
 	bool isPlay = false;
 
-	//ƒtƒ@ƒCƒ‹‚Ì–¼‘O
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã®åå‰
 	std::string fileName;
-	//ƒIƒuƒWƒFƒNƒg‚Ì–¼‘O
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®åå‰
 	std::string objectName;
 
-	//ƒRƒ‰ƒCƒ_[
+	//ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 	JSONLoader::ColliderData colliderData;
 
-	//ƒeƒNƒXƒ`ƒƒ‚Ì”Ô†
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ç•ªå·
 	int textureNum1 = 0;
 	int textureNum2 = 0;
 	int textureNum3 = 0;
 	int textureNum4 = 0;
-	//ƒeƒNƒXƒ`ƒƒ‚Ì–‡”
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®æšæ•°
 	int textureVol = 1;
-	//g—p‚·‚éƒVƒF[ƒ_‚Ì–¼‘O
+	//ä½¿ç”¨ã™ã‚‹ã‚·ã‚§ãƒ¼ãƒ€ã®åå‰
 	std::string shaderName;
 	bool shaderFlag = false;
 
-	//ƒ^ƒCƒ}[ƒVƒF[ƒ_—p
+	//ã‚¿ã‚¤ãƒãƒ¼ã‚·ã‚§ãƒ¼ãƒ€ç”¨
 	float timer = 0.0f;
 	float fTime = 0.005f;
 	float maxTime = 1.0f;

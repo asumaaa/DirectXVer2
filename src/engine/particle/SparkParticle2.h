@@ -16,10 +16,10 @@
 
 class SparkParticle2
 {
-private:	//ƒGƒCƒŠƒAƒX
-	//Microsoft::WRL::‚ğÈ—ª
+private:	//ã‚¨ã‚¤ãƒªã‚¢ã‚¹
+	//Microsoft::WRL::ã‚’çœç•¥
 	template<class T>using ComPtr = Microsoft::WRL::ComPtr<T>;
-	//DirectX::‚ğÈ—ª
+	//DirectX::ã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
@@ -27,117 +27,116 @@ private:	//ƒGƒCƒŠƒAƒX
 	using XMVECTOR = DirectX::XMVECTOR;
 	using TexMetadata = DirectX::TexMetadata;
 	using ScracthImage = DirectX::ScratchImage;
-	//std::‚ğÈ—ª
+	//std::ã‚’çœç•¥
 	using string = std::string;
 	template<class T>using vector = std::vector<T>;
 
-public://ƒTƒuƒNƒ‰ƒX
-	//’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì
+public://ã‚µãƒ–ã‚¯ãƒ©ã‚¹
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
 	struct ConstBufferDataTransform
 	{
 		XMMATRIX mat;
 		XMMATRIX matBillboard;
 	};
 
-	//ƒp[ƒeƒBƒNƒ‹1—±
+	//ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«1ç²’
 	struct Particle
 	{
-		//À•W
+		//åº§æ¨™
 		XMFLOAT3 position = {};
-		//‘¬“x
+		//é€Ÿåº¦
 		XMFLOAT3 velocity = {};
-		//‰Á‘¬“x
+		//åŠ é€Ÿåº¦
 		XMFLOAT3 accel = {};
-		//Œ»İƒtƒŒ[ƒ€
+		//ç¾åœ¨ãƒ•ãƒ¬ãƒ¼ãƒ 
 		int frame = 0;
-		//I—¹ƒtƒŒ[ƒ€
+		//çµ‚äº†ãƒ•ãƒ¬ãƒ¼ãƒ 
 		int num_frame = 0;
-		//ƒXƒP[ƒ‹
+		//ã‚¹ã‚±ãƒ¼ãƒ«
 		float scale = 1.0f;
-		//‰Šú’l
+		//åˆæœŸå€¤
 		float startScale = 10.0f;
-		//ÅI’n
+		//æœ€çµ‚åœ°
 		float endScale = 0.0f;
 	};
 
-	//’¸“_ƒf[ƒ^”z—ñ
+	//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿é…åˆ—
 	struct VertexPos
 	{
-		XMFLOAT3 pos;	//À•W
+		XMFLOAT3 pos;	//åº§æ¨™
 		float scale;
 		XMFLOAT3 velocity;
 	};
 
-public:	//Ã“Iƒƒ“ƒoŠÖ”
+public:	//é™çš„ãƒ¡ãƒ³ãƒé–¢æ•°
 	static void SetSpriteManager(TextureManager* spriteManager) { SparkParticle2::spriteManager = spriteManager; };
 	static void SetDevice(ID3D12Device* device) { SparkParticle2::device = device; }
 	static void SetCamera(Camera* camera) { SparkParticle2::camera = camera; }
 	static void SetInput(Input* input) { SparkParticle2::input = input; }
-	//ƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“‚Ì¶¬
+	//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã®ç”Ÿæˆ
 	static void CreateGraphicsPipeline();
 
 public:
-	//ƒoƒbƒtƒ@¶¬
+	//ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 	void CreateBuffers();
-	//XV
+	//æ›´æ–°
 	void Update();
 	void UpdateParticle();
-	//•`‰æ
+	//æç”»
 	void Draw(ID3D12GraphicsCommandList* cmdList);
-	//ƒp[ƒeƒBƒNƒ‹‚ğ’Ç‰Á
+	//ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã‚’è¿½åŠ 
 	void Add(XMFLOAT3 pos);
 	void AddParticle(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float startScale, float endScale);
 
-	//ƒZƒbƒ^[
-	//ƒeƒNƒXƒ`ƒƒ‚Ì”Ô†
+	//ã‚»ãƒƒã‚¿ãƒ¼
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ç•ªå·
 	void SetTextureNum(int num) { textureNum = num; }
 
-public:	//Ã“Iƒƒ“ƒo•Ï”
+public:	//é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°
 	static TextureManager* spriteManager;
 	static ID3D12Device* device;
 	static Camera* camera;
 	static Input* input;
-	//’¸“_Å‘å”
+	//é ‚ç‚¹æœ€å¤§æ•°
 	static const int vertexCount = 1024;
-	//‰Î‰Ô1‰ñ‚Ég‚¤’¸“_”
+	//ç«èŠ±1å›ã«ä½¿ã†é ‚ç‚¹æ•°
 	static const int sparkCount = 128;
 
 private:
-	//’è”ƒoƒbƒtƒ@
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource>constBuffTransform;
-	//ƒ‹[ƒgƒVƒOƒlƒ`ƒƒ
+	//ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒãƒãƒ£
 	static ComPtr<ID3D12RootSignature>rootsignature;
-	//ƒpƒCƒvƒ‰ƒCƒ“ƒXƒe[ƒgƒIƒuƒWƒFƒNƒg
+	//ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚¹ãƒ†ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	static ComPtr<ID3D12PipelineState>pipelinestate;
 
-	//’¸“_ƒoƒbƒtƒ@
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource> vertBuff;
-	//ƒeƒNƒXƒ`ƒƒƒoƒbƒtƒ@
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource>texBuff;
-	//’¸“_ƒoƒbƒtƒ@ƒrƒ…[
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼
 	D3D12_VERTEX_BUFFER_VIEW vbView = {};
-	//SRV—pƒfƒXƒNƒŠƒvƒ^ƒq[ƒv
+	//SRVç”¨ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—
 	ComPtr<ID3D12DescriptorHeap>descHeapSRV;
-	//ƒAƒ“ƒrƒGƒ“ƒgŒW”
+	//ã‚¢ãƒ³ãƒ“ã‚¨ãƒ³ãƒˆä¿‚æ•°
 	XMFLOAT3 ambient = { 1,1,1 };
-	//ƒfƒBƒtƒ…[ƒYŒW”
+	//ãƒ‡ã‚£ãƒ•ãƒ¥ãƒ¼ã‚ºä¿‚æ•°
 	XMFLOAT3 diffuse = { 1,1,1 };
-	//ƒeƒNƒXƒ`ƒƒƒƒ^ƒf[ƒ^
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ¡ã‚¿ãƒ‡ãƒ¼ã‚¿
 	TexMetadata metadata = {};
-	//ƒXƒNƒ‰ƒbƒ`ƒCƒ[ƒW
+	//ã‚¹ã‚¯ãƒ©ãƒƒãƒã‚¤ãƒ¡ãƒ¼ã‚¸
 	ScracthImage scratchImg = {};
-	//‰æ‘œ—pƒfƒXƒNƒŠƒvƒ^ƒq[ƒv
+	//ç”»åƒç”¨ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—
 	ComPtr<ID3D12DescriptorHeap> srvHeap;
 	const size_t textureWidth = 256;
 	const size_t textureHeight = 256;
 	const size_t imageDataCount = textureWidth * textureHeight;
 	XMFLOAT4* imageData = new XMFLOAT4[imageDataCount];
-	//ƒeƒNƒXƒ`ƒƒ[‚ÌGPU‚Ìƒnƒ“ƒhƒ‹
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ¼ã®GPUã®ãƒãƒ³ãƒ‰ãƒ«
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
 
-	//ƒp[ƒeƒBƒNƒ‹”z—ñ
+	//ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«é…åˆ—
 	std::forward_list<Particle>particles;
-	//ƒeƒNƒXƒ`ƒƒ‚Ì”Ô†
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ç•ªå·
 	int textureNum = 0;
 };
-

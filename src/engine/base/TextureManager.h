@@ -7,41 +7,40 @@
 
 class TextureManager
 {
-private:	//ƒGƒCƒŠƒAƒX
-	//Microsoft::WRL::‚ğÈ—ª
+private:	//ã‚¨ã‚¤ãƒªã‚¢ã‚¹
+	//Microsoft::WRL::ã‚’çœç•¥
 	template<class T>using ComPtr = Microsoft::WRL::ComPtr<T>;
-	//DirectX::‚ğÈ—ª
+	//DirectX::ã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 
-public:	 //’è”
-	//SRV‚ÌÅ‘åŒÂ”
+public:	 //å®šæ•°
+	//SRVã®æœ€å¤§å€‹æ•°
 	static const size_t kMaxSrvCount = 2056;
 
-public:	//ƒƒ“ƒoŠÖ”
+public:	//ãƒ¡ãƒ³ãƒé–¢æ•°
 	void Initialize();
-	void LoadFile(int number,const wchar_t* fileName);
+	void LoadFile(int number, const wchar_t* fileName);
 	void SetTextureCommand(int number);
 
-public:	//ƒQƒbƒ^[
+public:	//ã‚²ãƒƒã‚¿ãƒ¼
 	ID3D12Resource* GetTextureBuff(int number) { return textureBuff[number].Get(); }
 	ID3D12DescriptorHeap* GetSrvHeap() { return srvHeap.Get(); }
 
 public:
 	static void SetDevice(ID3D12Device* device) { TextureManager::device = device; }
 
-private:	//Ã“Iƒƒ“ƒo•Ï”
-	//ƒfƒoƒCƒX
+private:	//é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//ãƒ‡ãƒã‚¤ã‚¹
 	static ID3D12Device* device;
 
-private:	//ƒƒ“ƒo•Ï”
-	//ƒeƒNƒXƒ`ƒƒƒoƒbƒtƒ@
+private:	//ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ•ã‚¡
 	std::array<Microsoft::WRL::ComPtr<ID3D12Resource>, kMaxSrvCount>textureBuff;
-	//ƒfƒXƒNƒŠƒvƒ^ƒq[ƒv
+	//ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—
 	ComPtr<ID3D12DescriptorHeap> srvHeap;
 	std::vector<DirectX::TexMetadata> metadata;
 	std::vector<DirectX::ScratchImage> scratchImg;
 };
-

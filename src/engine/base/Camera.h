@@ -13,25 +13,25 @@ class Camera
 public:
 
 public:
-	//ƒVƒ“ƒOƒ‹ƒgƒ“ƒCƒ“ƒXƒ^ƒ“ƒX
+	//ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 	static Camera* GetInstance();
 	static void SetInput(Input* input) { Camera::input = input; }
 	static void SetDXInput(DXInput* dxInput) { Camera::dxInput = dxInput; }
-	//ƒCƒ“ƒXƒgƒ‰ƒNƒ^ ƒfƒXƒgƒ‰ƒNƒ^
+	//ã‚¤ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	Camera();
 	~Camera();
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	void Initialize();
-	//XV
+	//æ›´æ–°
 	void Update();
-	//ƒrƒ‹ƒ{[ƒhs—ñ‚ÌXV
+	//ãƒ“ãƒ«ãƒœãƒ¼ãƒ‰è¡Œåˆ—ã®æ›´æ–°
 	void BillboardUpdate();
-	//ƒfƒoƒbƒO ArrowƒL[‚Å‹“_À•W•ÏX
+	//ãƒ‡ãƒãƒƒã‚° Arrowã‚­ãƒ¼ã§è¦–ç‚¹åº§æ¨™å¤‰æ›´
 	void DebugUpdate();
-	//ƒvƒŒƒCƒ„[’Ç”ö
-	void UpdatePlayer(XMFLOAT3 playerPos,XMFLOAT3 playerRot);
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼è¿½å°¾
+	void UpdatePlayer(XMFLOAT3 playerPos, XMFLOAT3 playerRot);
 
-	//ƒQƒbƒ^[ƒZƒbƒ^[
+	//ã‚²ãƒƒã‚¿ãƒ¼ã‚»ãƒƒã‚¿ãƒ¼
 	void SetTarget(XMFLOAT3 pos);
 	void SetEye(XMFLOAT3 pos);
 	XMFLOAT3 GetEye() { return eye_; };
@@ -43,32 +43,32 @@ public:
 	XMMATRIX GetMatBillboard() { return matBillboard_; }
 
 private:
-	//“ü—Í
-	//ƒL[ƒ{[ƒh
+	//å…¥åŠ›
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰
 	static Input* input;
-	//ƒRƒ“ƒgƒ[ƒ‰[
+	//ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼
 	static DXInput* dxInput;
-	//Ë‰e•ÏŠ·
+	//å°„å½±å¤‰æ›
 	XMMATRIX matProjection_ = XMMatrixIdentity();
-	//ƒrƒ…[•ÏŠ·s—ñ
+	//ãƒ“ãƒ¥ãƒ¼å¤‰æ›è¡Œåˆ—
 	XMMATRIX matView_ = XMMatrixIdentity();
 	XMFLOAT3 eye_ = { 0, 20, -100 };
 	XMFLOAT3 target_ = { 0, 0, 0 };
 	XMFLOAT3 up_ = { 0, 1, 0 };
-	//ƒrƒ‹ƒ{[ƒhs—ñ
+	//ãƒ“ãƒ«ãƒœãƒ¼ãƒ‰è¡Œåˆ—
 	XMMATRIX matBillboard_ = XMMatrixIdentity();
 
-	//ƒ^[ƒQƒbƒg‚Ü‚Å‚Ì‹——£
+	//ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã¾ã§ã®è·é›¢
 	float DebugTargetDistance = 40.0f;
-	//‰ÁZ—p
+	//åŠ ç®—ç”¨
 	float DebugChangeRot = (float)PI;
 	float DebugChangeRot2 = 0.5f;
 	float DebugChangeDistance = 0.0f;
 
-	//ƒvƒŒƒCƒ„[
-	//ƒ^[ƒQƒbƒg‚Ü‚Å‚Ì‹——£
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
+	//ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã¾ã§ã®è·é›¢
 	float playerTargetDistance = 50.0f;
-	//‰ÁZ—p
+	//åŠ ç®—ç”¨
 	float playerChangeRot = (float)PI;
 	float playerChangeRot2 = 0.5f;
 	float playerChangeDistance = 0.0f;

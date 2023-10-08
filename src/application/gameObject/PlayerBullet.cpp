@@ -13,25 +13,25 @@ void PlayerBullet::Initialize()
 
 void PlayerBullet::Update()
 {
-	//’e‚ğÁ‚·ˆ—
+	//å¼¾ã‚’æ¶ˆã™å‡¦ç†
 	DeleteBullet();
 
-	//ƒVƒ‡ƒbƒgƒtƒ‰ƒO‚ª—§‚Á‚½‚ç’e¶¬
+	//ã‚·ãƒ§ãƒƒãƒˆãƒ•ãƒ©ã‚°ãŒç«‹ã£ãŸã‚‰å¼¾ç”Ÿæˆ
 	if (shotFlag)
 	{
 		CreateBullet();
 	}
 
-	//“®‚­
+	//å‹•ã
 	Move();
 
-	//ƒ^ƒCƒ}[‰ÁZ
+	//ã‚¿ã‚¤ãƒãƒ¼åŠ ç®—
 	for (int i = 0; i < object.size(); i++)
 	{
 		timer[i] += 1.0f;
 	}
 
-	//XV
+	//æ›´æ–°
 	int i = 0;
 	for (std::unique_ptr<FbxObject3D>& objects : object)
 	{
@@ -42,7 +42,7 @@ void PlayerBullet::Update()
 		i++;
 	}
 
-	//ƒVƒ‡ƒbƒgƒtƒ‰ƒO‚ğ‹U‚É
+	//ã‚·ãƒ§ãƒƒãƒˆãƒ•ãƒ©ã‚°ã‚’å½ã«
 	shotFlag = false;
 }
 
@@ -68,7 +68,7 @@ void PlayerBullet::Move()
 	{
 		for (int i = 0; i < object.size(); i++)
 		{
-			//isƒxƒNƒgƒ‹‚ğ‰ÁZ
+			//é€²è¡Œãƒ™ã‚¯ãƒˆãƒ«ã‚’åŠ ç®—
 			position[i] = position[i] + (velocity[i] * posSpeed);
 		}
 	}
@@ -76,15 +76,15 @@ void PlayerBullet::Move()
 
 void PlayerBullet::CreateBullet()
 {
-	//ƒIƒuƒWƒFƒNƒg¶¬
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆ
 	std::unique_ptr<FbxObject3D>newObject = std::make_unique<FbxObject3D>();
 	newObject->Initialize();
 	newObject->SetModel(model);
 
-	//ƒIƒuƒWƒFƒNƒg‚²‚Æ‚É–¼‘O‚ğ‚Â‚¯‚é
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã”ã¨ã«åå‰ã‚’ã¤ã‘ã‚‹
 	std::string objectName = "playerBullet" + std::to_string(number);
 
-	//ƒIƒuƒWƒFƒNƒgƒf[ƒ^ƒZƒbƒg
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆ
 	JSONLoader::ObjectData objectData;
 	objectData.fileName = "playerBullet";
 	objectData.objectName = objectName;
@@ -93,19 +93,19 @@ void PlayerBullet::CreateBullet()
 	objectData.scale = scale.back();
 	newObject->SetObjectData(objectData);
 
-	//ƒRƒ‰ƒCƒ_[ƒf[ƒ^ƒZƒbƒg
+	//ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆ
 	JSONLoader::ColliderData colliderData;
-	colliderData.type = "Sphere";	//”»’è‚ğ‹…‘Ì‚Åæ‚é‚½‚ß
+	colliderData.type = "Sphere";	//åˆ¤å®šã‚’çƒä½“ã§å–ã‚‹ãŸã‚
 	colliderData.objectName = objectName;
 	colliderData.scale = scale.back();
 	colliderData.rotation = rotation.back();
 	colliderData.center = position.back();
 	newObject->SetColliderData(colliderData);
 
-	//ƒRƒ‰ƒCƒ_[ƒ}ƒl[ƒWƒƒ[‚ÉƒZƒbƒg
+	//ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã«ã‚»ãƒƒãƒˆ
 	ColliderManager::SetCollider(colliderData);
 
-	//ƒIƒuƒWƒFƒNƒg‚É‘ã“ü
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ä»£å…¥
 	object.emplace_back(std::move(newObject));
 
 	number++;
@@ -113,10 +113,10 @@ void PlayerBullet::CreateBullet()
 
 void PlayerBullet::DeleteBullet()
 {
-	//íœ
+	//å‰Šé™¤
 	for (int i = 0; i < object.size(); i++)
 	{
-		//ˆê’èŠÔŒo‚Á‚½‚ç
+		//ä¸€å®šæ™‚é–“çµŒã£ãŸã‚‰
 		if (timer[i] == destoryTime)
 		{
 			position.erase(position.begin() + i);
@@ -130,7 +130,7 @@ void PlayerBullet::DeleteBullet()
 			continue;
 		}
 
-		//ƒqƒbƒgƒtƒ‰ƒO‚ª—§‚Á‚½‚ç
+		//ãƒ’ãƒƒãƒˆãƒ•ãƒ©ã‚°ãŒç«‹ã£ãŸã‚‰
 		if (hitFlag[i] == true)
 		{
 			position.erase(position.begin() + i);

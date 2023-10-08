@@ -6,16 +6,16 @@
 
 class ColliderPlaneObject
 {
-private:	//ƒGƒCƒŠƒAƒX
-	//Microsoft::WRL::‚ğÈ—ª
+private:	//ã‚¨ã‚¤ãƒªã‚¢ã‚¹
+	//Microsoft::WRL::ã‚’çœç•¥
 	template<class T>using ComPtr = Microsoft::WRL::ComPtr<T>;
-	//DirectX::‚ğÈ—ª
+	//DirectX::ã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
-public://ƒTƒuƒNƒ‰ƒX
-	//’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì
+public://ã‚µãƒ–ã‚¯ãƒ©ã‚¹
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
 	struct ConstBufferDataTransform
 	{
 		XMMATRIX viewproj;
@@ -23,58 +23,57 @@ public://ƒTƒuƒNƒ‰ƒX
 		XMFLOAT3 cameraPos;
 		XMFLOAT4 color;
 	};
-public:	//Ã“Iƒƒ“ƒoŠÖ”
-	//ƒZƒbƒ^[
+public:	//é™çš„ãƒ¡ãƒ³ãƒé–¢æ•°
+	//ã‚»ãƒƒã‚¿ãƒ¼
 	static void SetDevice(ID3D12Device* device) { ColliderPlaneObject::device = device; }
 	static void SetCamera(Camera* camera) { ColliderPlaneObject::camera = camera; }
 	static void SetInput(Input* input) { ColliderPlaneObject::input = input; }
 	static void SetModel(ColliderPlaneModel* model) { ColliderPlaneObject::model = model; }
 
-private://Ã“Iƒƒ“ƒo•Ï”
+private://é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°
 	static ID3D12Device* device;
 	static Camera* camera;
 	static Input* input;
 	static ColliderPlaneModel* model;
 
-public://ƒƒ“ƒoŠÖ”
-	//‰Šú‰»
+public://ãƒ¡ãƒ³ãƒé–¢æ•°
+	//åˆæœŸåŒ–
 	void Initialize();
-	//XV
+	//æ›´æ–°
 	void Update();
-	//ˆÚ“®
+	//ç§»å‹•
 	void Move();
-	//•`‰æ
+	//æç”»
 	void Draw(ID3D12GraphicsCommandList* cmdList);
-	//ƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“‚Ì¶¬
+	//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã®ç”Ÿæˆ
 	static void CreateGraphicsPipeline();
-	//ƒZƒbƒ^[
+	//ã‚»ãƒƒã‚¿ãƒ¼
 	void SetPosition(XMFLOAT3 pos) { position = pos; }
 	void SetScale(XMFLOAT3 sca) { scale = sca; }
 	void SetRotation(XMFLOAT3 rot) { rotation = rot; }
 	void SetColor(XMFLOAT4 color) { this->color = color; }
-	//ƒQƒbƒ^[
+	//ã‚²ãƒƒã‚¿ãƒ¼
 	XMFLOAT3 GetPosition() { return position; }
 	XMFLOAT3 GetRotation() { return rotation; }
 	XMFLOAT3 GetScale() { return scale; }
 
-private://ƒƒ“ƒo•Ï”
-	//’è”ƒoƒbƒtƒ@
+private://ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource>constBuffTransform;
-	//ƒ‹[ƒgƒVƒOƒlƒ`ƒƒ
+	//ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒãƒãƒ£
 	static ComPtr<ID3D12RootSignature>rootsignature;
-	//ƒpƒCƒvƒ‰ƒCƒ“ƒXƒe[ƒgƒIƒuƒWƒFƒNƒg
+	//ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚¹ãƒ†ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	static ComPtr<ID3D12PipelineState>pipelinestate;
 
 private:
-	//ƒ[ƒJƒ‹ƒXƒP[ƒ‹
+	//ãƒ­ãƒ¼ã‚«ãƒ«ã‚¹ã‚±ãƒ¼ãƒ«
 	XMFLOAT3 scale = { 1,1,1 };
-	//X,Y,Z²‰ñ‚è‚Ìƒ[ƒJƒ‹s—ñ
+	//X,Y,Zè»¸å›ã‚Šã®ãƒ­ãƒ¼ã‚«ãƒ«è¡Œåˆ—
 	XMFLOAT3 rotation = { 0,0,0 };
-	//ƒ[ƒJƒ‹À•W
+	//ãƒ­ãƒ¼ã‚«ãƒ«åº§æ¨™
 	XMFLOAT3 position = { 0,0,0 };
-	//ƒ[ƒJƒ‹ƒ[ƒ‹ƒh•ÏŠ·s—ñ
+	//ãƒ­ãƒ¼ã‚«ãƒ«ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›è¡Œåˆ—
 	XMMATRIX matWorld;
-	//F
+	//è‰²
 	XMFLOAT4 color = { 1,1,1,1 };
 };
-

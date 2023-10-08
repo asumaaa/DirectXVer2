@@ -8,65 +8,65 @@
 
 void JSONLoader::LoadFile(const std::string fileName)
 {
-	//ƒIƒuƒWƒFƒNƒgƒf[ƒ^ƒŠƒZƒbƒg
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ‡ãƒ¼ã‚¿ãƒªã‚»ãƒƒãƒˆ
 	objectData.clear();
 	colliderData.clear();
 	textureData.clear();
 
-	//ƒtƒ@ƒCƒ‹‚ğŠJ‚­
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
 	std::ifstream file;
 	file.open(fileName);
 	assert(!file.fail());
 
-	//json•¶š—ñ
+	//jsonæ–‡å­—åˆ—
 	nlohmann::json jsonFileList;
-	//json•¶š—ñ‚É‘ã“ü
+	//jsonæ–‡å­—åˆ—ã«ä»£å…¥
 	file >> jsonFileList;
 
-	//³‚µ‚¢ƒŒƒxƒ‹ƒf[ƒ^ƒtƒ@ƒCƒ‹‚©ƒ`ƒFƒbƒN
+	//æ­£ã—ã„ãƒ¬ãƒ™ãƒ«ãƒ‡ãƒ¼ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«ã‹ãƒã‚§ãƒƒã‚¯
 	assert(jsonFileList.is_object());
 	assert(jsonFileList.contains("name"));
 	assert(jsonFileList["name"].is_string());
 
-	//"name"‚ğ•¶š—ñ‚Æ‚µ‚Äæ“¾
+	//"name"ã‚’æ–‡å­—åˆ—ã¨ã—ã¦å–å¾—
 	std::string name = jsonFileList["name"].get<std::string>();
 	assert(name.compare("scene") == 0);
 
-	//ƒIƒuƒWƒFƒNƒgƒf[ƒ^Ši”[—pƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ‡ãƒ¼ã‚¿æ ¼ç´ç”¨ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆ
 	ObjectData objectData1;
-	//ƒRƒ‰ƒCƒ_[ƒf[ƒ^Ši”[—pƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬
+	//ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ãƒ‡ãƒ¼ã‚¿æ ¼ç´ç”¨ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆ
 	ColliderData colliderData1;
-	//ƒeƒNƒXƒ`ƒƒƒf[ƒ^Ši”[—pƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ‡ãƒ¼ã‚¿æ ¼ç´ç”¨ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆ
 	TextureData textureData1;
 
-	// "objects"‚Ì‘SƒIƒuƒWƒFƒNƒg‚ğ‘–¸
+	// "objects"ã®å…¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’èµ°æŸ»
 	for (nlohmann::json& object : jsonFileList["objects"]) {
 		assert(object.contains("type"));
 
-		// í•Ê‚ğæ“¾
+		// ç¨®åˆ¥ã‚’å–å¾—
 		std::string type = object["type"].get<std::string>();
 
 		//MESH
 		if (type.compare("MESH") == 0) {
 
 			if (object.contains("name")) {
-				// ƒIƒuƒWƒFƒNƒg–¼
+				// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå
 				objectData1.objectName = object["name"];
 				colliderData1.objectName = object["name"];
 			}
 
 			if (object.contains("file_name")) {
-				// ƒtƒ@ƒCƒ‹–¼
+				// ãƒ•ã‚¡ã‚¤ãƒ«å
 				objectData1.fileName = object["file_name"];
 			}
 
-			// ƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚Ìƒpƒ‰ƒ[ƒ^“Ç‚İ‚İ
+			// ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿
 			nlohmann::json& transform = object["transform"];
-			// •½sˆÚ“®
+			// å¹³è¡Œç§»å‹•
 			objectData1.position.x = (float)transform["translation"][0];
 			objectData1.position.y = (float)transform["translation"][2];
 			objectData1.position.z = (float)transform["translation"][1];
-			// ‰ñ“]Šp
+			// å›è»¢è§’
 			if (object["file_name"].get<std::string>() != "plane")
 			{
 				objectData1.rotation.x = (float)transform["rotation"][0] - 90;
@@ -79,29 +79,29 @@ void JSONLoader::LoadFile(const std::string fileName)
 				objectData1.rotation.y = (float)transform["rotation"][2];
 				objectData1.rotation.z = -(float)transform["rotation"][1];
 			}
-			//ŒÊ“x–@‚É•ÏŠ·
+			//å¼§åº¦æ³•ã«å¤‰æ›
 			objectData1.rotation.x *= 1.0f / 360.0f * (2.0f * PI);
 			objectData1.rotation.y *= 1.0f / 360.0f * (2.0f * PI);
 			objectData1.rotation.z *= 1.0f / 360.0f * (2.0f * PI);
-			// ƒXƒP[ƒŠƒ“ƒO
+			// ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°
 			objectData1.scale.x = (float)transform["scale"][0];
 			objectData1.scale.y = (float)transform["scale"][2];
 			objectData1.scale.z = (float)transform["scale"][1];
 
-			// ƒRƒ‰ƒCƒ_[‚Ìƒpƒ‰ƒ[ƒ^“Ç‚İ‚İ
+			// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿
 			nlohmann::json& collider = object["collider"];
 
-			// ƒRƒ‰ƒCƒ_[‚Ìí—Ş
+			// ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ç¨®é¡
 			colliderData1.type = collider["type"];
-			//ƒRƒ‰ƒCƒ_[‚Ì’†S
+			//ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ä¸­å¿ƒ
 			colliderData1.center.x = (float)collider["center"][0];
 			colliderData1.center.y = (float)collider["center"][2];
 			colliderData1.center.z = (float)collider["center"][1];
-			//ƒRƒ‰ƒCƒ_[‚ÌƒTƒCƒY
+			//ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®ã‚µã‚¤ã‚º
 			colliderData1.scale.x = (float)collider["size"][0];
 			colliderData1.scale.y = (float)collider["size"][2];
 			colliderData1.scale.z = -(float)collider["size"][1];
-			//ƒRƒ‰ƒCƒ_[‚Ì‰ñ“]Šp
+			//ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã®å›è»¢è§’
 			colliderData1.rotation.x = (float)transform["rotation"][0];
 			colliderData1.rotation.y = (float)transform["rotation"][2];
 			colliderData1.rotation.z = -(float)transform["rotation"][1];
@@ -117,12 +117,12 @@ void JSONLoader::LoadFile(const std::string fileName)
 				colliderData1.rotation.y = (float)transform["rotation"][2];
 				colliderData1.rotation.z = -(float)transform["rotation"][1];
 			}*/
-			//ŒÊ“x–@‚É•ÏŠ·
+			//å¼§åº¦æ³•ã«å¤‰æ›
 			colliderData1.rotation.x *= 1.0f / 360.0f * (2.0f * PI);
 			colliderData1.rotation.y *= 1.0f / 360.0f * (2.0f * PI);
 			colliderData1.rotation.z *= 1.0f / 360.0f * (2.0f * PI);
 
-			//ƒeƒNƒXƒ`ƒƒƒf[ƒ^
+			//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ‡ãƒ¼ã‚¿
 			if (object.contains("textureNum1"))
 			{
 				textureData1.textureNum1 = stoi(object["textureNum1"].get<std::string>());
@@ -143,7 +143,7 @@ void JSONLoader::LoadFile(const std::string fileName)
 				textureData1.textureNum4 = stoi(object["textureNum4"].get<std::string>());
 				textureData1.textureVol = 4;
 			}
-			//ƒVƒF[ƒ_–¼
+			//ã‚·ã‚§ãƒ¼ãƒ€å
 			if (object.contains("shaderName"))
 			{
 				textureData1.shaderName = object["shaderName"].get<std::string>();
@@ -153,19 +153,19 @@ void JSONLoader::LoadFile(const std::string fileName)
 				textureData1.shaderName = "null";
 			}
 
-			// TODO: ƒIƒuƒWƒFƒNƒg‘–¸‚ğÄ‹AŠÖ”‚É‚Ü‚Æ‚ßAÄ‹AŒÄo‚Å}‚ğ‘–¸‚·‚é
+			// TODO: ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆèµ°æŸ»ã‚’å†å¸°é–¢æ•°ã«ã¾ã¨ã‚ã€å†å¸°å‘¼å‡ºã§æã‚’èµ°æŸ»ã™ã‚‹
 			/*if (object.contains("children")) {
 
 			}*/
 
-			//ƒIƒuƒWƒFƒNƒgƒf[ƒ^‚É‘ã“ü
+			//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ‡ãƒ¼ã‚¿ã«ä»£å…¥
 			objectData.push_back(objectData1);
-			//ƒRƒ‰ƒCƒ_[ƒf[ƒ^‚É‘ã“ü
+			//ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ãƒ‡ãƒ¼ã‚¿ã«ä»£å…¥
 			colliderData.push_back(colliderData1);
-			//ƒeƒNƒXƒ`ƒƒƒf[ƒ^‚É‘ã“ü
+			//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ‡ãƒ¼ã‚¿ã«ä»£å…¥
 			textureData.push_back(textureData1);
 
-			//ƒIƒuƒWƒFƒNƒg‚Ì”‚ğ‘‚â‚·
+			//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®æ•°ã‚’å¢—ã‚„ã™
 			objectNum++;
 		}
 	}

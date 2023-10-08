@@ -21,14 +21,14 @@ Camera::~Camera()
 
 void Camera::Initialize()
 {
-	//ŽË‰e•ÏŠ·
+	//å°„å½±å¤‰æ›
 	matProjection_ = XMMatrixPerspectiveFovLH(
-		XMConvertToRadians(45.0f),			//ã‰º‰æŠp45“x
-		(float)window_width / window_height,//ƒAƒXƒyƒNƒg”ä(‰æ–Ê‰¡•/‰æ–Ê—§•)
-		0.1f, 1000.0f						//‘O’[A‰œ’[
+		XMConvertToRadians(45.0f),			//ä¸Šä¸‹ç”»è§’45åº¦
+		(float)window_width / window_height,//ã‚¢ã‚¹ãƒšã‚¯ãƒˆæ¯”(ç”»é¢æ¨ªå¹…/ç”»é¢ç«‹å¹…)
+		0.1f, 1000.0f						//å‰ç«¯ã€å¥¥ç«¯
 	);
 
-	//s—ñŒvŽZ
+	//è¡Œåˆ—è¨ˆç®—
 	matView_ = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));
 }
 
@@ -44,38 +44,38 @@ void Camera::BillboardUpdate()
 	XMFLOAT3 eye = eye_;
 	XMFLOAT3 target = target_;
 	XMFLOAT3 up = up_;
-	//Ž‹“_À•W
+	//è¦–ç‚¹åº§æ¨™
 	XMVECTOR eyePosition = XMLoadFloat3(&eye);
-	//’Ž‹“_À•W
+	//æ³¨è¦–ç‚¹åº§æ¨™
 	XMVECTOR targetPosition = XMLoadFloat3(&target);
-	//(‰¼‚Ì)ã•ûŒü
+	//(ä»®ã®)ä¸Šæ–¹å‘
 	XMVECTOR upVector = XMLoadFloat3(&up);
 
-	//ƒJƒƒ‰ZŽ²
+	//ã‚«ãƒ¡ãƒ©Zè»¸
 	XMVECTOR cameraAxisZ = XMVectorSubtract(targetPosition, eyePosition);
-	//0ƒxƒNƒgƒ‹‚¾‚ÆŒü‚«‚ª’è‚Ü‚ç‚È‚¢‚Ì‚ÅœŠO
+	//0ãƒ™ã‚¯ãƒˆãƒ«ã ã¨å‘ããŒå®šã¾ã‚‰ãªã„ã®ã§é™¤å¤–
 	assert(!XMVector3Equal(cameraAxisZ, XMVectorZero()));
 	assert(!XMVector3IsInfinite(cameraAxisZ));
 	assert(!XMVector3Equal(upVector, XMVectorZero()));
 	assert(!XMVector3IsInfinite(upVector));
-	//ƒxƒNƒgƒ‹‚ð³‹K‰»
+	//ãƒ™ã‚¯ãƒˆãƒ«ã‚’æ­£è¦åŒ–
 	cameraAxisZ = XMVector3Normalize(cameraAxisZ);
 
-	//ƒJƒƒ‰‚ÌXŽ²(‰E•ûŒü)
+	//ã‚«ãƒ¡ãƒ©ã®Xè»¸(å³æ–¹å‘)
 	XMVECTOR cameraAxisX;
-	//XŽ²‚Íã•ûŒü¨ZŽ²‚ÌŠOÏ‚ÅŒˆ‚Ü‚é
+	//Xè»¸ã¯ä¸Šæ–¹å‘â†’Zè»¸ã®å¤–ç©ã§æ±ºã¾ã‚‹
 	cameraAxisX = XMVector3Cross(upVector, cameraAxisZ);
-	//ƒxƒNƒgƒ‹‚ð³‹K‰»
+	//ãƒ™ã‚¯ãƒˆãƒ«ã‚’æ­£è¦åŒ–
 	cameraAxisX = XMVector3Normalize(cameraAxisX);
 
-	//ƒJƒƒ‰‚ÌYŽ²
+	//ã‚«ãƒ¡ãƒ©ã®Yè»¸
 	XMVECTOR cameraAxisY;
-	//YŽ²‚ÍZŽ²¨XŽ²‚ÌŠOÏ‚Å‹‚Ü‚é
+	//Yè»¸ã¯Zè»¸â†’Xè»¸ã®å¤–ç©ã§æ±‚ã¾ã‚‹
 	cameraAxisY = XMVector3Cross(cameraAxisZ, cameraAxisX);
 	/*cameraAxisY = XMVector3Normalize(cameraAxisY);*/
 
-	//‘S•ûŒüƒrƒ‹ƒ{[ƒhs—ñ‚ÌŒvŽZ
-	//ƒrƒ‹ƒ{[ƒhs—ñ
+	//å…¨æ–¹å‘ãƒ“ãƒ«ãƒœãƒ¼ãƒ‰è¡Œåˆ—ã®è¨ˆç®—
+	//ãƒ“ãƒ«ãƒœãƒ¼ãƒ‰è¡Œåˆ—
 	matBillboard_.r[0] = cameraAxisX;
 	matBillboard_.r[1] = cameraAxisY;
 	matBillboard_.r[2] = cameraAxisZ;
@@ -84,10 +84,10 @@ void Camera::BillboardUpdate()
 
 void Camera::DebugUpdate()
 {
-	//1ƒtƒŒ[ƒ€‚ ‚½‚è‚ÌˆÚ“®—Ê
+	//1ãƒ•ãƒ¬ãƒ¼ãƒ ã‚ãŸã‚Šã®ç§»å‹•é‡
 	float rot = (float)PI / 120.0f;
 
-	//Ž‹“_À•W‚ð•ÏX
+	//è¦–ç‚¹åº§æ¨™ã‚’å¤‰æ›´
 	if (input->PushKey(DIK_LEFT))
 	{
 		DebugChangeRot -= (float)rot;
@@ -105,7 +105,7 @@ void Camera::DebugUpdate()
 		DebugChangeRot2 += (float)rot;
 	}
 
-	//ƒ^[ƒQƒbƒg‚Ü‚Å‚Ì‹——£‚ð•ÏX
+	//ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã¾ã§ã®è·é›¢ã‚’å¤‰æ›´
 	if (input->PushKey(DIK_O))
 	{
 		DebugTargetDistance -= 0.2f;
@@ -115,7 +115,7 @@ void Camera::DebugUpdate()
 		DebugTargetDistance += 0.2f;
 	}
 
-	//Ž‹“_À•W‚É‘ã“ü
+	//è¦–ç‚¹åº§æ¨™ã«ä»£å…¥
 	eye_.x = sin(DebugChangeRot) * DebugTargetDistance + target_.x;
 	eye_.y = sin(DebugChangeRot2) * DebugTargetDistance + target_.y;
 	eye_.z = cos(DebugChangeRot) * DebugTargetDistance + target_.z;
@@ -133,10 +133,10 @@ void Camera::UpdatePlayer(XMFLOAT3 playerPos, XMFLOAT3 playerRot)
 	eye_.y = playerPos.y + (cos(-playerRot.x + (PI * 15 / 40)) * playerTargetDistance);
 	eye_.z = playerPos.z + (sin(-playerRot.y - (PI / 2)) * playerTargetDistance);*/
 
-	//1ƒtƒŒ[ƒ€‚ ‚½‚è‚ÌˆÚ“®—Ê
+	//1ãƒ•ãƒ¬ãƒ¼ãƒ ã‚ãŸã‚Šã®ç§»å‹•é‡
 	float rot = (float)PI / 120.0f;
 
-	//Ž‹“_À•W‚ð•ÏX
+	//è¦–ç‚¹åº§æ¨™ã‚’å¤‰æ›´
 	if (dxInput->GetStick(DXInput::RStickX) <= -0.1)
 	{
 		DebugChangeRot -= (float)rot;

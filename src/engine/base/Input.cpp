@@ -12,8 +12,8 @@ void Input::Initialize(WinApp* winApp)
 	HRESULT result;
 	winApp_ = winApp;
 
-	//ƒL[ƒ{[ƒh‚ÌÝ’è
-	//DirectInput‚Ì‰Šú‰»
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã®è¨­å®š
+	//DirectInputã®åˆæœŸåŒ–
 	result = DirectInput8Create(
 		winApp->w.hInstance,
 		DIRECTINPUT_VERSION,
@@ -23,15 +23,15 @@ void Input::Initialize(WinApp* winApp)
 	);
 	assert(SUCCEEDED(result));
 
-	//ƒL[ƒ{[ƒhƒfƒoƒCƒX‚Ì¶¬
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ãƒ‡ãƒã‚¤ã‚¹ã®ç”Ÿæˆ
 	result = directInput->CreateDevice(GUID_SysKeyboard, &keyboard, NULL);
 	assert(SUCCEEDED(result));
 
-	//“ü—Íƒf[ƒ^Œ`Ž®‚ÌƒZƒbƒg
-	result = keyboard->SetDataFormat(&c_dfDIKeyboard);	//•W€Œ`Ž®
+	//å…¥åŠ›ãƒ‡ãƒ¼ã‚¿å½¢å¼ã®ã‚»ãƒƒãƒˆ
+	result = keyboard->SetDataFormat(&c_dfDIKeyboard);	//æ¨™æº–å½¢å¼
 	assert(SUCCEEDED(result));
 
-	//”r‘¼§ŒäƒŒƒxƒ‹‚ÌƒZƒbƒg
+	//æŽ’ä»–åˆ¶å¾¡ãƒ¬ãƒ™ãƒ«ã®ã‚»ãƒƒãƒˆ
 	result = keyboard->SetCooperativeLevel(
 		winApp->hwnd,
 		DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY
@@ -41,11 +41,11 @@ void Input::Initialize(WinApp* winApp)
 
 void Input::Update()
 {
-	//ƒL[ƒ{[ƒhî•ñ‚ÌŽæ“¾ŠJŽn
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰æƒ…å ±ã®å–å¾—é–‹å§‹
 	keyboard->Acquire();
-	// ‘O‚ÌƒL[‚ð•Û‘¶
+	// å‰ã®ã‚­ãƒ¼ã‚’ä¿å­˜
 	memcpy(keyPre, key, sizeof(key));
-	//‘SƒL[‚Ì“ü—Íó‘Ô‚ðŽæ“¾‚·‚é
+	//å…¨ã‚­ãƒ¼ã®å…¥åŠ›çŠ¶æ…‹ã‚’å–å¾—ã™ã‚‹
 	keyboard->GetDeviceState(sizeof(key), key);
 }
 
