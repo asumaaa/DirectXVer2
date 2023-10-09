@@ -319,6 +319,7 @@ void GameScene::Update()
 	lightGroup->Update();
 
 	//天球
+	skySphereObject->HomingUpdate(player->GetPosition());
 	skySphereObject->Update();
 
 	//プレイヤー

@@ -33,8 +33,8 @@
 
 enum Mode
 {
+	Title,
 	Game,
-	PlayerDebug,
 };
 
 class GameScene
