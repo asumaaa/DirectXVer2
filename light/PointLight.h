@@ -7,17 +7,17 @@
 
 class PointLight
 {
-private: // ƒGƒCƒŠƒAƒX 
-// Microsoft::WRL‚ğÈ—ª
+private: // ã‚¨ã‚¤ãƒªã‚¢ã‚¹ 
+	// Microsoft::WRLã‚’çœç•¥
 	template<class T>using ComPtr = Microsoft::WRL::ComPtr<T>;
-	// DirectX::‚ğÈ—ª
+	// DirectX::ã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMVECTOR = DirectX::XMVECTOR;
 	using XMMATRIX = DirectX::XMMATRIX;
-public:	//ƒTƒuƒNƒ‰ƒX
-	//’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì
+public:	//ã‚µãƒ–ã‚¯ãƒ©ã‚¹
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
 	struct ConstBufferData
 	{
 		XMFLOAT3 lightpos;
@@ -27,24 +27,23 @@ public:	//ƒTƒuƒNƒ‰ƒX
 		XMFLOAT3 lightatten;
 		unsigned int active;
 	};
-public: //ƒƒ“ƒoŠÖ”
+public: //ãƒ¡ãƒ³ãƒé–¢æ•°
 	inline void SetLightPos(const XMFLOAT3& lightpos) { this->lightpos = lightpos; }
-	inline const XMFLOAT3& GetLightPos() { return lightpos; } 
+	inline const XMFLOAT3& GetLightPos() { return lightpos; }
 	inline void SetLightColor(const XMFLOAT3& lightcolor) { this->lightcolor = lightcolor; }
-	inline const XMFLOAT3& GetLightColor() { return lightcolor; } 
+	inline const XMFLOAT3& GetLightColor() { return lightcolor; }
 	inline void SetLightAtten(const XMFLOAT3& lightAtten) { this->lightAtten = lightAtten; }
-	inline const XMFLOAT3& GetLightAtten() { return lightAtten; } 
-	inline void SetActive(bool active) { this->active = active; } 
+	inline const XMFLOAT3& GetLightAtten() { return lightAtten; }
+	inline void SetActive(bool active) { this->active = active; }
 	inline bool IsActive() { return active; }
-private: // ƒƒ“ƒo•Ï”
-	//ƒ‰ƒCƒgÀ•W(ƒ[ƒ‹ƒhÀ•WŒn) 
-	XMFLOAT3 lightpos = { 0,0,0 }; 
-	// ƒ‰ƒCƒgF
-	XMFLOAT3 lightcolor = { 1,1,1 }; 
-	//ƒ‰ƒCƒg‹——£Œ¸ŠŒW”
-	XMFLOAT3 lightAtten = { 1.0f, 1.0f, 1.0f }; 
-	// —LŒøƒtƒ‰ƒO
+private: // ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//ãƒ©ã‚¤ãƒˆåº§æ¨™(ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ç³») 
+	XMFLOAT3 lightpos = { 0,0,0 };
+	// ãƒ©ã‚¤ãƒˆè‰²
+	XMFLOAT3 lightcolor = { 1,1,1 };
+	//ãƒ©ã‚¤ãƒˆè·é›¢æ¸›è¡°ä¿‚æ•°
+	XMFLOAT3 lightAtten = { 1.0f, 1.0f, 1.0f };
+	// æœ‰åŠ¹ãƒ•ãƒ©ã‚°
 	bool active = false;
 
 };
-

@@ -3,10 +3,10 @@
 
 class Collision
 {
-private:	//ƒGƒCƒŠƒAƒX
-	//Microsoft::WRL::‚ğÈ—ª
+private:	//ã‚¨ã‚¤ãƒªã‚¢ã‚¹
+	//Microsoft::WRL::ã‚’çœç•¥
 	/*template<class T>using ComPtr = Microsoft::WRL::ComPtr<T>;*/
-	//DirectX::‚ğÈ—ª
+	//DirectX::ã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
@@ -15,8 +15,7 @@ private:	//ƒGƒCƒŠƒAƒX
 
 public:
 
-	//‹…‚Æ•½–Ê“–‚½‚è”»’è
+	//çƒã¨å¹³é¢å½“ãŸã‚Šåˆ¤å®š
 	static bool CheckSphere2Plane(const CollisionPrimitive::Sphere& sphere,
 		const CollisionPrimitive::Plane& plane, XMVECTOR* inter = nullptr);
 };
-

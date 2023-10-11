@@ -6,23 +6,23 @@ void ColliderSphereModel::CreateBuffers(ID3D12Device* device)
 {
 	HRESULT result;
 
-	//’¸“_AƒCƒ“ƒfƒbƒNƒXƒTƒCƒYİ’è
-	vertices.resize(divNum*divNum);
+	//é ‚ç‚¹ã€ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚µã‚¤ã‚ºè¨­å®š
+	vertices.resize(divNum * divNum);
 	indices.resize(divNum * divNum * 4 - divNum * 2);
 
-	//’¸“_ƒf[ƒ^¶¬
+	//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ç”Ÿæˆ
 	CreateVertex();
 
-	//’¸“_ƒf[ƒ^‘S‘Ì‚ÌƒTƒCƒY
+	//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿å…¨ä½“ã®ã‚µã‚¤ã‚º
 	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUv)) * vertices.size();
 
-	//’¸“_ƒoƒbƒtƒ@‚Ìİ’è
-	D3D12_HEAP_PROPERTIES heapProp{};	//ƒq[ƒvİ’è
-	heapProp.Type = D3D12_HEAP_TYPE_UPLOAD;	//CPU‚Ö‚Ì“]‘——p
-	//ƒŠƒ\[ƒXİ’è
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®è¨­å®š
+	D3D12_HEAP_PROPERTIES heapProp{};	//ãƒ’ãƒ¼ãƒ—è¨­å®š
+	heapProp.Type = D3D12_HEAP_TYPE_UPLOAD;	//CPUã¸ã®è»¢é€ç”¨
+	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 	D3D12_RESOURCE_DESC resDesc{};
 	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	resDesc.Width = sizeVB;	//’¸“_ƒf[ƒ^‘S‘Ì‚ÌƒTƒCƒY
+	resDesc.Width = sizeVB;	//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿å…¨ä½“ã®ã‚µã‚¤ã‚º
 	resDesc.Height = 1;
 	resDesc.DepthOrArraySize = 1;
 	resDesc.MipLevels = 1;
@@ -30,78 +30,78 @@ void ColliderSphereModel::CreateBuffers(ID3D12Device* device)
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 	result = device->CreateCommittedResource(
-		&heapProp,	//ƒq[ƒvİ’è
+		&heapProp,	//ãƒ’ãƒ¼ãƒ—è¨­å®š
 		D3D12_HEAP_FLAG_NONE,
-		&resDesc,	//ƒŠƒ\[ƒXİ’è
+		&resDesc,	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&vertBuff)
 	);
 	assert(SUCCEEDED(result));
 
-	//’¸“_ƒoƒbƒtƒ@‚Ö‚Ìƒf[ƒ^“]‘—
-	//GPUã‚Ìƒoƒbƒtƒ@‚É‘Î‰‚µ‚½‰¼‘zƒƒ‚ƒŠiƒƒCƒ“ƒƒ‚ƒŠãj‚ğæ“¾
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã¸ã®ãƒ‡ãƒ¼ã‚¿è»¢é€
+	//GPUä¸Šã®ãƒãƒƒãƒ•ã‚¡ã«å¯¾å¿œã—ãŸä»®æƒ³ãƒ¡ãƒ¢ãƒªï¼ˆãƒ¡ã‚¤ãƒ³ãƒ¡ãƒ¢ãƒªä¸Šï¼‰ã‚’å–å¾—
 	VertexPosNormalUv* vertMap = nullptr;
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
-	//‘S’¸“_‚É‘Î‚µ‚Ä
+	//å…¨é ‚ç‚¹ã«å¯¾ã—ã¦
 	for (int i = 0; i < vertices.size(); i++)
 	{
-		vertMap[i] = vertices[i];	//À•W‚ğƒRƒs[
+		vertMap[i] = vertices[i];	//åº§æ¨™ã‚’ã‚³ãƒ”ãƒ¼
 	}
-	//‚Â‚È‚ª‚è‚ğ‰ğœ
+	//ã¤ãªãŒã‚Šã‚’è§£é™¤
 	vertBuff->Unmap(0, nullptr);
 
-	//’¸“_ƒoƒbƒtƒ@ƒrƒ…[‚Ìì¬
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼ã®ä½œæˆ
 	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
 	vbView.SizeInBytes = sizeVB;
 	vbView.StrideInBytes = sizeof(vertices[0]);
 
-	//’¸“_ƒCƒ“ƒfƒbƒNƒX‘S‘Ì‚ÌƒTƒCƒY
+	//é ‚ç‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹å…¨ä½“ã®ã‚µã‚¤ã‚º
 	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * indices.size());
 
-	//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@İ’è
-	heapProp.Type = D3D12_HEAP_TYPE_UPLOAD;	//CPU‚Ö‚Ì“]‘——p
-	//ƒŠƒ\[ƒXİ’è
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡è¨­å®š
+	heapProp.Type = D3D12_HEAP_TYPE_UPLOAD;	//CPUã¸ã®è»¢é€ç”¨
+	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	resDesc.Width = sizeIB;	//ƒCƒ“ƒfƒbƒNƒXî•ñ‚ª“ü‚é•ª‚ÌƒTƒCƒY
+	resDesc.Width = sizeIB;	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹æƒ…å ±ãŒå…¥ã‚‹åˆ†ã®ã‚µã‚¤ã‚º
 	resDesc.Height = 1;
 	resDesc.DepthOrArraySize = 1;
 	resDesc.MipLevels = 1;
 	resDesc.SampleDesc.Count = 1;
 	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-	//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@¶¬
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 	result = device->CreateCommittedResource(
-		&heapProp,	//ƒq[ƒvİ’è
+		&heapProp,	//ãƒ’ãƒ¼ãƒ—è¨­å®š
 		D3D12_HEAP_FLAG_NONE,
-		&resDesc,	//ƒŠƒ\[ƒXİ’è
+		&resDesc,	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&indexBuff)
 	);
 
-	//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚ğƒ}ƒbƒsƒ“ƒO
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã‚’ãƒãƒƒãƒ”ãƒ³ã‚°
 	uint16_t* indexMap = nullptr;
 	result = indexBuff->Map(0, nullptr, (void**)&indexMap);
-	//‘SƒCƒ“ƒfƒbƒNƒX‚É‘Î‚µ‚Ä
+	//å…¨ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã«å¯¾ã—ã¦
 	for (int i = 0; i < indices.size(); i++)
 	{
-		indexMap[i] = indices[i];	//ƒCƒ“ƒfƒbƒNƒX‚ğƒRƒs[
+		indexMap[i] = indices[i];	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ã‚³ãƒ”ãƒ¼
 	}
-	//ƒ}ƒbƒsƒ“ƒO‰ğœ
+	//ãƒãƒƒãƒ”ãƒ³ã‚°è§£é™¤
 	indexBuff->Unmap(0, nullptr);
 
-	//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@ƒrƒ…[‚Ìì¬
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼ã®ä½œæˆ
 	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
 	ibView.Format = DXGI_FORMAT_R16_UINT;
 	ibView.SizeInBytes = sizeIB;
 
 
-	//ƒeƒNƒXƒ`ƒƒİ’è
-	UINT incrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);	//ƒfƒXƒNƒŠƒvƒ^‚ÌƒTƒCƒY
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£è¨­å®š
+	UINT incrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);	//ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ã®ã‚µã‚¤ã‚º
 	imageData = new XMFLOAT4[imageDataCount];
-	//‘SƒsƒNƒZƒ‹‚ğ‰Šú‰»
+	//å…¨ãƒ”ã‚¯ã‚»ãƒ«ã‚’åˆæœŸåŒ–
 	for (size_t i = 0; i < imageDataCount; i++)
 	{
 		imageData[i].x = 1.0f;
@@ -110,23 +110,23 @@ void ColliderSphereModel::CreateBuffers(ID3D12Device* device)
 		imageData[i].w = 1.0f;
 	}
 
-	//ƒeƒNƒXƒ`ƒƒƒoƒbƒtƒ@İ’è
-	//ƒq[ƒvİ’è
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ•ã‚¡è¨­å®š
+	//ãƒ’ãƒ¼ãƒ—è¨­å®š
 	D3D12_HEAP_PROPERTIES textureHeapProp{};
 	textureHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
 	textureHeapProp.CPUPageProperty =
 		D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
 	textureHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
-	//ƒŠƒ\[ƒXİ’è
+	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 	D3D12_RESOURCE_DESC textureResourceDesc{};
 	textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
 	textureResourceDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	textureResourceDesc.Width = textureWidth;	//•
-	textureResourceDesc.Height = textureHeight;	//‚‚³
+	textureResourceDesc.Width = textureWidth;	//å¹…
+	textureResourceDesc.Height = textureHeight;	//é«˜ã•
 	textureResourceDesc.DepthOrArraySize = 1;
 	textureResourceDesc.MipLevels = 1;
 	textureResourceDesc.SampleDesc.Count = 1;
-	//ƒeƒNƒXƒ`ƒƒƒoƒbƒtƒ@‚Ì¶¬
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 	result = device->CreateCommittedResource(
 		&textureHeapProp,
 		D3D12_HEAP_FLAG_NONE,
@@ -135,7 +135,7 @@ void ColliderSphereModel::CreateBuffers(ID3D12Device* device)
 		nullptr,
 		IID_PPV_ARGS(&texBuff)
 	);
-	//ƒeƒNƒXƒ`ƒƒƒoƒbƒtƒ@‚Éƒf[ƒ^“]‘—
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ•ã‚¡ã«ãƒ‡ãƒ¼ã‚¿è»¢é€
 	result = texBuff->WriteToSubresource(
 		0,
 		nullptr,
@@ -144,40 +144,40 @@ void ColliderSphereModel::CreateBuffers(ID3D12Device* device)
 		sizeof(XMFLOAT4) * imageDataCount
 	);
 
-	//ƒfƒXƒNƒŠƒvƒ^ƒq[ƒv¶¬
-	//SRV‚ÌÅ‘åŒÂ”
+	//ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ç”Ÿæˆ
+	//SRVã®æœ€å¤§å€‹æ•°
 	const size_t kMaxSRVCount = 2056;
 
-	//ƒfƒXƒNƒŠƒvƒ^ƒq[ƒv‚Ìİ’è
+	//ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ã®è¨­å®š
 	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc{};
 	srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-	srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;//ƒVƒF[ƒ_[‚©‚çŒ©‚¦‚é‚æ‚¤‚É
+	srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;//ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã‹ã‚‰è¦‹ãˆã‚‹ã‚ˆã†ã«
 	srvHeapDesc.NumDescriptors = kMaxSRVCount;
 
-	//İ’è‚ğ‚à‚Æ‚ÉSRV—pƒfƒXƒNƒŠƒvƒ^ƒq[ƒv‚ğ¶¬
+	//è¨­å®šã‚’ã‚‚ã¨ã«SRVç”¨ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ã‚’ç”Ÿæˆ
 	result = device->CreateDescriptorHeap(
 		&srvHeapDesc,
 		IID_PPV_ARGS(&srvHeap)
 	);
 	assert(SUCCEEDED(result));
 
-	//SRVƒq[ƒv‚Ìæ“ªƒnƒ“ƒhƒ‹‚ğæ“¾
+	//SRVãƒ’ãƒ¼ãƒ—ã®å…ˆé ­ãƒãƒ³ãƒ‰ãƒ«ã‚’å–å¾—
 	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
-	//‚±‚±‚Ü‚Å
+	//ã“ã“ã¾ã§
 
-	//ƒeƒNƒXƒ`ƒƒ[‚Ì”Ô†‚ª0ˆÈ~‚Ìê‡ƒnƒ“ƒhƒ‹‚ği‚ß‚é
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ¼ã®ç•ªå·ãŒ0ä»¥é™ã®å ´åˆãƒãƒ³ãƒ‰ãƒ«ã‚’é€²ã‚ã‚‹
 	/*if (texNum > 0)
 	{
 		srvHandle.ptr += (incrementSize * texNum);
 	}*/
-	//ƒVƒF[ƒ_ƒŠƒ\[ƒXƒrƒ…[İ’è
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};	//İ’è\‘¢‘Ì
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒªã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼è¨­å®š
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};	//è¨­å®šæ§‹é€ ä½“
 	srvDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	srvDesc.Shader4ComponentMapping =
 		D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2DƒeƒNƒXƒ`ƒƒ
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dãƒ†ã‚¯ã‚¹ãƒãƒ£
 	srvDesc.Texture2D.MipLevels = 1;
-	//ƒnƒ“ƒhƒ‹‚Ìw‚·ˆÊ’u‚ÉƒVƒF[ƒ_ƒŠƒ\[ƒXƒrƒ…[ì¬
+	//ãƒãƒ³ãƒ‰ãƒ«ã®æŒ‡ã™ä½ç½®ã«ã‚·ã‚§ãƒ¼ãƒ€ãƒªã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼ä½œæˆ
 	device->CreateShaderResourceView(
 		texBuff.Get(),
 		&srvDesc,
@@ -190,23 +190,23 @@ void ColliderSphereModel::CreateVertex()
 	indices.clear();
 	vertices.clear();
 
-	//‹…‘Ì‚Ì”¼Œa
+	//çƒä½“ã®åŠå¾„
 	float r = 0.5f;
-	//’¸“_ƒf[ƒ^”z—ñ
+	//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿é…åˆ—
 	vector<VertexPosNormalUv>v;
-	//’¸“_ƒCƒ“ƒfƒbƒNƒX”z—ñ
+	//é ‚ç‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹é…åˆ—
 	vector<unsigned short>in;
-	//‰¡1•ª‚ÌŠp“x
+	//æ¨ª1åˆ†ã®è§’åº¦
 	float verticalAngle = (float)PI / divNum * 2;
-	//c1•ª‚ÌŠp“x
+	//ç¸¦1åˆ†ã®è§’åº¦
 	float horizonAngle = (float)PI / divNum;
-	//Œ»İ‚Ì‰¡‚ÌˆÊ’u
+	//ç¾åœ¨ã®æ¨ªã®ä½ç½®
 	float verticalDiv = 0;
-	//Œ»İ‚Ìc‚ÌˆÊ’u
+	//ç¾åœ¨ã®ç¸¦ã®ä½ç½®
 	float horizonDiv = 0;
 
 
-	//‹…‘Ì‚Ì’¸“_ƒf[ƒ^‚ğ‘ã“ü
+	//çƒä½“ã®é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã‚’ä»£å…¥
 	for (int i = 0; i < divNum * divNum; i++)
 	{
 		if (i <= divNum)
@@ -230,7 +230,7 @@ void ColliderSphereModel::CreateVertex()
 		v.push_back(v2);
 	}
 
-	//‹…‘Ì‚ÌƒCƒ“ƒfƒbƒNƒXƒf[ƒ^‚ğ‘ã“ü
+	//çƒä½“ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ‡ãƒ¼ã‚¿ã‚’ä»£å…¥
 	for (int i = 0; i < divNum * divNum; i++)
 	{
 		if (i % divNum == divNum - 1 || i == divNum - 1)
@@ -250,7 +250,7 @@ void ColliderSphereModel::CreateVertex()
 		in.push_back(i + divNum);
 	}
 
-	//’¸“_À•WAuvÀ•WAƒCƒ“ƒfƒbƒNƒXƒf[ƒ^‚ğ‘ã“ü
+	//é ‚ç‚¹åº§æ¨™ã€uvåº§æ¨™ã€ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ‡ãƒ¼ã‚¿ã‚’ä»£å…¥
 	for (int i = 0; i < divNum * divNum; i++)
 	{
 		vertices.push_back(v[i]);
@@ -272,7 +272,7 @@ void ColliderSphereModel::SetImageData(XMFLOAT4 color)
 		imageData[i].z = color.z;
 		imageData[i].w = color.w;
 	}
-	//ƒeƒNƒXƒ`ƒƒƒoƒbƒtƒ@‚Éƒf[ƒ^“]‘—
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ•ã‚¡ã«ãƒ‡ãƒ¼ã‚¿è»¢é€
 	result = texBuff->WriteToSubresource(
 		0,
 		nullptr,
@@ -284,39 +284,39 @@ void ColliderSphereModel::SetImageData(XMFLOAT4 color)
 
 void ColliderSphereModel::Update()
 {
-	//-----‚±‚Ìã‚É’¸“_‚ÌXVˆ—‚ğ‘‚­-----
+	//-----ã“ã®ä¸Šã«é ‚ç‚¹ã®æ›´æ–°å‡¦ç†ã‚’æ›¸ã-----
 
 	HRESULT result;
-	//’¸“_ƒf[ƒ^‘S‘Ì‚ÌƒTƒCƒY
+	//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿å…¨ä½“ã®ã‚µã‚¤ã‚º
 	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUv)) * vertices.size();
 
-	//’¸“_ƒoƒbƒtƒ@‚Ö‚Ìƒf[ƒ^“]‘—
-	//GPUã‚Ìƒoƒbƒtƒ@‚É‘Î‰‚µ‚½‰¼‘zƒƒ‚ƒŠiƒƒCƒ“ƒƒ‚ƒŠãj‚ğæ“¾
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã¸ã®ãƒ‡ãƒ¼ã‚¿è»¢é€
+	//GPUä¸Šã®ãƒãƒƒãƒ•ã‚¡ã«å¯¾å¿œã—ãŸä»®æƒ³ãƒ¡ãƒ¢ãƒªï¼ˆãƒ¡ã‚¤ãƒ³ãƒ¡ãƒ¢ãƒªä¸Šï¼‰ã‚’å–å¾—
 	VertexPosNormalUv* vertMap = nullptr;
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
-	//‘S’¸“_‚É‘Î‚µ‚Ä
+	//å…¨é ‚ç‚¹ã«å¯¾ã—ã¦
 	for (int i = 0; i < vertices.size(); i++)
 	{
-		vertMap[i] = vertices[i];	//À•W‚ğƒRƒs[
+		vertMap[i] = vertices[i];	//åº§æ¨™ã‚’ã‚³ãƒ”ãƒ¼
 	}
-	//‚Â‚È‚ª‚è‚ğ‰ğœ
+	//ã¤ãªãŒã‚Šã‚’è§£é™¤
 	vertBuff->Unmap(0, nullptr);
 }
 
 void ColliderSphereModel::Draw(ID3D12GraphicsCommandList* cmdList)
 {
-	//’¸“_ƒoƒbƒtƒ@‚ğƒZƒbƒg
+	//é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã‚’ã‚»ãƒƒãƒˆ
 	cmdList->IASetVertexBuffers(0, 1, &vbView);
-	//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚ğƒZƒbƒg
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã‚’ã‚»ãƒƒãƒˆ
 	cmdList->IASetIndexBuffer(&ibView);
 
-	//ƒfƒXƒNƒŠƒvƒ^ƒq[ƒv‚ÌƒZƒbƒg
+	//ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ã®ã‚»ãƒƒãƒˆ
 	ID3D12DescriptorHeap* ppHeaps[] = { srvHeap.Get() };
 	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
-	//ƒVƒF[ƒ_ƒŠƒ\[ƒXƒrƒ…[‚ğƒZƒbƒg
+	//ã‚·ã‚§ãƒ¼ãƒ€ãƒªã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼ã‚’ã‚»ãƒƒãƒˆ
 	cmdList->SetGraphicsRootDescriptorTable(1, srvHeap->GetGPUDescriptorHandleForHeapStart());
 
-	//•`‰æƒRƒ}ƒ“ƒh
+	//æç”»ã‚³ãƒãƒ³ãƒ‰
 	cmdList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
 }

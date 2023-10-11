@@ -2,25 +2,25 @@
 #include "Windows.h"
 #include "cstdint"
 
-static const int window_width = 1280;	//‰¡•
-static const int window_height = 720;	//—§•
+static const int window_width = 1280;	//æ¨ªå¹…
+static const int window_height = 720;	//ç«‹å¹…
 
 class WinApp
 {
 public:
-	//ƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ—ãƒ­ã‚·ãƒ¼ã‚¸ãƒ£
 	static LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 
 public:
 	static WinApp* GetInstance();
-	//ƒEƒBƒ“ƒhƒE¶¬
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ç”Ÿæˆ
 	void CreateWindow_(const wchar_t* title);
-	//ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚ð“o˜^‰ðœ
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ã‚’ç™»éŒ²è§£é™¤
 	void deleteWindow();
-	//ƒQƒbƒ^[
+	//ã‚²ãƒƒã‚¿ãƒ¼
 	HWND GetHwnd() { return hwnd; };
 public:
-	//ƒƒ“ƒo•Ï”
+	//ãƒ¡ãƒ³ãƒå¤‰æ•°
 	WNDCLASSEX w{};
 	HWND hwnd;
 };

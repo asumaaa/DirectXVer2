@@ -10,14 +10,14 @@ using namespace DirectX;
 class Light
 {
 public:
-	//ƒVƒ“ƒOƒ‹ƒgƒ“ƒCƒ“ƒXƒ^ƒ“ƒX
+	//ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 	static Light* GetInstance();
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	void Initialize();
-	//XV
+	//æ›´æ–°
 	void Update();
-	//ƒQƒbƒ^[ƒZƒbƒ^[
-	void SetTarget(XMFLOAT3 pos) {target_ = pos;}
+	//ã‚²ãƒƒã‚¿ãƒ¼ã‚»ãƒƒã‚¿ãƒ¼
+	void SetTarget(XMFLOAT3 pos) { target_ = pos; }
 	void SetEye(XMFLOAT3 pos) { eye_ = pos; }
 	void SetColor(XMFLOAT4 col) { color = col; }
 	void SetDir(XMFLOAT3 d) { dir = d; }
@@ -30,9 +30,9 @@ public:
 	XMMATRIX GetMatView() { return matView_; };
 	XMMATRIX GetMatViewProjection() { return matView_ * matProjection_; };
 private:
-	//Ë‰e•ÏŠ·
+	//å°„å½±å¤‰æ›
 	XMMATRIX matProjection_;
-	//ƒrƒ…[•ÏŠ·s—ñ
+	//ãƒ“ãƒ¥ãƒ¼å¤‰æ›è¡Œåˆ—
 	XMMATRIX matView_;
 	XMFLOAT3 eye_ = { 0, 10, 10 };
 	XMFLOAT3 target_ = { 0, 0, 0 };
@@ -40,4 +40,3 @@ private:
 	XMFLOAT4 color = { 1,1,1,1 };
 	XMFLOAT3 dir = { 1,-1,-1 };
 };
-

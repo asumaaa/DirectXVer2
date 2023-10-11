@@ -2,17 +2,17 @@
 
 void Light::Initialize()
 {
-	//Ë‰e•ÏŠ·
+	//å°„å½±å¤‰æ›
 	//matProjection_ = XMMatrixPerspectiveFovLH(
-	//	XMConvertToRadians(45.0f),			//ã‰º‰æŠp45“x
-	//	(float)window_width / window_height,//ƒAƒXƒyƒNƒg”ä(‰æ–Ê‰¡•/‰æ–Ê—§•)
-	//	0.1f, 1000.0f						//‘O’[A‰œ’[
+	//	XMConvertToRadians(45.0f),			//ä¸Šä¸‹ç”»è§’45åº¦
+	//	(float)window_width / window_height,//ã‚¢ã‚¹ãƒšã‚¯ãƒˆæ¯”(ç”»é¢æ¨ªå¹…/ç”»é¢ç«‹å¹…)
+	//	0.1f, 1000.0f						//å‰ç«¯ã€å¥¥ç«¯
 	//);
 
 	matProjection_ = XMMatrixOrthographicLH(
-		80,80,1.0f,200.0f);
+		80, 80, 1.0f, 200.0f);
 
-	//s—ñŒvZ
+	//è¡Œåˆ—è¨ˆç®—
 	matView_ = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));
 }
 

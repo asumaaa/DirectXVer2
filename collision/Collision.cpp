@@ -4,17 +4,17 @@ using namespace DirectX;
 
 bool Collision::CheckSphere2Plane(const CollisionPrimitive::Sphere& sphere, const CollisionPrimitive::Plane& plane, XMVECTOR* inter)
 {
-    //À•WŒh‚ÌŒ´“_‚©‚ç‹…‚Ì’†SÀ•W‚Ö‚Ì‹——£
+    //åº§æ¨™æ•¬ã®åŸç‚¹ã‹ã‚‰çƒã®ä¸­å¿ƒåº§æ¨™ã¸ã®è·é›¢
     XMVECTOR distV = XMVector3Dot(sphere.center, plane.normal);
-    //•½–Ê‚ÌŒ´“_‹——£‚ğŒ¸Y‚·‚é‚±‚Æ‚Å•½–Ê‚Æ‹…‚Ì’†S‚Æ‚Ì‹——£‚ªo‚é
+    //å¹³é¢ã®åŸç‚¹è·é›¢ã‚’æ¸›ç”£ã™ã‚‹ã“ã¨ã§å¹³é¢ã¨çƒã®ä¸­å¿ƒã¨ã®è·é›¢ãŒå‡ºã‚‹
     float dist = distV.m128_f32[0] - plane.distance;
-    //‹——£‚Ìâ‘Î’l‚ª”¼Œa‚æ‚è‘å‚«‚¯‚ê‚Î“–‚½‚Á‚Ä‚¢‚È‚¢
+    //è·é›¢ã®çµ¶å¯¾å€¤ãŒåŠå¾„ã‚ˆã‚Šå¤§ãã‘ã‚Œã°å½“ãŸã£ã¦ã„ãªã„
     if (fabsf(dist) > sphere.redius) return false;
 
-    //‹^—Œğ·“_‚ğŒvZ
+    //ç–‘ä¼¼äº¤å·®ç‚¹ã‚’è¨ˆç®—
     if (inter)
     {
-        //•½–Êã‚ÌÚ“_‚ğA‹c–Œğ“_‚Æ‚·‚é
+        //å¹³é¢ä¸Šã®æ¥ç‚¹ã‚’ã€è­°äº‹äº¤ç‚¹ã¨ã™ã‚‹
         *inter = -dist * plane.normal + sphere.center;
     }
 

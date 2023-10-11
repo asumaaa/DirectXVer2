@@ -16,20 +16,67 @@
 #define MaxVibration 65535
 
 /// <summary>
-/// ƒQ[ƒ€ƒpƒbƒh
+/// ã‚²ãƒ¼ãƒ ãƒ‘ãƒƒãƒ‰
 /// </summary>
 class DXInput
 {
 public:
     struct CountrolerState
     {
-        XINPUT_STATE state; // ƒRƒ“ƒgƒ[ƒ‰[‚Ìó‘Ô‚Ìæ“¾
-        XINPUT_VIBRATION vibration;  // ƒoƒCƒuƒŒ[ƒVƒ‡ƒ“
+        XINPUT_STATE state; // ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã®çŠ¶æ…‹ã®å–å¾—
+        XINPUT_VIBRATION vibration;  // ãƒã‚¤ãƒ–ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³
         //bool Connected;
     };
     CountrolerState GamePad;
 
-public:// ƒƒ“ƒoŠÖ”
+    struct Key
+    {
+        int PAD_LEFT = 0;
+        int PAD_RIGHT = 0;
+        int PAD_UP = 0;
+        int PAD_DOWN = 0;
+        int PAD_A = 0;
+        int PAD_B = 0;
+        int PAD_X = 0;
+        int PAD_Y = 0;
+        int PAD_LEFT_SHOULDER = 0;
+        int PAD_RIGHT_SHOULDER = 0;
+    };
+
+    struct Thumb
+    {
+        float RStickX = 0.0f;
+        float RStickY = 0.0f;
+        float LStickX = 0.0f;
+        float LStickY = 0.0f;
+    };
+
+    enum Pad
+    {
+        PAD_LEFT,
+        PAD_RIGHT,
+        PAD_UP,
+        PAD_DOWN,
+        PAD_A,
+        PAD_B,
+        PAD_X,
+        PAD_Y,
+        PAD_LEFT_SHOULDER,
+        PAD_RIGHT_SHOULDER,
+    };
+
+    enum Stick
+    {
+        RStickX,
+        RStickY,
+        LStickX,
+        LStickY,
+        RStick,
+        LStick,
+    };
+
+public:// ãƒ¡ãƒ³ãƒé–¢æ•°
+    static DXInput* GetInstance();
     DXInput();
     ~DXInput();
 
@@ -37,10 +84,29 @@ public:// ƒƒ“ƒoŠÖ”
 
     void XInputInvaid();
 
+    //æ›´æ–°
+    void Update();
+    void UpdateKey();
+    void UpdateOldKey();
+    void UpdateStick();
+
+    //ãƒœã‚¿ãƒ³å–å¾—
+    bool PushKey(Pad pad);
+    bool TriggerKey(Pad pad);
+
+    //ã‚¹ãƒ†ã‚£ãƒƒã‚¯å–å¾—
+    float GetStick(Stick stick);
+    //ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã‚’çœŸä¸Šã‹ã‚‰è¦‹ãŸéš›ã®è§’åº¦å–å¾—(ãƒ©ã‚¸ã‚¢ãƒ³)
+    float GetStickRot(Stick stick);
+
     /*HRESULT UpdateCountrollerState();*/
 
-private:// ƒƒ“ƒo•Ï”
+private:// ãƒ¡ãƒ³ãƒå¤‰æ•°
     //WinApp* winApp = nullptr;    // WindowsAPI
+
+    Key key;
+    Key oldKey;
+    Thumb stick;
 
 private:
     static int  pad_A, pad_B, pad_X, pad_Y;

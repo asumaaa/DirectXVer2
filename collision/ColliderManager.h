@@ -6,65 +6,64 @@
 
 class ColliderManager
 {
-public:	//ƒTƒuƒNƒ‰ƒX
-	//ƒRƒ‰ƒCƒ_[•`‰æ—p
-	struct Collider 
+public:	//ã‚µãƒ–ã‚¯ãƒ©ã‚¹
+	//ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼æç”»ç”¨
+	struct Collider
 	{
 		JSONLoader::ColliderData colliderData;
 		ColliderCubeObject* colliderCubeObject = nullptr;
 		ColliderSphereObject* colliderSphereObject = nullptr;
 		ColliderPlaneObject* colliderPlaneObject = nullptr;
-		//•`‰æƒtƒ‰ƒO
+		//æç”»ãƒ•ãƒ©ã‚°
 		bool drawFlag = false;
 	};
 
-	//OBB ”»’èŒvZ—p
+	//OBB åˆ¤å®šè¨ˆç®—ç”¨
 	struct OBB
 	{
-		XMFLOAT3 c;	//’†S“_
-		XMFLOAT3 u[3];	//XYZ‚ÌŠeÀ•W²‚ÌŒX‚«‚ğ•\‚·ƒxƒNƒgƒ‹
-		XMFLOAT3 e;	//OBB‚ÌŠeÀ•W²‚É‰ˆ‚Á‚½’·‚³‚Ì”¼•ª
+		XMFLOAT3 c;	//ä¸­å¿ƒç‚¹
+		XMFLOAT3 u[3];	//XYZã®å„åº§æ¨™è»¸ã®å‚¾ãã‚’è¡¨ã™ãƒ™ã‚¯ãƒˆãƒ«
+		XMFLOAT3 e;	//OBBã®å„åº§æ¨™è»¸ã«æ²¿ã£ãŸé•·ã•ã®åŠåˆ†
 	};
 
-public:	//Ã“Iƒƒ“ƒoŠÖ”
+public:	//é™çš„ãƒ¡ãƒ³ãƒé–¢æ•°
 	static void SetCollider(JSONLoader::ColliderData colliderData);
 	static void SetColliderCubeModel(ColliderCubeModel* colliderModel) { ColliderManager::colliderCubeModel = colliderModel; }
 	static void SetColliderSphereModel(ColliderSphereModel* colliderModel) { ColliderManager::colliderSphereModel = colliderModel; };
 	static void SetColliderPlaneModel(ColliderPlaneModel* colliderModel) { ColliderManager::colliderPlaneModel = colliderModel; };
 
-public:	//ƒƒ“ƒoŠÖ”
-	//‰Šú‰»
+public:	//ãƒ¡ãƒ³ãƒé–¢æ•°
+	//åˆæœŸåŒ–
 	static void Initialize();
-	//XV
+	//æ›´æ–°
 	static void PreUpdate();
 	static void PostUpdate();
-	//•`‰æ
+	//æç”»
 	static void Draw(ID3D12GraphicsCommandList* cmdList);
 
-	//”»’è
+	//åˆ¤å®š
 	static bool CheckCollider(JSONLoader::ColliderData colliderData0, JSONLoader::ColliderData colliderData1);
-	//‹…‘Ì‚Æ‹…‘Ì
+	//çƒä½“ã¨çƒä½“
 	static bool CheckSphereSphere(JSONLoader::ColliderData colliderSphere0, JSONLoader::ColliderData colliderSphere1);
-	//•½–Ê‚Æ‹…‘Ì
+	//å¹³é¢ã¨çƒä½“
 	static bool CheckPlaneSphere(JSONLoader::ColliderData colliderPlane, JSONLoader::ColliderData colliderSphere);
-	//•½–Ê‚Æƒ{ƒbƒNƒX
+	//å¹³é¢ã¨ãƒœãƒƒã‚¯ã‚¹
 	static bool CheckPlaneBox(JSONLoader::ColliderData colliderPlane, JSONLoader::ColliderData colliderBox);
 
-	//ColliderDataƒNƒ‰ƒX‚©‚çOBB‚ğ•Ô‚·ŠÖ”	Box,•½–Ê‚Ì‚İ‘Î‰
+	//ColliderDataã‚¯ãƒ©ã‚¹ã‹ã‚‰OBBã‚’è¿”ã™é–¢æ•°	Box,å¹³é¢ã®ã¿å¯¾å¿œ
 	OBB GetObbFromColliderData(JSONLoader::ColliderData colliderData);
-	//F‚ğ•Ï‚¦‚éŠÖ”
+	//è‰²ã‚’å¤‰ãˆã‚‹é–¢æ•°
 	static void ChangeHitColor(JSONLoader::ColliderData colliderData);
 
-public:	//Ã“Iƒƒ“ƒo•Ï”
-	//ƒRƒ‰ƒCƒ_[
+public:	//é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼
 	static std::list<std::unique_ptr<Collider>>collider;
-	//ƒ‚ƒfƒ‹
+	//ãƒ¢ãƒ‡ãƒ«
 	static ColliderCubeModel* colliderCubeModel;
 	static ColliderSphereModel* colliderSphereModel;
 	static ColliderPlaneModel* colliderPlaneModel;
 
-	//“–‚½‚Á‚Ä‚¢‚È‚¢‚Æ‚«‚ÌF
+	//å½“ãŸã£ã¦ã„ãªã„ã¨ãã®è‰²
 	static XMFLOAT4 noHitColor;
 	static XMFLOAT4 isHitColor;
 };
-

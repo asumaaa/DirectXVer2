@@ -1,7 +1,7 @@
 #include "Enemy.h"
 #include "mathOriginal.h"
-#define G 6.674	//–œ—Lˆø—Í’è”
-#define GAcceleration 9.80665 * 1/10	//d—Í‰Á‘¬“x
+#define G 6.674	//ä¸‡æœ‰å¼•åŠ›å®šæ•°
+#define GAcceleration 9.80665 * 1/10	//é‡åŠ›åŠ é€Ÿåº¦
 
 Camera* Enemy::camera = nullptr;
 Input* Enemy::input = nullptr;
@@ -9,15 +9,22 @@ DXInput* Enemy::dxInput = nullptr;
 
 void Enemy::Initialize()
 {
+	Sprite* newSprite = new Sprite();
+	newSprite->SetTextureNum(4);
+	newSprite->Initialize();
+	spriteHpBar.reset(newSprite);
 }
 
 void Enemy::Update()
 {
-	//“®‚­
+	//å‹•ã
 	Move();
 
-	//ƒIƒuƒWƒFƒNƒgXV
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ›´æ–°
 	UpdateObject();
+
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæ›´æ–°
+	UpdateSprite();
 }
 
 void Enemy::UpdateObject()
@@ -27,6 +34,15 @@ void Enemy::UpdateObject()
 	object->SetScale(scale);
 
 	object->Update();
+}
+
+void Enemy::UpdateSprite()
+{
+	//HPãƒãƒ¼
+	spriteHpBar->SetAlpha(1.0f);
+	spriteHpBar->SetScale({ 100.0f, 100.0 });
+	spriteHpBar->SetPosition({ 0.0f, 0.0 });
+	spriteHpBar->Update();
 }
 
 void Enemy::Draw(ID3D12GraphicsCommandList* cmdList)
@@ -39,12 +55,17 @@ void Enemy::DrawLightView(ID3D12GraphicsCommandList* cmdList)
 	object->DrawLightView(cmdList);
 }
 
+void Enemy::DrawSprite(ID3D12GraphicsCommandList* cmdList)
+{
+	spriteHpBar->Draw(cmdList);
+}
+
 void Enemy::Move()
 {
-	////ƒWƒƒƒ“ƒvXV
+	////ã‚¸ãƒ£ãƒ³ãƒ—æ›´æ–°
 	//UpdateJump();
 
-	////d—ÍXV
+	////é‡åŠ›æ›´æ–°
 	//UpdateGravity();
 
 	//position.x -= input->PushKey(DIK_A) * speed;
@@ -55,27 +76,27 @@ void Enemy::Move()
 
 void Enemy::UpdateGravity()
 {
-	//Ú’n‚µ‚Ä‚¢‚½‚çƒ^ƒCƒ}[‚ÆƒxƒNƒgƒ‹ƒŠƒZƒbƒg
+	//æ¥åœ°ã—ã¦ã„ãŸã‚‰ã‚¿ã‚¤ãƒãƒ¼ã¨ãƒ™ã‚¯ãƒˆãƒ«ãƒªã‚»ãƒƒãƒˆ
 	if (groundFlag == true)
 	{
 		fallTimer = 0.0f;
 		fallVelocity = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	}
 
-	//Ú’n‚µ‚Ä‚¢‚È‚¯‚ê‚Î
+	//æ¥åœ°ã—ã¦ã„ãªã‘ã‚Œã°
 	if (groundFlag == false)
 	{
-		//—‰ºƒ^ƒCƒ}[‚ªÅ‘å’l‚æ‚è¬‚³‚¯‚ê‚Î
+		//è½ä¸‹ã‚¿ã‚¤ãƒãƒ¼ãŒæœ€å¤§å€¤ã‚ˆã‚Šå°ã•ã‘ã‚Œã°
 		if (fallTimer < fallTime)
 		{
 			fallTimer += fallFrame;
 		}
 	}
 
-	//—‰ºƒxƒNƒgƒ‹ŒvZ
+	//è½ä¸‹ãƒ™ã‚¯ãƒˆãƒ«è¨ˆç®—
 	fallVelocity.y = -(GAcceleration * fallTimer);
 
-	//À•W‚É—‰ºƒxƒNƒgƒ‹‚ğ‰ÁZ
+	//åº§æ¨™ã«è½ä¸‹ãƒ™ã‚¯ãƒˆãƒ«ã‚’åŠ ç®—
 	position.x += fallVelocity.x;
 	position.y += fallVelocity.y;
 	position.z += fallVelocity.z;
@@ -83,10 +104,10 @@ void Enemy::UpdateGravity()
 
 void Enemy::UpdateJump()
 {
-	//Ú’n‚µ‚Ä‚¢‚½‚ç
+	//æ¥åœ°ã—ã¦ã„ãŸã‚‰
 	if (groundFlag == true)
 	{
-		//ƒXƒy[ƒXƒL[‚ÅƒWƒƒƒ“ƒv
+		//ã‚¹ãƒšãƒ¼ã‚¹ã‚­ãƒ¼ã§ã‚¸ãƒ£ãƒ³ãƒ—
 		if (input->TriggerKey(DIK_SPACE))
 		{
 			groundFlag = false;
@@ -102,7 +123,7 @@ void Enemy::UpdateAttack()
 
 void Enemy::SetObject(FbxObject3D* object)
 {
-	//ˆø”‚ÌƒIƒuƒWƒFƒNƒg‚ğƒZƒbƒg
+	//å¼•æ•°ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ã‚»ãƒƒãƒˆ
 	Enemy::object.reset(object);
 
 	position = object->GetPosition();
@@ -117,12 +138,12 @@ void Enemy::SetSRV(ID3D12DescriptorHeap* SRV)
 
 void Enemy::HitPlane()
 {
-	//Ú’nƒtƒ‰ƒO‚ğ—§‚Ä‚é
+	//æ¥åœ°ãƒ•ãƒ©ã‚°ã‚’ç«‹ã¦ã‚‹
 	groundFlag = true;
 
-	//‚ß‚è‚Ü‚È‚­‚È‚é‚Ü‚Å‰ÁZ
+	//ã‚ã‚Šè¾¼ã¾ãªããªã‚‹ã¾ã§åŠ ç®—
 	position.y += 0.1f;
 
-	//ƒIƒuƒWƒFƒNƒgXV
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ›´æ–°
 	UpdateObject();
 }

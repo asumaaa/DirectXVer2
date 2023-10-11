@@ -13,36 +13,25 @@ void PlayerBullet::Initialize()
 
 void PlayerBullet::Update()
 {
-	//ƒVƒ‡ƒbƒgƒtƒ‰ƒO‚ª—§‚Á‚½‚ç’e¶¬
+	//å¼¾ã‚’æ¶ˆã™å‡¦ç†
+	DeleteBullet();
+
+	//ã‚·ãƒ§ãƒƒãƒˆãƒ•ãƒ©ã‚°ãŒç«‹ã£ãŸã‚‰å¼¾ç”Ÿæˆ
 	if (shotFlag)
 	{
 		CreateBullet();
 	}
 
-	//“®‚­
+	//å‹•ã
 	Move();
 
-	//ƒ^ƒCƒ}[‰ÁZ
+	//ã‚¿ã‚¤ãƒãƒ¼åŠ ç®—
 	for (int i = 0; i < object.size(); i++)
 	{
 		timer[i] += 1.0f;
 	}
 
-	//íœ
-	for (int i = 0; i < object.size(); i++)
-	{
-		if (timer[i] >= destoryTime)
-		{
-			position.erase(position.begin());
-			rotation.erase(rotation.begin());
-			scale.erase(scale.begin());
-			velocity.erase(velocity.begin());
-			timer.erase(timer.begin());
-			object.erase(object.begin());
-		}
-	}
-
-	//XV
+	//æ›´æ–°
 	int i = 0;
 	for (std::unique_ptr<FbxObject3D>& objects : object)
 	{
@@ -53,46 +42,49 @@ void PlayerBullet::Update()
 		i++;
 	}
 
-	//ƒVƒ‡ƒbƒgƒtƒ‰ƒO‚ğ‹U‚É
+	//ã‚·ãƒ§ãƒƒãƒˆãƒ•ãƒ©ã‚°ã‚’å½ã«
 	shotFlag = false;
 }
 
 void PlayerBullet::Draw(ID3D12GraphicsCommandList* cmdList)
 {
-	for (std::unique_ptr<FbxObject3D>& objects : object)
+	/*for (std::unique_ptr<FbxObject3D>& objects : object)
 	{
 		objects->Draw(cmdList);
-	}
+	}*/
 }
 
 void PlayerBullet::DrawLightView(ID3D12GraphicsCommandList* cmdList)
 {
-	for (std::unique_ptr<FbxObject3D>& objects : object)
+	/*for (std::unique_ptr<FbxObject3D>& objects : object)
 	{
 		objects->DrawLightView(cmdList);
-	}
+	}*/
 }
 
 void PlayerBullet::Move()
 {
-	for (int i = 0; i < object.size(); i++)
+	if (object.size() != 0)
 	{
-		//isƒxƒNƒgƒ‹‚ğ‰ÁZ
-		position[i] = position[i] + (velocity[i] * posSpeed);
+		for (int i = 0; i < object.size(); i++)
+		{
+			//é€²è¡Œãƒ™ã‚¯ãƒˆãƒ«ã‚’åŠ ç®—
+			position[i] = position[i] + (velocity[i] * posSpeed);
+		}
 	}
 }
 
 void PlayerBullet::CreateBullet()
 {
-	//ƒIƒuƒWƒFƒNƒg¶¬
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆ
 	std::unique_ptr<FbxObject3D>newObject = std::make_unique<FbxObject3D>();
 	newObject->Initialize();
 	newObject->SetModel(model);
 
-	//ƒIƒuƒWƒFƒNƒg‚²‚Æ‚É–¼‘O‚ğ‚Â‚¯‚é
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã”ã¨ã«åå‰ã‚’ã¤ã‘ã‚‹
 	std::string objectName = "playerBullet" + std::to_string(number);
 
-	//ƒIƒuƒWƒFƒNƒgƒf[ƒ^ƒZƒbƒg
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆ
 	JSONLoader::ObjectData objectData;
 	objectData.fileName = "playerBullet";
 	objectData.objectName = objectName;
@@ -101,22 +93,55 @@ void PlayerBullet::CreateBullet()
 	objectData.scale = scale.back();
 	newObject->SetObjectData(objectData);
 
-	//ƒRƒ‰ƒCƒ_[ƒf[ƒ^ƒZƒbƒg
+	//ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆ
 	JSONLoader::ColliderData colliderData;
-	colliderData.type = "Sphere";	//”»’è‚ğ‹…‘Ì‚Åæ‚é‚½‚ß
+	colliderData.type = "Sphere";	//åˆ¤å®šã‚’çƒä½“ã§å–ã‚‹ãŸã‚
 	colliderData.objectName = objectName;
 	colliderData.scale = scale.back();
 	colliderData.rotation = rotation.back();
 	colliderData.center = position.back();
 	newObject->SetColliderData(colliderData);
 
-	//ƒRƒ‰ƒCƒ_[ƒ}ƒl[ƒWƒƒ[‚ÉƒZƒbƒg
+	//ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã«ã‚»ãƒƒãƒˆ
 	ColliderManager::SetCollider(colliderData);
 
-	//ƒIƒuƒWƒFƒNƒg‚É‘ã“ü
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ä»£å…¥
 	object.emplace_back(std::move(newObject));
 
 	number++;
+}
+
+void PlayerBullet::DeleteBullet()
+{
+	//å‰Šé™¤
+	for (int i = 0; i < object.size(); i++)
+	{
+		//ä¸€å®šæ™‚é–“çµŒã£ãŸã‚‰
+		if (timer[i] == destoryTime)
+		{
+			position.erase(position.begin() + i);
+			rotation.erase(rotation.begin() + i);
+			scale.erase(scale.begin() + i);
+			velocity.erase(velocity.begin() + i);
+			hitFlag.erase(hitFlag.begin() + i);
+			timer.erase(timer.begin() + i);
+			object.erase(std::next(object.begin(), i));
+
+			continue;
+		}
+
+		//ãƒ’ãƒƒãƒˆãƒ•ãƒ©ã‚°ãŒç«‹ã£ãŸã‚‰
+		if (hitFlag[i] == true)
+		{
+			position.erase(position.begin() + i);
+			rotation.erase(rotation.begin() + i);
+			scale.erase(scale.begin() + i);
+			velocity.erase(velocity.begin() + i);
+			timer.erase(timer.begin() + i);
+			hitFlag.erase(hitFlag.begin() + i);
+			object.erase(std::next(object.begin(), i));
+		}
+	}
 }
 
 void PlayerBullet::SetSRV(ID3D12DescriptorHeap* SRV)
@@ -134,6 +159,7 @@ void PlayerBullet::SetBullet(XMFLOAT3 position, XMFLOAT3 velocity)
 	PlayerBullet::scale.emplace_back(baseScale);
 	PlayerBullet::velocity.emplace_back(velocity);
 	PlayerBullet::timer.emplace_back(0.0f);
+	PlayerBullet::hitFlag.emplace_back(false);
 }
 
 JSONLoader::ColliderData PlayerBullet::GetColliderData(int num)

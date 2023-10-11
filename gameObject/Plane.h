@@ -4,61 +4,60 @@
 
 class Plane
 {
-private:	//ƒGƒCƒŠƒAƒX
-	//Microsoft::WRL::‚ğÈ—ª
+private:	//ã‚¨ã‚¤ãƒªã‚¢ã‚¹
+	//Microsoft::WRL::ã‚’çœç•¥
 	template<class T>using ComPtr = Microsoft::WRL::ComPtr<T>;
-	//DirectX::‚ğÈ—ª
+	//DirectX::ã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
-	//ƒƒ“ƒoŠÖ”
+	//ãƒ¡ãƒ³ãƒé–¢æ•°
 public:
-	//Ã“Iƒƒ“ƒoŠÖ”
+	//é™çš„ãƒ¡ãƒ³ãƒé–¢æ•°
 	static void SetCamera(Camera* camera) { Plane::camera = camera; }
 	static void SetInput(Input* input) { Plane::input = input; }
 	static void SetDXInput(DXInput* dxInput) { Plane::dxInput = dxInput; }
 
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	void Initialize();
-	//XV
+	//æ›´æ–°
 	void Update();
-	//•`‰æ
+	//æç”»
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 	void DrawLightView(ID3D12GraphicsCommandList* cmdList);
 
-	//ˆÚ“®
+	//ç§»å‹•
 	void Move();
 
-	//ƒZƒbƒ^[
+	//ã‚»ãƒƒã‚¿ãƒ¼
 	void SetObject(FbxObject3D* object);
 	void SetSRV(ID3D12DescriptorHeap* SRV);
 
-	//ƒQƒbƒ^[
+	//ã‚²ãƒƒã‚¿ãƒ¼
 	XMFLOAT3 GetPosition() { return position; }
 	XMFLOAT3 GetRotation() { return rotation; }
 	XMFLOAT3 GetScale() { return scale; }
 
-	//Ã“Iƒƒ“ƒo•Ï”
+	//é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°
 private:
-	//ƒJƒƒ‰
+	//ã‚«ãƒ¡ãƒ©
 	static Camera* camera;
-	//ƒL[ƒ{[ƒh
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰
 	static Input* input;
-	//ƒRƒ“ƒgƒ[ƒ‰[
+	//ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼
 	static DXInput* dxInput;
 
-	//ƒƒ“ƒo•Ï”
+	//ãƒ¡ãƒ³ãƒå¤‰æ•°
 public:
 
-	//ƒIƒuƒWƒFƒNƒg
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	std::list<std::unique_ptr<FbxObject3D>>object;
 
-	//À•W
-	XMFLOAT3 position = {0.0f,0.0f,0.0f};
-	//‰ñ“]
-	XMFLOAT3 rotation = {0.0f,0.0f,0.0f};
-	//ƒTƒCƒY
-	XMFLOAT3 scale = {1.0f,1.0f,1.0f};
+	//åº§æ¨™
+	XMFLOAT3 position = { 0.0f,0.0f,0.0f };
+	//å›è»¢
+	XMFLOAT3 rotation = { 0.0f,0.0f,0.0f };
+	//ã‚µã‚¤ã‚º
+	XMFLOAT3 scale = { 1.0f,1.0f,1.0f };
 };
-

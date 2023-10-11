@@ -20,28 +20,28 @@ using namespace Microsoft::WRL;
 class DirectXCommon
 {
 public:
-	//ƒVƒ“ƒOƒ‹ƒgƒ“ƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾
+	//ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—
 	static DirectXCommon* GetInstance();
 	DirectXCommon() = default;
 	~DirectXCommon();
-	//‰Šú‰»ˆ—
+	//åˆæœŸåŒ–å‡¦ç†
 	void Initialize(WinApp* winApp);
-	void InitializeDevice();			//ƒfƒoƒCƒXŠÖ˜A
-	void InitializeCommand();			//ƒRƒ}ƒ“ƒhŠÖ˜A
-	void InitializeSwapchain();			//ƒXƒƒbƒvƒ`ƒF[ƒ“ŠÖ˜A
-	void InitializeRenderTargetView();	//ƒŒƒ“ƒ_[ƒ^[ƒQƒbƒgŠÖ˜A
-	void InitializeDepthBuffer();		//[“xƒoƒbƒtƒ@ŠÖ˜A
-	void InitializeFence();				//ƒtƒFƒ“ƒXŠÖ˜A
-	//•`‰æ
-	void PreDraw();		//•`‰æ‘O
-	void PreDraw1();		//•`‰æ‘O
-	void PostDraw();	//•`‰æŒã 
-	void PostDraw1();	//•`‰æŒã 
-	//imgui—p‚Ìƒq[ƒv¶¬
+	void InitializeDevice();			//ãƒ‡ãƒã‚¤ã‚¹é–¢é€£
+	void InitializeCommand();			//ã‚³ãƒãƒ³ãƒ‰é–¢é€£
+	void InitializeSwapchain();			//ã‚¹ãƒ¯ãƒƒãƒ—ãƒã‚§ãƒ¼ãƒ³é–¢é€£
+	void InitializeRenderTargetView();	//ãƒ¬ãƒ³ãƒ€ãƒ¼ã‚¿ãƒ¼ã‚²ãƒƒãƒˆé–¢é€£
+	void InitializeDepthBuffer();		//æ·±åº¦ãƒãƒƒãƒ•ã‚¡é–¢é€£
+	void InitializeFence();				//ãƒ•ã‚§ãƒ³ã‚¹é–¢é€£
+	//æç”»
+	void PreDraw();		//æç”»å‰
+	void PreDraw1();		//æç”»å‰
+	void PostDraw();	//æç”»å¾Œ 
+	void PostDraw1();	//æç”»å¾Œ 
+	//imguiç”¨ã®ãƒ’ãƒ¼ãƒ—ç”Ÿæˆ
 	ComPtr<ID3D12DescriptorHeap>CreateDescriptorForImgui();
 	void InitializeImgui();
 	void EndImgui();
-	//ƒQƒbƒ^[
+	//ã‚²ãƒƒã‚¿ãƒ¼
 	ID3D12Device* GetDevice() { return device.Get(); }
 	IDXGISwapChain4* GetSwapChain() { return swapChain.Get(); }
 	ID3D12GraphicsCommandList* GetCommandList() { return commandList.Get(); }
@@ -54,8 +54,8 @@ public:
 	ComPtr<ID3D12DescriptorHeap>GetHeapForImgui() { return _heapForImgui; };
 	size_t GetBackBufferCount() const { return backBuffers.size(); }
 public:
-	//ƒƒ“ƒo•Ï”
-	//ƒEƒBƒ“ƒhƒE
+	//ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦
 	WinApp* winApp_;
 private:
 	//DirectX
@@ -77,7 +77,7 @@ private:
 	D3D12_HEAP_PROPERTIES depthHeapProp{};
 	D3D12_CLEAR_VALUE depthClearValue{};
 	D3D12_RESOURCE_BARRIER barrierDesc{};
-	//imgui—pƒq[ƒv
+	//imguiç”¨ãƒ’ãƒ¼ãƒ—
 	ComPtr<ID3D12DescriptorHeap> _heapForImgui;
 public:
 	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc{};

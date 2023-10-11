@@ -8,26 +8,26 @@ Message* Message::GetInstance()
 
 bool Message::Update()
 {
-	if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) // ƒƒbƒZ[ƒW‚ª‚ ‚éH
+	if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) // ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒã‚ã‚‹ï¼Ÿ
 	{
-		TranslateMessage(&msg); // ƒL[“ü—ÍƒƒbƒZ[ƒW‚Ìˆ—
-		DispatchMessage(&msg);  // ƒEƒBƒ“ƒhƒEƒvƒƒV[ƒWƒƒ‚ÉƒƒbƒZ[ƒW‚ð‘—‚é
+		TranslateMessage(&msg); // ã‚­ãƒ¼å…¥åŠ›ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å‡¦ç†
+		DispatchMessage(&msg);  // ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒ—ãƒ­ã‚·ãƒ¼ã‚¸ãƒ£ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’é€ã‚‹
 	}
 
-	if (msg.message == WM_QUIT) // I—¹ƒƒbƒZ[ƒW‚ª—ˆ‚½‚çƒ‹[ƒv‚ð”²‚¯‚é
+	if (msg.message == WM_QUIT) // çµ‚äº†ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒæ¥ãŸã‚‰ãƒ«ãƒ¼ãƒ—ã‚’æŠœã‘ã‚‹
 	{
 		return true;
 	}
 	return false;
 
-	////Xƒ{ƒ^ƒ“‚ÅI—¹ƒƒbƒZŽž‚ª—ˆ‚½‚çƒQ[ƒ€ƒ‹[ƒv‚ð”²‚¯‚é 
+	////Xãƒœã‚¿ãƒ³ã§çµ‚äº†ãƒ¡ãƒƒã‚»æ™‚ãŒæ¥ãŸã‚‰ã‚²ãƒ¼ãƒ ãƒ«ãƒ¼ãƒ—ã‚’æŠœã‘ã‚‹ 
 	//if (msg.message == WM_QUIT)
 	//{
 	//	IDXGIDebug* giDebugInterface = nullptr;
 
 	//	if (giDebugInterface == nullptr)
 	//	{
-	//		//ì¬
+	//		//ä½œæˆ
 	//		typedef HRESULT(__stdcall* fPtr)(const IID&, void**);
 	//		HMODULE hDll = GetModuleHandleW(L"dxgidebug.dll");
 	//		if (hDll != 0)
@@ -37,7 +37,7 @@ bool Message::Update()
 
 	//			DXGIGetDebugInterface(__uuidof(IDXGIDebug), (void**)&giDebugInterface);
 
-	//			//o—Í
+	//			//å‡ºåŠ›
 	//			giDebugInterface->ReportLiveObjects(DXGI_DEBUG_D3D12, DXGI_DEBUG_RLO_DETAIL);
 	//		}
 	//	}
@@ -51,7 +51,7 @@ bool Message::CheckError()
 
 	//if (giDebugInterface == nullptr)
 	//{
-	//	//ì¬
+	//	//ä½œæˆ
 	//	typedef HRESULT(__stdcall* fPtr)(const IID&, void**);
 	//	HMODULE hDll = GetModuleHandleW(L"dxgidebug.dll");
 	//	if (hDll != 0)
@@ -61,7 +61,7 @@ bool Message::CheckError()
 
 	//		DXGIGetDebugInterface(__uuidof(IDXGIDebug), (void**)&giDebugInterface);
 
-	//		//o—Í
+	//		//å‡ºåŠ›
 	//		giDebugInterface->ReportLiveObjects(DXGI_DEBUG_D3D12, DXGI_DEBUG_RLO_DETAIL);
 	//	}
 	//}

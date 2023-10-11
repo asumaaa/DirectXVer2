@@ -4,7 +4,7 @@
 
 void FireParticle::Initialize()
 {
-	//�v�f��
+	//要素数
 	positions.resize(spriteNum);
 	scales.resize(spriteNum);
 	rotations.resize(spriteNum);
@@ -15,7 +15,7 @@ void FireParticle::Initialize()
 	{
 		std::unique_ptr<Sprite>newSprite = std::make_unique<Sprite>();
 		newSprite->Initialize();
-		//�����_���ňႤ�e�N�X�`�����Z�b�g
+		//ランダムで違うテクスチャをセット
 		if (static_cast<float>(rand() % 2) == 0)
 		{
 			newSprite->SetTextureNum(textureNum0);
@@ -50,7 +50,7 @@ void FireParticle::Update()
 
 	for (int i = 0; i < spriteNum; i++)
 	{
-		//�^�C�}�[�ňʒu���Z�b�g
+		//タイマーで位置リセット
 		if (i == timer)
 		{
 			scales[i].x = scale.x;
@@ -87,7 +87,7 @@ void FireParticle::Update()
 
 void FireParticle::Draw(ID3D12GraphicsCommandList* cmdList)
 {
-	for(std::unique_ptr<Sprite>& sprite : sprite)
+	for (std::unique_ptr<Sprite>& sprite : sprite)
 	{
 		sprite->Draw(cmdList);
 	}

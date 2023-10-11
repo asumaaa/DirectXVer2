@@ -7,79 +7,79 @@
 
 class DirectionalLight
 {
-private: // ƒGƒCƒŠƒAƒX 
-	// Microsoft::WRL‚ğÈ—ª
+private: // ã‚¨ã‚¤ãƒªã‚¢ã‚¹ 
+	// Microsoft::WRLã‚’çœç•¥
 	template<class T>using ComPtr = Microsoft::WRL::ComPtr<T>;
-	// DirectX::‚ğÈ—ª
+	// DirectX::ã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMVECTOR = DirectX::XMVECTOR;
 	using XMMATRIX = DirectX::XMMATRIX;
 
-public: // ƒTƒuƒNƒ‰ƒX
-	// ’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì 
+public: // ã‚µãƒ–ã‚¯ãƒ©ã‚¹
+	// å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“ 
 	struct ConstBufferData
 	{
-		XMVECTOR lightv;// ƒ‰ƒCƒg‚Ö‚Ì•ûŒü‚ğ•\‚·ƒxƒNƒgƒ‹
-		XMFLOAT3 lightcolor; // ƒ‰ƒCƒg‚ÌF
+		XMVECTOR lightv;// ãƒ©ã‚¤ãƒˆã¸ã®æ–¹å‘ã‚’è¡¨ã™ãƒ™ã‚¯ãƒˆãƒ«
+		XMFLOAT3 lightcolor; // ãƒ©ã‚¤ãƒˆã®è‰²
 		unsigned int active;
 	};
 
-private: // Ã“Iƒƒ“ƒo•Ï” //ƒfƒoƒCƒX
+private: // é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•° //ãƒ‡ãƒã‚¤ã‚¹
 	static ID3D12Device* device;
 
 public:
-	// Ã“Iƒƒ“ƒoŠÖ” 
+	// é™çš„ãƒ¡ãƒ³ãƒé–¢æ•° 
 	/// <summary> 
-	/// /// Ã“I‰Šú‰»
+	/// /// é™çš„åˆæœŸåŒ–
 	/// </summary>
 	/// <param name="device">1</param> 	
 	static void StaticInitialize(ID3D12Device* device);
 
 	/// <summary>
-	///ƒCƒ“ƒXƒ^ƒ“ƒX¶¬
+	///ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆ
 	/// </summary>
-	/// <returns>ƒCƒ“ƒXƒ^ƒ“ƒX </returns> 
+	/// <returns>ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ </returns> 
 	static DirectionalLight* Create();
 
 
 	/// <summary> 
-	/// /// ’è”ƒoƒbƒtƒ@“]‘—
+	/// /// å®šæ•°ãƒãƒƒãƒ•ã‚¡è»¢é€
 	/// </summary>
 	void TransferConstBuffer();
 
 	/// <summary>
-	/// ƒ‰ƒCƒg•ûŒü‚ğƒZƒbƒg
+	/// ãƒ©ã‚¤ãƒˆæ–¹å‘ã‚’ã‚»ãƒƒãƒˆ
 	/// </summary>
-	/// <paramname = "lightdir" >ƒ‰ƒCƒg•ûŒü< / param>
-	void SetLightDir(const XMVECTOR & lightdir);
+	/// <paramname = "lightdir" >ãƒ©ã‚¤ãƒˆæ–¹å‘< / param>
+	void SetLightDir(const XMVECTOR& lightdir);
 
 	/// <summary>
-	/// ƒ‰ƒCƒg•ûŒü‚ğæ“¾
+	/// ãƒ©ã‚¤ãƒˆæ–¹å‘ã‚’å–å¾—
 	/// </summary>
-	/// <paramname = "lightdir" >ƒ‰ƒCƒg•ûŒü< / param>
+	/// <paramname = "lightdir" >ãƒ©ã‚¤ãƒˆæ–¹å‘< / param>
 	XMVECTOR GetLightDir() { return lightdir; }
 
 	/// <summary> 
-	/// ƒ‰ƒCƒgF‚ğƒZƒbƒg
+	/// ãƒ©ã‚¤ãƒˆè‰²ã‚’ã‚»ãƒƒãƒˆ
 	/// </summary>
-	/// <paramname = "lightcolor" >ƒ‰ƒCƒgF< / param>
-	void SetLightColor(const XMFLOAT3 & lightcolor);
+	/// <paramname = "lightcolor" >ãƒ©ã‚¤ãƒˆè‰²< / param>
+	void SetLightColor(const XMFLOAT3& lightcolor);
 
 	/// <summary> 
-	/// ƒ‰ƒCƒgF‚ğæ“¾
+	/// ãƒ©ã‚¤ãƒˆè‰²ã‚’å–å¾—
 	/// </summary>
-	/// <paramname = "lightcolor" >ƒ‰ƒCƒgF< / param>
+	/// <paramname = "lightcolor" >ãƒ©ã‚¤ãƒˆè‰²< / param>
 	XMFLOAT3 GetLightColor() { return lightcolor; }
 
 	/// <summary> 
-	/// —LŒøƒtƒ‰ƒO‚ğƒZƒbƒg
+	/// æœ‰åŠ¹ãƒ•ãƒ©ã‚°ã‚’ã‚»ãƒƒãƒˆ
 	/// </summary>
 	inline void SetActive(bool active) { this->active = active; }
 
 	/// <summary> 
-	/// —LŒøƒ`ƒFƒbƒN
+	/// æœ‰åŠ¹ãƒã‚§ãƒƒã‚¯
 	/// </summary>
 	inline bool IsActive() { return active; };
 
@@ -88,15 +88,15 @@ public:
 	void Update();
 	void Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParameterIndex);
 
-private: // ƒƒ“ƒo•Ï”
-	// ’è”ƒoƒbƒtƒ@
+private: // ãƒ¡ãƒ³ãƒå¤‰æ•°
+	// å®šæ•°ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource> constBuff;
-	//ƒ‰ƒCƒgŒõü•ûŒü(’PˆÊƒxƒNƒgƒ‹) 
+	//ãƒ©ã‚¤ãƒˆå…‰ç·šæ–¹å‘(å˜ä½ãƒ™ã‚¯ãƒˆãƒ«) 
 	XMVECTOR lightdir = { 1,0,0,0 };
-	// ƒ‰ƒCƒgF
+	// ãƒ©ã‚¤ãƒˆè‰²
 	XMFLOAT3 lightcolor = { 1,1,1 };
-	//ƒ_[ƒeƒBƒtƒ‰ƒO
+	//ãƒ€ãƒ¼ãƒ†ã‚£ãƒ•ãƒ©ã‚°
 	bool dirty = false;
-	//—LŒøƒtƒ‰ƒO
+	//æœ‰åŠ¹ãƒ•ãƒ©ã‚°
 	bool active = false;
 };

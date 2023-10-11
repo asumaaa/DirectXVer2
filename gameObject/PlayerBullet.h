@@ -4,10 +4,10 @@
 
 class PlayerBullet
 {
-private:	//ƒGƒCƒŠƒAƒX
-	//Microsoft::WRL::‚ğÈ—ª
+private:	//ã‚¨ã‚¤ãƒªã‚¢ã‚¹
+	//Microsoft::WRL::ã‚’çœç•¥
 	template<class T>using ComPtr = Microsoft::WRL::ComPtr<T>;
-	//DirectX::‚ğÈ—ª
+	//DirectX::ã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
@@ -15,87 +15,90 @@ private:	//ƒGƒCƒŠƒAƒX
 
 public:
 
-	//ƒƒ“ƒoŠÖ”
+	//ãƒ¡ãƒ³ãƒé–¢æ•°
 public:
-	//Ã“Iƒƒ“ƒoŠÖ”
+	//é™çš„ãƒ¡ãƒ³ãƒé–¢æ•°
 	static void SetCamera(Camera* camera) { PlayerBullet::camera = camera; }
 	static void SetInput(Input* input) { PlayerBullet::input = input; }
 	static void SetDXInput(DXInput* dxInput) { PlayerBullet::dxInput = dxInput; }
 	static void SetModel(FbxModel* model) { PlayerBullet::model = model; }
 
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	void Initialize();
-	//XV
+	//æ›´æ–°
 	void Update();
-	//•`‰æ
+	//æç”»
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 	void DrawLightView(ID3D12GraphicsCommandList* cmdList);
 
-	//ˆÚ“®
+	//ç§»å‹•
 	void Move();
-	//ƒVƒ‡ƒbƒgƒtƒ‰ƒO‚ª^‚È‚ç‚Î’e¶¬
+	//ã‚·ãƒ§ãƒƒãƒˆãƒ•ãƒ©ã‚°ãŒçœŸãªã‚‰ã°å¼¾ç”Ÿæˆ
 	void CreateBullet();
+	//å¼¾ã‚’å‰Šé™¤ã™ã‚‹å‡¦ç†
+	void DeleteBullet();
 
-	//ƒZƒbƒ^[
+	//ã‚»ãƒƒã‚¿ãƒ¼
 	void SetSRV(ID3D12DescriptorHeap* SRV);
-	//ƒVƒ‡ƒbƒg‚·‚éƒtƒ‰ƒO‚ğó‚¯æ‚é
-	void SetShotFlag(bool shotFlag) {PlayerBullet::shotFlag = shotFlag; };
-	//’e‚É•K—v‚Èî•ñ‚ğƒZƒbƒg‚·‚é
+	//ã‚·ãƒ§ãƒƒãƒˆã™ã‚‹ãƒ•ãƒ©ã‚°ã‚’å—ã‘å–ã‚‹
+	void SetShotFlag(bool shotFlag) { PlayerBullet::shotFlag = shotFlag; };
+	//å¼¾ã«å¿…è¦ãªæƒ…å ±ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
 	void SetBullet(XMFLOAT3 position, XMFLOAT3 velocity);
-	//ƒqƒbƒgƒtƒ‰ƒO‚ğƒZƒbƒg‚·‚é
+	//ãƒ’ãƒƒãƒˆãƒ•ãƒ©ã‚°ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
 	void SetHitFlag(bool hitFlag, int num) { PlayerBullet::hitFlag[num] = hitFlag; };
 
-	//ƒQƒbƒ^[
+	//ã‚²ãƒƒã‚¿ãƒ¼
 	/*XMFLOAT3 GetPosition() { return position; }
 	XMFLOAT3 GetRotation() { return rotation; }
 	XMFLOAT3 GetScale() { return scale; }*/
-	//ƒRƒ‰ƒCƒ_[ƒf[ƒ^
+	//ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ãƒ‡ãƒ¼ã‚¿
 	JSONLoader::ColliderData GetColliderData(int num);
-	//’e‚Ì”
+	//å¼¾ã®æ•°
 	size_t GetBulletNum() { return object.size(); }
+	//åº§æ¨™
+	XMFLOAT3 GetPosition(int num) { return position[num]; }
 
-	//Ã“Iƒƒ“ƒo•Ï”
+	//é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°
 private:
-	//ƒJƒƒ‰
+	//ã‚«ãƒ¡ãƒ©
 	static Camera* camera;
-	//ƒL[ƒ{[ƒh
+	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰
 	static Input* input;
-	//ƒRƒ“ƒgƒ[ƒ‰[
+	//ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼
 	static DXInput* dxInput;
-	//ƒ‚ƒfƒ‹
+	//ãƒ¢ãƒ‡ãƒ«
 	static FbxModel* model;
 
-	//ƒƒ“ƒo•Ï”
+	//ãƒ¡ãƒ³ãƒå¤‰æ•°
 public:
 
-	//ƒIƒuƒWƒFƒNƒg
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	std::list<std::unique_ptr<FbxObject3D>>object;
 
-	//À•W
+	//åº§æ¨™
 	std::vector<XMFLOAT3> position;
-	//‰ñ“]
+	//å›è»¢
 	std::vector<XMFLOAT3> rotation;
-	//ƒTƒCƒY
+	//ã‚µã‚¤ã‚º
 	std::vector<XMFLOAT3> scale;
-	//isƒxƒNƒgƒ‹
+	//é€²è¡Œãƒ™ã‚¯ãƒˆãƒ«
 	std::vector<XMFLOAT3> velocity;
-	//ƒ^ƒCƒ}[
+	//ã‚¿ã‚¤ãƒãƒ¼
 	std::vector<float>timer;
-	//ƒtƒ‰ƒO
+	//ãƒ•ãƒ©ã‚°
 	std::vector<bool>hitFlag;
 
 	XMFLOAT3 baseRotation = { 0.0f,0.0f,0.0f };
 	XMFLOAT3 baseScale = { 0.3f,0.3f,0.3f };
-	//’e‚ªÁ‚¦‚é‘¬“x
-	float destoryTime= 60.0f;
+	//å¼¾ãŒæ¶ˆãˆã‚‹é€Ÿåº¦
+	float destoryTime = 120.0f;
 
-	//’e‚É‚Â‚¯‚é”Ô†
+	//å¼¾ã«ã¤ã‘ã‚‹ç•ªå·
 	int number = 0;
 
-	//ƒVƒ‡ƒbƒgƒtƒ‰ƒO
+	//ã‚·ãƒ§ãƒƒãƒˆãƒ•ãƒ©ã‚°
 	bool shotFlag = false;
 
-	//ƒXƒs[ƒh
+	//ã‚¹ãƒ”ãƒ¼ãƒ‰
 	float posSpeed = 1.0f;
 };
-
