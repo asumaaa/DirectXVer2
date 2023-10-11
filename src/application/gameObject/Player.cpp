@@ -94,7 +94,28 @@ void Player::Update()
 	UpdateBullet();
 
 	//挙動
-	Control();
+	GameControl();
+
+	//攻撃
+	UpdateAttack();
+
+	//ステータスマネージャー
+	StatusManager();
+
+	//オブジェクト更新
+	UpdateObject();
+
+	//1フレーム前の状態を代入
+	preStatus = status;
+}
+
+void Player::UpdateTitle()
+{
+	//弾更新
+	UpdateBullet();
+
+	//挙動
+	TitleControl();
 
 	//攻撃
 	UpdateAttack();
@@ -114,6 +135,8 @@ void Player::UpdateObject()
 	UpdateObject(Wait, objectWait);
 	UpdateObject(Run, objectRun);
 	UpdateObject(BackRun, objectBackRun);
+	UpdateObject(RunLeft, objectRunLeft);
+	UpdateObject(RunRight, objectRunRight);
 	UpdateObject(Attack1, objectAttack1);
 	UpdateObject(Attack2, objectAttack2);
 }
@@ -168,6 +191,14 @@ void Player::Draw(ID3D12GraphicsCommandList* cmdList)
 	{
 		objectBackRun->Draw(cmdList);
 	}
+	if (status == RunLeft)
+	{
+		objectRunLeft->Draw(cmdList);
+	}
+	if (status == RunRight)
+	{
+		objectRunRight->Draw(cmdList);
+	}
 	if (status == Attack1)
 	{
 		objectAttack1->Draw(cmdList);
@@ -192,6 +223,14 @@ void Player::DrawLightView(ID3D12GraphicsCommandList* cmdList)
 	{
 		objectBackRun->DrawLightView(cmdList);
 	}
+	if (status == RunLeft)
+	{
+		objectRunLeft->DrawLightView(cmdList);
+	}
+	if (status == RunRight)
+	{
+		objectRunRight->DrawLightView(cmdList);
+	}
 	if (status == Attack1)
 	{
 		objectAttack1->DrawLightView(cmdList);
@@ -202,7 +241,19 @@ void Player::DrawLightView(ID3D12GraphicsCommandList* cmdList)
 	}
 }
 
-void Player::Control()
+void Player::TitleControl()
+{
+	//ジャンプ更新
+	UpdateJump();
+
+	//重力更新
+	UpdateGravity();
+
+	//移動
+	TitleMove();
+}
+
+void Player::GameControl()
 {
 	//ジャンプ更新
 	UpdateJump();
@@ -216,15 +267,39 @@ void Player::Control()
 
 void Player::Move()
 {
+	//プレイヤーの元になる角度
 	//AROWキーで角度変更
-	rotVelocity.y = dxInput->GetStick(DXInput::RStickX) * rotSpeed;
+	rotVelocity.y = dxInput->GetStick(DXInput::RStickX) * rot0Speed;
+	/*rotVelocity.y = (input->PushKey(DIK_RIGHT) - input->PushKey(DIK_LEFT)) * rotSpeed;*/
+	//角度ベクトルを加算
+	rotation0 = rotation0 + rotVelocity;
+
+	//左スティック入力による角度変更
+	rotation1.y = dxInput->GetStickRot(DXInput::LStick);
+
+	//座標
+	//ASDWで移動
+	posVelocity.x = dxInput->GetStick(DXInput::LStickX) * posSpeed;
+	posVelocity.z = dxInput->GetStick(DXInput::LStickY) * posSpeed;
+	/*posVelocity.x = (input->PushKey(DIK_D) - input->PushKey(DIK_A)) * posSpeed;
+	posVelocity.z = (input->PushKey(DIK_W) - input->PushKey(DIK_S)) * posSpeed;*/
+	//進行ベクトルを回転
+	posVelocity = rollRotation(posVelocity, rotation0);
+	//進行ベクトルを加算
+	position = position + posVelocity;
+}
+
+void Player::TitleMove()
+{
+	//AROWキーで角度変更
+	rotVelocity.y = 0.01f;
 	/*rotVelocity.y = (input->PushKey(DIK_RIGHT) - input->PushKey(DIK_LEFT)) * rotSpeed;*/
 	//角度ベクトルを加算
 	rotation1 = rotation1 + rotVelocity;
 
 	//ASDWで移動
-	posVelocity.x = dxInput->GetStick(DXInput::LStickX) * posSpeed;
-	posVelocity.z = dxInput->GetStick(DXInput::LStickY) * posSpeed;
+	posVelocity.x = 0.9;
+	posVelocity.z = -0.1;
 	/*posVelocity.x = (input->PushKey(DIK_D) - input->PushKey(DIK_A)) * posSpeed;
 	posVelocity.z = (input->PushKey(DIK_W) - input->PushKey(DIK_S)) * posSpeed;*/
 	//進行ベクトルを回転
@@ -300,11 +375,21 @@ void Player::StatusManager()
 	{
 		status = Wait;
 	}
-	//後ろに入力しながら走っている場合
-	else if (dxInput->GetStick(DXInput::LStickY) <= -0.3)
-	{
-		status = BackRun;
-	}
+	////後ろに入力しながら走っている場合
+	//else if (dxInput->GetStick(DXInput::LStickY) <= -0.3)
+	//{
+	//	status = BackRun;
+	//}
+	////左に入力しながら走っている場合
+	//else if (dxInput->GetStick(DXInput::LStickX) <= -0.3)
+	//{
+	//	status = RunLeft;
+	//}
+	////右に入力しながら走っている場合
+	//else if (dxInput->GetStick(DXInput::LStickX) >= 0.3)
+	//{
+	//	status = RunRight;
+	//}
 	//普通に走っている場合
 	else
 	{
@@ -347,6 +432,14 @@ void Player::SetSRV(ID3D12DescriptorHeap* SRV)
 	if (status == BackRun)
 	{
 		objectBackRun->SetSRV(SRV);
+	}
+	if (status == RunLeft)
+	{
+		objectRunLeft->SetSRV(SRV);
+	}
+	if (status == RunRight)
+	{
+		objectRunRight->SetSRV(SRV);
 	}
 	if (status == Attack1)
 	{

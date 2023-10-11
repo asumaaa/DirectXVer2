@@ -1,4 +1,5 @@
 #include "DXInput.h"
+#include "mathOriginal.h"
 
 DXInput* DXInput::GetInstance()
 {
@@ -34,7 +35,7 @@ void DXInput::InputProcess() {
     //if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) pad_rightShoulder = 1; //ゲームパッドR
 
     // ゲームパッドデッドゾーン処理
-    if ((GamePad.state.Gamepad.sThumbLX < XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
+    /*if ((GamePad.state.Gamepad.sThumbLX < XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
         GamePad.state.Gamepad.sThumbLX > -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) &&
         (GamePad.state.Gamepad.sThumbLY < XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
             GamePad.state.Gamepad.sThumbLY > -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE))
@@ -49,7 +50,7 @@ void DXInput::InputProcess() {
     {
         GamePad.state.Gamepad.sThumbRX = 0;
         GamePad.state.Gamepad.sThumbRY = 0;
-    }
+    }*/
 
     // ゲームパッドの振動
     /*XInputSetState(0, &GamePad.vibration);*/
@@ -126,10 +127,10 @@ void DXInput::UpdateStick()
     stick.RStickY = GamePad.state.Gamepad.sThumbRY / 65535;
     stick.LStickX = GamePad.state.Gamepad.sThumbLX / 65535;
     stick.LStickY = GamePad.state.Gamepad.sThumbLY / 65535;*/
-    stick.RStickX = GamePad.state.Gamepad.sThumbRX / 32767;
-    stick.RStickY = GamePad.state.Gamepad.sThumbRY / 32767;
-    stick.LStickX = GamePad.state.Gamepad.sThumbLX / 32767;
-    stick.LStickY = GamePad.state.Gamepad.sThumbLY / 32767;
+    stick.RStickX = GamePad.state.Gamepad.sThumbRX / 32767.0f;
+    stick.RStickY = GamePad.state.Gamepad.sThumbRY / 32767.0f;
+    stick.LStickX = GamePad.state.Gamepad.sThumbLX / 32767.0f;
+    stick.LStickY = GamePad.state.Gamepad.sThumbLY / 32767.0f;
 }
 
 bool DXInput::PushKey(Pad pad)
@@ -196,4 +197,63 @@ float DXInput::GetStick(Stick stick)
     if (stick == RStickY)return this->stick.RStickY;
     if (stick == LStickX)return this->stick.LStickX;
     if (stick == LStickY)return this->stick.LStickY;
+    if (stick == RStick)return length(this->RStickX, this->RStickY);
+    if (stick == LStick)return length(this->LStickX, this->LStickY);
+}
+
+float DXInput::GetStickRot(Stick stick)
+{
+    float stickX = 0.0f;
+    float stickY = 0.0f;
+    //右スティックの角度を参照する場合
+    if (stick == RStick || stick == RStickX || stick == RStickY)
+    {
+        //入力がない場合0を返す
+        if (this->stick.RStickX == 0 && this->stick.RStickY == 0)
+        {
+            return 0.0f;
+        }
+        //正規化したYの値を代入
+        stickY = normalize(this->stick.RStickX, this->stick.RStickY).y;
+        //ステックのXの値を代入
+        stickX = this->stick.RStickY;
+    }
+    //左スティックの角度を参考にする場合
+    else if (stick == LStick || stick == LStickX || stick == LStickY)
+    {
+        //入力がない場合0を返す
+        if (this->stick.LStickX == 0 && this->stick.LStickY == 0)
+        {
+            return 0.0f;
+        }
+        //正規化したYの値を代入
+        stickY = normalize(this->stick.LStickX, this->stick.LStickY).y;
+        //ステックのXの値を代入
+        stickX = this->stick.LStickX;
+    }
+    //0~180の場合
+    if (stickX >= 0.0f)
+    {
+        //-1する
+        stickY -= 1.0f;
+        //-を外す
+        stickY *= -1.0f;
+        //度数法に変換
+        stickY *= 90.0f;
+        //ラジアンに変換
+        stickY *= (float(PI) / 180.0f);
+    }
+    //180~360の場合
+    else
+    {
+        //+1する
+        stickY += 1.0f;
+        //度数法に変換
+        stickY *= 90.0f;
+        //180度追加
+        stickY += 180.0f;
+        //ラジアンに変換
+        stickY *= (float(PI) / 180.0f);
+    }
+    return stickY;
 }

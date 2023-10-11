@@ -24,6 +24,7 @@ public:
 	void Initialize();
 	//更新
 	void Update();
+	void TitleUpdate(XMFLOAT3 playerPos, XMFLOAT3 playerRot);	//タイトル
 	//ビルボード行列の更新
 	void BillboardUpdate();
 	//デバッグ Arrowキーで視点座標変更
@@ -72,4 +73,6 @@ private:
 	float playerChangeRot = (float)PI;
 	float playerChangeRot2 = 0.5f;
 	float playerChangeDistance = 0.0f;
+	float playerAddRot = 0.0f;
+	float rotSpeed = (float)PI * 1.5f / 180.0f;
 };

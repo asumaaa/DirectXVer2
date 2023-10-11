@@ -291,3 +291,51 @@ DirectX::XMFLOAT3 rollRotation(DirectX::XMFLOAT3 vector, DirectX::XMFLOAT3 rotat
 
 	return v;
 }
+
+const DirectX::XMFLOAT2 operator+(DirectX::XMFLOAT2 v1, DirectX::XMFLOAT2 v2)
+{
+	return DirectX::XMFLOAT2(v1.x + v2.x,v1.y + v2.y);
+}
+
+const DirectX::XMFLOAT2 operator-(DirectX::XMFLOAT2 v1, DirectX::XMFLOAT2 v2)
+{
+	return DirectX::XMFLOAT2(v1.x - v2.x, v1.y - v2.y);
+}
+
+const DirectX::XMFLOAT2 operator*(DirectX::XMFLOAT2 v, float s)
+{
+	return DirectX::XMFLOAT2(v.x * s,v.y * s);
+}
+
+const DirectX::XMFLOAT2 operator/(DirectX::XMFLOAT2 v, float s)
+{
+	return DirectX::XMFLOAT2(v.x / s, v.y / s);
+}
+
+float length(DirectX::XMFLOAT2 v)
+{
+	float x = v.x * v.x;
+	float y = v.y * v.y;
+	return sqrt(x + y);
+}
+
+float length(float x, float y)
+{
+	float x2 = x * x;
+	float y2 = y * y;
+	return sqrt(x2 + y2);
+}
+
+DirectX::XMFLOAT2 normalize(DirectX::XMFLOAT2 v)
+{
+	float len = length(v);
+
+	return v / len;
+}
+
+DirectX::XMFLOAT2 normalize(float x, float y)
+{
+	float len = length(x,y);
+
+	return DirectX::XMFLOAT2(x,y) / len;
+}

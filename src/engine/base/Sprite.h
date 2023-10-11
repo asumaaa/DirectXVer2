@@ -40,7 +40,7 @@ public:	//メンバ関数
 
 public:	//静的メンバ変数セッター
 	static void SetDevice(ID3D12Device* device) { Sprite::device = device; }
-	static void SetSpriteManager(TextureManager* spriteManager) { Sprite::spriteManager = spriteManager; }
+	static void SetTextureManager(TextureManager* spriteManager) { Sprite::spriteManager = spriteManager; }
 	static void CreateGraphicsPipeLine();
 
 public:	//セッター

@@ -43,6 +43,9 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInp
 	newTextureManager->LoadFile(15, L"Resources/pictures/blackParticle.png");
 	newTextureManager->LoadFile(16, L"Resources/pictures/effect4.png");
 	newTextureManager->LoadFile(17, L"Resources/pictures/skyBox.png");
+	newTextureManager->LoadFile(18, L"Resources/pictures/title1.png");
+	newTextureManager->LoadFile(19, L"Resources/pictures/title2.png");
+	newTextureManager->LoadFile(20, L"Resources/pictures/game1.png");
 
 	textureManager.reset(newTextureManager);
 
@@ -66,8 +69,29 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInp
 
 	//スプライト
 	Sprite::SetDevice(dxCommon->GetDevice());
-	Sprite::SetSpriteManager(textureManager.get());
+	Sprite::SetTextureManager(textureManager.get());
 	Sprite::CreateGraphicsPipeLine();
+	//タイトルのスプライト
+	Sprite* newTitle1Sprite = new Sprite();
+	newTitle1Sprite->Initialize();
+	title1Sprite.reset(newTitle1Sprite);
+	title1Sprite->SetTextureNum(18);
+	title1Sprite->SetPosition(XMFLOAT2(0.0f, -150.0f));
+	title1Sprite->SetScale(XMFLOAT2(1280.0f, 480.0f));
+	//タイトルのスプライト2
+	Sprite* newTitle2Sprite = new Sprite();
+	newTitle2Sprite->Initialize();
+	title2Sprite.reset(newTitle2Sprite);
+	title2Sprite->SetTextureNum(19);
+	title2Sprite->SetPosition(XMFLOAT2(300.0f, 500.0f));
+	title2Sprite->SetScale(XMFLOAT2(609.0f, 52.0f));
+	//ゲームのスプライト1
+	Sprite* newGame1Sprite = new Sprite();
+	newGame1Sprite->Initialize();
+	game1Sprite.reset(newGame1Sprite);
+	game1Sprite->SetTextureNum(20);
+	game1Sprite->SetPosition(XMFLOAT2(0.0f, 0.0f));
+	game1Sprite->SetScale(XMFLOAT2(399.0f, 60.0f));
 
 	//カメラ初期化
 	Camera::SetInput(input_);
@@ -275,32 +299,87 @@ void GameScene::Finalize()
 
 void GameScene::Update()
 {
-	//カメラ更新
-	camera_->UpdatePlayer(player->GetPosition(), player->GetRotation1());
-	/*camera_->DebugUpdate();*/
-	camera_->Update();
 	//コントローラー更新
 	dxInput->InputProcess();
+
+	//モードマネージャー
+	ModeManager();
+
+	//シーンごとの処理
+	(this->*Mode[mode])();
+}
+
+void GameScene::UpdateTitle()
+{
+	//カメラ更新
+	/*camera_->DebugUpdate();*/
+	camera_->TitleUpdate(player->GetPosition(), player->GetRotation1());
+	camera_->Update();
 
 	billboardSprite->SetPosition(XMFLOAT3(0.0f, 10.0f, 0.0f));
 	billboardSprite->SetScale(XMFLOAT3(2.5f, 0.3f, 1.0f));
 	billboardSprite->Update();
 
-	/*particleObject->SetPosition(XMFLOAT3(10.0f,5.0f,0));*/
-	//パーティクル
-	/*particleManager->Update();*/
-	if (input_->TriggerKey(DIK_N))
+	//スプライト更新
+	title1Sprite->Update();
+	title2Sprite->Update();
+
+	//ライト
+	lightTarget[0] = player->GetPosition().x + 25;
+	lightTarget[1] = player->GetPosition().y + 25;
+	lightTarget[2] = player->GetPosition().z + 25;
+	lightPos[0] = player->GetPosition().x;
+	lightPos[1] = player->GetPosition().y;
+	lightPos[2] = player->GetPosition().z;
+	light->SetEye(XMFLOAT3(lightPos));
+	light->SetTarget(XMFLOAT3(lightTarget));
+	light->SetDir(XMFLOAT3(lightDir));
+	light->Update();
+
+	//ライト
+	lightGroup->SetAmbientColor(XMFLOAT3(1, 1, 1));
+	lightGroup->SetDirLightActive(0, false);
+	lightGroup->SetDirLightActive(1, false);
+	lightGroup->SetDirLightActive(2, false);
+	lightGroup->Update();
+
+	//天球
+	skySphereObject->HomingUpdate(player->GetPosition());
+	skySphereObject->Update();
+
+	//プレイヤー
+	player->UpdateTitle();
+
+	//オブジェクト更新
+	for (std::unique_ptr<FbxObject3D>& object0 : object)
 	{
-		/*sparkParticle->Add(XMFLOAT3(0,0,0));*/
+		object0->Update();
 	}
+
+	//コライダー更新
+	/*UpdateCollider();*/
+}
+
+void GameScene::UpdateGame()
+{
+	//カメラ更新
+	camera_->UpdatePlayer(player->GetPosition(), player->GetRotation0());
+	/*camera_->DebugUpdate();*/
+	camera_->Update();
+
+	//コントローラテスト
+	stickTest[0] = dxInput->GetStickRot(DXInput::LStick);
+	stickTest[1] = dxInput->GetStick(DXInput::LStickY);
+	//スプライト更新
+	game1Sprite->Update();
+
+	billboardSprite->SetPosition(XMFLOAT3(0.0f, 10.0f, 0.0f));
+	billboardSprite->SetScale(XMFLOAT3(2.5f, 0.3f, 1.0f));
+	billboardSprite->Update();
+
+	//パーティクル
 	sparkParticle->Update();
 
-	if (input_->TriggerKey(DIK_N))
-	{
-		sparkParticle2->Add(XMFLOAT3(0, 3.0f, 0));
-		explosionParticle1->Add(XMFLOAT3(0, 3.0f, 0));
-		explosionParticle2->Add(XMFLOAT3(0, 3.0f, 0));
-	}
 	sparkParticle2->Update();
 	explosionParticle1->Update();
 	explosionParticle2->Update();
@@ -427,42 +506,55 @@ void GameScene::UpdateCollider()
 
 void GameScene::Draw()
 {
-	//ImGui
-	ImGui::Begin("GameScene");
-	ImGui::SetWindowPos(ImVec2(0, 0));
-	ImGui::SetWindowSize(ImVec2(500, 150));
-	ImGui::InputInt("DrawFbx", drawFbx);
-	ImGui::InputInt("DrawSprite", drawSprite);
-	ImGui::InputInt("DrawCollider", drawCollider);
-	ImGui::InputInt("DrawParticle", drawParticle);
-	ImGui::End();
+	//シーンごとの描画
+	(this->*ModeDraw[modeDraw])();
+}
 
-	//コライダーの描画
-	if (*drawCollider == 1)DrawCollider();
-	//スプライトの描画
-	if (*drawSprite == 1)DrawSprite();
+void GameScene::DrawTitle()
+{
 	//FBXの描画
-	if (*drawFbx == 1)DrawFBX();
-	//パーティクルの描画
-	if (*drawParticle == 1)DrawParticle();
+	/*if (*drawFbx == 1)DrawFBXTitle();*/
 
 	//天球描画
 	skySphereObject->Draw(dxCommon_->GetCommandList(), skySphereModel->vbView, skySphereModel->ibView);
 
-	/*billboardSprite->Draw(dxCommon_->GetCommandList());*/
+	//スプライトの描画
+	/*if (*drawSprite == 1)*/DrawSpriteTitle();
 }
 
-void GameScene::DrawFBXLightView()
+void GameScene::DrawGame()
 {
-	for (std::unique_ptr<FbxObject3D>& object0 : object)
-	{
-		object0->DrawLightView(dxCommon_->GetCommandList());
-	}
+	////ImGui
+	//ImGui::Begin("GameScene");
+	//ImGui::SetWindowPos(ImVec2(0, 0));
+	//ImGui::SetWindowSize(ImVec2(500, 150));
+	//ImGui::InputInt("DrawFbx", drawFbx);
+	//ImGui::InputInt("DrawSprite", drawSprite);
+	//ImGui::InputInt("DrawCollider", drawCollider);
+	//ImGui::InputInt("DrawParticle", drawParticle);
+	//ImGui::End();
 
-	player->DrawLightView(dxCommon_->GetCommandList());
+	//ImGui
+	ImGui::Begin("GameScene");
+	ImGui::SetWindowPos(ImVec2(0, 0));
+	ImGui::SetWindowSize(ImVec2(500, 150));
+	ImGui::InputFloat2("StickTest", stickTest);
+	ImGui::End();
+
+	//天球描画
+	skySphereObject->Draw(dxCommon_->GetCommandList(), skySphereModel->vbView, skySphereModel->ibView);
+
+	//コライダーの描画
+	if (*drawCollider == 1)DrawColliderGame();
+	//スプライトの描画
+	if (*drawSprite == 1)DrawSpriteGame();
+	//FBXの描画
+	if (*drawFbx == 1)DrawFBXGame();
+	//パーティクルの描画
+	if (*drawParticle == 1)DrawParticleGame();
 }
 
-void GameScene::DrawFBX()
+void GameScene::DrawFBXTitle()
 {
 	for (std::unique_ptr<FbxObject3D>& object0 : object)
 	{
@@ -472,17 +564,87 @@ void GameScene::DrawFBX()
 	player->Draw(dxCommon_->GetCommandList());
 }
 
-void GameScene::DrawCollider()
+void GameScene::DrawColliderTitle()
 {
 	ColliderManager::Draw(dxCommon_->GetCommandList());
 }
 
-void GameScene::DrawSprite()
+void GameScene::DrawSpriteTitle()
 {
-	/*enemy->DrawSprite(dxCommon_->GetCommandList());*/
+	title1Sprite->Draw(dxCommon_->GetCommandList());
+	title2Sprite->Draw(dxCommon_->GetCommandList());
 }
 
-void GameScene::DrawParticle()
+void GameScene::DrawParticleTitle()
+{
+}
+
+void GameScene::DrawFBXLightView()
+{
+	//シーンごとの描画
+	(this->*ModeDrawLightView[modeDrawLightView])();
+}
+
+void GameScene::DrawFBXLightViewTitle()
+{
+	for (std::unique_ptr<FbxObject3D>& object0 : object)
+	{
+		object0->DrawLightView(dxCommon_->GetCommandList());
+	}
+
+	player->DrawLightView(dxCommon_->GetCommandList());
+}
+
+void GameScene::DrawFBXLightViewGame()
+{
+	for (std::unique_ptr<FbxObject3D>& object0 : object)
+	{
+		object0->DrawLightView(dxCommon_->GetCommandList());
+	}
+
+	player->DrawLightView(dxCommon_->GetCommandList());
+}
+
+void GameScene::ModeManager()
+{
+	//タイトルの時AかSPACEが押されたら
+	if (input_->TriggerKey(DIK_SPACE) || dxInput->TriggerKey(DXInput::PAD_A))
+	{
+		mode = static_cast<size_t>(Mode::Game);
+		modeDraw = static_cast<size_t>(ModeDraw::GameDraw);
+		modeDrawLightView = static_cast<size_t>(ModeDrawLightView::GameDrawLightView);
+	}
+
+	//ゲームの時Bが押されたら
+	/*if (dxInput->TriggerKey(DXInput::PAD_B))
+	{
+		mode = static_cast<size_t>(Mode::Title);
+		modeDraw = static_cast<size_t>(ModeDraw::TitleDraw);
+		modeDrawLightView = static_cast<size_t>(ModeDrawLightView::TitleDrawLightView);
+	}*/
+}
+
+void GameScene::DrawFBXGame()
+{
+	for (std::unique_ptr<FbxObject3D>& object0 : object)
+	{
+		object0->Draw(dxCommon_->GetCommandList());
+	}
+
+	player->Draw(dxCommon_->GetCommandList());
+}
+
+void GameScene::DrawColliderGame()
+{
+	ColliderManager::Draw(dxCommon_->GetCommandList());
+}
+
+void GameScene::DrawSpriteGame()
+{
+	game1Sprite->Draw(dxCommon_->GetCommandList());
+}
+
+void GameScene::DrawParticleGame()
 {
 	sparkParticle->Draw(dxCommon_->GetCommandList());
 	sparkParticle2->Draw(dxCommon_->GetCommandList());
@@ -504,3 +666,20 @@ DirectX::XMMATRIX GameScene::GetLightViewProjection()
 {
 	return light->GetMatViewProjection();
 }
+
+//メンバ関数のポインタテーブル
+void(GameScene::* GameScene::Mode[])() =
+{
+	&GameScene::UpdateTitle,
+	&GameScene::UpdateGame,
+};
+void(GameScene::* GameScene::ModeDraw[])() =
+{
+	&GameScene::DrawTitle,
+	&GameScene::DrawGame,
+};
+void(GameScene::* GameScene::ModeDrawLightView[])() =
+{
+	&GameScene::DrawFBXLightViewTitle,
+	&GameScene::DrawFBXLightViewGame,
+};

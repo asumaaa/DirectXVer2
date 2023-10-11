@@ -31,14 +31,25 @@
 #include "ObjModel.h"
 #include "ObjObject3D.h"
 
-enum Mode
-{
-	Title,
-	Game,
-};
-
 class GameScene
 {
+public:	//モード
+	enum class Mode
+	{
+		Title,	//タイトル
+		Game,	//ゲームシーン
+	};
+	enum class ModeDraw
+	{
+		TitleDraw,	//タイトル
+		GameDraw,	//ゲームシーン
+	};
+	enum class ModeDrawLightView
+	{
+		TitleDrawLightView,	//タイトル
+		GameDrawLightView,	//ゲームシーン
+	};
+
 	//メンバ関数
 public:
 	GameScene();
@@ -47,16 +58,45 @@ public:
 	void Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInput);
 	//終了時
 	void Finalize();
+
 	//更新
 	void Update();
+	//モードごとの更新
+	void UpdateTitle();	//タイトル
+	void UpdateGame();	//ゲームシーン
+	//コライダーの更新
 	void UpdateCollider();
+
 	//描画
 	void Draw();
+	//モードごとの描画
+	void DrawTitle();	//タイトル
+	void DrawGame();	//ゲームシーン
+	//モードごとの描画
+	//タイトル
+	void DrawFBXTitle();			//FBX描画
+	void DrawColliderTitle();		//コライダーの描画
+	void DrawSpriteTitle();			//スプライト
+	void DrawParticleTitle();		//パーティクル
+	//ゲーム
+	void DrawFBXGame();				//FBX描画
+	void DrawColliderGame();		//コライダーの描画
+	void DrawSpriteGame();			//スプライト
+	void DrawParticleGame();		//パーティクル
+
+	//ライト目線の描画
 	void DrawFBXLightView();
-	void DrawFBX();
-	void DrawCollider();
-	void DrawSprite();
-	void DrawParticle();
+	//モードごと
+	void DrawFBXLightViewTitle();	//タイトル
+	void DrawFBXLightViewGame();	//ゲーム
+
+	//モードマネージャー
+	void ModeManager();
+
+	//メンバ関数のポインタテーブル
+	static void (GameScene::* Mode[])();
+	static void (GameScene::* ModeDraw[])();
+	static void (GameScene::* ModeDrawLightView[])();
 
 	//セッター
 	void SetSRV(ID3D12DescriptorHeap* SRV);
@@ -71,6 +111,11 @@ private:
 	DXInput* dxInput = nullptr;
 	//カメラ
 	std::unique_ptr<Camera> camera_;
+
+	//モード
+	size_t mode = static_cast<size_t>(Mode::Game);	//更新
+	size_t modeDraw = static_cast<size_t>(ModeDraw::GameDraw);		//描画
+	size_t modeDrawLightView = static_cast<size_t>(ModeDrawLightView::GameDrawLightView);//ライト目線描画
 
 	//fbx
 	std::list<std::unique_ptr<FbxModel>> models;
@@ -140,10 +185,17 @@ private:
 	//描画フラグ
 	int drawParticle[1] = { 1 };
 	int drawFbx[1] = { 1 };
-	int drawSprite[1] = { 0 };
+	int drawSprite[1] = { 1 };
 	int drawCollider[1] = { 1 };
 
 	//ビルボード　
 	std::unique_ptr<BillboardSprite>billboardSprite;
 	std::unique_ptr<BillboardSpriteModel>billboardSpriteModel;
+
+	//スプライト
+	std::unique_ptr<Sprite>title1Sprite;
+	std::unique_ptr<Sprite>title2Sprite;
+	std::unique_ptr<Sprite>game1Sprite;
+
+	float stickTest[2] = { 0.0f,0.0f };
 };

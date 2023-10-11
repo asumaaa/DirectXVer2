@@ -39,6 +39,16 @@ void Camera::Update()
 	matView_ = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));
 }
 
+void Camera::TitleUpdate(XMFLOAT3 playerPos, XMFLOAT3 playerRot)
+{
+	float distance = 60.0f;
+	eye_.x = playerPos.x + (cos(-playerRot.y - (PI / 2)) * distance);
+	eye_.y = playerPos.y + (cos(-playerRot.x + (PI * 22 / 40)) * distance);
+	eye_.z = playerPos.z + (sin(-playerRot.y + (PI / 2)) * distance);
+
+	target_ = { playerPos.x,5.0f,playerPos.z };
+}
+
 void Camera::BillboardUpdate()
 {
 	XMFLOAT3 eye = eye_;
@@ -129,34 +139,34 @@ void Camera::UpdatePlayer(XMFLOAT3 playerPos, XMFLOAT3 playerRot)
 	eye_.y = sin(playerChangeRot2) * playerTargetDistance;
 	eye_.z = cos(playerChangeRot) * playerTargetDistance + target_.z;*/
 
-	/*eye_.x = playerPos.x + (cos(-playerRot.y - (PI / 2)) * playerTargetDistance);
+	eye_.x = playerPos.x + (cos(-playerRot.y - (PI / 2)) * playerTargetDistance);
 	eye_.y = playerPos.y + (cos(-playerRot.x + (PI * 15 / 40)) * playerTargetDistance);
-	eye_.z = playerPos.z + (sin(-playerRot.y - (PI / 2)) * playerTargetDistance);*/
+	eye_.z = playerPos.z + (sin(-playerRot.y - (PI / 2)) * playerTargetDistance);
 
-	//1フレームあたりの移動量
-	float rot = (float)PI / 120.0f;
+	////1フレームあたりの移動量
+	//float rot = (float)PI / 120.0f;
 
-	//視点座標を変更
-	if (dxInput->GetStick(DXInput::RStickX) <= -0.1)
-	{
-		DebugChangeRot -= (float)rot;
-	}
-	if (dxInput->GetStick(DXInput::RStickX) >= +0.1)
-	{
-		DebugChangeRot += (float)rot;
-	}
-	if (dxInput->GetStick(DXInput::RStickY) <= -0.1)
-	{
-		DebugChangeRot2 -= (float)rot;
-	}
-	if (dxInput->GetStick(DXInput::RStickY) >= +0.1)
-	{
-		DebugChangeRot2 += (float)rot;
-	}
+	////視点座標を変更
+	//if (dxInput->GetStick(DXInput::RStickX) <= -0.1)
+	//{
+	//	DebugChangeRot -= (float)rot;
+	//}
+	//if (dxInput->GetStick(DXInput::RStickX) >= +0.1)
+	//{
+	//	DebugChangeRot += (float)rot;
+	//}
+	//if (dxInput->GetStick(DXInput::RStickY) <= -0.1)
+	//{
+	//	DebugChangeRot2 -= (float)rot;
+	//}
+	//if (dxInput->GetStick(DXInput::RStickY) >= +0.1)
+	//{
+	//	DebugChangeRot2 += (float)rot;
+	//}
 
-	eye_.x = playerPos.x + (cos(DebugChangeRot) * playerTargetDistance);
-	eye_.y = playerPos.y + (cos(DebugChangeRot2) * playerTargetDistance);
-	eye_.z = playerPos.z + (sin(DebugChangeRot) * playerTargetDistance);
+	//eye_.x = playerPos.x + (cos(DebugChangeRot) * playerTargetDistance);
+	//eye_.y = playerPos.y + (cos(DebugChangeRot2) * playerTargetDistance);
+	//eye_.z = playerPos.z + (sin(DebugChangeRot) * playerTargetDistance);
 }
 
 void Camera::SetTarget(XMFLOAT3 pos)

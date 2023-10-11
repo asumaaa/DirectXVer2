@@ -71,6 +71,8 @@ public:
         RStickY,
         LStickX,
         LStickY,
+        RStick,
+        LStick,
     };
 
 public:// メンバ関数
@@ -94,6 +96,8 @@ public:// メンバ関数
 
     //スティック取得
     float GetStick(Stick stick);
+    //スティックを真上から見た際の角度取得(ラジアン)
+    float GetStickRot(Stick stick);
 
     /*HRESULT UpdateCountrollerState();*/
 

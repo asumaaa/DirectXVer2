@@ -1,4 +1,43 @@
 {
     "name": "scene",
-    "objects": []
+    "objects": [
+        {
+            "type": "MESH",
+            "name": "平面",
+            "transform": {
+                "translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scale": [
+                    500.0,
+                    500.0,
+                    1.0
+                ]
+            },
+            "file_name": "plane",
+            "collider": {
+                "type": "Plane",
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    500.0,
+                    500.0,
+                    1.0
+                ]
+            },
+            "textureNum1": "10",
+            "textureNum2": "9",
+            "shaderName": "MultiTextureTest"
+        }
+    ]
 }

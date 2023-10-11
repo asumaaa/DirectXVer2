@@ -100,3 +100,22 @@ float LenSegOnSeparateAxis(DirectX::XMFLOAT3 Sep, DirectX::XMFLOAT3 e1,
 DirectX::XMFLOAT3 rollRotation(DirectX::XMFLOAT3 vector, DirectX::XMFLOAT3 rotation);
 
 #pragma endregion
+
+#pragma region XMFLOAT2関連
+
+//加算
+const DirectX::XMFLOAT2 operator+(DirectX::XMFLOAT2 v1, DirectX::XMFLOAT2 v2);
+//減算
+const DirectX::XMFLOAT2 operator-(DirectX::XMFLOAT2 v1, DirectX::XMFLOAT2 v2);
+//乗算
+const DirectX::XMFLOAT2 operator*(DirectX::XMFLOAT2 v, float s);
+//除算
+const DirectX::XMFLOAT2 operator/(DirectX::XMFLOAT2 v, float s);
+//長さ
+float length(DirectX::XMFLOAT2 v);
+float length(float x,float y);
+//正規化
+DirectX::XMFLOAT2 normalize(DirectX::XMFLOAT2 v);
+DirectX::XMFLOAT2 normalize(float x,float y);
+
+#pragma endregion

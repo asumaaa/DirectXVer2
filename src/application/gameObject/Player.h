@@ -41,6 +41,7 @@ public:
 	void Initialize();
 	//更新
 	void Update();
+	void UpdateTitle();
 	void UpdateObject();
 	void UpdateObject(Status status, FbxObject3D* object);
 	void UpdateBullet();
@@ -50,9 +51,11 @@ public:
 
 	//挙動関連
 	//挙動全般
-	void Control();
+	void TitleControl();
+	void GameControl();
 	//移動
 	void Move();
+	void TitleMove();
 	//落下
 	void UpdateGravity();
 	//ジャンプ
@@ -163,7 +166,7 @@ public:
 
 	//スピード
 	float posSpeed = 1.0f;
-	float rotSpeed = (float)PI * 1.5f / 180.0f;
+	float rot0Speed = (float)PI * 1.5f / 180.0f;
 
 	//攻撃関連
 	//Attack1のタイマー
