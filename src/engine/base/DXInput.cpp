@@ -35,7 +35,7 @@ void DXInput::InputProcess() {
     //if (GamePad.state.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) pad_rightShoulder = 1; //ゲームパッドR
 
     // ゲームパッドデッドゾーン処理
-    /*if ((GamePad.state.Gamepad.sThumbLX < XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
+    if ((GamePad.state.Gamepad.sThumbLX < XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
         GamePad.state.Gamepad.sThumbLX > -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) &&
         (GamePad.state.Gamepad.sThumbLY < XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE &&
             GamePad.state.Gamepad.sThumbLY > -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE))
@@ -50,7 +50,7 @@ void DXInput::InputProcess() {
     {
         GamePad.state.Gamepad.sThumbRX = 0;
         GamePad.state.Gamepad.sThumbRY = 0;
-    }*/
+    }
 
     // ゲームパッドの振動
     /*XInputSetState(0, &GamePad.vibration);*/
@@ -92,6 +92,9 @@ void DXInput::Update()
     //1フレーム前のコントローラーを保存
     UpdateOldKey();
 
+    //1フレーム前のスティックを保存
+    UpdateOldStick();
+
     //更新
     InputProcess();
 
@@ -123,15 +126,19 @@ void DXInput::UpdateOldKey()
 
 void DXInput::UpdateStick()
 {
-    /*stick.RStickX = GamePad.state.Gamepad.sThumbRX / 65535;
-    stick.RStickY = GamePad.state.Gamepad.sThumbRY / 65535;
-    stick.LStickX = GamePad.state.Gamepad.sThumbLX / 65535;
-    stick.LStickY = GamePad.state.Gamepad.sThumbLY / 65535;*/
     stick.RStickX = GamePad.state.Gamepad.sThumbRX / 32767.0f;
     stick.RStickY = GamePad.state.Gamepad.sThumbRY / 32767.0f;
     stick.LStickX = GamePad.state.Gamepad.sThumbLX / 32767.0f;
     stick.LStickY = GamePad.state.Gamepad.sThumbLY / 32767.0f;
+    stick.RStick = length(stick.RStickX, stick.RStickY);
+    stick.LStick = length(stick.LStickX, stick.LStickY);
 }
+
+void DXInput::UpdateOldStick()
+{
+   oldStick = stick;
+}
+
 
 bool DXInput::PushKey(Pad pad)
 {
@@ -197,8 +204,8 @@ float DXInput::GetStick(Stick stick)
     if (stick == RStickY)return this->stick.RStickY;
     if (stick == LStickX)return this->stick.LStickX;
     if (stick == LStickY)return this->stick.LStickY;
-    if (stick == RStick)return length(this->RStickX, this->RStickY);
-    if (stick == LStick)return length(this->LStickX, this->LStickY);
+    if (stick == RStick)return this->stick.RStick;
+    if (stick == LStick)return this->stick.LStick;
 }
 
 float DXInput::GetStickRot(Stick stick)
@@ -256,4 +263,14 @@ float DXInput::GetStickRot(Stick stick)
         stickY *= (float(PI) / 180.0f);
     }
     return stickY;
+}
+
+float DXInput::GetOldStick(Stick stick)
+{
+    if (stick == RStickX)return this->oldStick.RStickX;
+    if (stick == RStickY)return this->oldStick.RStickY;
+    if (stick == LStickX)return this->oldStick.LStickX;
+    if (stick == LStickY)return this->oldStick.LStickY;
+    if (stick == RStick)return this->oldStick.RStick;
+    if (stick == LStick)return this->oldStick.LStick;
 }

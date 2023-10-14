@@ -45,6 +45,7 @@ public:
 	void UpdateObject();
 	void UpdateObject(Status status, FbxObject3D* object);
 	void UpdateBullet();
+	void UpdateOldTransform();
 	//描画
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 	void DrawLightView(ID3D12GraphicsCommandList* cmdList);
@@ -54,7 +55,7 @@ public:
 	void TitleControl();
 	void GameControl();
 	//移動
-	void Move();
+	void GameMove();
 	void TitleMove();
 	//落下
 	void UpdateGravity();
@@ -131,15 +132,20 @@ public:
 	//変形行列
 	//平行移動
 	XMFLOAT3 position = { 0.0f,0.0f,0.0f };
+	XMFLOAT3 oldPosition = { 0.0f,0.0f,0.0f };
 	//回転
 	XMFLOAT3 rotation0 = { 0.0f,0.0f,0.0f };
+	XMFLOAT3 oldRotation0 = { 0.0f,0.0f,0.0f };
 	XMFLOAT3 rotation1 = { 0.0f,0.0f,0.0f };
+	XMFLOAT3 oldRotation1 = { 0.0f,0.0f,0.0f };
 	//サイズ
 	XMFLOAT3 scale = { 1.0f,1.0f,1.0f };
 	//進行ベクトル
 	XMFLOAT3 posVelocity = { 0.0f,0.0f,0.0f };
+	XMFLOAT3 oldPosVelocity = { 0.0f,0.0f,0.0f };
 	//角度ベクトル
 	XMFLOAT3 rotVelocity = { 0.0f,0.0f,0.0f };
+	XMFLOAT3 oldRotVelocity = { 0.0f,0.0f,0.0f };
 
 	//当たり判定関連
 	//接地フラグ
@@ -176,7 +182,7 @@ public:
 	float Attack2Time = 145.0f;
 	float Attack2Timer = 0.0f;
 	//連続攻撃の入力フレーム
-	float Attack1IntervalTime = 20.0f;
+	float Attack1IntervalTime = 50.0f;
 
 	//状態
 	Status status = Wait;

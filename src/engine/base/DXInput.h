@@ -49,6 +49,8 @@ public:
         float RStickY = 0.0f;
         float LStickX = 0.0f;
         float LStickY = 0.0f;
+        float RStick = 0.0f;
+        float LStick = 0.0f;
     };
 
     enum Pad
@@ -89,6 +91,7 @@ public:// メンバ関数
     void UpdateKey();
     void UpdateOldKey();
     void UpdateStick();
+    void UpdateOldStick();
 
     //ボタン取得
     bool PushKey(Pad pad);
@@ -98,6 +101,8 @@ public:// メンバ関数
     float GetStick(Stick stick);
     //スティックを真上から見た際の角度取得(ラジアン)
     float GetStickRot(Stick stick);
+    //1フレーム前のスティック取得
+    float GetOldStick(Stick stick);
 
     /*HRESULT UpdateCountrollerState();*/
 
@@ -107,6 +112,7 @@ private:// メンバ変数
     Key key;
     Key oldKey;
     Thumb stick;
+    Thumb oldStick;
 
 private:
     static int  pad_A, pad_B, pad_X, pad_Y;

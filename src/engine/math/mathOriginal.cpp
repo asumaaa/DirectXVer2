@@ -260,6 +260,10 @@ float length(DirectX::XMFLOAT3 v)
 
 DirectX::XMFLOAT3 normalize(DirectX::XMFLOAT3 v)
 {
+	if (v.x == 0 && v.y == 0 && v.z == 0)
+	{
+		return DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f);
+	}
 	float len = length(v);
 
 	return v / len;
@@ -328,6 +332,10 @@ float length(float x, float y)
 
 DirectX::XMFLOAT2 normalize(DirectX::XMFLOAT2 v)
 {
+	if (v.x == 0 && v.y == 0)
+	{
+		return DirectX::XMFLOAT2(0.0f, 0.0f);
+	}
 	float len = length(v);
 
 	return v / len;
@@ -335,6 +343,10 @@ DirectX::XMFLOAT2 normalize(DirectX::XMFLOAT2 v)
 
 DirectX::XMFLOAT2 normalize(float x, float y)
 {
+	if (x == 0 && y == 0)
+	{
+		return DirectX::XMFLOAT2(0.0f,0.0f);
+	}
 	float len = length(x,y);
 
 	return DirectX::XMFLOAT2(x,y) / len;

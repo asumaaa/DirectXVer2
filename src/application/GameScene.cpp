@@ -368,8 +368,8 @@ void GameScene::UpdateGame()
 	camera_->Update();
 
 	//コントローラテスト
-	stickTest[0] = dxInput->GetStickRot(DXInput::LStick);
-	stickTest[1] = dxInput->GetStick(DXInput::LStickY);
+	stickTest[0] = player->GetPosition().x;
+	stickTest[1] = player->GetPosition().y;
 	//スプライト更新
 	game1Sprite->Update();
 

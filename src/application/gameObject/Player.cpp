@@ -128,6 +128,9 @@ void Player::UpdateTitle()
 
 	//1フレーム前の状態を代入
 	preStatus = status;
+
+	//1フレーム前のトランスフォームを保存
+	UpdateOldTransform();
 }
 
 void Player::UpdateObject()
@@ -175,6 +178,15 @@ void Player::UpdateBullet()
 	//	bullet->SetBullet(position, bulletVelocity);
 	//}
 	//bullet->Update();
+}
+
+void Player::UpdateOldTransform()
+{
+	oldPosition = position;
+	oldRotation0 = rotation0;
+	oldRotation1 = rotation1;
+	oldPosVelocity = posVelocity;
+	oldRotVelocity = rotVelocity;
 }
 
 void Player::Draw(ID3D12GraphicsCommandList* cmdList)
@@ -262,11 +274,14 @@ void Player::GameControl()
 	UpdateGravity();
 
 	//移動
-	Move();
+	GameMove();
 }
 
-void Player::Move()
+void Player::GameMove()
 {
+	//Attack1,Attack2中は移動できない
+	if (status == Attack1 || status == Attack2)return;
+
 	//プレイヤーの元になる角度
 	//AROWキーで角度変更
 	rotVelocity.y = dxInput->GetStick(DXInput::RStickX) * rot0Speed;
@@ -275,12 +290,26 @@ void Player::Move()
 	rotation0 = rotation0 + rotVelocity;
 
 	//左スティック入力による角度変更
-	rotation1.y = dxInput->GetStickRot(DXInput::LStick);
+	//左スティックの入力がある場合
+	if (dxInput->GetStick(DXInput::LStick) != 0.0f)
+	{
+		rotation1.y = dxInput->GetStickRot(DXInput::LStick);
+	}
+	//左スティックの入力がないけど右スティックの入力はある場合
+	else if(dxInput->GetStick(DXInput::RStick) && dxInput->GetStickRot(DXInput::RStick) <= PI)
+	{
+		rotation1 = rotation1 - rotVelocity;
+	}
+	else if (dxInput->GetStick(DXInput::RStick))
+	{
+		rotation1 = rotation1 + rotVelocity;
+	}
 
 	//座標
-	//ASDWで移動
-	posVelocity.x = dxInput->GetStick(DXInput::LStickX) * posSpeed;
-	posVelocity.z = dxInput->GetStick(DXInput::LStickY) * posSpeed;
+	//左スティックで移動
+	XMFLOAT2 stick = normalize(dxInput->GetStick(DXInput::LStickX), dxInput->GetStick(DXInput::LStickY));
+	posVelocity.x = stick.x;
+	posVelocity.z = stick.y;
 	/*posVelocity.x = (input->PushKey(DIK_D) - input->PushKey(DIK_A)) * posSpeed;
 	posVelocity.z = (input->PushKey(DIK_W) - input->PushKey(DIK_S)) * posSpeed;*/
 	//進行ベクトルを回転
@@ -355,13 +384,12 @@ void Player::StatusManager()
 	{
 		status = Attack1;
 	}
-	else if (Attack1Timer >= 1)
+	else if (Attack1Timer >= 1 && Attack1Time - Attack1Timer > Attack1IntervalTime)
 	{
 		status = Attack1;
 	}
 
-	else if (dxInput->TriggerKey(DXInput::PAD_B) && status == Attack1 &&
-		0 <= Attack1Time - Attack1Timer <= Attack1IntervalTime)
+	else if (dxInput->TriggerKey(DXInput::PAD_B) && 0 <= Attack1Time - Attack1Timer <= Attack1IntervalTime)
 	{
 		status = Attack2;
 	}
@@ -411,11 +439,11 @@ void Player::UpdateAttack()
 	if (status == Attack2)
 	{
 		Attack2Timer++;
-		Attack1Timer = 0;
 	}
 	if (Attack2Timer >= Attack2Time)
 	{
 		Attack2Timer = 0.0f;
+		Attack1Timer = 0.0f;
 	}
 }
 
