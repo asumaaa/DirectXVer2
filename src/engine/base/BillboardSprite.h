@@ -1,3 +1,11 @@
+/**
+ * @file BillboardSprite.h
+ * @brief ビルボードのスプライト オブジェクト
+ * 
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 #include "BillboardSpriteModel.h"
 #include "Camera.h"

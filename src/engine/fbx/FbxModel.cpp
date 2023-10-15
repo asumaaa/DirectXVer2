@@ -1,3 +1,10 @@
+/**
+ * @file FbxModel.cpp
+ * @brief FbxLoaderで変換したFBXファイルを保持する
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "FbxModel.h"
 
 TextureManager* FbxModel::textureManager = nullptr;

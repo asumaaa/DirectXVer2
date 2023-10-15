@@ -1,3 +1,10 @@
+/**
+ * @file ExplosionParticle2.cpp
+ * @brief ゲームオブジェクト 爆発のパーティクル
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "ExplosionParticle2.h"
 #include "mathOriginal.h"
 

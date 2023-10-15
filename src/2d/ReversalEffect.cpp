@@ -1,3 +1,10 @@
+/**
+ * @file ReversalEffect.cpp
+ * @brief ポストエフェクト 色反転
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "ReversalEffect.h"
 #include "string.h"
 #include "WinApp.h"

@@ -1,3 +1,10 @@
+/**
+ * @file Plane.h
+ * @brief ゲームオブジェクト 平面
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 #include "DirectXMath.h"
 #include "FbxObject3D.h"

@@ -1,3 +1,10 @@
+/**
+ * @file TextureManager.h
+ * @brief ゲームで使うテクスチャをすべて管理
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 #include "d3dx12.h"
 #include "DirectXMath.h"

@@ -1,3 +1,10 @@
+/**
+ * @file ColliderCubeObject.h
+ * @brief デバッグ用 判定に使うボックスのオブジェクト
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 #include "ColliderCubeModel.h"
 #include "Camera.h"

@@ -1,25 +1,25 @@
 /**
- * @file SparkParticle2.cpp
- * @brief ゲームオブジェクト 火花のパーティクル
+ * @file ThunderParticle.cpp
+ * @brief ゲームオブジェクト 雷のパーティクル
  * @author Asuma Syota
  * @date 2023/4
  */
 
-#include "SparkParticle2.h"
+#include "ThunderParticle.h"
 #include "mathOriginal.h"
 
 #include <d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
 
-ComPtr<ID3D12RootSignature>SparkParticle2::rootsignature;
-ComPtr<ID3D12PipelineState>SparkParticle2::pipelinestate;
-TextureManager* SparkParticle2::spriteManager = nullptr;
-ID3D12Device* SparkParticle2::device = nullptr;
-Camera* SparkParticle2::camera = nullptr;
-Input* SparkParticle2::input = nullptr;
+ComPtr<ID3D12RootSignature>ThunderParticle::rootsignature;
+ComPtr<ID3D12PipelineState>ThunderParticle::pipelinestate;
+TextureManager* ThunderParticle::spriteManager = nullptr;
+ID3D12Device* ThunderParticle::device = nullptr;
+Camera* ThunderParticle::camera = nullptr;
+Input* ThunderParticle::input = nullptr;
 
 
-void SparkParticle2::CreateGraphicsPipeline()
+void ThunderParticle::CreateGraphicsPipeline()
 {
 	HRESULT result = S_FALSE;
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
@@ -31,7 +31,7 @@ void SparkParticle2::CreateGraphicsPipeline()
 
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/SparkParticle2/SparkParticle2VertexShader.hlsl",     // シェーダファイル名
+		L"Resources/Shaders/ThunderParticle/ThunderParticleVertexShader.hlsl",     // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "vs_5_0",    // エントリーポイント名、シェーダーモデル指定
@@ -54,7 +54,7 @@ void SparkParticle2::CreateGraphicsPipeline()
 
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/SparkParticle2/SparkParticle2GeometryShader.hlsl",     // シェーダファイル名
+		L"Resources/Shaders/ThunderParticle/ThunderParticleGeometryShader.hlsl",     // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "gs_5_0",    // エントリーポイント名、シェーダーモデル指定
@@ -77,7 +77,7 @@ void SparkParticle2::CreateGraphicsPipeline()
 
 	// ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/SparkParticle2/SparkParticle2PixelShader.hlsl",   // シェーダファイル名
+		L"Resources/Shaders/ThunderParticle/ThunderParticlePixelShader.hlsl",   // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "ps_5_0",    // エントリーポイント名、シェーダーモデル指定
@@ -203,7 +203,7 @@ void SparkParticle2::CreateGraphicsPipeline()
 	if (FAILED(result)) { assert(0); }
 }
 
-void SparkParticle2::CreateBuffers()
+void ThunderParticle::CreateBuffers()
 {
 	HRESULT result;
 
@@ -352,7 +352,7 @@ void SparkParticle2::CreateBuffers()
 	);
 }
 
-void SparkParticle2::Update()
+void ThunderParticle::Update()
 {
 	//-----この上に頂点の更新処理を書く-----
 
@@ -393,7 +393,7 @@ void SparkParticle2::Update()
 	}
 }
 
-void SparkParticle2::UpdateParticle()
+void ThunderParticle::UpdateParticle()
 {
 	//寿命が尽きたパーティクルを全削除
 	particles.remove_if([](Particle& x)
@@ -420,7 +420,7 @@ void SparkParticle2::UpdateParticle()
 	}
 }
 
-void SparkParticle2::Draw(ID3D12GraphicsCommandList* cmdList)
+void ThunderParticle::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	//パイプラインステートの設定
 	cmdList->SetPipelineState(pipelinestate.Get());
@@ -455,7 +455,7 @@ void SparkParticle2::Draw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->DrawInstanced((UINT)std::distance(particles.begin(), particles.end()), 1, 0, 0);
 }
 
-void SparkParticle2::Add(XMFLOAT3 pos)
+void ThunderParticle::Add(XMFLOAT3 pos)
 {
 	float randPos = 10.0f;
 	float randVelo = 0.2f;
@@ -471,7 +471,7 @@ void SparkParticle2::Add(XMFLOAT3 pos)
 	}
 }
 
-void SparkParticle2::AddParticle(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float startScale, float endScale)
+void ThunderParticle::AddParticle(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float startScale, float endScale)
 {
 	//リストに要素を追加
 	particles.emplace_front();

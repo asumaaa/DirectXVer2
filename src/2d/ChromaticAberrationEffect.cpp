@@ -1,3 +1,10 @@
+/**
+ * @file ChromaticAberration.cpp
+ * @brief ポストエフェクト 色収差
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "ChromaticAberrationEffect.h"
 #include "string.h"
 #include "WinApp.h"

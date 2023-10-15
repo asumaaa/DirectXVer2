@@ -1,3 +1,10 @@
+/**
+ * @file FireParticle.h
+ * @brief ゲームオブジェクト 炎のパーティクル
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 #include "Sprite.h"
 

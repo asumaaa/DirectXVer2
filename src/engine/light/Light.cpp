@@ -1,3 +1,10 @@
+/**
+ * @file Light.cpp
+ * @brief ライトの座標 シャドウマップに使用
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "Light.h"
 
 void Light::Initialize()

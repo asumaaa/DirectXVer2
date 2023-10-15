@@ -1,3 +1,11 @@
+/**
+ * @file BillboardSprite.cpp
+ * @brief ビルボードのスプライト オブジェクト
+ *
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "BillboardSprite.h"
 
 #include <d3dcompiler.h>

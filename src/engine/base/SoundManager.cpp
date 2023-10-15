@@ -1,3 +1,10 @@
+/**
+ * @file SoundManager.h
+ * @brief 音を管理
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "SoundManager.h"
 
 Microsoft::WRL::ComPtr<IXAudio2>SoundManager::xAudio2_;

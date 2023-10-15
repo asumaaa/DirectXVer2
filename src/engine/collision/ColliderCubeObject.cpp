@@ -1,3 +1,10 @@
+/**
+ * @file ColliderCubeObject.cpp
+ * @brief デバッグ用 判定に使うボックスのオブジェクト
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "ColliderCubeObject.h"
 
 #include <d3dcompiler.h>

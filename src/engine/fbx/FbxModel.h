@@ -1,3 +1,10 @@
+/**
+ * @file FbxModel.h
+ * @brief FbxLoaderで変換したFBXファイルを保持する
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 #include "string"
 #include "vector"

@@ -1,3 +1,10 @@
+/**
+ * @file DirectionalLight.h
+ * @brief 一直線のライト オブジェクトの描画に使用
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 
 #include "DirectXMath.h"

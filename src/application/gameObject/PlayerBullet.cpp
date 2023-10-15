@@ -1,3 +1,10 @@
+/**
+ * @file PlayerBullet.cpp
+ * @brief ゲームオブジェクト プレイヤーの弾
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "PlayerBullet.h"
 #include "mathOriginal.h"
 #include "ColliderManager.h"

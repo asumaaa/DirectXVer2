@@ -1,3 +1,10 @@
+/**
+ * @file ImGuiManager.h
+ * @brief ImGuiManagerの管理
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 #include "WinApp.h"
 #include "DirectXCommon.h"

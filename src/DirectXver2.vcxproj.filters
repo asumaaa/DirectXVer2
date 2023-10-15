@@ -145,6 +145,9 @@
     <Filter Include="リソース ファイル\Shaders\Object\Obj">
       <UniqueIdentifier>{d707f0ec-e997-41a0-8495-2e6f4c0c7769}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\Shaders\Object\ThunderParticle">
+      <UniqueIdentifier>{f80ef776-b812-4f58-ae63-addc218b2ff1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="2d\MonochromeEffect.cpp">
@@ -249,12 +252,6 @@
     <ClCompile Include="engine\collision\ColliderSphereObject .cpp">
       <Filter>ソース ファイル\collision</Filter>
     </ClCompile>
-    <ClCompile Include="engine\collision\Collision.cpp">
-      <Filter>ソース ファイル\collision</Filter>
-    </ClCompile>
-    <ClCompile Include="engine\collision\CollisionPrimitive.cpp">
-      <Filter>ソース ファイル\collision</Filter>
-    </ClCompile>
     <ClCompile Include="engine\fbx\FbxLoader.cpp">
       <Filter>ソース ファイル\fbx</Filter>
     </ClCompile>
@@ -314,6 +311,9 @@
     </ClCompile>
     <ClCompile Include="engine\Obj\ObjObject3D.cpp">
       <Filter>ソース ファイル\obb</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\particle\ThunderParticle.cpp">
+      <Filter>ソース ファイル\particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -419,12 +419,6 @@
     <ClInclude Include="engine\collision\ColliderSphereObject.h">
       <Filter>ヘッダー ファイル\collision</Filter>
     </ClInclude>
-    <ClInclude Include="engine\collision\Collision.h">
-      <Filter>ヘッダー ファイル\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="engine\collision\CollisionPrimitive.h">
-      <Filter>ヘッダー ファイル\collision</Filter>
-    </ClInclude>
     <ClInclude Include="engine\fbx\FbxLoader.h">
       <Filter>ヘッダー ファイル\fbx</Filter>
     </ClInclude>
@@ -487,6 +481,9 @@
     </ClInclude>
     <ClInclude Include="engine\Obj\ObjObject3D.h">
       <Filter>ヘッダー ファイル\obb</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\particle\ThunderParticle.h">
+      <Filter>ヘッダー ファイル\particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -652,6 +649,15 @@
     <FxCompile Include="..\Resources\Shaders\Obj\ObjVertexShader.hlsl">
       <Filter>リソース ファイル\Shaders\Object\Obj</Filter>
     </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\ThunderParticle\ThunderParticleGeometryShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Object\ThunderParticle</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\ThunderParticle\ThunderParticlePixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Object\ThunderParticle</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\ThunderParticle\ThunderParticleVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Object\ThunderParticle</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\Shaders\ShaderHeader.hlsli">
@@ -728,6 +734,9 @@
     </None>
     <None Include="..\Resources\Shaders\Obj\ObjHeader.hlsli">
       <Filter>リソース ファイル\Shaders\Object\Obj</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\ThunderParticle\ThunderParticleHeader.hlsli">
+      <Filter>リソース ファイル\Shaders\Object\ThunderParticle</Filter>
     </None>
   </ItemGroup>
 </Project>

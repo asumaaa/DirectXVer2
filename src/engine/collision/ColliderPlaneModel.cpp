@@ -1,3 +1,10 @@
+/**
+ * @file ColliderPlaneModel.cpp
+ * @brief デバッグ用 判定に使う平面のモデル
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "ColliderPlaneModel.h"
 
 void ColliderPlaneModel::CreateBuffers(ID3D12Device* device)

@@ -1,3 +1,10 @@
+/**
+ * @file Sprite.cpp
+ * @brief スプライトのオブジェクト
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "Sprite.h"
 #include "string.h"
 #include "WinApp.h"

@@ -1,3 +1,10 @@
+/**
+ * @file SpotLight.h
+ * @brief スポットライト
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 
 #include "DirectXMath.h"

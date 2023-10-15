@@ -1,3 +1,10 @@
+/**
+ * @file mathOriginal.cpp
+ * @brief 自作した数学関数
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "mathOriginal.h"
 #include "cmath"
 #include "Matrix4.h"

@@ -1,3 +1,10 @@
+/**
+ * @file Input.h
+ * @brief キーボードによる入力を管理
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 
 #include <array>

@@ -1,3 +1,10 @@
+/**
+ * @file ColliderPlaneModel.h
+ * @brief デバッグ用 判定に使う平面のモデル
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 #include "vector"
 #include "DirectXMath.h"

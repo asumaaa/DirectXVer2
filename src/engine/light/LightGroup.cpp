@@ -1,3 +1,10 @@
+/**
+ * @file LightGroup.h
+ * @brief ライトの一括管理
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "LightGroup.h"
 
 using namespace DirectX;

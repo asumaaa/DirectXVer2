@@ -1,3 +1,10 @@
+/**
+ * @file ColliderPlaneObject.cpp
+ * @brief デバッグ用 判定に使う球のオブジェクト
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "ColliderSphereObject.h"
 
 #include <d3dcompiler.h>

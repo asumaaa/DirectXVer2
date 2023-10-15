@@ -1,3 +1,10 @@
+/**
+ * @file MosaicEffect.cpp
+ * @brief ポストエフェクト モザイク
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "MosaicEffect.h"
 #include "string.h"
 #include "WinApp.h"

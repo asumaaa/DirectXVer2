@@ -1,3 +1,10 @@
+/**
+ * @file DepthOfField.cpp
+ * @brief ポストエフェクト 被写界深度
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "DepthOfField.h"
 #include "string.h"
 #include "WinApp.h"

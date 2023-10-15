@@ -1,3 +1,10 @@
+/**
+ * @file PointLight.h
+ * @brief 点光源
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 
 #include "DirectXMath.h"

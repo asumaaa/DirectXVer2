@@ -1,3 +1,10 @@
+/**
+ * @file mathOriginal.h
+ * @brief 自作した数学関数
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 #include "DirectXMath.h"
 #define PI 3.14159265359

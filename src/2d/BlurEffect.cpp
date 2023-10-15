@@ -1,3 +1,10 @@
+/**
+ * @file BlurEffect.cpp
+ * @brief ポストエフェクト ブラー
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "BlurEffect.h"
 #include "string.h"
 #include "WinApp.h"

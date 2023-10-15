@@ -1,3 +1,10 @@
+/**
+ * @file Sprite.h
+ * @brief スプライトのオブジェクト
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 #include "d3dx12.h"
 #include "DirectXMath.h"

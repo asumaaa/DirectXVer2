@@ -1,3 +1,10 @@
+/**
+ * @file ColliderCubeModel.h
+ * @brief デバッグ用 判定に使うボックスのモデル
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "ColliderCubeModel.h"
 
 void ColliderCubeModel::CreateBuffers(ID3D12Device* device)

@@ -1,3 +1,10 @@
+/**
+ * @file GameScene.h
+ * @brief ゲームを管理
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 
 #include "memory"
@@ -24,8 +31,10 @@
 #include "ColliderManager.h"
 #include "SparkParticle.h"
 #include "SparkParticle2.h"
+#include "ThunderParticle.h"
 #include "ExplosionParticle1.h"
 #include "ExplosionParticle2.h"
+#include "ThunderParticle.h"
 #include "BillboardSprite.h"
 #include "BillboardSpriteModel.h"
 #include "ObjModel.h"
@@ -181,6 +190,9 @@ private:
 
 	//爆発パーテイクル2
 	std::unique_ptr<ExplosionParticle2>explosionParticle2;
+
+	//雷パーティクル
+	std::unique_ptr<ThunderParticle>thunderParticle;
 
 	//描画フラグ
 	int drawParticle[1] = { 1 };

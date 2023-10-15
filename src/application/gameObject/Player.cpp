@@ -1,3 +1,10 @@
+/**
+ * @file Player.cpp
+ * @brief ゲームオブジェクト プレイヤー
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "Player.h"
 #include "mathOriginal.h"
 #include "FbxLoader.h"

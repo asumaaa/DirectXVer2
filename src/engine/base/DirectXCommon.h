@@ -1,3 +1,10 @@
+/**
+ * @file DirectXCommon.h
+ * @brief エンジンの基礎
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 #include <Windows.h>
 #include <cstdlib>

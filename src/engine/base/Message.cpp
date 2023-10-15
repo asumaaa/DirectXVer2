@@ -1,3 +1,10 @@
+/**
+ * @file Message.cpp
+ * @brief ゲームの終了処理やデバッグ時に使う
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "Message.h"
 
 Message* Message::GetInstance()

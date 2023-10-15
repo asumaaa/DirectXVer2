@@ -1,3 +1,10 @@
+/**
+ * @file ColliderCubeModel.h
+ * @brief デバッグ用 判定に使うボックスのモデル
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 #include "vector"
 #include "DirectXMath.h"

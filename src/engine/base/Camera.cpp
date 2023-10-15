@@ -1,3 +1,10 @@
+/**
+ * @file Camera.cpp
+ * @brief カメラ ゲームで使うビュー行列を管理
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "Camera.h"
 #include "Math.h"
 #define PI 3.14159265359

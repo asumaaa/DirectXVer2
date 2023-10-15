@@ -1,3 +1,10 @@
+/**
+ * @file Camera.h
+ * @brief カメラ ゲームで使うビュー行列を管理
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 #include "DirectXMath.h"
 #include "Input.h"

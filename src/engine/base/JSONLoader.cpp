@@ -1,3 +1,10 @@
+/**
+ * @file JSONLoader.cpp
+ * @brief JSONファイルをゲームで使う形で読み込む
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "JSONLoader.h"
 #include "json.hpp"
 #include "fstream"

@@ -198,8 +198,6 @@
     <ClCompile Include="engine\collision\ColliderPlaneObject.cpp" />
     <ClCompile Include="engine\collision\ColliderSphereModel.cpp" />
     <ClCompile Include="engine\collision\ColliderSphereObject .cpp" />
-    <ClCompile Include="engine\collision\Collision.cpp" />
-    <ClCompile Include="engine\collision\CollisionPrimitive.cpp" />
     <ClCompile Include="engine\fbx\FbxLoader.cpp" />
     <ClCompile Include="engine\fbx\FbxModel.cpp" />
     <ClCompile Include="engine\fbx\FbxObject3D.cpp" />
@@ -218,6 +216,7 @@
     <ClCompile Include="engine\particle\FireParticle.cpp" />
     <ClCompile Include="engine\particle\SparkParticle.cpp" />
     <ClCompile Include="engine\particle\SparkParticle2.cpp" />
+    <ClCompile Include="engine\particle\ThunderParticle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\BlurEffect.h" />
@@ -257,8 +256,6 @@
     <ClInclude Include="engine\collision\ColliderPlaneObject.h" />
     <ClInclude Include="engine\collision\ColliderSphereModel.h" />
     <ClInclude Include="engine\collision\ColliderSphereObject.h" />
-    <ClInclude Include="engine\collision\Collision.h" />
-    <ClInclude Include="engine\collision\CollisionPrimitive.h" />
     <ClInclude Include="engine\fbx\FbxLoader.h" />
     <ClInclude Include="engine\fbx\FbxModel.h" />
     <ClInclude Include="engine\fbx\FbxObject3D.h" />
@@ -277,6 +274,7 @@
     <ClInclude Include="engine\particle\FireParticle.h" />
     <ClInclude Include="engine\particle\SparkParticle.h" />
     <ClInclude Include="engine\particle\SparkParticle2.h" />
+    <ClInclude Include="engine\particle\ThunderParticle.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\external\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
@@ -489,6 +487,18 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\ThunderParticle\ThunderParticleGeometryShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\ThunderParticle\ThunderParticlePixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\ThunderParticle\ThunderParticleVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="..\Resources\Shaders\VertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
@@ -534,6 +544,7 @@
     <None Include="..\Resources\Shaders\SparkParticle2\SparkParticle2Header.hlsli" />
     <None Include="..\Resources\Shaders\SparkParticle\SparkParticleHeader.hlsli" />
     <None Include="..\Resources\Shaders\Sprite\SpriteHeader.hlsli" />
+    <None Include="..\Resources\Shaders\ThunderParticle\ThunderParticleHeader.hlsli" />
     <None Include="..\Resources\Shaders\Vignette\VignetteHeader.hlsli" />
     <None Include="..\Resources\Shaders\VolumeLight\VolumeLightHeader.hlsli" />
   </ItemGroup>

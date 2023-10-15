@@ -1,3 +1,10 @@
+/**
+ * @file Plane.h
+ * @brief ゲームオブジェクト 平面
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "Plane.h"
 
 Camera* Plane::camera = nullptr;

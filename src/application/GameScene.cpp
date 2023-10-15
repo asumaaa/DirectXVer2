@@ -1,3 +1,10 @@
+/**
+ * @file GameScene.cpp
+ * @brief ゲームを管理
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "GameScene.h"
 #include "FbxLoader.h"
 #include<fstream>
@@ -201,6 +208,16 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInp
 	newExplosionParticle2->SetTextureNum(16);
 	explosionParticle2.reset(newExplosionParticle2);
 
+	//爆発パーティクル
+	ThunderParticle::SetSpriteManager(textureManager.get());
+	ThunderParticle::SetDevice(dxCommon_->GetDevice());
+	ThunderParticle::SetCamera(camera_.get());
+	ThunderParticle::SetInput(input_);
+	ThunderParticle::CreateGraphicsPipeline();
+	ThunderParticle* newThunderParticle = new ThunderParticle();
+	newThunderParticle->CreateBuffers();
+	thunderParticle.reset(newThunderParticle);
+
 	//ビルボードのスプライト
 	BillboardSpriteModel::SetDevice(dxCommon_->GetDevice());
 	BillboardSpriteModel::SetSpriteManager(textureManager.get());
@@ -378,11 +395,12 @@ void GameScene::UpdateGame()
 	billboardSprite->Update();
 
 	//パーティクル
-	sparkParticle->Update();
+	/*sparkParticle->Update();*/
 
-	sparkParticle2->Update();
+	/*sparkParticle2->Update();
 	explosionParticle1->Update();
-	explosionParticle2->Update();
+	explosionParticle2->Update();*/
+	thunderParticle->Update();
 
 	//ライト
 	light->SetEye(XMFLOAT3(lightPos));
@@ -646,10 +664,12 @@ void GameScene::DrawSpriteGame()
 
 void GameScene::DrawParticleGame()
 {
-	sparkParticle->Draw(dxCommon_->GetCommandList());
+	/*sparkParticle->Draw(dxCommon_->GetCommandList());
 	sparkParticle2->Draw(dxCommon_->GetCommandList());
 	explosionParticle1->Draw(dxCommon_->GetCommandList());
-	explosionParticle2->Draw(dxCommon_->GetCommandList());
+	explosionParticle2->Draw(dxCommon_->GetCommandList());*/
+
+	thunderParticle->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::SetSRV(ID3D12DescriptorHeap* SRV)

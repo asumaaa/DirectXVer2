@@ -1,3 +1,10 @@
+/**
+ * @file Fog.cpp
+ * @brief ポストエフェクト フォグ
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "Fog.h"
 #include "string.h"
 #include "WinApp.h"

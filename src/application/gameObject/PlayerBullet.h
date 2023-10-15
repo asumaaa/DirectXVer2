@@ -1,3 +1,10 @@
+/**
+ * @file PlayerBullet.h
+ * @brief ゲームオブジェクト プレイヤーの弾
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 #include "DirectXMath.h"
 #include "FbxObject3D.h"

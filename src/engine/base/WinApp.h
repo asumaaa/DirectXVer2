@@ -1,3 +1,10 @@
+/**
+ * @file WinApp.h
+ * @brief ウィンドウを生成、表示する
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 #include "Windows.h"
 #include "cstdint"

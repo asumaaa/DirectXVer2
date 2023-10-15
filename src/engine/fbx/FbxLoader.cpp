@@ -1,4 +1,11 @@
-﻿#include "FbxLoader.h"
+﻿/**
+ * @file FbxLoader.cpp
+ * @brief FBXファイルをDirectXの描画用に変換する
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
+#include "FbxLoader.h"
 #include <cassert>
 using namespace DirectX;
 

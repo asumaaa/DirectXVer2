@@ -1,4 +1,11 @@
-﻿#pragma once
+﻿/**
+ * @file FbxLoader.h
+ * @brief FBXファイルをDirectXの描画用に変換する
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
+#pragma once
 
 #include "fbxsdk.h"
 #include "FbxModel.h"

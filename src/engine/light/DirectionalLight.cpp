@@ -1,3 +1,10 @@
+/**
+ * @file DirectionalLight.cpp
+ * @brief 一直線のライト オブジェクトの描画に使用
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "DirectionalLight.h"
 
 using namespace DirectX;

@@ -1,3 +1,10 @@
+/**
+ * @file MonochromeEffect.cpp
+ * @brief ポストエフェクト モノクロ
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "MonochromeEffect.h"
 #include "string.h"
 #include "WinApp.h"

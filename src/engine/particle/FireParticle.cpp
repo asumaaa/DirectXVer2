@@ -1,3 +1,10 @@
+/**
+ * @file FireParticle.cpp
+ * @brief ゲームオブジェクト 炎のパーティクル
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "FireParticle.h"
 #include "stdlib.h"
 #define PI 3.141592653589793238462643

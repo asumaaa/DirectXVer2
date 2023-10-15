@@ -1,3 +1,10 @@
+/**
+ * @file Matrix4.cpp
+ * @brief 自作した行列型
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "Matrix4.h"
 #include "cmath"
 

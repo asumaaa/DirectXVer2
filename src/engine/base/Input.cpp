@@ -1,3 +1,10 @@
+/**
+ * @file Input.cpp
+ * @brief キーボードによる入力を管理
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "input.h"
 #include <cassert>
 

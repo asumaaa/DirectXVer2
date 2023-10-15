@@ -1,3 +1,10 @@
+/**
+ * @file ImGuiManager.h
+ * @brief ImGuiManagerの管理
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "ImGuiManager.h"
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx12.h"

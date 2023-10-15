@@ -1,3 +1,10 @@
+/**
+ * @file CSVLoader.cpp
+ * @brief CSVファイルをゲームで使う形で読み込む
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "CSVLoader.h"
 #include<fstream>
 #include "sstream"

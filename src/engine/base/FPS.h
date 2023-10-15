@@ -1,3 +1,10 @@
+/**
+ * @file FPS.h
+ * @brief FPSを一定に保つ
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 #include <fstream>
 #include <sstream>

@@ -1,3 +1,10 @@
+/**
+ * @file ReversalEffect.h
+ * @brief ポストエフェクト 色反転
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 #include "d3dx12.h"
 #include "array"

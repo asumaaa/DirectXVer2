@@ -1,3 +1,10 @@
+/**
+ * @file Message.h
+ * @brief ゲームの終了処理やデバッグ時に使う
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 //#include "dxgidebug.h"
 #include <d3d12.h>

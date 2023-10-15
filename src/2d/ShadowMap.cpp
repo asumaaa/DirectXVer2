@@ -1,3 +1,11 @@
+/**
+ * @file ShadowMap.cpp
+ * @brief ポストエフェクト シャドウマップ
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
+
 #include "ShadowMap.h"
 #include "string.h"
 #include "WinApp.h"

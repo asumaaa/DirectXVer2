@@ -1,3 +1,10 @@
+/**
+ * @file ColliderManager.cpp
+ * @brief 判定の一括管理を行う
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "ColliderManager.h"
 #include "math.h"
 #include "mathOriginal.h"

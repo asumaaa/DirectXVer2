@@ -1,3 +1,10 @@
+/**
+ * @file WinApp.cpp
+ * @brief ウィンドウを生成、表示する
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "WinApp.h"
 #include <string>
 #include <imgui_impl_win32.h>

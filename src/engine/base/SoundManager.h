@@ -1,3 +1,10 @@
+/**
+ * @file SoundManager.h
+ * @brief 音を管理
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 
 #include <xaudio2.h>

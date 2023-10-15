@@ -1,3 +1,10 @@
+/**
+ * @file ExplosionParticle1.h
+ * @brief ゲームオブジェクト 爆発のパーティクル
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 
 #include "TextureManager.h"

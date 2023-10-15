@@ -1,3 +1,10 @@
+/**
+ * @file FbxObject3D.h
+ * @brief FBXの描画を行う
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 
 #include "FbxModel.h"

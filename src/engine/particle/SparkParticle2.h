@@ -1,3 +1,10 @@
+/**
+ * @file SparkParticle2.h
+ * @brief ゲームオブジェクト 火花のパーティクル
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 
 #include "TextureManager.h"

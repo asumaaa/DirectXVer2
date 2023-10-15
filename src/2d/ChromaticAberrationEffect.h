@@ -1,3 +1,10 @@
+/**
+ * @file ChromaticAberration.h
+ * @brief ポストエフェクト 色収差
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 #include "d3dx12.h"
 #include "array"

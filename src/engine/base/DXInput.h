@@ -1,3 +1,10 @@
+/**
+ * @file DXInput.h
+ * @brief ゲームコントローラの入力を管理
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 
 #include <dwrite.h>

@@ -1,3 +1,10 @@
+/**
+ * @file DirectXCommon.cpp
+ * @brief エンジンの基礎
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "DirectXCommon.h"
 //#include "imgui.h"
 //#include <imgui_impl_win32.h>

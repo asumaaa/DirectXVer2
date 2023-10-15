@@ -1,3 +1,11 @@
+/**
+ * @file BillboardSprite.cpp
+ * @brief ビルボードのスプライト モデル
+ *
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "BillboardSpriteModel.h"
 
 TextureManager* BillboardSpriteModel::spriteManager = nullptr;

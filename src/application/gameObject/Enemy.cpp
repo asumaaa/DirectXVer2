@@ -1,3 +1,10 @@
+/**
+ * @file Enemy.cpp
+ * @brief ゲームオブジェクト 敵
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "Enemy.h"
 #include "mathOriginal.h"
 #define G 6.674	//万有引力定数

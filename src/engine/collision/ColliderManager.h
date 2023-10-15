@@ -1,3 +1,10 @@
+/**
+ * @file ColliderManager.h
+ * @brief 判定の一括管理を行う
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 #include "ColliderCubeObject.h"
 #include "ColliderSphereObject.h"

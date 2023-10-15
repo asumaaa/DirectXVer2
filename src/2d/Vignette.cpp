@@ -1,3 +1,10 @@
+/**
+ * @file Vignette.cpp
+ * @brief ポストエフェクト ビネット
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "Vignette.h"
 #include "string.h"
 #include "WinApp.h"

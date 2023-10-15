@@ -1,5 +1,11 @@
-#include "TextureManager.h"
+/**
+ * @file TextureManager.cpp
+ * @brief ゲームで使うテクスチャをすべて管理
+ * @author Asuma Syota
+ * @date 2023/4
+ */
 
+#include "TextureManager.h"
 
 //静的メンバ変数
 ID3D12Device* TextureManager::device = nullptr;

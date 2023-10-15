@@ -1,3 +1,10 @@
+/**
+ * @file CircleShadow.h
+ * @brief 丸影の描画に使う
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 
 #include "DirectXMath.h"

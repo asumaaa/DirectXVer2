@@ -1,3 +1,10 @@
+/**
+ * @file CSVLoader.h
+ * @brief CSVファイルをゲームで使う形で読み込む
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 #include "array"
 #include "DirectXMath.h"

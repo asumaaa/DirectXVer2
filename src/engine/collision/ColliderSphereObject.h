@@ -1,3 +1,10 @@
+/**
+ * @file ColliderPlaneObject.h
+ * @brief デバッグ用 判定に使う球のオブジェクト
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 #include "ColliderSphereModel.h"
 #include "Camera.h"

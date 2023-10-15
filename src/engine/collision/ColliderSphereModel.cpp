@@ -1,3 +1,10 @@
+/**
+ * @file ColliderPlaneObject.cpp
+ * @brief デバッグ用 判定に使う球のモデル
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "ColliderSphereModel.h"
 #include "math.h"
 #define PI 3.1415

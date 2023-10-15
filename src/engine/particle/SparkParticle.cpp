@@ -1,3 +1,10 @@
+/**
+ * @file SparkParticle.cpp
+ * @brief ゲームオブジェクト 火花のパーティクル
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "SparkParticle.h"
 #include "mathOriginal.h"
 

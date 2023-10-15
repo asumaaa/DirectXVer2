@@ -1,3 +1,10 @@
+/**
+ * @file FbxObject3D.cpp
+ * @brief FBXの描画を行う
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #include "FbxObject3D.h"
 #include "FbxLoader.h"
 #include <iostream>

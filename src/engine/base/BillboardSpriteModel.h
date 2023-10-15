@@ -1,3 +1,11 @@
+/**
+ * @file BillboardSprite.h
+ * @brief ビルボードのスプライト モデル
+ *
+ * @author Asuma Syota
+ * @date 2023/4
+ */
+
 #pragma once
 #include "vector"
 #include "DirectXMath.h"
