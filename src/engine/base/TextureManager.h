@@ -28,19 +28,37 @@ public:	 //定数
 	static const size_t kMaxSrvCount = 2056;
 
 public:	//メンバ関数
+
+	/// <summary>
+	///初期化
+	/// </summary>
 	void Initialize();
+
+	/// <summary>
+	///テクスチャを読み込む
+	/// </summary>
 	void LoadFile(int number, const wchar_t* fileName);
-	void SetTextureCommand(int number);
 
 public:	//ゲッター
+
+	/// <summary>
+	///テクスチャのバッファ取得
+	/// </summary>
 	ID3D12Resource* GetTextureBuff(int number) { return textureBuff[number].Get(); }
+
+	/// <summary>
+	///シェーダリソースビュー取得
+	/// </summary>
 	ID3D12DescriptorHeap* GetSrvHeap() { return srvHeap.Get(); }
 
 public:
 	static void SetDevice(ID3D12Device* device) { TextureManager::device = device; }
 
 private:	//静的メンバ変数
-	//デバイス
+
+	/// <summary>
+	///デバイスセット
+	/// </summary>
 	static ID3D12Device* device;
 
 private:	//メンバ変数

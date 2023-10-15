@@ -88,11 +88,11 @@ void DXInput::InputProcess() {
 
 }
 
-void DXInput::XInputInvaid() {
-
-    //XInputEnable(false); // XInputを無効
-
-}
+//void DXInput::XInputInvaid() {
+//
+//    //XInputEnable(false); // XInputを無効
+//
+//}
 
 void DXInput::Update()
 {

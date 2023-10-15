@@ -20,30 +20,71 @@ private:	//エイリアス
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 	//メンバ関数
-public:
-	//静的メンバ関数
+public://静的メンバ関数
+
+	/// <summary>
+	///デバイスセット
+	/// </summary>
 	static void SetCamera(Camera* camera) { Plane::camera = camera; }
+
+	/// <summary>
+	///入力セット
+	/// </summary>
 	static void SetInput(Input* input) { Plane::input = input; }
+
+	/// <summary>
+	///コントローラー入力セット
+	/// </summary>
 	static void SetDXInput(DXInput* dxInput) { Plane::dxInput = dxInput; }
 
-	//初期化
+	/// <summary>
+	///初期化
+	/// </summary>
 	void Initialize();
-	//更新
+
+	/// <summary>
+	///更新
+	/// </summary>
 	void Update();
-	//描画
+
+	/// <summary>
+	///描画
+	/// </summary>
 	void Draw(ID3D12GraphicsCommandList* cmdList);
+
+	/// <summary>
+	///ライト視点描画
+	/// </summary>
 	void DrawLightView(ID3D12GraphicsCommandList* cmdList);
 
-	//移動
+	/// <summary>
+	///移動
+	/// </summary>
 	void Move();
 
-	//セッター
+	/// <summary>
+	///オブジェクトセット
+	/// </summary>
 	void SetObject(FbxObject3D* object);
+
+	/// <summary>
+	///srvセット
+	/// </summary>
 	void SetSRV(ID3D12DescriptorHeap* SRV);
 
-	//ゲッター
+	/// <summary>
+	///座標取得
+	/// </summary>
 	XMFLOAT3 GetPosition() { return position; }
+
+	/// <summary>
+	///角度取得
+	/// </summary>
 	XMFLOAT3 GetRotation() { return rotation; }
+
+	/// <summary>
+	///スケール取得
+	/// </summary>
 	XMFLOAT3 GetScale() { return scale; }
 
 	//静的メンバ変数

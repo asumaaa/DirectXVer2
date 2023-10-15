@@ -24,10 +24,30 @@ using namespace Microsoft::WRL;
 class Input
 {
 public:
+
+	/// <summary>
+	///インスタンス取得
+	/// </summary>
 	static Input* GetInstance();
+
+	/// <summary>
+	///初期化
+	/// </summary>
 	void Initialize(WinApp* winApp);
+
+	/// <summary>
+	///更新
+	/// </summary>
 	void Update();
+
+	/// <summary>
+	///キー取得
+	/// </summary>
 	bool PushKey(BYTE keyNumber);
+
+	/// <summary>
+	///トリガーキー取得
+	/// </summary>
 	bool TriggerKey(BYTE keyNumber);
 
 public:

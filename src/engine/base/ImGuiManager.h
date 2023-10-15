@@ -12,15 +12,30 @@
 class ImGuiManager
 {
 public:
-	//初期化
+
+	/// <summary>
+	///初期化
+	/// </summary>
 	void Initialize(WinApp* winApp, DirectXCommon* dxCommon);
-	//終了時呼び出し処理
+
+	/// <summary>
+	///終了時呼び出し処理
+	/// </summary>
 	void Finalize();
-	//ImGui受付開始
+
+	/// <summary>
+	///ImGui受付開始
+	/// </summary>
 	void Begin();
-	//ImGui受付終了
+
+	/// <summary>
+	///ImGui受付終了
+	/// </summary>
 	void End();
-	//描画
+
+	/// <summary>
+	///描画
+	/// </summary>
 	void Draw();
 
 

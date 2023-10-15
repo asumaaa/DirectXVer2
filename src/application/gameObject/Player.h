@@ -36,54 +36,145 @@ private:
 	//メンバ関数
 public:
 
+	//インストラクタ コンストラクタ
 	Player() {};
 	~Player();
 
 	//静的メンバ関数
+
+	/// <summary>
+	///カメラセット
+	/// </summary>
 	static void SetCamera(Camera* camera) { Player::camera = camera; }
+
+	/// <summary>
+	///入力セット
+	/// </summary>
 	static void SetInput(Input* input) { Player::input = input; }
+
+	/// <summary>
+	///コントローラー入力セット
+	/// </summary>
 	static void SetDXInput(DXInput* dxInput) { Player::dxInput = dxInput; }
 
-	//初期化
+	/// <summary>
+	///初期化
+	/// </summary>
 	void Initialize();
-	//更新
+
+	/// <summary>
+	///更新
+	/// </summary>
 	void Update();
+
+	/// <summary>
+	///更新 タイトルシーン
+	/// </summary>
 	void UpdateTitle();
+
+	/// <summary>
+	///更新 オブジェクト
+	/// </summary>
 	void UpdateObject();
+
+	/// <summary>
+	///更新 オブジェクト
+	/// </summary>
 	void UpdateObject(Status status, FbxObject3D* object);
+
+	/// <summary>
+	///更新 弾
+	/// </summary>
 	void UpdateBullet();
+
+	/// <summary>
+	///1フレーム前の座標取得
+	/// </summary>
 	void UpdateOldTransform();
-	//描画
+
+	/// <summary>
+	///描画
+	/// </summary>
 	void Draw(ID3D12GraphicsCommandList* cmdList);
+
+	/// <summary>
+	///ライト視点描画
+	/// </summary>
 	void DrawLightView(ID3D12GraphicsCommandList* cmdList);
 
-	//挙動関連
-	//挙動全般
+	/// <summary>
+	///挙動 タイトルシーン
+	/// </summary>
 	void TitleControl();
+
+	/// <summary>
+	///挙動 ゲームシーン
+	/// </summary>
 	void GameControl();
-	//移動
+
+	/// <summary>
+	///移動 ゲームシーン
+	/// </summary>
 	void GameMove();
+
+	/// <summary>
+	///移動 タイトルシーン
+	/// </summary>
 	void TitleMove();
-	//落下
+
+	/// <summary>
+	///更新 落下
+	/// </summary>
 	void UpdateGravity();
-	//ジャンプ
+
+	/// <summary>
+	///更新 ジャンプ
+	/// </summary>
 	void UpdateJump();
 
-	//ステータスマネージャー
+	/// <summary>
+	///ステータスマネージャー
+	/// </summary>
 	void StatusManager();
 
-	//攻撃系全般
+	/// <summary>
+	///更新 攻撃
+	/// </summary>
 	void UpdateAttack();
 
-	//セッター
+	/// <summary>
+	///弾セット
+	/// </summary>
 	void SetBullet(PlayerBullet* playerBullet) { Player::bullet = playerBullet; }
+
+	/// <summary>
+	///srvセット
+	/// </summary>
 	void SetSRV(ID3D12DescriptorHeap* SRV);
+
+	/// <summary>
+	///平面との判定
+	/// </summary>
 	void HitPlane();
 
-	//ゲッター
+	/// <summary>
+	///座標取得
+	/// </summary>
 	XMFLOAT3 GetPosition() { return position; }
+
+	/// <summary>
+	///角度取得
+	/// </summary>
 	XMFLOAT3 GetRotation0() { return rotation0; }
+
+	/// <summary>
+	///角度取得
+	/// </summary>
 	XMFLOAT3 GetRotation1() { return rotation1; }
+
+	/// <summary>
+	///スケール取得
+	/// </summary>
 	XMFLOAT3 GetScale() { return scale; }
 
 	//静的メンバ変数

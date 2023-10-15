@@ -41,35 +41,86 @@ public:	//サブクラス
 	};
 
 public:	//メンバ関数
+
+	/// <summary>
+	///初期化
+	/// </summary>
 	void Initialize();
+
+	/// <summary>
+	///更新
+	/// </summary>
 	void Update();
+
+	/// <summary>
+	///描画
+	/// </summary>
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 
 public:	//静的メンバ変数セッター
+
+	/// <summary>
+	///デバイスセット
+	/// </summary>
 	static void SetDevice(ID3D12Device* device) { Sprite::device = device; }
+
+	/// <summary>
+	///デバイスセット
+	/// </summary>
 	static void SetTextureManager(TextureManager* spriteManager) { Sprite::spriteManager = spriteManager; }
+
+	/// <summary>
+	///デバイスセット
+	/// </summary>
 	static void CreateGraphicsPipeLine();
 
 public:	//セッター
-	//アルファ値
+
+	/// <summary>
+	///アルファ値セット
+	/// </summary>
 	void SetAlpha(float alpha) { color.w = alpha; }
-	//色
+
+	/// <summary>
+	///色セット
+	/// </summary>
 	void SetColor(XMFLOAT3 c) { color.x = c.x; color.y = c.y; color.z = c.z; }
-	//テクスチャの番号をセット
+
+	/// <summary>
+	///テクスチャの番号をセット
+	/// </summary>
 	void SetTextureNum(int num) { textureNum = num; }
-	//座標
+
+	/// <summary>
+	///座標セット
+	/// </summary>
 	void SetPosition(XMFLOAT2 pos) { position = pos; }
-	//角度
+
+	/// <summary>
+	///角度セット
+	/// </summary>
 	void SetRotation(float rot) { rotation = rot; }
-	//スケール
+
+	/// <summary>
+	///スケールセット
+	/// </summary>
 	void SetScale(XMFLOAT2 sca) { scale = sca; }
 
 public:	//ゲッター
-	//座標
+
+	/// <summary>
+	///座標取得
+	/// </summary>
 	XMFLOAT2 GetPosition() { return position; }
-	//角度
+
+	/// <summary>
+	///角度取得
+	/// </summary>
 	float GetRotation() { return rotation; }
-	//スケール
+
+	/// <summary>
+	///スケール取得
+	/// </summary>
 	XMFLOAT2 GetScale() { return scale; }
 
 private:

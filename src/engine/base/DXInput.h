@@ -85,30 +85,71 @@ public:
     };
 
 public:// メンバ関数
+
+    /// <summary>
+    ///インスタンス取得
+    /// </summary>
     static DXInput* GetInstance();
+
+    //インストラクタ デストラクタ
     DXInput();
     ~DXInput();
 
+
+    /// <summary>
+    ///コントローラー更新
+    /// </summary>
     void InputProcess();
 
-    void XInputInvaid();
 
-    //更新
+    /// <summary>
+    ///更新
+    /// </summary>
     void Update();
+
+    /// <summary>
+    ///ボタン更新
+    /// </summary>
     void UpdateKey();
+
+    /// <summary>
+    ///1フレーム前のボタン更新
+    /// </summary>
     void UpdateOldKey();
+
+    /// <summary>
+    ///スティック更新
+    /// </summary>
     void UpdateStick();
+
+    /// <summary>
+    ///1フレーム前のスティック更新
+    /// </summary>
     void UpdateOldStick();
 
-    //ボタン取得
+    /// <summary>
+    ///ボタン取得
+    /// </summary>  
     bool PushKey(Pad pad);
+    
+    /// <summary>
+    ///トリガーボタン取得
+    /// </summary>  
     bool TriggerKey(Pad pad);
 
-    //スティック取得
+    /// <summary>
+    ///スティック取得
+    /// </summary>
     float GetStick(Stick stick);
-    //スティックを真上から見た際の角度取得(ラジアン)
+
+    /// <summary>
+    ///スティックを真上から見た際の角度取得(ラジアン)
+    /// </summary>
     float GetStickRot(Stick stick);
-    //1フレーム前のスティック取得
+
+    /// <summary>
+    ///1フレーム前のスティック取得
+    /// </summary>
     float GetOldStick(Stick stick);
 
     /*HRESULT UpdateCountrollerState();*/

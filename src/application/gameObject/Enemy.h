@@ -22,41 +22,102 @@ private:	//エイリアス
 	using XMMATRIX = DirectX::XMMATRIX;
 	//メンバ関数
 public:
-	//静的メンバ関数
+
+	/// <summary>
+	///カメラセット
+	/// </summary>
 	static void SetCamera(Camera* camera) { Enemy::camera = camera; }
+
+	/// <summary>
+	///入力セット
+	/// </summary>
 	static void SetInput(Input* input) { Enemy::input = input; }
+
+	/// <summary>
+	///デバイスセット
+	/// </summary>
 	static void SetDXInput(DXInput* dxInput) { Enemy::dxInput = dxInput; }
 
-	//初期化
+	/// <summary>
+	///初期化
+	/// </summary>
 	void Initialize();
 	//更新
 	void Update();
+
+	/// <summary>
+	///オブジェクト更新
+	/// </summary>
 	void UpdateObject();
+
+	/// <summary>
+	///スプライト更新
+	/// </summary>
 	void UpdateSprite();
-	//描画
+
+	/// <summary>
+	///描画
+	/// </summary>
 	void Draw(ID3D12GraphicsCommandList* cmdList);
+
+	/// <summary>
+	///ライト視点描画
+	/// </summary>
 	void DrawLightView(ID3D12GraphicsCommandList* cmdList);
+
+	/// <summary>
+	///スプライト描画
+	/// </summary>
 	void DrawSprite(ID3D12GraphicsCommandList* cmdList);
 
-	//挙動関連
-	//挙動全般
+	/// <summary>
+	///挙動全般
+	/// </summary>
 	void Move();
-	//落下
+
+	/// <summary>
+	///落下
+	/// </summary>
 	void UpdateGravity();
-	//ジャンプ
+
+	/// <summary>
+	///ジャンプ
+	/// </summary>
 	void UpdateJump();
 
-	//攻撃系全般
+	/// <summary>
+	///攻撃系全般
+	/// </summary>
 	void UpdateAttack();
 
-	//セッター
+	/// <summary>
+	///オブジェクトセット
+	/// </summary>
 	void SetObject(FbxObject3D* object);
+
+	/// <summary>
+	///srvセット
+	/// </summary>
 	void SetSRV(ID3D12DescriptorHeap* SRV);
+
+	/// <summary>
+	///地面との判定
+	/// </summary>
 	void HitPlane();
 
-	//ゲッター
+	/// <summary>
+	///座標取得
+	/// </summary>
 	XMFLOAT3 GetPosition() { return position; }
+
+	/// <summary>
+	///角度取得
+	/// </summary>
 	XMFLOAT3 GetRotation() { return rotation; }
+
+	/// <summary>
+	///スケール取得
+	/// </summary>
 	XMFLOAT3 GetScale() { return scale; }
 
 	//静的メンバ変数

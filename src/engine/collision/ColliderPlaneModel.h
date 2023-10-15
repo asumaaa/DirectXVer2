@@ -33,16 +33,32 @@ private:	//エイリアス
 	template<class T>using vector = std::vector<T>;
 
 public:
-	//バッファ生成
+
+	/// <summary>
+	///バッファ設定、生成
+	/// </summary>
 	void CreateBuffers(ID3D12Device* device);
-	//頂点生成
+
+	/// <summary>
+	///頂点設定、生成
+	/// </summary>
 	void CreateVertex();
-	//色設定
+
+	/// <summary>
+	///色設定
+	/// </summary>
 	void SetImageData(XMFLOAT4 color);
-	//更新
+
+	/// <summary>
+	///更新
+	/// </summary>
 	void Update();
-	//描画
+
+	/// <summary>
+	///描画
+	/// </summary>
 	void Draw(ID3D12GraphicsCommandList* cmdList);
+
 public:
 	//頂点データ配列
 	struct VertexPosNormalUv

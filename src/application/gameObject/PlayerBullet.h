@@ -23,46 +23,96 @@ private:	//エイリアス
 public:
 
 	//メンバ関数
-public:
-	//静的メンバ関数
+public://静的メンバ関数
+
+	/// <summary>
+	///デバイスセット
+	/// </summary>
 	static void SetCamera(Camera* camera) { PlayerBullet::camera = camera; }
+
+	/// <summary>
+	///入力セット
+	/// </summary>
 	static void SetInput(Input* input) { PlayerBullet::input = input; }
+
+	/// <summary>
+	///コントローラー入力
+	/// </summary>
 	static void SetDXInput(DXInput* dxInput) { PlayerBullet::dxInput = dxInput; }
+
+	/// <summary>
+	///モデルセット
+	/// </summary>
 	static void SetModel(FbxModel* model) { PlayerBullet::model = model; }
 
-	//初期化
+	/// <summary>
+	///初期化
+	/// </summary>
 	void Initialize();
-	//更新
+
+	/// <summary>
+	///更新
+	/// </summary>
 	void Update();
-	//描画
+
+	/// <summary>
+	///描画
+	/// </summary>
 	void Draw(ID3D12GraphicsCommandList* cmdList);
+
+	/// <summary>
+	///ライト視点での描画
+	/// </summary>
 	void DrawLightView(ID3D12GraphicsCommandList* cmdList);
 
-	//移動
+	/// <summary>
+	///移動
+	/// </summary>
 	void Move();
-	//ショットフラグが真ならば弾生成
+
+	/// <summary>
+	///ショットフラグが真ならば弾生成
+	/// </summary>
 	void CreateBullet();
-	//弾を削除する処理
+
+	/// <summary>
+	///弾を削除する処理
+	/// </summary>
 	void DeleteBullet();
 
-	//セッター
+	/// <summary>
+	///srvセット
+	/// </summary>
 	void SetSRV(ID3D12DescriptorHeap* SRV);
-	//ショットするフラグを受け取る
+
+	/// <summary>
+	///ショットするフラグを受け取る
+	/// </summary>
 	void SetShotFlag(bool shotFlag) { PlayerBullet::shotFlag = shotFlag; };
-	//弾に必要な情報をセットする
+
+	/// <summary>
+	///弾に必要な情報をセットする
+	/// </summary>
 	void SetBullet(XMFLOAT3 position, XMFLOAT3 velocity);
-	//ヒットフラグをセットする
+
+	/// <summary>
+	///ヒットフラグをセットする
+	/// </summary>
 	void SetHitFlag(bool hitFlag, int num) { PlayerBullet::hitFlag[num] = hitFlag; };
 
-	//ゲッター
-	/*XMFLOAT3 GetPosition() { return position; }
-	XMFLOAT3 GetRotation() { return rotation; }
-	XMFLOAT3 GetScale() { return scale; }*/
-	//コライダーデータ
+	/// <summary>
+	///コライダーデータ取得
+	/// </summary>
 	JSONLoader::ColliderData GetColliderData(int num);
-	//弾の数
+
+	/// <summary>
+	///弾の数取得
+	/// </summary>
 	size_t GetBulletNum() { return object.size(); }
-	//座標
+
+	/// <summary>
+	///座標取得
+	/// </summary>
 	XMFLOAT3 GetPosition(int num) { return position[num]; }
 
 	//静的メンバ変数

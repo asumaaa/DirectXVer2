@@ -19,12 +19,25 @@ public:
 	static LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 
 public:
+
+	/// <summary>
+	///インスタンス取得
+	/// </summary>
 	static WinApp* GetInstance();
-	//ウィンドウ生成
+
+	/// <summary>
+	///ウィンドウ生成
+	/// </summary>
 	void CreateWindow_(const wchar_t* title);
-	//ウィンドウクラスを登録解除
+
+	/// <summary>
+	///ウィンドウクラスを登録解除
+	/// </summary>
 	void deleteWindow();
-	//ゲッター
+
+	/// <summary>
+	///hwnd取得
+	/// </summary>
 	HWND GetHwnd() { return hwnd; };
 public:
 	//メンバ変数

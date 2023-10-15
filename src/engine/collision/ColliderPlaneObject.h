@@ -31,10 +31,25 @@ public://サブクラス
 		XMFLOAT4 color;
 	};
 public:	//静的メンバ関数
-	//セッター
+
+	/// <summary>
+	///デバイスセット
+	/// </summary>
 	static void SetDevice(ID3D12Device* device) { ColliderPlaneObject::device = device; }
+
+	/// <summary>
+	///カメラセット
+	/// </summary>
 	static void SetCamera(Camera* camera) { ColliderPlaneObject::camera = camera; }
+
+	/// <summary>
+	///入力セット
+	/// </summary>
 	static void SetInput(Input* input) { ColliderPlaneObject::input = input; }
+
+	/// <summary>
+	///モデルセット
+	/// </summary>
 	static void SetModel(ColliderPlaneModel* model) { ColliderPlaneObject::model = model; }
 
 private://静的メンバ変数
@@ -44,24 +59,65 @@ private://静的メンバ変数
 	static ColliderPlaneModel* model;
 
 public://メンバ関数
-	//初期化
+
+	/// <summary>
+	///初期化
+	/// </summary>
 	void Initialize();
-	//更新
+
+	/// <summary>
+	///更新
+	/// </summary>
 	void Update();
-	//移動
+
+	/// <summary>
+	///移動
+	/// </summary>
 	void Move();
-	//描画
+
+	/// <summary>
+	///描画
+	/// </summary>
 	void Draw(ID3D12GraphicsCommandList* cmdList);
-	//グラフィックスパイプラインの生成
+
+	/// <summary>
+	///パイプライン設定、作成
+	/// </summary>
 	static void CreateGraphicsPipeline();
-	//セッター
+
+	/// <summary>
+	///座標セット
+	/// </summary>
 	void SetPosition(XMFLOAT3 pos) { position = pos; }
+
+	/// <summary>
+	///スケールセット
+	/// </summary>
 	void SetScale(XMFLOAT3 sca) { scale = sca; }
+
+	/// <summary>
+	///角度セット
+	/// </summary>
 	void SetRotation(XMFLOAT3 rot) { rotation = rot; }
+
+	/// <summary>
+	///色セット
+	/// </summary>
 	void SetColor(XMFLOAT4 color) { this->color = color; }
-	//ゲッター
+
+	/// <summary>
+	///座標取得
+	/// </summary>
 	XMFLOAT3 GetPosition() { return position; }
+
+	/// <summary>
+	///角度取得
+	/// </summary>
 	XMFLOAT3 GetRotation() { return rotation; }
+
+	/// <summary>
+	///スケール取得
+	/// </summary>
 	XMFLOAT3 GetScale() { return scale; }
 
 private://メンバ変数

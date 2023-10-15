@@ -12,10 +12,20 @@
 class Message
 {
 public:
+
+	/// <summary>
+	///インスタンス取得
+	/// </summary>
 	static Message* GetInstance();
-	//Xボタンで終了メッセ時が来たらゲームループを抜ける 
+
+	/// <summary>
+	///Xボタンで終了メッセ時が来たらゲームループを抜ける 
+	/// </summary>
 	bool Update();
-	//呼び出した時のエラーを出す
+
+	/// <summary>
+	///呼び出した時のエラーを出す
+	/// </summary>
 	bool CheckError();
 public:
 	MSG msg{};

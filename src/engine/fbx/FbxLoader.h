@@ -24,9 +24,15 @@ public:
 	static FbxLoader* GetInstance();
 
 public:
-	//初期化	
+
+	/// <summary>
+	///初期化
+	/// </summary>
 	void Initialize(ID3D12Device* device);
-	//後始末
+
+	/// <summary>
+	///終了時処理
+	/// </summary>
 	void Finalize();
 
 private:
@@ -56,29 +62,55 @@ public:
 	static const string baseDirectory;
 	//テクスチャない場合の標準テクスチャファイル名
 	static const string defaultTextureFileName;
-	//FBXファイルの読み込み
+
+	/// <summary>
+	///FBXファイルの読み込み
+	/// </summary>
 	FbxModel* LoadModelFromFile(const string modelName);
-	//ノード構成を解析
+
+	/// <summary>
+	///ノード構成を解析
+	/// </summary>
 	void ParseNodeRecursive(FbxModel* model, FbxNode* fbxNode,Node* parent = nullptr);
-	//メッシュ解析
+
+	/// <summary>
+	///メッシュ解析
+	/// </summary>
 	void ParseMesh(FbxModel* model, FbxNode* fbxNode);
-	
-	//メッシュ解析サブ関数
-	
-	//頂点座標読み取り
+
+	/// <summary>
+	///頂点座標読み取り
+	/// </summary>
 	void ParseMeshVertices(FbxModel* model, FbxMesh* fbxMesh);
-	//面情報読み取り
+
+	/// <summary>
+	///面情報読み取り
+	/// </summary>
 	void ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh);
-	//マテリアル読み取り
+
+	/// <summary>
+	///マテリアル読み取り
+	/// </summary>
 	void ParseMaterial(FbxModel* model, FbxNode* fbxNode);
-	//テクスチャ読み取り
+
+	/// <summary>
+	///テクスチャ読み取り
+	/// </summary>
 	void LoadTexture(FbxModel* model, const std::string& fullpath);
-	//ディレクトリを含んだファイルパスからファイル名を抽出する
+
+	/// <summary>
+	///ディレクトリを含んだファイルパスからファイル名を抽出する
+	/// </summary>
 	std::string ExtractFileName(const std::string& path);
 
-	//FBXの行列をXMMATRIXに変換
+	/// <summary>
+	///FBXの行列をXMMATRIXに変換
+	/// </summary>
 	static void ConvertMatrixFromFbx(DirectX::XMMATRIX* dst,const FbxAMatrix& src);
-	//スキニング情報読み取り
+
+	/// <summary>
+	///スキニング情報読み取り
+	/// </summary>
 	void ParseSkin(FbxModel* model, FbxMesh* fbxMesh);
 
 private:

@@ -34,20 +34,49 @@ private:	//エイリアス
 	using string = std::string;
 	template<class T>using vector = std::vector<T>;
 
-public:
-	//バッファ生成
-	void CreateBuffers(ID3D12Device* device);
-	//頂点生成
-	void CreateVertex();
-	//色設定
-	void SetImageData(XMFLOAT4 color);
-	//更新
-	void Update();
-	//描画
-	void Draw(ID3D12GraphicsCommandList* cmdList);
+public:	//静的メンバ関数
+
+	/// <summary>
+	///テクスチャマネージャーセット
+	/// </summary>
 	static void SetSpriteManager(TextureManager* spriteManager) { BillboardSpriteModel::spriteManager = spriteManager; }
-	void SetTextureNum(int num) { textureNum = num; }
+
+	/// <summary>
+	///デバイスセット
+	/// </summary>
 	static void SetDevice(ID3D12Device* device) { BillboardSpriteModel::device = device; }
+public:
+
+	/// <summary>
+	///バッファ設定、作成
+	/// </summary>
+	void CreateBuffers(ID3D12Device* device);
+
+	/// <summary>
+	///頂点生成
+	/// </summary>
+	void CreateVertex();
+
+	/// <summary>
+	///色セット
+	/// </summary>
+	void SetImageData(XMFLOAT4 color);
+
+	/// <summary>
+	///更新
+	/// </summary>
+	void Update();
+
+	/// <summary>
+	///描画
+	/// </summary>
+	void Draw(ID3D12GraphicsCommandList* cmdList);
+
+	/// <summary>
+	///テクスチャの番号セット
+	/// </summary>
+	void SetTextureNum(int num) { textureNum = num; }
+	
 public:
 	//頂点データ配列
 	struct VertexPosNormalUv

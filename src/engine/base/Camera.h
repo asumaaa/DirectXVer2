@@ -17,37 +17,102 @@ using namespace DirectX;
 
 class Camera
 {
-public:
+public://静的メンバ変数
+
+	/// <summary>
+	///入力セット
+	/// </summary>
+	static void SetInput(Input* input) { Camera::input = input; }
+
+	/// <summary>
+	///コントローラー入力セット
+	/// </summary>
+	static void SetDXInput(DXInput* dxInput) { Camera::dxInput = dxInput; }
 
 public:
-	//シングルトンインスタンス
+
+	/// <summary>
+	///インスタンス取得
+	/// </summary>
 	static Camera* GetInstance();
-	static void SetInput(Input* input) { Camera::input = input; }
-	static void SetDXInput(DXInput* dxInput) { Camera::dxInput = dxInput; }
+
 	//インストラクタ デストラクタ
 	Camera();
 	~Camera();
-	//初期化
+
+	/// <summary>
+	///初期化
+	/// </summary>
 	void Initialize();
-	//更新
+
+	/// <summary>
+	///更新
+	/// </summary>
 	void Update();
-	void TitleUpdate(XMFLOAT3 playerPos, XMFLOAT3 playerRot);	//タイトル
-	//ビルボード行列の更新
-	void BillboardUpdate();
-	//デバッグ Arrowキーで視点座標変更
+
+	/// <summary>
+	///タイトルの更新
+	/// </summary>
+	void TitleUpdate(XMFLOAT3 playerPos, XMFLOAT3 playerRot);
+
+	/// <summary>
+	///デバッグの更新
+	/// </summary>
 	void DebugUpdate();
-	//プレイヤー追尾
+
+	/// <summary>
+	///プレイヤー追尾の更新
+	/// </summary>
 	void UpdatePlayer(XMFLOAT3 playerPos, XMFLOAT3 playerRot);
 
-	//ゲッターセッター
+	/// <summary>
+	///ビルボード行列の更新
+	/// </summary>
+	void BillboardUpdate();
+
+	/// <summary>
+	///注視点セット
+	/// </summary>
 	void SetTarget(XMFLOAT3 pos);
+
+	/// <summary>
+	///視点座標セット
+	/// </summary>
 	void SetEye(XMFLOAT3 pos);
+
+	/// <summary>
+	///視点座標取得
+	/// </summary>
 	XMFLOAT3 GetEye() { return eye_; };
+
+	/// <summary>
+	///注視点座標取得
+	/// </summary>
 	XMFLOAT3 GetTarget() { return target_; };
+
+	/// <summary>
+	///天井座標取得
+	/// </summary>
 	XMFLOAT3 GetUp() { return up_; };
+
+	/// <summary>
+	///射影変換取得
+	/// </summary>
 	XMMATRIX GetMatProjection() { return matProjection_; };
+
+	/// <summary>
+	///ビュー変換行列取得
+	/// </summary>
 	XMMATRIX GetMatView() { return matView_; };
+
+	/// <summary>
+	///ビュープロジェクション取得
+	/// </summary>
 	XMMATRIX GetMatViewProjection() { return matView_ * matProjection_; };
+
+	/// <summary>
+	///ビルボード用ビュー変換行列取得
+	/// </summary>
 	XMMATRIX GetMatBillboard() { return matBillboard_; }
 
 private:

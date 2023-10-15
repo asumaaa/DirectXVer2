@@ -21,15 +21,25 @@ private:	//エイリアス
 	using XMMATRIX = DirectX::XMMATRIX;
 
 public:
-	//csvファイルを読み込んで変数に代入する
+
+	/// <summary>
+	///csvファイルを読み込んで変数に代入する
+	/// </summary>
 	void LoadCSV(const std::string fileName);
-	void LoadInitialValue();
 
-	void Draw();
-
-	//ゲッター
+	/// <summary>
+	///座標取得
+	/// </summary>
 	XMFLOAT3 GetPosition(int num) { return position[num]; };
+
+	/// <summary>
+	///角度取得
+	/// </summary>
 	XMFLOAT3 GetRotation(int num) { return rotation[num]; };
+
+	/// <summary>
+	///スケール取得
+	/// </summary>
 	XMFLOAT3 GetScale(int num) { return scale[num]; };
 
 private:

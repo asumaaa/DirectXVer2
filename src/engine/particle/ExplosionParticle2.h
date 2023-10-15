@@ -78,27 +78,67 @@ public://サブクラス
 	};
 
 public:	//静的メンバ関数
+
+	/// <summary>
+	///テクスチャマネージャー
+	/// </summary>
 	static void SetSpriteManager(TextureManager* spriteManager) { ExplosionParticle2::spriteManager = spriteManager; };
+
+	/// <summary>
+	///デバイスセット
+	/// </summary>
 	static void SetDevice(ID3D12Device* device) { ExplosionParticle2::device = device; }
+
+	/// <summary>
+	///カメラセット
+	/// </summary>
 	static void SetCamera(Camera* camera) { ExplosionParticle2::camera = camera; }
+
+	/// <summary>
+	///入力セット
+	/// </summary>
 	static void SetInput(Input* input) { ExplosionParticle2::input = input; }
-	//グラフィックスパイプラインの生成
+
+	/// <summary>
+	///パイプライン設定、作成
+	/// </summary>
 	static void CreateGraphicsPipeline();
 
 public:
-	//バッファ生成
+
+	/// <summary>
+	///バッファ設定、作成
+	/// </summary>
 	void CreateBuffers();
-	//更新
+
+	/// <summary>
+	///更新
+	/// </summary>
 	void Update();
+
+	/// <summary>
+	///更新 パーティクル
+	/// </summary>
 	void UpdateParticle();
-	//描画
+
+	/// <summary>
+	///描画
+	/// </summary>
 	void Draw(ID3D12GraphicsCommandList* cmdList);
-	//パーティクルを追加
+
+	/// <summary>
+	///パーティクルを追加
+	/// </summary>
 	void Add(XMFLOAT3 pos);
+
+	/// <summary>
+	///パーティクルを追加
+	/// </summary>
 	void AddParticle(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float startScale, float endScale);
 
-	//セッター
-	//テクスチャの番号
+	/// <summary>
+	///テクスチャの番号セット
+	/// </summary>
 	void SetTextureNum(int num) { textureNum = num; }
 
 public:	//静的メンバ変数

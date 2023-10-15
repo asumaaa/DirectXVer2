@@ -68,14 +68,44 @@ public:	//サブクラス
 public:
 	void LoadFile(const std::string fileName);
 
-	//ゲッター
+	/// <summary>
+	///オブジェクトデータ取得
+	/// </summary>
 	ObjectData GetObjectData(int number) { return objectData[number]; }
+
+	/// <summary>
+	///コライダーデータ取得
+	/// </summary>
 	ColliderData GetColliderData(int number) { return colliderData[number]; }
+
+	/// <summary>
+	///テクスチャデータ取得
+	/// </summary>
 	TextureData GetTextureData(int number) { return textureData[number]; }
+
+	/// <summary>
+	///ファイルネーム取得
+	/// </summary>
 	std::string GetFileName(int number) { return objectData[number].fileName; }
+
+	/// <summary>
+	///座標取得
+	/// </summary>
 	XMFLOAT3 GetPosition(int number) { return objectData[number].position; }
+
+	/// <summary>
+	///角度取得
+	/// </summary>
 	XMFLOAT3 GetRotation(int number) { return objectData[number].rotation; }
+
+	/// <summary>
+	///スケール取得
+	/// </summary>
 	XMFLOAT3 GetScale(int number) { return objectData[number].scale; }
+
+	/// <summary>
+	///番号取得
+	/// </summary>
 	size_t GetObjectNum() { return objectNum; }
 
 	//メンバ変数

@@ -25,15 +25,42 @@ public:	//定数
 	static const int textureNum = 2;
 
 public:	//メンバ関数
+
+	/// <summary>
+	///初期化
+	/// </summary>
 	void Initialize();
+
+	/// <summary>
+	///更新
+	/// </summary>
 	void Update();
+
+	/// <summary>
+	///描画
+	/// </summary>
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 
 public:	//セッター
-	//使うスプライトの番号を指定
+
+	/// <summary>
+	///テクスチャの番号セット
+	/// </summary>
 	void SetTextureNum(int num0, int num1) { textureNum0 = num0; textureNum1 = num1; }
+
+	/// <summary>
+	///座標セット
+	/// </summary>
 	void SetPosition(XMFLOAT3 position) { FireParticle::position = position; }
+
+	/// <summary>
+	///角度セット
+	/// </summary>
 	void SetRotation(XMFLOAT3 rotation) { FireParticle::rotation = rotation; }
+
+	/// <summary>
+	///スケールセット
+	/// </summary>
 	void SetScale(XMFLOAT3 scale) { FireParticle::scale = scale; }
 
 private:	//メンバ変数

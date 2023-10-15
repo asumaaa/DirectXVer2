@@ -51,10 +51,25 @@ public:
 	};
 
 public:	//静的メンバ関数
-	//セッター
+
+	/// <summary>
+	///デバイスセット
+	/// </summary>
 	static void SetDevice(ID3D12Device* device) { FbxObject3D::device = device; }
+
+	/// <summary>
+	///カメラセット
+	/// </summary>
 	static void SetCamera(Camera* camera) { FbxObject3D::camera = camera; }
+
+	/// <summary>
+	///ライト(影用)セット
+	/// </summary>
 	static void SetLight(Light* light) { FbxObject3D::light = light; }
+
+	/// <summary>
+	///ライトセット
+	/// </summary>
 	static void SetLightGroup(LightGroup* lightGroup) { FbxObject3D::lightGroup = lightGroup; }
 
 private://静的メンバ変数
@@ -64,49 +79,143 @@ private://静的メンバ変数
 	static LightGroup* lightGroup;
 
 public://メンバ関数
-	//初期化
+
+	/// <summary>
+	///初期化
+	/// </summary>
 	void Initialize();
-	//更新
+
+	/// <summary>
+	///更新
+	/// </summary>
 	void Update();
+
+	/// <summary>
+	///ビルボード行列更新
+	/// </summary>
 	void UpdateBillboard();
+
+	/// <summary>
+	///コライダー更新
+	/// </summary>
 	void UpdateCollider();
-	//描画
+
+	/// <summary>
+	///ライト視点での描画
+	/// </summary>
 	void DrawLightView(ID3D12GraphicsCommandList* cmdList);
+
+	/// <summary>
+	///描画
+	/// </summary>
 	void Draw(ID3D12GraphicsCommandList* cmdList);
-	//モデルのセット
+
+	/// <summary>
+	///モデルセット
+	/// </summary>
 	void SetModel(FbxModel* model) { this->model = model; }
-	//ライト視点のグラフィックスパイプラインの生成
+
+	/// <summary>
+	///ライト視点のグラフィックスパイプラインの生成
+	/// </summary>
 	static void CreateGraphicsPipelineLightView();
-	//影付きカメラ視点のグラフィックスパイプラインの生成
+
+	/// <summary>
+	///影付きカメラ視点のグラフィックスパイプラインの生成
+	/// </summary>
 	static void CreateGraphicsPipeline();
-	//レベルエディタで設定したシェーダを使うグラフィックスパイプラインの生成
+
+	/// <summary>
+	///マルチテクスチャ用グラフィックスパイプラインの生成
+	/// </summary>
 	void CreateGraphicsPipelineTexture1();	//テクスチャ1枚の場合
 	void CreateGraphicsPipelineTexture2();	//テクスチャ2枚の場合
 	void CreateGraphicsPipelineTexture3();	//テクスチャ3枚の場合
 	void CreateGraphicsPipelineTexture4();	//テクスチャ4枚の場合
 
-	//アニメーション開始
+	/// <summary>
+	///アニメーション開始
+	/// </summary>
 	void PlayAnimation();
-	//アニメーション終了
+
+	/// <summary>
+	///アニメーション終了
+	/// </summary>
 	void StopAnimation() { isPlay = false; }
 
-	//セッター
+	/// <summary>
+	///座標取得
+	/// </summary>
 	void SetPosition(XMFLOAT3 pos) { position = pos; }
+
+	/// <summary>
+	///角度取得
+	/// </summary>
 	void SetRotation(XMFLOAT3 rot) { rotation = rot; }
+
+	/// <summary>
+	///スケール取得
+	/// </summary>
 	void SetScale(XMFLOAT3 sca) { scale = sca; }
+
+	/// <summary>
+	///srv取得
+	/// </summary>
 	void SetSRV(ID3D12DescriptorHeap* SRV) { depthSRV = SRV; }
+
+	/// <summary>
+	///オブジェクトデータ取得
+	/// </summary>
 	void SetObjectData(JSONLoader::ObjectData objectData);
+
+	/// <summary>
+	///コライダーデータ取得
+	/// </summary>
 	void SetColliderData(JSONLoader::ColliderData colliderData);
+
+	/// <summary>
+	///テクスチャデータ取得
+	/// </summary>
 	void SetTextureData(JSONLoader::TextureData textureData);
+
+	/// <summary>
+	///ビルボード行列を使うかのフラグ取得
+	/// </summary>
 	void SetBillboardFlag() { billboardFlag = true; }
+
+	/// <summary>
+	///テクスチャの番号取得
+	/// </summary>
 	void SetTextureNum(int textureNum) { this->textureNum1 = textureNum; }
 
-	//ゲッター
+	/// <summary>
+	///座標取得
+	/// </summary>
 	XMFLOAT3 GetPosition() { return position; }
+
+	/// <summary>
+	///角度取得
+	/// </summary>
 	XMFLOAT3 GetRotation() { return rotation; }
+
+	/// <summary>
+	///スケール取得
+	/// </summary>
 	XMFLOAT3 GetScale() { return scale; }
+
+	/// <summary>
+	///ファイルネーム取得
+	/// </summary>
 	std::string GetFileName() { return fileName; }
+
+	/// <summary>
+	///オブジェクトネーム取得
+	/// </summary>
 	std::string GetObjectName() { return objectName; }
+
+	/// <summary>
+	///コライダーデータ取得
+	/// </summary>
 	JSONLoader::ColliderData GetColliderData() { return colliderData; }
 
 private://メンバ変数

@@ -128,15 +128,30 @@ public:
 	FbxModel() {};
 	//デストラクタ
 	~FbxModel();
-	//テクスチャマネージャーセット
+
+	/// <summary>
+	///テクスチャマネージャーセット
+	/// </summary>
 	static void SetTextureManager(TextureManager* textureManager) { FbxModel::textureManager = textureManager; }
-	//デバイスセット
+
+	/// <summary>
+	///デバイスセット
+	/// </summary>
 	static void SetDevice(ID3D12Device* device) { FbxModel::device = device; }
-	//バッファ生成
+
+	/// <summary>
+	///バッファ生成
+	/// </summary>
 	void CreateBuffers();
-	//描画
+
+	/// <summary>
+	///描画
+	/// </summary>
 	void Draw(ID3D12GraphicsCommandList* cmdList, int textureNum);
-	//ポストエフェクト用
+
+	/// <summary>
+	///マルチテクスチャ用描画
+	/// </summary>
 	//テクスチャ1枚の場合
 	void DrawTexture1(ID3D12GraphicsCommandList* cmdList, int textureNum);
 	//テクスチャ2枚の場合
@@ -146,25 +161,39 @@ public:
 	//テクスチャ4枚の場合
 	void DrawTexture4(ID3D12GraphicsCommandList* cmdList, int textureNum1, int textureNum2, int textureNum3, int textureNum4);
 	void PreDraw(ID3D12GraphicsCommandList* cmdList);
-	//モデルの変形行列のゲッター
-	const XMMATRIX& GetModelTransform() { return meshNode->globalTransform; }
-	std::string GetFileName() { return fileName; }
 
-	ComPtr<ID3D12Resource> GetTexBuff() { return texBuff; }
+	/// <summary>
+	///モデル変形行列のゲッター
+	/// </summary>
+	const XMMATRIX& GetModelTransform() { return meshNode->globalTransform; }
+
+	/// <summary>
+	///ファイルネーム取得
+	/// </summary>
+	std::string GetFileName() { return fileName; }
 
 private:
 	//ボーン配列
 	std::vector<Bone>bones;
 public:
-	//getter
+
+	/// <summary>
+	///ボーン取得
+	/// </summary>
 	std::vector<Bone>& GetBones() { return bones; }
 
 private:
 	//FBXシーン
 	FbxScene* fbxScene = nullptr;
 public:
-	//getter
+
+	/// <summary>
+	///FBXシーン取得
+	/// </summary>
 	FbxScene* GetFbxScene() { return fbxScene; }
-	//アーマチュア
+
+	/// <summary>
+	///アーマチュア取得
+	/// </summary>
 	bool GetArmature() { return armatureFlag; }
 };

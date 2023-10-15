@@ -46,31 +46,51 @@ public:
 	SoundManager();
 	~SoundManager();
 
-
-public:
-
-	//コピーコンストラクタ無効
-	SoundManager(const SoundManager& obj) = delete;
-	//代入演算子を無効
-	SoundManager& operator=(const SoundManager& obj) = delete;
-
-	//インスタンスアクセス専用関数
-	static SoundManager* GetInstance();
+public://静的メンバ変数
 
 	static Microsoft::WRL::ComPtr<IXAudio2> xAudio2_;
 	static IXAudio2MasteringVoice* masterVoice_;
 
+public://メンバ関数
 
-	// 初期化
+	/// <summary>
+	///コピーコンストラクタ無効
+	/// </summary>
+	SoundManager(const SoundManager& obj) = delete;
+
+	/// <summary>
+	///代入演算子を無効
+	/// </summary>
+	SoundManager& operator=(const SoundManager& obj) = delete;
+
+	/// <summary>
+	///インスタンス取得
+	/// </summary>
+	static SoundManager* GetInstance();
+
+	/// <summary>
+	///初期化
+	/// </summary>
 	static void StaticInitialize();
-	//音声読み込み
+
+	/// <summary>
+	///音声読み込み
+	/// </summary>
 	void SoundLoadWave(const char* filename);
-	//音声再生
+
+	/// <summary>
+	///音声再生
+	/// </summary>
 	void SoundPlayWave(bool loop = false, float volume = 1.0f);
-	// 音声停止
+
+	/// <summary>
+	///音声停止
+	/// </summary>
 	void StopWave();
 
-	//音声データ解放
+	/// <summary>
+	///音声データ解放
+	/// </summary>
 	void SoundUnload();
 
 

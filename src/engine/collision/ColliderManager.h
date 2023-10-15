@@ -34,32 +34,77 @@ public:	//サブクラス
 	};
 
 public:	//静的メンバ関数
+
+	/// <summary>
+	///コライダーデータセット
+	/// </summary>
 	static void SetCollider(JSONLoader::ColliderData colliderData);
+
+	/// <summary>
+	///モデルセット
+	/// </summary>
 	static void SetColliderCubeModel(ColliderCubeModel* colliderModel) { ColliderManager::colliderCubeModel = colliderModel; }
+
+	/// <summary>
+	///モデルセット
+	/// </summary>
 	static void SetColliderSphereModel(ColliderSphereModel* colliderModel) { ColliderManager::colliderSphereModel = colliderModel; };
+
+	/// <summary>
+	///モデルセット
+	/// </summary>
 	static void SetColliderPlaneModel(ColliderPlaneModel* colliderModel) { ColliderManager::colliderPlaneModel = colliderModel; };
 
 public:	//メンバ関数
-	//初期化
+
+	/// <summary>
+	///初期化
+	/// </summary>
 	static void Initialize();
-	//更新
+
+	/// <summary>
+	///更新 前
+	/// </summary>
 	static void PreUpdate();
+
+	/// <summary>
+	///更新 後
+	/// </summary>
 	static void PostUpdate();
-	//描画
+
+	/// <summary>
+	///描画
+	/// </summary>
 	static void Draw(ID3D12GraphicsCommandList* cmdList);
 
-	//判定
+	/// <summary>
+	///判定
+	/// </summary>
 	static bool CheckCollider(JSONLoader::ColliderData colliderData0, JSONLoader::ColliderData colliderData1);
-	//球体と球体
+
+	/// <summary>
+	///判定 球体と球体
+	/// </summary>
 	static bool CheckSphereSphere(JSONLoader::ColliderData colliderSphere0, JSONLoader::ColliderData colliderSphere1);
-	//平面と球体
+
+	/// <summary>
+	///判定 平面と球体
+	/// </summary>
 	static bool CheckPlaneSphere(JSONLoader::ColliderData colliderPlane, JSONLoader::ColliderData colliderSphere);
-	//平面とボックス
+
+	/// <summary>
+	///判定 平面とボックス
+	/// </summary>
 	static bool CheckPlaneBox(JSONLoader::ColliderData colliderPlane, JSONLoader::ColliderData colliderBox);
 
-	//ColliderDataクラスからOBBを返す関数	Box,平面のみ対応
+	/// <summary>
+	///ColliderDataクラスからOBBを返す関数	Box,平面のみ対応
+	/// </summary>
 	OBB GetObbFromColliderData(JSONLoader::ColliderData colliderData);
-	//色を変える関数
+
+	/// <summary>
+	///当たったら色を変える変数
+	/// </summary>
 	static void ChangeHitColor(JSONLoader::ColliderData colliderData);
 
 public:	//静的メンバ変数
