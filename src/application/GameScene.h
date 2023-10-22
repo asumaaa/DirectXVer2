@@ -227,4 +227,17 @@ private:
 	std::unique_ptr<Sprite>blackSprite;
 
 	float stickTest[2] = { 0.0f,0.0f };
+
+	//TL2 課題用スプライト
+	std::unique_ptr<Sprite>TL2Sprite1;
+	std::unique_ptr<Sprite>TL2Sprite2;
+	std::unique_ptr<Sprite>TL2Sprite3;
+	//TL2 課題用スプライト 座標
+	XMFLOAT2 TL2Sprite1Pos = { 0.0f,0.0f };
+	XMFLOAT2 TL2Sprite2Pos = { 0.0f, 500.0f };
+	XMFLOAT2 TL2Sprite3Pos = { 500.0f, 0.0f };
+	//TL2 課題用スプライト スケール
+	XMFLOAT2 TL2Sprite1Scale = { 500.0f, 500.0f };
+	XMFLOAT2 TL2Sprite2Scale = { 500.0f, 500.0f };
+	XMFLOAT2 TL2Sprite3Scale = { 900.0f, 500.0f };
 };

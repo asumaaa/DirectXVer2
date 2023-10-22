@@ -54,6 +54,9 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInp
 	newTextureManager->LoadFile(18, L"Resources/pictures/title1.png");
 	newTextureManager->LoadFile(19, L"Resources/pictures/title2.png");
 	newTextureManager->LoadFile(20, L"Resources/pictures/game1.png");
+	newTextureManager->LoadFile(21, L"Resources/pictures/biscuit_oriba.png");
+	newTextureManager->LoadFile(22, L"Resources/pictures/hanma_yujiro.jpg");
+	newTextureManager->LoadFile(23, L"Resources/pictures/retsukaio.jpg");
 
 	textureManager.reset(newTextureManager);
 
@@ -107,6 +110,28 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInp
 	blackSprite->SetTextureNum(14);
 	blackSprite->SetPosition(XMFLOAT2(0.0f, 0.0f));
 	blackSprite->SetScale(XMFLOAT2(1280.0f, 720.0f));
+
+	//TL2課題用スプライト
+	Sprite* newTL2Sprite1 = new Sprite();
+	newTL2Sprite1->Initialize();
+	TL2Sprite1.reset(newTL2Sprite1);
+	TL2Sprite1->SetTextureNum(21);
+	TL2Sprite1->SetPosition(TL2Sprite1Pos);
+	TL2Sprite1->SetScale(TL2Sprite1Scale);
+	//TL2課題用スプライト
+	Sprite* newTL2Sprite2 = new Sprite();
+	newTL2Sprite2->Initialize();
+	TL2Sprite2.reset(newTL2Sprite2);
+	TL2Sprite2->SetTextureNum(22);
+	TL2Sprite2->SetPosition(TL2Sprite2Pos);
+	TL2Sprite2->SetScale(TL2Sprite2Scale);
+	//TL2課題用スプライト
+	Sprite* newTL2Sprite3 = new Sprite();
+	newTL2Sprite3->Initialize();
+	TL2Sprite3.reset(newTL2Sprite3);
+	TL2Sprite3->SetTextureNum(23);
+	TL2Sprite3->SetPosition(TL2Sprite3Pos);
+	TL2Sprite3->SetScale(TL2Sprite3Scale);
 
 	//カメラ初期化
 	Camera::SetInput(input_);
@@ -433,6 +458,9 @@ void GameScene::UpdateGame()
 	title1Sprite->Update();
 	title2Sprite->Update();
 	blackSprite->Update();
+	TL2Sprite1->Update();
+	TL2Sprite2->Update();
+	TL2Sprite3->Update();
 
 	billboardSprite->SetPosition(XMFLOAT3(0.0f, 10.0f, 0.0f));
 	billboardSprite->SetScale(XMFLOAT3(2.5f, 0.3f, 1.0f));
@@ -614,12 +642,12 @@ void GameScene::DrawGame()
 
 	//コライダーの描画
 	if (*drawCollider == 1)DrawColliderGame();
-	//スプライトの描画
-	if (*drawSprite == 1)DrawSpriteGame();
 	//FBXの描画
 	if (*drawFbx == 1)DrawFBXGame();
 	//パーティクルの描画
 	if (*drawParticle == 1)DrawParticleGame();
+	//スプライトの描画
+	if (*drawSprite == 1)DrawSpriteGame();
 }
 
 void GameScene::DrawFBXTitle()
@@ -746,6 +774,9 @@ void GameScene::DrawSpriteGame()
 {
 	game1Sprite->Draw(dxCommon_->GetCommandList());
 	blackSprite->Draw(dxCommon_->GetCommandList());
+	TL2Sprite1->Draw(dxCommon_->GetCommandList());
+	TL2Sprite2->Draw(dxCommon_->GetCommandList());
+	TL2Sprite3->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::DrawParticleGame()
