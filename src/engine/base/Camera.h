@@ -53,7 +53,7 @@ public:
 	/// <summary>
 	///タイトルの更新
 	/// </summary>
-	void TitleUpdate(XMFLOAT3 playerPos, XMFLOAT3 playerRot);
+	void TitleUpdate(XMFLOAT3 playerPos, XMFLOAT3 playerRot,float timer);
 
 	/// <summary>
 	///デバッグの更新
@@ -127,7 +127,7 @@ private:
 	XMMATRIX matView_ = XMMatrixIdentity();
 	XMFLOAT3 eye_ = { 0, 20, -100 };
 	XMFLOAT3 target_ = { 0, 0, 0 };
-	XMFLOAT3 up_ = { 0, 1, 0 };
+	XMFLOAT3 up_ = { 0, 100, 0 };
 	//ビルボード行列
 	XMMATRIX matBillboard_ = XMMatrixIdentity();
 
@@ -147,4 +147,8 @@ private:
 	float playerChangeDistance = 0.0f;
 	float playerAddRot = 0.0f;
 	float rotSpeed = (float)PI * 1.5f / 180.0f;
+
+	//シーン遷移用
+	XMFLOAT3 originalPlayerPos = { 0.0f,0.0f,0.0f };
+	XMFLOAT3 originalPlayerRot = { 0.0f,0.0f,0.0f };
 };

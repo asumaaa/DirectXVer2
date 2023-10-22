@@ -9,7 +9,6 @@ struct VSOutput
 {
     float4 pos : POSITION; //システム用頂点座標
     float scale : SCALE; //スケール
-    float4 velocity : VELOCITY;
 };
 
 //ジオメトリシェーダからピクセルシェーダへの出力

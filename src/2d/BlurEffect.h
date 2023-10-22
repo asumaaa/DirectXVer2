@@ -118,7 +118,7 @@ public:	//セッター
 	void SetScale(XMFLOAT2 sca) { scale = sca; }
 
 	/// <summary>
-	///解像度セット
+	///ブラーの強さセット
 	/// </summary>
 	void SetWidthStrength(float re) { widthStrength = re; }
 
@@ -165,7 +165,7 @@ private:	//メンバ変数
 
 private:
 	//解像度
-	float widthStrength = 10;
+	float widthStrength = 100;
 	float heightStrength = 10;
 	float rotation = 0;
 	XMFLOAT2 position = { 0,0 };

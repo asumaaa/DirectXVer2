@@ -8,6 +8,8 @@
 #include "mathOriginal.h"
 #include "cmath"
 #include "Matrix4.h"
+#include <iostream>
+#include <random>
 
 float easeOutQuart(float x)
 {
@@ -175,6 +177,17 @@ int RNG(int min, int max, bool preciseMode)
 		ret = rand();
 	} while (ret >= RAND_MAX - RAND_MAX % (max + 1 - min));
 	ret = ret % (max + 1 - min) + min;
+}
+
+uint64_t GetRand(uint64_t minVal, uint64_t maxVal) {
+	// 乱数生成器
+	static std::mt19937_64 mt64(0);
+
+	// [min_val, max_val] の一様分布整数 (int) の分布生成器
+	std::uniform_int_distribution<uint64_t> get_rand_uni_int(minVal, maxVal);
+
+	// 乱数を生成
+	return get_rand_uni_int(mt64);
 }
 
 float easeInSine(float x)

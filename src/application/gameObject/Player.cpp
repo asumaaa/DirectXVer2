@@ -116,13 +116,13 @@ void Player::Update()
 	preStatus = status;
 }
 
-void Player::UpdateTitle()
+void Player::UpdateTitle(float timer)
 {
 	//弾更新
 	UpdateBullet();
 
 	//挙動
-	TitleControl();
+	TitleControl(timer);
 
 	//攻撃
 	UpdateAttack();
@@ -260,7 +260,7 @@ void Player::DrawLightView(ID3D12GraphicsCommandList* cmdList)
 	}
 }
 
-void Player::TitleControl()
+void Player::TitleControl(float timer)
 {
 	//ジャンプ更新
 	UpdateJump();
@@ -269,7 +269,7 @@ void Player::TitleControl()
 	UpdateGravity();
 
 	//移動
-	TitleMove();
+	TitleMove(timer);
 }
 
 void Player::GameControl()
@@ -325,21 +325,53 @@ void Player::GameMove()
 	position = position + posVelocity;
 }
 
-void Player::TitleMove()
+void Player::TitleMove(float timer)
 {
-	//AROWキーで角度変更
-	rotVelocity.y = 0.01f;
-	/*rotVelocity.y = (input->PushKey(DIK_RIGHT) - input->PushKey(DIK_LEFT)) * rotSpeed;*/
-	//角度ベクトルを加算
-	rotation1 = rotation1 + rotVelocity;
+	//通常のタイトルシーン
+	if (timer == 0)
+	{
+		//AROWキーで角度変更
+		rotVelocity.y = 0.01f;
+		//角度ベクトルを加算
+		rotation0 = rotation0 + rotVelocity;
 
-	//ASDWで移動
-	posVelocity.x = 0.9;
-	posVelocity.z = -0.1;
-	/*posVelocity.x = (input->PushKey(DIK_D) - input->PushKey(DIK_A)) * posSpeed;
-	posVelocity.z = (input->PushKey(DIK_W) - input->PushKey(DIK_S)) * posSpeed;*/
+		//ASDWで移動
+		posVelocity.x = 0.9;
+		posVelocity.z = -0.1;
+	}
+
+	//シーン遷移タイマーが始動したら
+	if (timer > 0)
+	{
+		if (timer == 1)
+		{
+			//走るアニメーションのフラグを立てる
+			runAnimationFlag = true;
+			//最初に加算する角度を取得
+			addRot = rotation0.y - (float)PI / 2.0f;
+			originalRot = rotation0.y;
+			//座標を固定
+			posVelocity.x = 0.0;
+			posVelocity.z = 0.0;
+		}
+		//角度加算 プレイヤーが背を向けるように
+		if (timer < 120)
+		{
+			rotation0.y = (originalRot - addRot) * easeOutCirc(timer / 120.0f);
+		}
+		if (timer > 120)
+		{
+			posVelocity.x = 0.0;
+			posVelocity.z += 3.0;
+		}
+		if (timer == 299)
+		{
+			runAnimationFlag = false;
+		}
+	}
+
 	//進行ベクトルを回転
-	posVelocity = rollRotation(posVelocity, rotation1);
+	posVelocity = rollRotation(posVelocity, rotation0);
 	//進行ベクトルを加算
 	position = position + posVelocity;
 }
@@ -404,7 +436,11 @@ void Player::StatusManager()
 	{
 		status = Attack2;
 	}
-
+	//走っているアニメーションフラグが立ってる場合
+	else if (runAnimationFlag == true)
+	{
+		status = Run;
+	}
 	//立ち止まっている場合
 	else if (length(posVelocity) <= 0.01f)
 	{

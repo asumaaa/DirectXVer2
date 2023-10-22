@@ -366,12 +366,15 @@ void ThunderParticle::Update()
 	VertexPos* vertMap = nullptr;
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
-	for (std::forward_list<Particle>::iterator it = particles.begin(); it != particles.end(); it++)
+
+	for (std::forward_list<Particle>::iterator it1 = particles.begin(); it1 != particles.end(); it1++)
 	{
-		//座標
-		vertMap->pos = it->position;
-		vertMap->scale = it->scale;
-		vertMap->velocity = it->velocity;
+		//1つ前の座標
+		vertMap->prePos = it1->position;
+		//現在の座標
+		vertMap->pos = it1->position;
+		//スケール
+		vertMap->scale = it1->scale;
 		//次の頂点へ
 		vertMap++;
 	}
@@ -407,16 +410,16 @@ void ThunderParticle::UpdateParticle()
 	{
 		//経過フレーム数をカウント
 		it->frame++;
-		//速度に加速度を加算
-		it->velocity = it->velocity + it->accel;
-		//速度による移動
-		it->position = it->position + it->velocity;
+		////速度に加速度を加算
+		//it->velocity = it->velocity + it->accel;
+		////速度による移動
+		//it->position = it->position + it->velocity;
 
 		//進行度を0~1の範囲に換算
 		float f = (float)it->frame / it->num_frame;
 		//スケールの線形補間
-		it->scale = (it->endScale - it->startScale) * f;
-		it->scale += it->startScale;
+		/*it->scale = (it->endScale - it->startScale) * f;*/
+		it->scale = it->startScale;
 	}
 }
 
@@ -455,23 +458,67 @@ void ThunderParticle::Draw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->DrawInstanced((UINT)std::distance(particles.begin(), particles.end()), 1, 0, 0);
 }
 
-void ThunderParticle::Add(XMFLOAT3 pos)
+void ThunderParticle::Add(XMFLOAT3 pos1,XMFLOAT3 pos2)
 {
-	float randPos = 10.0f;
-	float randVelo = 0.2f;
-	float randAcc = 0.0001f;
-	for (int i = 0; i < sparkCount; i++)
-	{
-		XMFLOAT3 p = pos;
-		XMFLOAT3 velocity((float)rand() / RAND_MAX * randVelo - randVelo / 2.0f, (float)rand() / RAND_MAX * randVelo - randVelo / 2.0f
-			, (float)rand() / RAND_MAX * randVelo - randVelo / 2.0f);
-		XMFLOAT3 accel(0.0f, (float)rand() / RAND_MAX * randAcc, 0.0f);
+	//座標1～座標2のベクトル
+	XMFLOAT3 vec1 = pos2 - pos1;
 
-		AddParticle(60, p, velocity, accel, 1.0f, 0.0f);
+	//各座標を入れる
+	std::vector<XMFLOAT3> thunderPos;
+	//乱数の振れ幅
+	float randWidth = 80.0f; //0.2~1.8
+	//処理に使う分割数
+	float split = thunderCount;
+	//消滅するまでのフレーム
+	float life = 60.0f;
+	//スケール
+	float startScale = 1.0f;
+	float endScale = 0.0f;
+
+	//頂点生成
+	for (int i = 0; i < thunderCount; i++)
+	{
+		//1つめの座標をプレイヤーの座標に
+		if (i == 0)
+		{
+			thunderPos.emplace_back(pos1);
+			AddParticle(life, thunderPos.back(), startScale, endScale);
+			continue;
+		}
+		//最後の座標を目標の座標に
+		if (i == thunderCount - 1)
+		{
+			thunderPos.emplace_back(pos2);
+			AddParticle(life, thunderPos.back(), startScale, endScale);
+			continue;
+		}
+
+		//残りのベクトルを計算
+		//1番新しい座標～座標2のベクトル
+		vec1 = pos2 - thunderPos.back();
+		XMFLOAT3 vec2 = vec1 / (split + 1);
+
+		//乱数を生成
+		float xRand, yRand, zRand;
+		xRand = GetRand(100.0f - randWidth, 100.0f + randWidth) / 100.0f;
+		yRand = GetRand(100.0f - randWidth, 100.0f + randWidth) / 100.0f;
+		zRand = GetRand(100.0f - randWidth, 100.0f + randWidth) / 100.0f;
+
+		//乱数と分割されたベクトルをかける
+		float vecX = vec2.x * xRand;
+		float vecY = vec2.y * yRand;
+		float vecZ = vec2.z * zRand;
+
+		//座標代入
+		thunderPos.emplace_back(XMFLOAT3(vecX,vecY,vecZ) + thunderPos.back());
+		AddParticle(life, thunderPos.back(), startScale, endScale);
+
+		//分割数を減らす
+		split--;
 	}
 }
 
-void ThunderParticle::AddParticle(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float startScale, float endScale)
+void ThunderParticle::AddParticle(int life, XMFLOAT3 position,float startScale, float endScale)
 {
 	//リストに要素を追加
 	particles.emplace_front();
@@ -479,8 +526,6 @@ void ThunderParticle::AddParticle(int life, XMFLOAT3 position, XMFLOAT3 velocity
 	Particle& p = particles.front();
 	//値のセット
 	p.position = position;
-	p.velocity = velocity;
-	p.accel = accel;
 	p.num_frame = life;
 	p.startScale = startScale;
 	p.scale = startScale;

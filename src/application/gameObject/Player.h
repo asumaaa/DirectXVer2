@@ -70,7 +70,7 @@ public:
 	/// <summary>
 	///更新 タイトルシーン
 	/// </summary>
-	void UpdateTitle();
+	void UpdateTitle(float timer);
 
 	/// <summary>
 	///更新 オブジェクト
@@ -105,7 +105,7 @@ public:
 	/// <summary>
 	///挙動 タイトルシーン
 	/// </summary>
-	void TitleControl();
+	void TitleControl(float timer);
 
 	/// <summary>
 	///挙動 ゲームシーン
@@ -120,7 +120,7 @@ public:
 	/// <summary>
 	///移動 タイトルシーン
 	/// </summary>
-	void TitleMove();
+	void TitleMove(float timer);
 
 	/// <summary>
 	///更新 落下
@@ -286,4 +286,10 @@ public:
 	Status status = Wait;
 	//1フレーム前の状態
 	Status preStatus = Wait;
+
+	//走ってるアニメーションに無理やりするフラグ
+	bool runAnimationFlag = false;
+	//シーン遷移に使う角度
+	float addRot = 0.0f;
+	float originalRot = 0.0f;
 };

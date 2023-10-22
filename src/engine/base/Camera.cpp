@@ -46,14 +46,28 @@ void Camera::Update()
 	matView_ = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));
 }
 
-void Camera::TitleUpdate(XMFLOAT3 playerPos, XMFLOAT3 playerRot)
+void Camera::TitleUpdate(XMFLOAT3 playerPos, XMFLOAT3 playerRot, float timer)
 {
 	float distance = 60.0f;
-	eye_.x = playerPos.x + (cos(-playerRot.y - (PI / 2)) * distance);
-	eye_.y = playerPos.y + (cos(-playerRot.x + (PI * 22 / 40)) * distance);
-	eye_.z = playerPos.z + (sin(-playerRot.y + (PI / 2)) * distance);
+	//シーン遷移タイマーが動いていない時
+	if (timer < 119)
+	{
+		eye_.x = playerPos.x + (cos(-playerRot.y - (PI / 2)) * distance);
+		eye_.y = playerPos.y + (cos(-playerRot.x + (PI * 15 / 40)) * distance);
+		eye_.z = playerPos.z + (sin(-playerRot.y + (PI / 2)) * distance);
+		originalPlayerPos = playerPos;
+		originalPlayerRot = playerRot;
+		target_ = { playerPos.x,5.0f,playerPos.z };
+	}
+	//シーン遷移タイマーが動いているとき
+	if (timer > 120)
+	{
+		eye_.x = originalPlayerPos.x + (cos(-originalPlayerRot.y - (PI / 2)) * distance);
+		eye_.y = originalPlayerPos.y + (cos(-originalPlayerRot.x + (PI * 15 / 40)) * distance);
+		eye_.z = originalPlayerPos.z + (sin(-originalPlayerRot.y + (PI / 2)) * distance);
+		target_ = { originalPlayerPos.x,5.0f,originalPlayerPos.z };
+	}
 
-	target_ = { playerPos.x,5.0f,playerPos.z };
 }
 
 void Camera::BillboardUpdate()

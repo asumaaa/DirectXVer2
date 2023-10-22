@@ -51,10 +51,6 @@ public://サブクラス
 	{
 		//座標
 		XMFLOAT3 position = {};
-		//速度
-		XMFLOAT3 velocity = {};
-		//加速度
-		XMFLOAT3 accel = {};
 		//現在フレーム
 		int frame = 0;
 		//終了フレーム
@@ -71,8 +67,8 @@ public://サブクラス
 	struct VertexPos
 	{
 		XMFLOAT3 pos;	//座標
+		XMFLOAT3 prePos;
 		float scale;
-		XMFLOAT3 velocity;
 	};
 
 public:	//静的メンバ関数
@@ -127,12 +123,12 @@ public:
 	/// <summary>
 	///パーティクルを追加
 	/// </summary>
-	void Add(XMFLOAT3 pos);
+	void Add(XMFLOAT3 pos1,XMFLOAT3 pos2);
 
 	/// <summary>
 	///パーティクルを追加
 	/// </summary>
-	void AddParticle(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float startScale, float endScale);
+	void AddParticle(int life, XMFLOAT3 position,float startScale, float endScale);
 
 	/// <summary>
 	///テクスチャの番号セット
@@ -146,8 +142,8 @@ public:	//静的メンバ変数
 	static Input* input;
 	//頂点最大数
 	static const int vertexCount = 1024;
-	//火花1回に使う頂点数
-	static const int sparkCount = 128;
+	//雷の分割数
+	static const int thunderCount = 6;
 
 private:
 	//定数バッファ

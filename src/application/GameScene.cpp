@@ -13,6 +13,7 @@
 #include "string.h"
 #include "vector"
 #include "imgui.h"
+#include "mathOriginal.h"
 
 GameScene::GameScene()
 {
@@ -83,14 +84,14 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInp
 	newTitle1Sprite->Initialize();
 	title1Sprite.reset(newTitle1Sprite);
 	title1Sprite->SetTextureNum(18);
-	title1Sprite->SetPosition(XMFLOAT2(0.0f, -150.0f));
+	title1Sprite->SetPosition(title1Pos);
 	title1Sprite->SetScale(XMFLOAT2(1280.0f, 480.0f));
 	//タイトルのスプライト2
 	Sprite* newTitle2Sprite = new Sprite();
 	newTitle2Sprite->Initialize();
 	title2Sprite.reset(newTitle2Sprite);
 	title2Sprite->SetTextureNum(19);
-	title2Sprite->SetPosition(XMFLOAT2(300.0f, 500.0f));
+	title2Sprite->SetPosition(title2Pos);
 	title2Sprite->SetScale(XMFLOAT2(609.0f, 52.0f));
 	//ゲームのスプライト1
 	Sprite* newGame1Sprite = new Sprite();
@@ -99,6 +100,13 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInp
 	game1Sprite->SetTextureNum(20);
 	game1Sprite->SetPosition(XMFLOAT2(0.0f, 0.0f));
 	game1Sprite->SetScale(XMFLOAT2(399.0f, 60.0f));
+	//ゲームのスプライト1
+	Sprite* newBlackSprite = new Sprite();
+	newBlackSprite->Initialize();
+	blackSprite.reset(newBlackSprite);
+	blackSprite->SetTextureNum(14);
+	blackSprite->SetPosition(XMFLOAT2(0.0f, 0.0f));
+	blackSprite->SetScale(XMFLOAT2(1280.0f, 720.0f));
 
 	//カメラ初期化
 	Camera::SetInput(input_);
@@ -330,7 +338,7 @@ void GameScene::UpdateTitle()
 {
 	//カメラ更新
 	/*camera_->DebugUpdate();*/
-	camera_->TitleUpdate(player->GetPosition(), player->GetRotation1());
+	camera_->TitleUpdate(player->GetPosition(), player->GetRotation0(), gameFromTitleTimer);
 	camera_->Update();
 
 	billboardSprite->SetPosition(XMFLOAT3(0.0f, 10.0f, 0.0f));
@@ -338,8 +346,29 @@ void GameScene::UpdateTitle()
 	billboardSprite->Update();
 
 	//スプライト更新
+	if (gameFromTitleTimer > titleMoveTime)
+	{
+		title1Sprite->SetPosition(XMFLOAT2(title1Pos.x, title1Pos.y - 
+			easeOutCirc((gameFromTitleTimer - titleMoveTime) / 180) * 300.0f));
+		title2Sprite->SetPosition(XMFLOAT2(title2Pos.x, title2Pos.y + 
+			easeOutCirc((gameFromTitleTimer - titleMoveTime) / 180) * 300.0f));
+	}
+	else
+	{
+		title1Sprite->SetPosition(title1Pos);
+		title2Sprite->SetPosition(title2Pos);
+	}
+	if (gameFromTitleTimer > 220)
+	{
+		blackSprite->SetAlpha((gameFromTitleTimer - 220.0f) / 80.0f);
+	}
+	else
+	{
+		blackSprite->SetAlpha(0.0f);
+	}
 	title1Sprite->Update();
 	title2Sprite->Update();
+	blackSprite->Update();
 
 	//ライト
 	lightTarget[0] = player->GetPosition().x + 25;
@@ -361,11 +390,14 @@ void GameScene::UpdateTitle()
 	lightGroup->Update();
 
 	//天球
-	skySphereObject->HomingUpdate(player->GetPosition());
+	if (gameFromTitleTimer < 119)
+	{
+		skySphereObject->HomingUpdate(player->GetPosition());
+	}
 	skySphereObject->Update();
 
 	//プレイヤー
-	player->UpdateTitle();
+	player->UpdateTitle(gameFromTitleTimer);
 
 	//オブジェクト更新
 	for (std::unique_ptr<FbxObject3D>& object0 : object)
@@ -390,6 +422,18 @@ void GameScene::UpdateGame()
 	//スプライト更新
 	game1Sprite->Update();
 
+	if (titleFromGameTimer > 1)
+	{
+		blackSprite->SetAlpha(titleFromGameTimer / 120.0f);
+	}
+	else
+	{
+		blackSprite->SetAlpha(0.0f);
+	}
+	title1Sprite->Update();
+	title2Sprite->Update();
+	blackSprite->Update();
+
 	billboardSprite->SetPosition(XMFLOAT3(0.0f, 10.0f, 0.0f));
 	billboardSprite->SetScale(XMFLOAT3(2.5f, 0.3f, 1.0f));
 	billboardSprite->Update();
@@ -400,6 +444,10 @@ void GameScene::UpdateGame()
 	/*sparkParticle2->Update();
 	explosionParticle1->Update();
 	explosionParticle2->Update();*/
+	if (input_->TriggerKey(DIK_N))
+	{
+		thunderParticle->Add(XMFLOAT3(-15.0f, 15.0f, 0.0f), XMFLOAT3(10.0f, 15.0f, 90.0f));
+	}
 	thunderParticle->Update();
 
 	//ライト
@@ -536,6 +584,8 @@ void GameScene::DrawTitle()
 	//天球描画
 	skySphereObject->Draw(dxCommon_->GetCommandList(), skySphereModel->vbView, skySphereModel->ibView);
 
+	player->Draw(dxCommon_->GetCommandList());
+
 	//スプライトの描画
 	/*if (*drawSprite == 1)*/DrawSpriteTitle();
 }
@@ -591,6 +641,7 @@ void GameScene::DrawSpriteTitle()
 {
 	title1Sprite->Draw(dxCommon_->GetCommandList());
 	title2Sprite->Draw(dxCommon_->GetCommandList());
+	blackSprite->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::DrawParticleTitle()
@@ -628,18 +679,52 @@ void GameScene::ModeManager()
 	//タイトルの時AかSPACEが押されたら
 	if (input_->TriggerKey(DIK_SPACE) || dxInput->TriggerKey(DXInput::PAD_A))
 	{
-		mode = static_cast<size_t>(Mode::Game);
-		modeDraw = static_cast<size_t>(ModeDraw::GameDraw);
-		modeDrawLightView = static_cast<size_t>(ModeDrawLightView::GameDrawLightView);
+		//タイトルからゲームに移るフラグオン
+		gameFromTitleFlag = true;
+	}
+	//タイトルからゲームに移るフラグが立ったら
+	if (gameFromTitleFlag == true)
+	{
+		//タイマー加算
+		gameFromTitleTimer++;
+		//タイマーが規定のタイムに達したら
+		if (gameFromTitleTimer >= gameFromTitleTime)
+		{
+			//モードをゲームへ
+			mode = static_cast<size_t>(Mode::Game);
+			modeDraw = static_cast<size_t>(ModeDraw::GameDraw);
+			modeDrawLightView = static_cast<size_t>(ModeDrawLightView::GameDrawLightView);
+			//タイマーリセット
+			gameFromTitleTimer = 0.0f;
+			//フラグをもとに戻す
+			gameFromTitleFlag = false;
+		}
 	}
 
 	//ゲームの時Bが押されたら
-	/*if (dxInput->TriggerKey(DXInput::PAD_B))
+	if (dxInput->TriggerKey(DXInput::PAD_B))
 	{
-		mode = static_cast<size_t>(Mode::Title);
-		modeDraw = static_cast<size_t>(ModeDraw::TitleDraw);
-		modeDrawLightView = static_cast<size_t>(ModeDrawLightView::TitleDrawLightView);
-	}*/
+		//ゲームからゲームに移るフラグオン
+		titleFromGameFlag = true;
+	}
+	//ゲームからタイトルに移るフラグが立ったら
+	if (titleFromGameFlag == true)
+	{
+		//タイマー加算
+		titleFromGameTimer++;
+		//タイマーが規定のタイムに達したら
+		if (titleFromGameTimer >= titleFromGameTime)
+		{
+			//モードをゲームへ
+			mode = static_cast<size_t>(Mode::Title);
+			modeDraw = static_cast<size_t>(ModeDraw::TitleDraw);
+			modeDrawLightView = static_cast<size_t>(ModeDrawLightView::TitleDrawLightView);
+			//タイマーリセット
+			titleFromGameTimer = 0.0f;
+			//フラグをもとに戻す
+			titleFromGameFlag = false;
+		}
+	}
 }
 
 void GameScene::DrawFBXGame()
@@ -660,6 +745,7 @@ void GameScene::DrawColliderGame()
 void GameScene::DrawSpriteGame()
 {
 	game1Sprite->Draw(dxCommon_->GetCommandList());
+	blackSprite->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::DrawParticleGame()

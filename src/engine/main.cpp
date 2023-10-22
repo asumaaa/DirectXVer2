@@ -132,6 +132,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		imGuiManager->Begin();
 
 		//ゲームシーン更新
+		
 		//shadowMap
 		shadowMap->SetAlpha(1.0f);
 		shadowMap->SetLightVP(gameScene->GetLightViewProjection());
@@ -161,7 +162,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//ImGui::SetWindowPos(ImVec2(0, 0));
 		//ImGui::SetWindowSize(ImVec2(500, 150));
 		///*ImGui::InputFloat3("lightDir", lightDir);*/
-		//ImGui::InputFloat("blur Strength", blurStrength);
 		//ImGui::InputFloat("blur Width Strength", blurWidthStrength);
 		//ImGui::InputFloat("blur Height Strength", blurHeightStrength);
 		//ImGui::End();

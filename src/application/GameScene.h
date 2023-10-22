@@ -126,6 +126,14 @@ private:
 	size_t modeDraw = static_cast<size_t>(ModeDraw::GameDraw);		//描画
 	size_t modeDrawLightView = static_cast<size_t>(ModeDrawLightView::GameDrawLightView);//ライト目線描画
 
+	//シーン遷移
+	float titleFromGameTime = 120.0f;
+	float titleFromGameTimer = 0.0f;
+	bool titleFromGameFlag = false;
+	float gameFromTitleTime = 300.0f;
+	float gameFromTitleTimer = 0.0f;
+	bool gameFromTitleFlag = false;
+
 	//fbx
 	std::list<std::unique_ptr<FbxModel>> models;
 
@@ -205,9 +213,18 @@ private:
 	std::unique_ptr<BillboardSpriteModel>billboardSpriteModel;
 
 	//スプライト
+	//タイトル
 	std::unique_ptr<Sprite>title1Sprite;
 	std::unique_ptr<Sprite>title2Sprite;
+	//タイトルスプライト 座標
+	XMFLOAT2 title1Pos = { 0.0f,-150.0f };
+	XMFLOAT2 title2Pos = { 300.0f, 500.0f };
+	//タイトルスプライト シーン遷移用
+	int titleMoveTime = 120.0f;
+	//ゲームシーン用スプライト
 	std::unique_ptr<Sprite>game1Sprite;
+	//黒いスプライト
+	std::unique_ptr<Sprite>blackSprite;
 
 	float stickTest[2] = { 0.0f,0.0f };
 };
