@@ -29,16 +29,16 @@ public://静的メンバ変数
 	/// </summary>
 	static void SetDXInput(DXInput* dxInput) { Camera::dxInput = dxInput; }
 
+	//コンストラクタ デストラクタ
+	Camera();
+	~Camera();
+
 public:
 
 	/// <summary>
 	///インスタンス取得
 	/// </summary>
 	static Camera* GetInstance();
-
-	//インストラクタ デストラクタ
-	Camera();
-	~Camera();
 
 	/// <summary>
 	///初期化
@@ -64,6 +64,11 @@ public:
 	///プレイヤー追尾の更新
 	/// </summary>
 	void UpdatePlayer(XMFLOAT3 playerPos, XMFLOAT3 playerRot);
+
+	/// <summary>
+	///クリア画面の更新
+	/// </summary>
+	void UpdateClear(XMFLOAT3 enemyPos,float timer);
 
 	/// <summary>
 	///ビルボード行列の更新

@@ -19,6 +19,7 @@
 #include "Fog.h"
 #include "Vignette.h"
 #include "Sprite.h"
+#include "BloomEffect.h"
 
 #include "Effekseer.h"
 #include "EffekseerRendererDX12.h"
@@ -32,7 +33,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	//ウィンドウ生成
 	WinApp* winApp = nullptr;
 	winApp = WinApp::GetInstance();
-	winApp->CreateWindow_(L"あ");
+	winApp->CreateWindow_(L"エレメントラッシュ");
 
 	//メッセージ
 	Message* message;
@@ -63,6 +64,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	shadowMap = new ShadowMap;
 	shadowMap->Initialize();
 	shadowMap->CreateGraphicsPipeLine0();
+
+	//Bloom
+	BloomEffect* bloom = nullptr;
+	BloomEffect::SetDevice(dxCommon->GetDevice());
+	bloom = new BloomEffect;
+	bloom->Initialize();
+	bloom->CreateGraphicsPipeLine();
 
 	//ゲームシーン
 	GameScene* gameScene = nullptr;
@@ -138,6 +146,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		shadowMap->SetLightVP(gameScene->GetLightViewProjection());
 		shadowMap->Update();
 
+		//ブルーム
+		bloom->SetAlpha(1.0f);
+		bloom->Update();
+
 		//ゲームシーン
 		gameScene->Update();
 
@@ -152,10 +164,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		//ゲームシーンにSRVを渡す
 		gameScene->SetSRV(shadowMap->GetSRV());
 
+		//ブルーム
+		/*bloom->PreDrawScene(dxCommon->GetCommandList());
+		gameScene->Draw();
+		bloom->PostDrawScene(dxCommon->GetCommandList());*/
+
 		//描画前処理
 		dxCommon->PreDraw();
 	
 		gameScene->Draw();
+
+		/*bloom->Draw(dxCommon->GetCommandList());*/
 
 		//ImGui
 		//ImGui::Begin("blur");

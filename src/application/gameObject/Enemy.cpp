@@ -7,6 +7,7 @@
 
 #include "Enemy.h"
 #include "mathOriginal.h"
+#include "FbxLoader.h"
 #define G 6.674	//万有引力定数
 #define GAcceleration 9.80665 * 1/10	//重力加速度
 
@@ -14,12 +15,25 @@ Camera* Enemy::camera = nullptr;
 Input* Enemy::input = nullptr;
 DXInput* Enemy::dxInput = nullptr;
 
+Enemy::~Enemy()
+{
+	delete modelWait;
+	delete objectWait;
+}
+
 void Enemy::Initialize()
 {
 	Sprite* newSprite = new Sprite();
 	newSprite->SetTextureNum(4);
 	newSprite->Initialize();
 	spriteHpBar.reset(newSprite);
+
+	//待ってるモデル
+	modelWait = FbxLoader::GetInstance()->LoadModelFromFile("enemy");
+	//待っているオブジェクト
+	objectWait = new FbxObject3D;
+	objectWait->Initialize();
+	objectWait->SetModel(modelWait);
 }
 
 void Enemy::Update()
@@ -36,11 +50,11 @@ void Enemy::Update()
 
 void Enemy::UpdateObject()
 {
-	object->SetPosition(position);
-	object->SetRotation(rotation);
-	object->SetScale(scale);
+	objectWait->SetPosition(position);
+	objectWait->SetRotation(rotation);
+	objectWait->SetScale(scale);
 
-	object->Update();
+	objectWait->Update();
 }
 
 void Enemy::UpdateSprite()
@@ -54,12 +68,12 @@ void Enemy::UpdateSprite()
 
 void Enemy::Draw(ID3D12GraphicsCommandList* cmdList)
 {
-	object->Draw(cmdList);
+	objectWait->Draw(cmdList);
 }
 
 void Enemy::DrawLightView(ID3D12GraphicsCommandList* cmdList)
 {
-	object->DrawLightView(cmdList);
+	objectWait->DrawLightView(cmdList);
 }
 
 void Enemy::DrawSprite(ID3D12GraphicsCommandList* cmdList)
@@ -128,19 +142,9 @@ void Enemy::UpdateAttack()
 {
 }
 
-void Enemy::SetObject(FbxObject3D* object)
-{
-	//引数のオブジェクトをセット
-	Enemy::object.reset(object);
-
-	position = object->GetPosition();
-	rotation = object->GetRotation();
-	scale = object->GetScale();
-}
-
 void Enemy::SetSRV(ID3D12DescriptorHeap* SRV)
 {
-	object->SetSRV(SRV);
+	objectWait->SetSRV(SRV);
 }
 
 void Enemy::HitPlane()

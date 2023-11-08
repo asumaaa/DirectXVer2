@@ -179,7 +179,10 @@ private:
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
 
 	//パーティクル配列
-	std::forward_list<Particle>particles;
+	std::list<Particle>particles;
 	//テクスチャの番号
 	int textureNum = 0;
+
+	//パーティクルの振れ幅
+	float particleLevel = 3.0f;
 };

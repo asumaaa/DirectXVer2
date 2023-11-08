@@ -162,6 +162,7 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="2d\BloomEffect.cpp" />
     <ClCompile Include="2d\BlurEffect.cpp" />
     <ClCompile Include="2d\ChromaticAberrationEffect.cpp" />
     <ClCompile Include="2d\DepthOfField.cpp" />
@@ -219,6 +220,7 @@
     <ClCompile Include="engine\particle\ThunderParticle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="2d\BloomEffect.h" />
     <ClInclude Include="2d\BlurEffect.h" />
     <ClInclude Include="2d\ChromaticAberrationEffect.h" />
     <ClInclude Include="2d\DepthOfField.h" />
@@ -296,6 +298,14 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
     <FxCompile Include="..\Resources\Shaders\BillboardSprite\BillboardSpriteVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\Bloom\BloomPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\Bloom\BloomVertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
@@ -522,6 +532,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\Shaders\BillboardSprite\BillboardSpriteHeader.hlsli" />
+    <None Include="..\Resources\Shaders\Bloom\BloomEffectHeader.hlsli" />
     <None Include="..\Resources\Shaders\Blur\BlurEffectHeader.hlsli" />
     <None Include="..\Resources\Shaders\ChromaticAberration\ChromaticAberrationEffectHeader.hlsli" />
     <None Include="..\Resources\Shaders\ColliderCube\ColliderCubeHeader.hlsli" />

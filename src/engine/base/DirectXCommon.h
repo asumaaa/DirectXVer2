@@ -26,16 +26,18 @@ using namespace Microsoft::WRL;
 
 class DirectXCommon
 {
+private:
+
+	//インストラクタ デストラクタ
+	DirectXCommon() = default;
+	~DirectXCommon();
+
 public:
 
 	/// <summary>
 	///インスタンス取得
 	/// </summary>
 	static DirectXCommon* GetInstance();
-
-	//インストラクタ デストラクタ
-	DirectXCommon() = default;
-	~DirectXCommon();
 
 	/// <summary>
 	///初期化

@@ -20,18 +20,12 @@ Player::~Player()
 	//オブジェクトの削除
 	delete objectWait;
 	delete objectRun;
-	delete objectBackRun;
-	delete objectRunLeft;
-	delete objectRunRight;
 	delete objectAttack1;
 	delete objectAttack2;
 
 	//モデルの削除
 	delete modelWait;
 	delete modelRun;
-	delete modelBackRun;
-	delete modelRunLeft;
-	delete modelRunRight;
 	delete modelAttack1;
 	delete modelAttack2;
 }
@@ -54,30 +48,6 @@ void Player::Initialize()
 	objectRun->SetModel(modelRun);
 	objectRun->StopAnimation();
 
-	//後方に走るモデル
-	modelBackRun = FbxLoader::GetInstance()->LoadModelFromFile("playerBackRun");
-	//後方に走るオブジェクト
-	objectBackRun = new FbxObject3D;
-	objectBackRun->Initialize();
-	objectBackRun->SetModel(modelBackRun);
-	objectBackRun->StopAnimation();
-
-	//左に走るモデル
-	modelRunLeft = FbxLoader::GetInstance()->LoadModelFromFile("playerRunLeft");
-	//左に走るオブジェクト
-	objectRunLeft = new FbxObject3D;
-	objectRunLeft->Initialize();
-	objectRunLeft->SetModel(modelRunLeft);
-	objectRunLeft->StopAnimation();
-
-	//右に走るモデル
-	modelRunRight = FbxLoader::GetInstance()->LoadModelFromFile("playerRunRight");
-	//右に走るオブジェクト
-	objectRunRight = new FbxObject3D;
-	objectRunRight->Initialize();
-	objectRunRight->SetModel(modelRunRight);
-	objectRunRight->StopAnimation();
-
 	//攻撃1のモデル
 	modelAttack1 = FbxLoader::GetInstance()->LoadModelFromFile("playerAttack1");
 	//攻撃1のオブジェクト
@@ -93,12 +63,17 @@ void Player::Initialize()
 	objectAttack2->Initialize();
 	objectAttack2->SetModel(modelAttack2);
 	objectAttack2->StopAnimation();
+
+	//雷パーティクル
+	ThunderParticle* newThunderParticle = new ThunderParticle();
+	newThunderParticle->CreateBuffers();
+	thunderParticle.reset(newThunderParticle);
 }
 
 void Player::Update()
 {
 	//弾更新
-	UpdateBullet();
+	UpdateParticle();
 
 	//挙動
 	GameControl();
@@ -119,7 +94,7 @@ void Player::Update()
 void Player::UpdateTitle(float timer)
 {
 	//弾更新
-	UpdateBullet();
+	UpdateParticle();
 
 	//挙動
 	TitleControl(timer);
@@ -144,9 +119,6 @@ void Player::UpdateObject()
 {
 	UpdateObject(Wait, objectWait);
 	UpdateObject(Run, objectRun);
-	UpdateObject(BackRun, objectBackRun);
-	UpdateObject(RunLeft, objectRunLeft);
-	UpdateObject(RunRight, objectRunRight);
 	UpdateObject(Attack1, objectAttack1);
 	UpdateObject(Attack2, objectAttack2);
 }
@@ -171,20 +143,13 @@ void Player::UpdateObject(Status status, FbxObject3D* object)
 	}
 }
 
-void Player::UpdateBullet()
+void Player::UpdateParticle()
 {
-	//if (input->TriggerKey(DIK_RETURN))
-	//{
-	//	//ショットフラグを立てる
-	//	bullet->SetShotFlag(true);
-	//	
-	//	//弾ベクトル
-	//	XMFLOAT3 bulletVelocity = rollRotation(XMFLOAT3(0.0f, 0.0f, 1.0f), rotation1);
-
-	//	//弾生成場所とvelocityをセット
-	//	bullet->SetBullet(position, bulletVelocity);
-	//}
-	//bullet->Update();
+	if (Attack1Timer == 1)
+	{
+		thunderParticle->Add(XMFLOAT3(-15.0f, 15.0f, 0.0f), XMFLOAT3(10.0f, 15.0f, 90.0f));
+	}
+	thunderParticle->Update();
 }
 
 void Player::UpdateOldTransform()
@@ -206,18 +171,6 @@ void Player::Draw(ID3D12GraphicsCommandList* cmdList)
 	{
 		objectRun->Draw(cmdList);
 	}
-	if (status == BackRun)
-	{
-		objectBackRun->Draw(cmdList);
-	}
-	if (status == RunLeft)
-	{
-		objectRunLeft->Draw(cmdList);
-	}
-	if (status == RunRight)
-	{
-		objectRunRight->Draw(cmdList);
-	}
 	if (status == Attack1)
 	{
 		objectAttack1->Draw(cmdList);
@@ -238,18 +191,6 @@ void Player::DrawLightView(ID3D12GraphicsCommandList* cmdList)
 	{
 		objectRun->DrawLightView(cmdList);
 	}
-	if (status == BackRun)
-	{
-		objectBackRun->DrawLightView(cmdList);
-	}
-	if (status == RunLeft)
-	{
-		objectRunLeft->DrawLightView(cmdList);
-	}
-	if (status == RunRight)
-	{
-		objectRunRight->DrawLightView(cmdList);
-	}
 	if (status == Attack1)
 	{
 		objectAttack1->DrawLightView(cmdList);
@@ -258,6 +199,12 @@ void Player::DrawLightView(ID3D12GraphicsCommandList* cmdList)
 	{
 		objectAttack2->DrawLightView(cmdList);
 	}
+}
+
+void Player::DrawParticle(ID3D12GraphicsCommandList* cmdList)
+{
+	//雷描画
+	thunderParticle->Draw(cmdList);
 }
 
 void Player::TitleControl(float timer)
@@ -419,22 +366,20 @@ void Player::UpdateJump()
 
 void Player::StatusManager()
 {
-	if (dxInput->TriggerKey(DXInput::PAD_B) && Attack1Timer == 0)
-	{
-		status = Attack1;
-	}
-	else if (Attack1Timer >= 1 && Attack1Time - Attack1Timer > Attack1IntervalTime)
-	{
-		status = Attack1;
-	}
-
-	else if (dxInput->TriggerKey(DXInput::PAD_B) && 0 <= Attack1Time - Attack1Timer <= Attack1IntervalTime)
+	//インターバル中にBボタンで連続攻撃 攻撃2へ
+	if (dxInput->TriggerKey(DXInput::PAD_B) && 0 <= Attack1Time - Attack1Timer && Attack1Time - Attack1Timer <= Attack1IntervalTime)
 	{
 		status = Attack2;
 	}
+	//攻撃モーション中 攻撃2
 	else if (Attack2Timer >= 1)
 	{
 		status = Attack2;
+	}
+	//Bボタンで攻撃1
+	else if (dxInput->TriggerKey(DXInput::PAD_B) && Attack1Timer == 0 || Attack1Timer >= 1)
+	{
+		status = Attack1;
 	}
 	//走っているアニメーションフラグが立ってる場合
 	else if (runAnimationFlag == true)
@@ -446,21 +391,6 @@ void Player::StatusManager()
 	{
 		status = Wait;
 	}
-	////後ろに入力しながら走っている場合
-	//else if (dxInput->GetStick(DXInput::LStickY) <= -0.3)
-	//{
-	//	status = BackRun;
-	//}
-	////左に入力しながら走っている場合
-	//else if (dxInput->GetStick(DXInput::LStickX) <= -0.3)
-	//{
-	//	status = RunLeft;
-	//}
-	////右に入力しながら走っている場合
-	//else if (dxInput->GetStick(DXInput::LStickX) >= 0.3)
-	//{
-	//	status = RunRight;
-	//}
 	//普通に走っている場合
 	else
 	{
@@ -470,21 +400,27 @@ void Player::StatusManager()
 
 void Player::UpdateAttack()
 {
+	//タイマーの更新
 	if (status == Attack1)
 	{
 		Attack1Timer++;
 	}
+	//攻撃終了したら
 	if (Attack1Timer >= Attack1Time)
 	{
+		//タイマー戻す
 		Attack1Timer = 0.0f;
 	}
 
+	//タイマーの更新
 	if (status == Attack2)
 	{
 		Attack2Timer++;
 	}
+	//攻撃終了したら
 	if (Attack2Timer >= Attack2Time)
 	{
+		//タイマー戻す
 		Attack2Timer = 0.0f;
 		Attack1Timer = 0.0f;
 	}
@@ -499,18 +435,6 @@ void Player::SetSRV(ID3D12DescriptorHeap* SRV)
 	if (status == Run)
 	{
 		objectRun->SetSRV(SRV);
-	}
-	if (status == BackRun)
-	{
-		objectBackRun->SetSRV(SRV);
-	}
-	if (status == RunLeft)
-	{
-		objectRunLeft->SetSRV(SRV);
-	}
-	if (status == RunRight)
-	{
-		objectRunRight->SetSRV(SRV);
 	}
 	if (status == Attack1)
 	{

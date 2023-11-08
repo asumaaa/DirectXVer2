@@ -47,16 +47,19 @@ public:	//モード
 	{
 		Title,	//タイトル
 		Game,	//ゲームシーン
+		Clear,	//クリア
 	};
 	enum class ModeDraw
 	{
 		TitleDraw,	//タイトル
 		GameDraw,	//ゲームシーン
+		ClearDraw,	//クリア
 	};
 	enum class ModeDrawLightView
 	{
 		TitleDrawLightView,	//タイトル
 		GameDrawLightView,	//ゲームシーン
+		ClearDrawLightView,	//クリア
 	};
 
 	//メンバ関数
@@ -73,6 +76,7 @@ public:
 	//モードごとの更新
 	void UpdateTitle();	//タイトル
 	void UpdateGame();	//ゲームシーン
+	void UpdateClear();	//クリア
 	//コライダーの更新
 	void UpdateCollider();
 
@@ -81,6 +85,7 @@ public:
 	//モードごとの描画
 	void DrawTitle();	//タイトル
 	void DrawGame();	//ゲームシーン
+	void DrawClear();	//ゲームシーン
 	//モードごとの描画
 	//タイトル
 	void DrawFBXTitle();			//FBX描画
@@ -92,12 +97,18 @@ public:
 	void DrawColliderGame();		//コライダーの描画
 	void DrawSpriteGame();			//スプライト
 	void DrawParticleGame();		//パーティクル
+	//クリア
+	void DrawFBXClear();				//FBX描画
+	void DrawColliderClear();		//コライダーの描画
+	void DrawSpriteClear();			//スプライト
+	void DrawParticleClear();		//パーティクル
 
 	//ライト目線の描画
 	void DrawFBXLightView();
 	//モードごと
 	void DrawFBXLightViewTitle();	//タイトル
 	void DrawFBXLightViewGame();	//ゲーム
+	void DrawFBXLightViewClear();	//クリア
 
 	//モードマネージャー
 	void ModeManager();
@@ -133,6 +144,10 @@ private:
 	float gameFromTitleTime = 300.0f;
 	float gameFromTitleTimer = 0.0f;
 	bool gameFromTitleFlag = false;
+	bool clearFromGameFlag = false;
+	float clearFromGameTimer = 0.0f;
+	float clearFromGameTime = 500.0f;
+	bool gameFromClearFlag = false;
 
 	//fbx
 	std::list<std::unique_ptr<FbxModel>> models;
@@ -170,7 +185,7 @@ private:
 	//std::unique_ptr<PlayerBullet>playerBullet;
 
 	////敵
-	//std::unique_ptr<Enemy>enemy;
+	std::unique_ptr<Enemy>enemy;
 
 	//平面
 	/*std::unique_ptr<Plane> plane;*/
@@ -178,6 +193,10 @@ private:
 	//天球
 	std::unique_ptr<ObjModel>skySphereModel;
 	std::unique_ptr<ObjObject3D>skySphereObject;
+	//天球の座標 スケール
+	XMFLOAT3 skySphereObjectPos = { 0.0f,0.0f,0.0f };
+	XMFLOAT3 skySphereObjectRot = { 0.0f,0.0f,0.0f };
+	XMFLOAT3 skySphereObjectScale = { 30.0f, 30.0f, 30.0f };
 
 	//コライダーのモデル
 	std::unique_ptr<ColliderCubeModel>colliderCubeModel;
@@ -199,9 +218,6 @@ private:
 	//爆発パーテイクル2
 	std::unique_ptr<ExplosionParticle2>explosionParticle2;
 
-	//雷パーティクル
-	std::unique_ptr<ThunderParticle>thunderParticle;
-
 	//描画フラグ
 	int drawParticle[1] = { 1 };
 	int drawFbx[1] = { 1 };
@@ -216,15 +232,35 @@ private:
 	//タイトル
 	std::unique_ptr<Sprite>title1Sprite;
 	std::unique_ptr<Sprite>title2Sprite;
-	//タイトルスプライト 座標
+	//タイトルスプライト 座標 スケール
 	XMFLOAT2 title1Pos = { 0.0f,-150.0f };
+	XMFLOAT2 title1Scale = { 1280.0f, 480.0f };
 	XMFLOAT2 title2Pos = { 300.0f, 500.0f };
+	XMFLOAT2 title2Scale = { 609.0f, 52.0f };
 	//タイトルスプライト シーン遷移用
 	int titleMoveTime = 120.0f;
 	//ゲームシーン用スプライト
 	std::unique_ptr<Sprite>game1Sprite;
+	//ゲームシーン用スプライト 座標 スケール
+	XMFLOAT2 game1Pos = { 0.0f, 0.0f };
+	XMFLOAT2 game1Scale = { 399.0f, 60.0f };
 	//黒いスプライト
-	std::unique_ptr<Sprite>blackSprite;
+	std::unique_ptr<Sprite>blackSprite1;
+	std::unique_ptr<Sprite>blackSprite2;
+	//黒いスプライト 座標 スケール
+	XMFLOAT2 black1Pos = { 0.0f, 0.0f };
+	XMFLOAT2 black1Scale = { 1280.0f, 720.0f };
+	XMFLOAT2 black2Pos = { 0.0f, 0.0f };
+	XMFLOAT2 black2Scale = { 1280.0f, 720.0f };
+	//クリアシーン用スプライト
+	std::unique_ptr<Sprite>clear1Sprite;
+	//クリアシーン用スプライト 座標 スケール
+	XMFLOAT2 clear1Pos = { 150.0f, 300.0f };
+	XMFLOAT2 clear1Scale = { 860.0f, 77.0f };
 
 	float stickTest[2] = { 0.0f,0.0f };
+
+	//爆発用
+	float explosionTime = 10.0f;
+	float explosionTimer = explosionTime;
 };

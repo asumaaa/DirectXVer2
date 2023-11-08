@@ -9,6 +9,7 @@
 #include "DirectXMath.h"
 #include "FbxObject3D.h"
 #include "PlayerBullet.h"
+#include "ThunderParticle.h"
 
 class Player
 {
@@ -83,9 +84,9 @@ public:
 	void UpdateObject(Status status, FbxObject3D* object);
 
 	/// <summary>
-	///更新 弾
+	///更新 弾 パーティクル
 	/// </summary>
-	void UpdateBullet();
+	void UpdateParticle();
 
 	/// <summary>
 	///1フレーム前の座標取得
@@ -101,6 +102,11 @@ public:
 	///ライト視点描画
 	/// </summary>
 	void DrawLightView(ID3D12GraphicsCommandList* cmdList);
+
+	/// <summary>
+	///パーティクル描画
+	/// </summary>
+	void DrawParticle(ID3D12GraphicsCommandList* cmdList);
 
 	/// <summary>
 	///挙動 タイトルシーン
@@ -202,21 +208,6 @@ public:
 	//走ってる状態のモデル
 	FbxModel* modelRun = nullptr;
 
-	//後ろ走りしているプレイヤー
-	FbxObject3D* objectBackRun = nullptr;
-	//後ろ走りしてるモデル
-	FbxModel* modelBackRun = nullptr;
-
-	//左に走ってるオブジェクト
-	FbxObject3D* objectRunLeft = nullptr;
-	//左に走っているモデル
-	FbxModel* modelRunLeft = nullptr;
-
-	//右に走ってるオブジェクト
-	FbxObject3D* objectRunRight = nullptr;
-	//右に走っているモデル
-	FbxModel* modelRunRight = nullptr;
-
 	//攻撃1のモデル
 	FbxObject3D* objectAttack1 = nullptr;
 	//攻撃1のオブジェクト
@@ -292,4 +283,7 @@ public:
 	//シーン遷移に使う角度
 	float addRot = 0.0f;
 	float originalRot = 0.0f;
+
+	//弾
+	std::unique_ptr<ThunderParticle>thunderParticle;
 };

@@ -53,7 +53,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInp
 	newTextureManager->LoadFile(17, L"Resources/pictures/skyBox.png");
 	newTextureManager->LoadFile(18, L"Resources/pictures/title1.png");
 	newTextureManager->LoadFile(19, L"Resources/pictures/title2.png");
-	newTextureManager->LoadFile(20, L"Resources/pictures/game1.png");
+	newTextureManager->LoadFile(20, L"Resources/pictures/game2.png");
+	newTextureManager->LoadFile(21, L"Resources/pictures/clear.png");
 
 	textureManager.reset(newTextureManager);
 
@@ -85,28 +86,42 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInp
 	title1Sprite.reset(newTitle1Sprite);
 	title1Sprite->SetTextureNum(18);
 	title1Sprite->SetPosition(title1Pos);
-	title1Sprite->SetScale(XMFLOAT2(1280.0f, 480.0f));
+	title1Sprite->SetScale(title1Scale);
 	//タイトルのスプライト2
 	Sprite* newTitle2Sprite = new Sprite();
 	newTitle2Sprite->Initialize();
 	title2Sprite.reset(newTitle2Sprite);
 	title2Sprite->SetTextureNum(19);
 	title2Sprite->SetPosition(title2Pos);
-	title2Sprite->SetScale(XMFLOAT2(609.0f, 52.0f));
+	title2Sprite->SetScale(title2Scale);
 	//ゲームのスプライト1
 	Sprite* newGame1Sprite = new Sprite();
 	newGame1Sprite->Initialize();
 	game1Sprite.reset(newGame1Sprite);
 	game1Sprite->SetTextureNum(20);
-	game1Sprite->SetPosition(XMFLOAT2(0.0f, 0.0f));
-	game1Sprite->SetScale(XMFLOAT2(399.0f, 60.0f));
-	//ゲームのスプライト1
-	Sprite* newBlackSprite = new Sprite();
-	newBlackSprite->Initialize();
-	blackSprite.reset(newBlackSprite);
-	blackSprite->SetTextureNum(14);
-	blackSprite->SetPosition(XMFLOAT2(0.0f, 0.0f));
-	blackSprite->SetScale(XMFLOAT2(1280.0f, 720.0f));
+	game1Sprite->SetPosition(game1Pos);
+	game1Sprite->SetScale(game1Scale);
+	//黒いスプライト1
+	Sprite* newBlackSprite1 = new Sprite();
+	newBlackSprite1->Initialize();
+	blackSprite1.reset(newBlackSprite1);
+	blackSprite1->SetTextureNum(14);
+	blackSprite1->SetPosition(black1Pos);
+	blackSprite1->SetScale(black1Scale);
+	//黒いスプライト2
+	Sprite* newBlackSprite2 = new Sprite();
+	newBlackSprite2->Initialize();
+	blackSprite2.reset(newBlackSprite2);
+	blackSprite2->SetTextureNum(14);
+	blackSprite2->SetPosition(black2Pos);
+	blackSprite2->SetScale(black2Scale);
+	//クリアのスプライト1
+	Sprite* newClear1Sprite = new Sprite();
+	newClear1Sprite->Initialize();
+	clear1Sprite.reset(newClear1Sprite);
+	clear1Sprite->SetTextureNum(21);
+	clear1Sprite->SetPosition(clear1Pos);
+	clear1Sprite->SetScale(clear1Scale);
 
 	//カメラ初期化
 	Camera::SetInput(input_);
@@ -114,8 +129,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInp
 	Camera* newCamera = new Camera();
 	newCamera->Initialize();
 	camera_.reset(newCamera);
-	camera_->SetEye({ 0.0f,10.0f,5.0f });
-	camera_->SetTarget({ 0.0f,0.0f,0.0f });
+	/*camera_->SetEye({ 0.0f,0.0f,0.0f });
+	camera_->SetTarget({ 0.0f,0.0f,0.0f });*/
 
 	//ライト(影)
 	Light* newLight = new Light();
@@ -222,9 +237,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInp
 	ThunderParticle::SetCamera(camera_.get());
 	ThunderParticle::SetInput(input_);
 	ThunderParticle::CreateGraphicsPipeline();
-	ThunderParticle* newThunderParticle = new ThunderParticle();
-	newThunderParticle->CreateBuffers();
-	thunderParticle.reset(newThunderParticle);
 
 	//ビルボードのスプライト
 	BillboardSpriteModel::SetDevice(dxCommon_->GetDevice());
@@ -249,26 +261,24 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInp
 	ObjObject3D* newObject = new ObjObject3D();
 	newObject->Initialize(dxCommon_->GetDevice(), newObjModel, camera_.get());
 	skySphereObject.reset(newObject);
-	skySphereObject->setScale(XMFLOAT3(30.0f, 30.0f, 30.0f));
-	skySphereObject->setRotation(XMFLOAT3(0.0f, 0.0f, 0.0f));
-	skySphereObject->setPosition(XMFLOAT3(0.0f, 0.0f, 0.0f));
+	skySphereObject->setScale(skySphereObjectScale);
+	skySphereObject->setRotation(skySphereObjectRot);
+	skySphereObject->setPosition(skySphereObjectPos);
 
 	//プレイヤー
 	Player::SetCamera(camera_.get());
 	Player::SetInput(input);
 	Player::SetDXInput(dxInput);
-	/*Player::SetDXInput()*/
 	Player* newPlayer = new Player();
 	newPlayer->Initialize();
-	/*newPlayer->SetBullet(playerBullet.get());*/
 	player.reset(newPlayer);
 
-	////敵
-	//Enemy::SetCamera(camera_.get());
-	//Enemy::SetInput(input);
-	//Enemy* newEnemy = new Enemy();
-	//newEnemy->Initialize();
-	//enemy.reset(newEnemy);
+	//敵
+	Enemy::SetCamera(camera_.get());
+	Enemy::SetInput(input);
+	Enemy* newEnemy = new Enemy();
+	newEnemy->Initialize();
+	enemy.reset(newEnemy);
 
 	//平面
 	/*Plane::SetCamera(camera_.get());
@@ -360,15 +370,15 @@ void GameScene::UpdateTitle()
 	}
 	if (gameFromTitleTimer > 220)
 	{
-		blackSprite->SetAlpha((gameFromTitleTimer - 220.0f) / 80.0f);
+		blackSprite1->SetAlpha((gameFromTitleTimer - 220.0f) / 80.0f);
 	}
 	else
 	{
-		blackSprite->SetAlpha(0.0f);
+		blackSprite1->SetAlpha(0.0f);
 	}
 	title1Sprite->Update();
 	title2Sprite->Update();
-	blackSprite->Update();
+	blackSprite1->Update();
 
 	//ライト
 	lightTarget[0] = player->GetPosition().x + 25;
@@ -424,31 +434,24 @@ void GameScene::UpdateGame()
 
 	if (titleFromGameTimer > 1)
 	{
-		blackSprite->SetAlpha(titleFromGameTimer / 120.0f);
+		blackSprite1->SetAlpha(titleFromGameTimer / 120.0f);
 	}
 	else
 	{
-		blackSprite->SetAlpha(0.0f);
+		blackSprite1->SetAlpha(0.0f);
 	}
 	title1Sprite->Update();
 	title2Sprite->Update();
-	blackSprite->Update();
+	blackSprite1->Update();
 
 	billboardSprite->SetPosition(XMFLOAT3(0.0f, 10.0f, 0.0f));
 	billboardSprite->SetScale(XMFLOAT3(2.5f, 0.3f, 1.0f));
 	billboardSprite->Update();
 
 	//パーティクル
-	/*sparkParticle->Update();*/
-
-	/*sparkParticle2->Update();
+	sparkParticle2->Update();
 	explosionParticle1->Update();
-	explosionParticle2->Update();*/
-	if (input_->TriggerKey(DIK_N))
-	{
-		thunderParticle->Add(XMFLOAT3(-15.0f, 15.0f, 0.0f), XMFLOAT3(10.0f, 15.0f, 90.0f));
-	}
-	thunderParticle->Update();
+	explosionParticle2->Update();
 
 	//ライト
 	light->SetEye(XMFLOAT3(lightPos));
@@ -470,8 +473,119 @@ void GameScene::UpdateGame()
 	//プレイヤー
 	player->Update();
 
-	////敵
-	//enemy->Update();
+	//敵
+	enemy->Update();
+
+	//平面
+	/*plane->Update();*/
+
+	//スペースキーでファイル読み込み更新
+	if (input_->TriggerKey(DIK_SPACE))
+	{
+		jsonLoader->LoadFile("Resources/json/demo1.json");
+		int i = 0;
+		for (std::unique_ptr<FbxObject3D>& object0 : object)
+		{
+			//プレイヤー以外のオブジェクト更新
+			if (object0->GetFileName() != "player")
+			{
+				object0->SetPosition(jsonLoader->GetPosition(i));
+				object0->SetScale(jsonLoader->GetScale(i));
+				object0->SetRotation(jsonLoader->GetRotation(i));
+			}
+			i++;
+		}
+	}
+	for (std::unique_ptr<FbxObject3D>& object0 : object)
+	{
+		object0->Update();
+	}
+
+	//コライダー更新
+	UpdateCollider();
+}
+
+void GameScene::UpdateClear()
+{
+	//タイマー更新
+	if (clearFromGameTimer <= clearFromGameTime)
+	{
+		clearFromGameTimer++;
+	}
+
+	//カメラ更新
+	camera_->UpdateClear(enemy->GetPosition(),clearFromGameTimer);
+	/*camera_->DebugUpdate();*/
+	camera_->Update();
+
+	//コントローラテスト
+	stickTest[0] = player->GetPosition().x;
+	stickTest[1] = player->GetPosition().y;
+
+	//スプライト更新
+	game1Sprite->Update();
+	blackSprite1->SetPosition(XMFLOAT2(0.0f, -620.0f));
+	blackSprite1->SetScale(XMFLOAT2(1280.0f, 720.0f));
+	blackSprite1->SetAlpha(1.0f);
+	blackSprite2->SetPosition(XMFLOAT2(0.0f, 620.0f));
+	blackSprite2->SetScale(XMFLOAT2(1280.0f, 720.0f));
+	blackSprite2->SetAlpha(1.0f);
+	blackSprite1->Update();
+	blackSprite2->Update();
+	clear1Sprite->Update();
+
+	billboardSprite->SetPosition(XMFLOAT3(0.0f, 10.0f, 0.0f));
+	billboardSprite->SetScale(XMFLOAT3(2.5f, 0.3f, 1.0f));
+	billboardSprite->Update();
+
+	//パーティクル
+	/*sparkParticle->Update();*/
+	if ((int)clearFromGameTimer % 70 == 0)
+	{
+		explosionTimer -= 1;
+	}
+
+	if ((int)clearFromGameTimer % (int)explosionTimer == 0 && clearFromGameTimer <= clearFromGameTime)
+	{
+		//乱数を生成
+		float xRand, yRand, zRand, randWidth;
+		XMFLOAT3 randVec(20.0f, 20.0f, 20.0f);
+		randWidth = 80.0f;
+		xRand = (GetRand(100.0f - randWidth, 100.0f + randWidth) - 100.0f) / 100.0f;
+		yRand = (GetRand(100.0f - randWidth, 100.0f + randWidth) - 100.0f) / 100.0f;
+		zRand = (GetRand(100.0f - randWidth, 100.0f + randWidth) - 100.0f) / 100.0f;
+		randVec = XMFLOAT3(randVec.x * xRand, randVec.y * yRand + 20, randVec.z * zRand);
+
+		sparkParticle2->Add(enemy->GetPosition() + randVec);
+		explosionParticle1->Add(enemy->GetPosition() + randVec);
+		explosionParticle2->Add(enemy->GetPosition() + randVec);
+	}
+	sparkParticle2->Update();
+	explosionParticle1->Update();
+	explosionParticle2->Update();
+
+	//ライト
+	light->SetEye(XMFLOAT3(lightPos));
+	light->SetTarget(XMFLOAT3(lightTarget));
+	light->SetDir(XMFLOAT3(lightDir));
+	light->Update();
+
+	//ライト
+	lightGroup->SetAmbientColor(XMFLOAT3(1, 1, 1));
+	lightGroup->SetDirLightActive(0, false);
+	lightGroup->SetDirLightActive(1, false);
+	lightGroup->SetDirLightActive(2, false);
+	lightGroup->Update();
+
+	//天球
+	skySphereObject->HomingUpdate(player->GetPosition());
+	skySphereObject->Update();
+
+	//プレイヤー
+	player->Update();
+
+	//敵
+	enemy->Update();
 
 	//平面
 	/*plane->Update();*/
@@ -603,11 +717,11 @@ void GameScene::DrawGame()
 	//ImGui::End();
 
 	//ImGui
-	ImGui::Begin("GameScene");
+	/*ImGui::Begin("GameScene");
 	ImGui::SetWindowPos(ImVec2(0, 0));
 	ImGui::SetWindowSize(ImVec2(500, 150));
 	ImGui::InputFloat2("StickTest", stickTest);
-	ImGui::End();
+	ImGui::End();*/
 
 	//天球描画
 	skySphereObject->Draw(dxCommon_->GetCommandList(), skySphereModel->vbView, skySphereModel->ibView);
@@ -620,6 +734,21 @@ void GameScene::DrawGame()
 	if (*drawFbx == 1)DrawFBXGame();
 	//パーティクルの描画
 	if (*drawParticle == 1)DrawParticleGame();
+}
+
+void GameScene::DrawClear()
+{
+	//天球描画
+	skySphereObject->Draw(dxCommon_->GetCommandList(), skySphereModel->vbView, skySphereModel->ibView);
+
+	//コライダーの描画
+	if (*drawCollider == 1)DrawColliderClear();
+	//FBXの描画
+	if (*drawFbx == 1)DrawFBXClear();
+	//パーティクルの描画
+	if (*drawParticle == 1)DrawParticleClear();
+	//スプライトの描画
+	if (*drawSprite == 1)DrawSpriteClear();
 }
 
 void GameScene::DrawFBXTitle()
@@ -641,7 +770,7 @@ void GameScene::DrawSpriteTitle()
 {
 	title1Sprite->Draw(dxCommon_->GetCommandList());
 	title2Sprite->Draw(dxCommon_->GetCommandList());
-	blackSprite->Draw(dxCommon_->GetCommandList());
+	blackSprite1->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::DrawParticleTitle()
@@ -672,12 +801,24 @@ void GameScene::DrawFBXLightViewGame()
 	}
 
 	player->DrawLightView(dxCommon_->GetCommandList());
+	enemy->DrawLightView(dxCommon_->GetCommandList());
+}
+
+void GameScene::DrawFBXLightViewClear()
+{
+	for (std::unique_ptr<FbxObject3D>& object0 : object)
+	{
+		object0->DrawLightView(dxCommon_->GetCommandList());
+	}
+
+	player->DrawLightView(dxCommon_->GetCommandList());
+	enemy->DrawLightView(dxCommon_->GetCommandList());
 }
 
 void GameScene::ModeManager()
 {
 	//タイトルの時AかSPACEが押されたら
-	if (input_->TriggerKey(DIK_SPACE) || dxInput->TriggerKey(DXInput::PAD_A))
+	if (input_->TriggerKey(DIK_SPACE) || dxInput->TriggerKey(DXInput::PAD_A) && mode == static_cast<size_t>(Mode::Title))
 	{
 		//タイトルからゲームに移るフラグオン
 		gameFromTitleFlag = true;
@@ -702,11 +843,11 @@ void GameScene::ModeManager()
 	}
 
 	//ゲームの時Bが押されたら
-	if (dxInput->TriggerKey(DXInput::PAD_B))
-	{
-		//ゲームからゲームに移るフラグオン
-		titleFromGameFlag = true;
-	}
+	//if (dxInput->TriggerKey(DXInput::PAD_B))
+	//{
+	//	//ゲームからゲームに移るフラグオン
+	//	titleFromGameFlag = true;
+	//}
 	//ゲームからタイトルに移るフラグが立ったら
 	if (titleFromGameFlag == true)
 	{
@@ -725,6 +866,45 @@ void GameScene::ModeManager()
 			titleFromGameFlag = false;
 		}
 	}
+
+	//ゲームクリア デバッグ用
+	if (dxInput->TriggerKey(DXInput::PAD_A))
+	{
+		//ゲームからゲームに移るフラグオン
+		clearFromGameFlag = true;
+	}
+	//ゲームからクリアに移るフラグが立ったら
+	if (clearFromGameFlag == true)
+	{
+		//モードをゲームへ
+		mode = static_cast<size_t>(Mode::Clear);
+		modeDraw = static_cast<size_t>(ModeDraw::ClearDraw);
+		modeDrawLightView = static_cast<size_t>(ModeDrawLightView::ClearDrawLightView);
+		//フラグをもとに戻す
+		clearFromGameFlag = false;
+	}
+
+	//クリアの時AかSPACEが押されたら
+	if (input_->TriggerKey(DIK_SPACE) || dxInput->TriggerKey(DXInput::PAD_X) && mode == static_cast<size_t>(Mode::Clear))
+	{
+		if (clearFromGameTimer >= clearFromGameTime)
+		{
+			//タイトルからゲームに移るフラグオン
+			gameFromClearFlag = true;
+		}
+	}
+	//クリアからゲームに移るフラグが立ったら
+	if (gameFromClearFlag == true)
+	{
+		//モードをゲームへ
+		mode = static_cast<size_t>(Mode::Game);
+		modeDraw = static_cast<size_t>(ModeDraw::GameDraw);
+		modeDrawLightView = static_cast<size_t>(ModeDrawLightView::GameDrawLightView);
+		clearFromGameTimer = 0.0f;
+		explosionTimer = explosionTime;
+		//フラグをもとに戻す
+		gameFromClearFlag = false;
+	}
 }
 
 void GameScene::DrawFBXGame()
@@ -735,6 +915,7 @@ void GameScene::DrawFBXGame()
 	}
 
 	player->Draw(dxCommon_->GetCommandList());
+	enemy->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::DrawColliderGame()
@@ -745,17 +926,50 @@ void GameScene::DrawColliderGame()
 void GameScene::DrawSpriteGame()
 {
 	game1Sprite->Draw(dxCommon_->GetCommandList());
-	blackSprite->Draw(dxCommon_->GetCommandList());
+	blackSprite1->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::DrawParticleGame()
 {
-	/*sparkParticle->Draw(dxCommon_->GetCommandList());
+	sparkParticle->Draw(dxCommon_->GetCommandList());
 	sparkParticle2->Draw(dxCommon_->GetCommandList());
 	explosionParticle1->Draw(dxCommon_->GetCommandList());
-	explosionParticle2->Draw(dxCommon_->GetCommandList());*/
+	explosionParticle2->Draw(dxCommon_->GetCommandList());
 
-	thunderParticle->Draw(dxCommon_->GetCommandList());
+	//プレイヤーのパーティクル描画
+	player->DrawParticle(dxCommon_->GetCommandList());
+}
+
+void GameScene::DrawFBXClear()
+{
+	for (std::unique_ptr<FbxObject3D>& object0 : object)
+	{
+		object0->Draw(dxCommon_->GetCommandList());
+	}
+
+	player->Draw(dxCommon_->GetCommandList());
+	enemy->Draw(dxCommon_->GetCommandList());
+}
+
+void GameScene::DrawColliderClear()
+{
+	ColliderManager::Draw(dxCommon_->GetCommandList());
+}
+
+void GameScene::DrawSpriteClear()
+{
+	/*game1Sprite->Draw(dxCommon_->GetCommandList());*/
+	blackSprite1->Draw(dxCommon_->GetCommandList());
+	blackSprite2->Draw(dxCommon_->GetCommandList());
+	if(clearFromGameTimer >= clearFromGameTime)clear1Sprite->Draw(dxCommon_->GetCommandList());
+}
+
+void GameScene::DrawParticleClear()
+{
+	sparkParticle->Draw(dxCommon_->GetCommandList());
+	sparkParticle2->Draw(dxCommon_->GetCommandList());
+	explosionParticle1->Draw(dxCommon_->GetCommandList());
+	explosionParticle2->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::SetSRV(ID3D12DescriptorHeap* SRV)
@@ -766,6 +980,7 @@ void GameScene::SetSRV(ID3D12DescriptorHeap* SRV)
 	}
 
 	player->SetSRV(SRV);
+	enemy->SetSRV(SRV);
 }
 
 DirectX::XMMATRIX GameScene::GetLightViewProjection()
@@ -778,14 +993,17 @@ void(GameScene::* GameScene::Mode[])() =
 {
 	&GameScene::UpdateTitle,
 	&GameScene::UpdateGame,
+	&GameScene::UpdateClear,
 };
 void(GameScene::* GameScene::ModeDraw[])() =
 {
 	&GameScene::DrawTitle,
 	&GameScene::DrawGame,
+	&GameScene::DrawClear,
 };
 void(GameScene::* GameScene::ModeDrawLightView[])() =
 {
 	&GameScene::DrawFBXLightViewTitle,
 	&GameScene::DrawFBXLightViewGame,
+	&GameScene::DrawFBXLightViewClear,
 };

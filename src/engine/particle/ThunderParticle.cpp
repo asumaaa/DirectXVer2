@@ -105,15 +105,15 @@ void ThunderParticle::CreateGraphicsPipeline()
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
+		{ // xy座標(1行で書いたほうが見やすい)
+			"SV_POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
+		},
 		{	//スケール
 			"SCALE",0,DXGI_FORMAT_R32_FLOAT,0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0
-		},
-		{ // 進行ベクトル
-			"VELOCITY", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
-			D3D12_APPEND_ALIGNED_ELEMENT,
-			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
 	};
 
@@ -367,14 +367,17 @@ void ThunderParticle::Update()
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 
-	for (std::forward_list<Particle>::iterator it1 = particles.begin(); it1 != particles.end(); it1++)
+	for (std::list<Particle>::iterator it = particles.begin(); it != particles.end(); it++)
 	{
+		if (it == particles.begin())continue;
 		//1つ前の座標
-		vertMap->prePos = it1->position;
+		it--;
+		vertMap->prePos = it->position;
 		//現在の座標
-		vertMap->pos = it1->position;
+		it++;
+		vertMap->pos = it->position;
 		//スケール
-		vertMap->scale = it1->scale;
+		vertMap->scale = it->scale;
 		//次の頂点へ
 		vertMap++;
 	}
@@ -406,7 +409,7 @@ void ThunderParticle::UpdateParticle()
 	);
 
 	//全パーティクル更新
-	for (std::forward_list<Particle>::iterator it = particles.begin(); it != particles.end(); it++)
+	for (std::list<Particle>::iterator it = particles.begin(); it != particles.end(); it++)
 	{
 		//経過フレーム数をカウント
 		it->frame++;
@@ -418,7 +421,7 @@ void ThunderParticle::UpdateParticle()
 		//進行度を0~1の範囲に換算
 		float f = (float)it->frame / it->num_frame;
 		//スケールの線形補間
-		/*it->scale = (it->endScale - it->startScale) * f;*/
+		it->scale = (it->endScale - it->startScale) * f;
 		it->scale = it->startScale;
 	}
 }
@@ -500,13 +503,13 @@ void ThunderParticle::Add(XMFLOAT3 pos1,XMFLOAT3 pos2)
 
 		//乱数を生成
 		float xRand, yRand, zRand;
-		xRand = GetRand(100.0f - randWidth, 100.0f + randWidth) / 100.0f;
-		yRand = GetRand(100.0f - randWidth, 100.0f + randWidth) / 100.0f;
-		zRand = GetRand(100.0f - randWidth, 100.0f + randWidth) / 100.0f;
+		xRand = GetRand(100.0f - randWidth, 100.0f + randWidth)/ 100.0f;
+		yRand = GetRand(100.0f - randWidth, 100.0f + randWidth)/ 100.0f;
+		zRand = GetRand(100.0f - randWidth, 100.0f + randWidth)/ 100.0f;
 
 		//乱数と分割されたベクトルをかける
-		float vecX = vec2.x * xRand;
-		float vecY = vec2.y * yRand;
+		float vecX = vec2.x * xRand * particleLevel;
+		float vecY = vec2.y * yRand * particleLevel;
 		float vecZ = vec2.z * zRand;
 
 		//座標代入
@@ -520,14 +523,13 @@ void ThunderParticle::Add(XMFLOAT3 pos1,XMFLOAT3 pos2)
 
 void ThunderParticle::AddParticle(int life, XMFLOAT3 position,float startScale, float endScale)
 {
-	//リストに要素を追加
-	particles.emplace_front();
-	//追加した要素の参照
-	Particle& p = particles.front();
+	Particle p;
 	//値のセット
 	p.position = position;
 	p.num_frame = life;
 	p.startScale = startScale;
 	p.scale = startScale;
 	p.endScale = endScale;
+
+	particles.emplace_back(p);
 }

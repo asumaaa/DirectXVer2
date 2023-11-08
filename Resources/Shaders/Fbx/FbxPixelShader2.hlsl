@@ -2,8 +2,8 @@
 
 //0番スロットに設定されたテクスチャ
 Texture2D<float4> tex : register(t0);
-texture2D<float> tex1 : register(t1);	//カメラからの深度
-texture2D<float> tex2 : register(t2);	//ライトからの深度
+Texture2D<float> tex1 : register(t1);	//カメラからの深度
+Texture2D<float> tex2 : register(t2);	//ライトからの深度
 //0番スロットに設定されたサンプラー
 SamplerState smp : register(s0);
 

@@ -148,6 +148,9 @@
     <Filter Include="リソース ファイル\Shaders\Object\ThunderParticle">
       <UniqueIdentifier>{f80ef776-b812-4f58-ae63-addc218b2ff1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\Shaders\PostEffect\Bloom">
+      <UniqueIdentifier>{541e3dd8-0b7b-495c-bf2b-ff820cec5a1d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="2d\MonochromeEffect.cpp">
@@ -314,6 +317,9 @@
     </ClCompile>
     <ClCompile Include="engine\particle\ThunderParticle.cpp">
       <Filter>ソース ファイル\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="2d\BloomEffect.cpp">
+      <Filter>ソース ファイル\2d</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -484,6 +490,9 @@
     </ClInclude>
     <ClInclude Include="engine\particle\ThunderParticle.h">
       <Filter>ヘッダー ファイル\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="2d\BloomEffect.h">
+      <Filter>ヘッダー ファイル\2d</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -658,6 +667,12 @@
     <FxCompile Include="..\Resources\Shaders\ThunderParticle\ThunderParticleVertexShader.hlsl">
       <Filter>リソース ファイル\Shaders\Object\ThunderParticle</Filter>
     </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\Bloom\BloomPixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders\PostEffect\Bloom</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\Bloom\BloomVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders\PostEffect\Bloom</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\Shaders\ShaderHeader.hlsli">
@@ -737,6 +752,9 @@
     </None>
     <None Include="..\Resources\Shaders\ThunderParticle\ThunderParticleHeader.hlsli">
       <Filter>リソース ファイル\Shaders\Object\ThunderParticle</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\Bloom\BloomEffectHeader.hlsli">
+      <Filter>リソース ファイル\Shaders\PostEffect\Bloom</Filter>
     </None>
   </ItemGroup>
 </Project>

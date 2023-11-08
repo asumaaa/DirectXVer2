@@ -39,10 +39,19 @@ public:
 	static void SetDXInput(DXInput* dxInput) { Enemy::dxInput = dxInput; }
 
 	/// <summary>
+	/// インストラクタ デストラクタ
+	/// </summary>
+	Enemy() {};
+	~Enemy();
+
+	/// <summary>
 	///初期化
 	/// </summary>
 	void Initialize();
-	//更新
+
+	/// <summary>
+	///更新
+	/// </summary>
 	void Update();
 
 	/// <summary>
@@ -91,11 +100,6 @@ public:
 	void UpdateAttack();
 
 	/// <summary>
-	///オブジェクトセット
-	/// </summary>
-	void SetObject(FbxObject3D* object);
-
-	/// <summary>
 	///srvセット
 	/// </summary>
 	void SetSRV(ID3D12DescriptorHeap* SRV);
@@ -132,18 +136,20 @@ private:
 	//メンバ変数
 public:
 
-	//オブジェクト
-	std::unique_ptr<FbxObject3D>object;
+	//待ってる状態のオブジェクト
+	FbxObject3D* objectWait = nullptr;
+	//待ってる状態のモデル
+	FbxModel* modelWait = nullptr;
 	//スプライト
 	std::unique_ptr<Sprite>spriteHpBar;
 
 	//変形行列
 	//平行移動
-	XMFLOAT3 position = { 0.0f,0.0f,0.0f };
+	XMFLOAT3 position = { 0.0f,0.0f,30.0f };
 	//回転
 	XMFLOAT3 rotation = { 0.0f,0.0f,0.0f };
 	//サイズ
-	XMFLOAT3 scale = { 1.0f,1.0f,1.0f };
+	XMFLOAT3 scale = { 5.0f,5.0f,5.0f };
 
 
 	//当たり判定関連
