@@ -69,6 +69,11 @@ public://メンバ関数
 	void UpdateObject();
 
 	/// <summary>
+	///オブジェクト更新
+	/// </summary>
+	void UpdateObject(Status status, FbxObject3D* object);
+
+	/// <summary>
 	///スプライト更新
 	/// </summary>
 	void UpdateSprite();
@@ -149,11 +154,21 @@ private:
 
 	//メンバ変数
 public:
-
+	//敵の状態
+	Status status = Walk;
+	Status preStatus = Stand;
 	//立っている状態のオブジェクト
 	FbxObject3D* objectStand = nullptr;
 	//立っている状態のモデル
 	FbxModel* modelStand = nullptr;
+	//歩いている状態のオブジェクト
+	FbxObject3D* objectWalk = nullptr;
+	//歩いている状態のモデル
+	FbxModel* modelWalk = nullptr;
+	//攻撃1状態のオブジェクト
+	FbxObject3D* objectAttack1 = nullptr;
+	//攻撃1状態のモデル
+	FbxModel* modelAttack1 = nullptr;
 	//スプライト
 	std::unique_ptr<Sprite>spriteHpBar;
 

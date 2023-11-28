@@ -17,8 +17,6 @@ DXInput* Enemy::dxInput = nullptr;
 
 Enemy::~Enemy()
 {
-	delete modelWait;
-	delete objectWait;
 }
 
 void Enemy::Initialize()
@@ -29,11 +27,28 @@ void Enemy::Initialize()
 	spriteHpBar.reset(newSprite);
 
 	//立っているモデル
-	modelWait = FbxLoader::GetInstance()->LoadModelFromFile("enemy");
+	modelStand = FbxLoader::GetInstance()->LoadModelFromFile("enemyStand");
 	//立っているオブジェクト
-	objectWait = new FbxObject3D;
-	objectWait->Initialize();
-	objectWait->SetModel(modelWait);
+	objectStand = new FbxObject3D;
+	objectStand->Initialize();
+	objectStand->SetModel(modelStand);
+	objectStand->PlayAnimation();
+
+	//歩いているモデル
+	modelWalk = FbxLoader::GetInstance()->LoadModelFromFile("enemyWalk");
+	//歩いているオブジェクト
+	objectWalk = new FbxObject3D;
+	objectWalk->Initialize();
+	objectWalk->SetModel(modelWalk);
+	objectWalk->StopAnimation();
+
+	//攻撃1のモデル
+	modelAttack1 = FbxLoader::GetInstance()->LoadModelFromFile("enemyAttack1");
+	//攻撃1のオブジェクト
+	objectAttack1 = new FbxObject3D;
+	objectAttack1->Initialize();
+	objectAttack1->SetModel(modelAttack1);
+	objectAttack1->StopAnimation();
 }
 
 void Enemy::Update()
@@ -46,15 +61,37 @@ void Enemy::Update()
 
 	//スプライト更新
 	UpdateSprite();
+
+	//1フレーム前の状態を代入
+	preStatus = status;
 }
 
 void Enemy::UpdateObject()
 {
-	objectWait->SetPosition(position);
-	objectWait->SetRotation(rotation);
-	objectWait->SetScale(scale);
+	UpdateObject(Stand, objectStand);
+	UpdateObject(Walk, objectWalk);
+	UpdateObject(Attack1, objectAttack1);
+}
 
-	objectWait->Update();
+void Enemy::UpdateObject(Status status, FbxObject3D* object)
+{
+	//引数のステータスと同じ場合のみ更新
+	if (this->status == status)
+	{
+		object->SetPosition(position);
+		object->SetRotation(rotation);
+		object->SetScale(scale);
+		if (this->status != preStatus)
+		{
+			object->PlayAnimation();
+		}
+
+		object->Update();
+	}
+	else
+	{
+		object->StopAnimation();
+	}
 }
 
 void Enemy::UpdateSprite()
@@ -68,12 +105,34 @@ void Enemy::UpdateSprite()
 
 void Enemy::Draw(ID3D12GraphicsCommandList* cmdList)
 {
-	objectWait->Draw(cmdList);
+	if (status == Stand)
+	{
+		objectStand->Draw(cmdList);
+	}
+	if (status == Walk)
+	{
+		objectWalk->Draw(cmdList);
+	}
+	if (status == Attack1)
+	{
+		objectAttack1->Draw(cmdList);
+	}
 }
 
 void Enemy::DrawLightView(ID3D12GraphicsCommandList* cmdList)
 {
-	objectWait->DrawLightView(cmdList);
+	if (status == Stand)
+	{
+		objectStand->DrawLightView(cmdList);
+	}
+	if (status == Walk)
+	{
+		objectWalk->DrawLightView(cmdList);
+	}
+	if (status == Attack1)
+	{
+		objectAttack1->DrawLightView(cmdList);
+	}
 }
 
 void Enemy::DrawSprite(ID3D12GraphicsCommandList* cmdList)
@@ -145,7 +204,18 @@ void Enemy::UpdateAttack()
 
 void Enemy::SetSRV(ID3D12DescriptorHeap* SRV)
 {
-	objectWait->SetSRV(SRV);
+	if (status == Stand)
+	{
+		objectStand->SetSRV(SRV);
+	}
+	if (status == Walk)
+	{
+		objectWalk->SetSRV(SRV);
+	}
+	if (status == Attack1)
+	{
+		objectAttack1->SetSRV(SRV);
+	}
 }
 
 void Enemy::HitPlane()
