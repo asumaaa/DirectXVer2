@@ -7,6 +7,7 @@
 
 #include "Camera.h"
 #include "Math.h"
+#include "mathOriginal.h"
 #define PI 3.14159265359
 
 Input* Camera::input = nullptr;
@@ -43,7 +44,30 @@ void Camera::Initialize()
 void Camera::Update()
 {
 	BillboardUpdate();
-	matView_ = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));
+
+	//角度更新
+	//視点から注視点のベクトル取得
+	XMFLOAT3 vec = target_ - eye_;
+
+	//XMFLOAT3 rot(0.0f, 0.0f, 0.0f);
+	////正面向いてる時の角度
+	//XMFLOAT3 oriRot = { 1.0f,0.0f,1.0f };
+	/*rot.y = vec.x * PI / 2;*/
+	/*rot.y = (vec.x * oriRot.x) + (vec.z * oriRot.z) / 
+		(length(XMFLOAT2(vec.x, vec.z)) * length(XMFLOAT2(oriRot.x, oriRot.z))) * (PI / 2);
+	rot.y *= (float(PI) / 90.0f);*/
+	rotation = getVectorRotation(vec);
+
+	//デバッグでないとき普通の射影変換
+	if (debugFlag == false)
+	{
+		matView_ = XMMatrixLookAtLH(XMLoadFloat3(&eye_), XMLoadFloat3(&target_), XMLoadFloat3(&up_));
+	}
+	//デバッグのときの射影変換
+	if (debugFlag == true)
+	{
+		matView_ = XMMatrixLookAtLH(XMLoadFloat3(&debugEye_), XMLoadFloat3(&debugTarget_), XMLoadFloat3(&debugUp_));
+	}
 }
 
 void Camera::TitleUpdate(XMFLOAT3 playerPos, XMFLOAT3 playerRot, float timer)

@@ -28,6 +28,7 @@
 #include "ColliderCubeObject.h"
 #include "ColliderSphereObject.h"
 #include "ColliderPlaneObject.h"
+#include "ColliderFrustumObject.h"
 #include "ColliderManager.h"
 #include "SparkParticle.h"
 #include "SparkParticle2.h"
@@ -39,6 +40,8 @@
 #include "BillboardSpriteModel.h"
 #include "ObjModel.h"
 #include "ObjObject3D.h"
+#include "DebugLineObject.h"
+#include "DebugLineModel.h"
 
 class GameScene
 {
@@ -202,6 +205,11 @@ private:
 	std::unique_ptr<ColliderCubeModel>colliderCubeModel;
 	std::unique_ptr<ColliderSphereModel>colliderSphereModel;
 	std::unique_ptr<ColliderPlaneModel>colliderPlaneModel;
+	std::unique_ptr<DebugLineModel>debugLineModel;
+	std::unique_ptr<ColliderFrustumModel>colliderFrustumModel;
+
+	//コライダーのオブジェクト
+	std::unique_ptr<ColliderFrustumObject>colliderFrustumObject;
 
 	//コライダー
 	std::unique_ptr<ColliderManager> colliderManager;
@@ -263,4 +271,8 @@ private:
 	//爆発用
 	float explosionTime = 10.0f;
 	float explosionTimer = explosionTime;
+
+
+	//タイマー
+	float gameTimer = 0.0f;
 };

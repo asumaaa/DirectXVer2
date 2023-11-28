@@ -14,6 +14,16 @@
 #include "vector"
 #include "imgui.h"
 #include "mathOriginal.h"
+#define PI 3.1415
+
+class a
+{
+public:
+	bool aiueo() { return true; }
+	int x;
+};
+
+class b : public a{};
 
 GameScene::GameScene()
 {
@@ -181,6 +191,22 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInp
 	ColliderPlaneObject::SetModel(colliderPlaneModel.get());
 	ColliderPlaneObject::CreateGraphicsPipeline();
 
+	//デバッグ用線分
+	ColliderFrustumModel* newDebugFrustumModel = new ColliderFrustumModel();
+	newDebugFrustumModel->CreateBuffers(dxCommon_->GetDevice());
+	colliderFrustumModel.reset(newDebugFrustumModel);
+	ColliderFrustumObject::SetDevice(dxCommon_->GetDevice());
+	ColliderFrustumObject::SetCamera(camera_.get());
+	ColliderFrustumObject::SetInput(input_);
+	ColliderFrustumObject::SetModel(colliderFrustumModel.get());
+	ColliderFrustumObject::CreateGraphicsPipeline();
+	ColliderFrustumObject* newDebugFrustumObject = new ColliderFrustumObject();
+	newDebugFrustumObject->Initialize();
+	colliderFrustumObject.reset(newDebugFrustumObject);
+	colliderFrustumObject->SetPosition(XMFLOAT3(0.0f, 5.0f, 0.0f));
+	colliderFrustumObject->SetRotation(XMFLOAT3(0.0f, 0.0f, 0.0f));
+	colliderFrustumObject->SetScale(XMFLOAT3(3.0f,3.0f,30.0f));
+
 	//コライダーマネージャー
 	ColliderManager::SetColliderCubeModel(colliderCubeModel.get());
 	ColliderManager::SetColliderSphereModel(colliderSphereModel.get());
@@ -346,6 +372,7 @@ void GameScene::Update()
 
 void GameScene::UpdateTitle()
 {
+	gameTimer = 0.0f;
 	//カメラ更新
 	/*camera_->DebugUpdate();*/
 	camera_->TitleUpdate(player->GetPosition(), player->GetRotation0(), gameFromTitleTimer);
@@ -421,10 +448,29 @@ void GameScene::UpdateTitle()
 
 void GameScene::UpdateGame()
 {
+	if (gameTimer == 0.0f)
+	{
+		player->SetPosition(XMFLOAT3(0.0f, 0.0f, 0.0f));
+	}
+	gameTimer += 1.0f;
+
 	//カメラ更新
 	camera_->UpdatePlayer(player->GetPosition(), player->GetRotation0());
 	/*camera_->DebugUpdate();*/
 	camera_->Update();
+
+	//判定 デバッグ
+	if (input_->PushKey(DIK_I))
+	{
+		camera_->SetDebugFlag(true);
+	}
+	else
+	{
+		camera_->SetDebugFlag(false);
+	}
+	colliderFrustumObject->SetPosition(camera_->GetEye());
+	colliderFrustumObject->SetRotation(camera_->GetRotation());
+	colliderFrustumObject->Update();
 
 	//コントローラテスト
 	stickTest[0] = player->GetPosition().x;
@@ -449,6 +495,13 @@ void GameScene::UpdateGame()
 	billboardSprite->Update();
 
 	//パーティクル
+	
+	if (input_->TriggerKey(DIK_N))
+	{
+		sparkParticle2->Add(XMFLOAT3(0.0f, 10.0f, -5.0f));
+		explosionParticle1->Add(XMFLOAT3(0.0f, 10.0f, -5.0f));
+		explosionParticle2->Add(XMFLOAT3(0.0f, 10.0f, -5.0f));
+	}
 	sparkParticle2->Update();
 	explosionParticle1->Update();
 	explosionParticle2->Update();
@@ -539,7 +592,7 @@ void GameScene::UpdateClear()
 	billboardSprite->Update();
 
 	//パーティクル
-	/*sparkParticle->Update();*/
+	sparkParticle->Update();
 	if ((int)clearFromGameTimer % 70 == 0)
 	{
 		explosionTimer -= 1;
@@ -868,21 +921,21 @@ void GameScene::ModeManager()
 	}
 
 	//ゲームクリア デバッグ用
-	if (dxInput->TriggerKey(DXInput::PAD_A))
-	{
-		//ゲームからゲームに移るフラグオン
-		clearFromGameFlag = true;
-	}
-	//ゲームからクリアに移るフラグが立ったら
-	if (clearFromGameFlag == true)
-	{
-		//モードをゲームへ
-		mode = static_cast<size_t>(Mode::Clear);
-		modeDraw = static_cast<size_t>(ModeDraw::ClearDraw);
-		modeDrawLightView = static_cast<size_t>(ModeDrawLightView::ClearDrawLightView);
-		//フラグをもとに戻す
-		clearFromGameFlag = false;
-	}
+	//if (dxInput->TriggerKey(DXInput::PAD_A))
+	//{
+	//	//ゲームからゲームに移るフラグオン
+	//	clearFromGameFlag = true;
+	//}
+	////ゲームからクリアに移るフラグが立ったら
+	//if (clearFromGameFlag == true)
+	//{
+	//	//モードをゲームへ
+	//	mode = static_cast<size_t>(Mode::Clear);
+	//	modeDraw = static_cast<size_t>(ModeDraw::ClearDraw);
+	//	modeDrawLightView = static_cast<size_t>(ModeDrawLightView::ClearDrawLightView);
+	//	//フラグをもとに戻す
+	//	clearFromGameFlag = false;
+	//}
 
 	//クリアの時AかSPACEが押されたら
 	if (input_->TriggerKey(DIK_SPACE) || dxInput->TriggerKey(DXInput::PAD_X) && mode == static_cast<size_t>(Mode::Clear))
@@ -916,6 +969,8 @@ void GameScene::DrawFBXGame()
 
 	player->Draw(dxCommon_->GetCommandList());
 	enemy->Draw(dxCommon_->GetCommandList());
+
+	colliderFrustumObject->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::DrawColliderGame()

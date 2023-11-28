@@ -20,8 +20,17 @@ private:	//エイリアス
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
-	//メンバ関数
-public:
+
+private:
+
+	enum Status	//敵の状態
+	{
+		Stand,
+		Walk,
+		Attack1,
+	};
+
+public://メンバ関数
 
 	/// <summary>
 	///カメラセット
@@ -100,6 +109,11 @@ public:
 	void UpdateAttack();
 
 	/// <summary>
+	///パターン制御
+	/// </summary>
+	void UpdateAttackPattern();
+
+	/// <summary>
 	///srvセット
 	/// </summary>
 	void SetSRV(ID3D12DescriptorHeap* SRV);
@@ -136,10 +150,10 @@ private:
 	//メンバ変数
 public:
 
-	//待ってる状態のオブジェクト
-	FbxObject3D* objectWait = nullptr;
-	//待ってる状態のモデル
-	FbxModel* modelWait = nullptr;
+	//立っている状態のオブジェクト
+	FbxObject3D* objectStand = nullptr;
+	//立っている状態のモデル
+	FbxModel* modelStand = nullptr;
 	//スプライト
 	std::unique_ptr<Sprite>spriteHpBar;
 

@@ -316,6 +316,48 @@ DirectX::XMFLOAT3 rollRotation(DirectX::XMFLOAT3 vector, DirectX::XMFLOAT3 rotat
 	return v;
 }
 
+DirectX::XMFLOAT3 getVectorRotation(DirectX::XMFLOAT3 vec)
+{
+	float rotX = 0.0f;
+	float rotY = 0.0f;
+	float rotZ = 0.0f;
+
+	//0の場合0
+	if (vec.x == 0 && vec.z == 0)
+	{
+		rotY = 0.0f;
+	}
+	//正規化して代入
+	rotY = normalize(vec.x, vec.z).y;
+	//ステックのXの値を代入
+	rotX = vec.x;
+	//0~180の場合
+	if (rotX >= 0.0f)
+	{
+		//-1する
+		rotY -= 1.0f;
+		//-を外す
+		rotY *= -1.0f;
+		//度数法に変換
+		rotY *= 90.0f;
+		//ラジアンに変換
+		rotY *= (float(PI) / 180.0f);
+	}
+	//180~360の場合
+	else
+	{
+		//+1する
+		rotY += 1.0f;
+		//度数法に変換
+		rotY *= 90.0f;
+		//180度追加
+		rotY += 180.0f;
+		//ラジアンに変換
+		rotY *= (float(PI) / 180.0f);
+	}
+	return DirectX::XMFLOAT3(0.0f,rotY,0.0f);
+}
+
 const DirectX::XMFLOAT2 operator+(DirectX::XMFLOAT2 v1, DirectX::XMFLOAT2 v2)
 {
 	return DirectX::XMFLOAT2(v1.x + v2.x,v1.y + v2.y);

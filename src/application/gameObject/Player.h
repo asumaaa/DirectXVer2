@@ -159,6 +159,11 @@ public:
 	void SetSRV(ID3D12DescriptorHeap* SRV);
 
 	/// <summary>
+	///座標セット
+	/// </summary>
+	void SetPosition(XMFLOAT3 pos) { position = pos; };
+
+	/// <summary>
 	///平面との判定
 	/// </summary>
 	void HitPlane();

@@ -28,9 +28,9 @@ void Enemy::Initialize()
 	newSprite->Initialize();
 	spriteHpBar.reset(newSprite);
 
-	//待ってるモデル
+	//立っているモデル
 	modelWait = FbxLoader::GetInstance()->LoadModelFromFile("enemy");
-	//待っているオブジェクト
+	//立っているオブジェクト
 	objectWait = new FbxObject3D;
 	objectWait->Initialize();
 	objectWait->SetModel(modelWait);
@@ -140,6 +140,7 @@ void Enemy::UpdateJump()
 
 void Enemy::UpdateAttack()
 {
+	
 }
 
 void Enemy::SetSRV(ID3D12DescriptorHeap* SRV)

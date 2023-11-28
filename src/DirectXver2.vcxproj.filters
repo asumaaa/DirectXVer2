@@ -321,6 +321,18 @@
     <ClCompile Include="2d\BloomEffect.cpp">
       <Filter>ソース ファイル\2d</Filter>
     </ClCompile>
+    <ClCompile Include="engine\collision\DebugLineModel.cpp">
+      <Filter>ソース ファイル\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\collision\DebugLineObject.cpp">
+      <Filter>ソース ファイル\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\collision\ColliderFrustumModel.cpp">
+      <Filter>ソース ファイル\collision</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\collision\ColliderFrustumObject.cpp">
+      <Filter>ソース ファイル\collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\MonochromeEffect.h">
@@ -493,6 +505,18 @@
     </ClInclude>
     <ClInclude Include="2d\BloomEffect.h">
       <Filter>ヘッダー ファイル\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\collision\DebugLineModel.h">
+      <Filter>ヘッダー ファイル\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\collision\DebugLineObject.h">
+      <Filter>ヘッダー ファイル\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\collision\ColliderFrustumModel.h">
+      <Filter>ヘッダー ファイル\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\collision\ColliderFrustumObject.h">
+      <Filter>ヘッダー ファイル\collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

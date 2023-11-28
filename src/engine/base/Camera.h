@@ -101,6 +101,11 @@ public:
 	XMFLOAT3 GetUp() { return up_; };
 
 	/// <summary>
+	///角度取得
+	/// </summary>
+	XMFLOAT3 GetRotation() { return rotation; }
+
+	/// <summary>
 	///射影変換取得
 	/// </summary>
 	XMMATRIX GetMatProjection() { return matProjection_; };
@@ -120,6 +125,11 @@ public:
 	/// </summary>
 	XMMATRIX GetMatBillboard() { return matBillboard_; }
 
+	/// <summary>
+	///デバッグフラグのセット
+	/// </summary>
+	void SetDebugFlag(bool flag) { debugFlag = flag; }
+
 private:
 	//入力
 	//キーボード
@@ -133,8 +143,13 @@ private:
 	XMFLOAT3 eye_ = { 0, 20, -100 };
 	XMFLOAT3 target_ = { 0, 0, 0 };
 	XMFLOAT3 up_ = { 0, 100, 0 };
+	XMFLOAT3 debugEye_ = { 0, 100, -100 };
+	XMFLOAT3 debugTarget_ = { 0, 0, 0 };
+	XMFLOAT3 debugUp_ = { 0, 100, 0 };
 	//ビルボード行列
 	XMMATRIX matBillboard_ = XMMatrixIdentity();
+	//カメラの向いてる角度
+	XMFLOAT3 rotation = { 0.0f,0.0f,0.0f };
 
 	//ターゲットまでの距離
 	float DebugTargetDistance = 40.0f;
@@ -156,4 +171,7 @@ private:
 	//シーン遷移用
 	XMFLOAT3 originalPlayerPos = { 0.0f,0.0f,0.0f };
 	XMFLOAT3 originalPlayerRot = { 0.0f,0.0f,0.0f };
+
+	//デバッグ用
+	bool debugFlag = false;
 };
