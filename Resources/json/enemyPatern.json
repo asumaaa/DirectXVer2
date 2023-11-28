@@ -1,0 +1,20 @@
+{
+    "patern":"EnemyPatern",
+    "paterns":[
+        {
+            "status":"Stand",
+            "time":300,
+            "nextStatus":"Walk"
+        },
+        {
+            "status":"Walk",
+            "time":300,
+            "nextStatus":"Walk"
+        },
+        {
+            "status":"Attack1",
+            "time":300,
+            "nextStatus":"Walk"
+        }
+    ]
+}

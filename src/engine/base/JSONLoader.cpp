@@ -177,3 +177,61 @@ void JSONLoader::LoadFile(const std::string fileName)
 		}
 	}
 }
+
+std::vector<JSONLoader::EnemyPatern> JSONLoader::LoadEnemyPatern(const std::string fileName)
+{
+	//読み込んだ敵の行動パターンを入れておくコンテナ
+	std::vector<EnemyPatern> enemeyPatern;
+
+	//ファイルを開く
+	std::ifstream file;
+	file.open(fileName);
+	assert(!file.fail());
+
+	//json文字列
+	nlohmann::json jsonFileList;
+	//json文字列に代入
+	file >> jsonFileList;
+
+	//正しいレベルデータファイルかチェック
+	assert(jsonFileList.is_object());
+	assert(jsonFileList.contains("patern"));
+	assert(jsonFileList["patern"].is_string());
+
+	//"name"を文字列として取得
+	std::string name = jsonFileList["patern"].get<std::string>();
+	//"EnemyPatern"でなければ終了
+	assert(name.compare("EnemyPatern") == 0);
+
+	// "objects"の全オブジェクトを走査
+	for (nlohmann::json& object : jsonFileList["paterns"]) {
+
+		//"status"がなければ終了
+		assert(object.contains("status"));
+
+		//状態を取得
+		std::string status = object["status"].get<std::string>();
+		std::string time = object["status"].get<std::string>();
+		std::string nextStatus = object["nextStatus"].get<std::string>();
+
+		//取得した状態を変換
+		EnemyPatern patern;
+		patern.status = status;
+		patern.time = atoi(time.c_str());
+		patern.nextStatus = nextStatus;
+
+		//ステータスの番号を設定(状態が増える度変える必要あり)
+		if (status == "Stand")patern.statusNum = 0;
+		if (status == "Walk")patern.statusNum = 1;
+		if (status == "Attack1")patern.statusNum = 2;
+		//ステータスの番号を設定(状態が増える度変える必要あり)
+		if (nextStatus == "Stand")patern.nextStatusNum = 0;
+		if (nextStatus == "Walk")patern.nextStatusNum = 1;
+		if (nextStatus == "Attack1")patern.nextStatusNum = 2;
+
+		//コンテナに代入
+		enemeyPatern.emplace_back(patern);
+	}
+
+	return enemeyPatern;
+}

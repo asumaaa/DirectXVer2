@@ -202,6 +202,11 @@ void Enemy::UpdateAttack()
 	
 }
 
+void Enemy::StatusManager()
+{
+
+}
+
 void Enemy::SetSRV(ID3D12DescriptorHeap* SRV)
 {
 	if (status == Stand)

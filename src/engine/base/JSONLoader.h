@@ -64,9 +64,25 @@ public:	//サブクラス
 		int textureVol;
 	};
 
+	//敵の行動パターン
+	struct EnemyPatern {
+		//パターンの名前
+		std::string status;
+		//パターンの番号
+		int statusNum;
+		//そのパターンの時間
+		int time;
+		//次のパターンの名前
+		std::string nextStatus;
+		//次のパターンの番号
+		int nextStatusNum;
+	};
+
 	//メンバ関数
 public:
 	void LoadFile(const std::string fileName);
+
+	std::vector<EnemyPatern> LoadEnemyPatern(const std::string fileName);
 
 	/// <summary>
 	///オブジェクトデータ取得

@@ -119,6 +119,11 @@ public://メンバ関数
 	void UpdateAttackPattern();
 
 	/// <summary>
+	///ステータスマネージャー
+	/// </summary>
+	void StatusManager();
+
+	/// <summary>
 	///srvセット
 	/// </summary>
 	void SetSRV(ID3D12DescriptorHeap* SRV);
