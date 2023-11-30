@@ -49,12 +49,23 @@ void Enemy::Initialize()
 	objectAttack1->Initialize();
 	objectAttack1->SetModel(modelAttack1);
 	objectAttack1->StopAnimation();
+
+	//攻撃前兆のモデル
+	modelAttack1Omen = FbxLoader::GetInstance()->LoadModelFromFile("enemyAttack1Omen");
+	//攻撃前兆のオブジェクト
+	objectAttack1Omen = new FbxObject3D;
+	objectAttack1Omen->Initialize();
+	objectAttack1Omen->SetModel(modelAttack1Omen);
+	objectAttack1Omen->StopAnimation();
 }
 
 void Enemy::Update()
 {
 	//動く
 	Move();
+
+	//ステータスマネージャー
+	StatusManager();
 
 	//オブジェクト更新
 	UpdateObject();
@@ -71,6 +82,7 @@ void Enemy::UpdateObject()
 	UpdateObject(Stand, objectStand);
 	UpdateObject(Walk, objectWalk);
 	UpdateObject(Attack1, objectAttack1);
+	UpdateObject(Attack1Omen, objectAttack1Omen);
 }
 
 void Enemy::UpdateObject(Status status, FbxObject3D* object)
@@ -117,6 +129,10 @@ void Enemy::Draw(ID3D12GraphicsCommandList* cmdList)
 	{
 		objectAttack1->Draw(cmdList);
 	}
+	if (status == Attack1Omen)
+	{
+		objectAttack1Omen->Draw(cmdList);
+	}
 }
 
 void Enemy::DrawLightView(ID3D12GraphicsCommandList* cmdList)
@@ -132,6 +148,10 @@ void Enemy::DrawLightView(ID3D12GraphicsCommandList* cmdList)
 	if (status == Attack1)
 	{
 		objectAttack1->DrawLightView(cmdList);
+	}
+	if (status == Attack1Omen)
+	{
+		objectAttack1Omen->DrawLightView(cmdList);
 	}
 }
 
@@ -202,9 +222,40 @@ void Enemy::UpdateAttack()
 	
 }
 
+void Enemy::UpdateAttack1()
+{
+}
+
+void Enemy::UpdateAttackOmen()
+{
+}
+
 void Enemy::StatusManager()
 {
-
+	//攻撃前兆の場合
+	if (status == Attack1Omen)
+	{
+		//タイマー更新
+		statusTimer += 1.0f;
+		if (statusTimer >= frameAttack1Omen)
+		{
+			statusTimer = 0.0f;
+			status = Attack1;
+			return;
+		}
+	}
+	//攻撃1の場合
+	if (status == Attack1)
+	{
+		//タイマー更新
+		statusTimer += 1.0f;
+		if (statusTimer >= frameAttack1)
+		{
+			statusTimer = 0.0f;
+			status = Attack1Omen;
+			return;
+		}
+	}
 }
 
 void Enemy::SetSRV(ID3D12DescriptorHeap* SRV)
@@ -220,6 +271,10 @@ void Enemy::SetSRV(ID3D12DescriptorHeap* SRV)
 	if (status == Attack1)
 	{
 		objectAttack1->SetSRV(SRV);
+	}
+	if (status == Attack1Omen)
+	{
+		objectAttack1Omen->SetSRV(SRV);
 	}
 }
 

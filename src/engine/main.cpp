@@ -21,12 +21,12 @@
 #include "Sprite.h"
 #include "BloomEffect.h"
 
-#include "Effekseer.h"
-#include "EffekseerRendererDX12.h"
-
-#pragma comment(lib,"EffekseerRendererDX12.lib")
-#pragma comment(lib,"Effekseer.lib")
-#pragma comment(lib,"LLGI.lib")
+//#include "Effekseer.h"
+//#include "EffekseerRendererDX12.h"
+//
+//#pragma comment(lib,"EffekseerRendererDX12.lib")
+//#pragma comment(lib,"Effekseer.lib")
+//#pragma comment(lib,"LLGI.lib")
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {

@@ -184,8 +184,21 @@ void Camera::UpdatePlayer(XMFLOAT3 playerPos, XMFLOAT3 playerRot)
 	eye_.y = sin(playerChangeRot2) * playerTargetDistance;
 	eye_.z = cos(playerChangeRot) * playerTargetDistance + target_.z;*/
 
+	//1フレームあたりの移動量
+	float rot = (float)PI / 120.0f;
+
+	//視点座標を変更
+	if (input->PushKey(DIK_UP))
+	{
+		DebugChangeRot2 -= (float)rot;
+	}
+	if (input->PushKey(DIK_DOWN))
+	{
+		DebugChangeRot2 += (float)rot;
+	}
+
 	eye_.x = playerPos.x + (cos(-playerRot.y - (PI / 2)) * playerTargetDistance);
-	eye_.y = playerPos.y + (cos(-playerRot.x + (PI * 15 / 40)) * playerTargetDistance);
+	eye_.y = playerPos.y + (cos(-playerRot.x + DebugChangeRot2 + (PI * 15 / 40)) * playerTargetDistance);
 	eye_.z = playerPos.z + (sin(-playerRot.y - (PI / 2)) * playerTargetDistance);
 
 	////1フレームあたりの移動量

@@ -28,6 +28,7 @@ private:
 		Stand,
 		Walk,
 		Attack1,
+		Attack1Omen,
 	};
 
 public://メンバ関数
@@ -114,9 +115,14 @@ public://メンバ関数
 	void UpdateAttack();
 
 	/// <summary>
-	///パターン制御
+	///攻撃1の更新
 	/// </summary>
-	void UpdateAttackPattern();
+	void UpdateAttack1();
+
+	/// <summary>
+	///攻撃前兆の更新
+	/// </summary>
+	void UpdateAttackOmen();
 
 	/// <summary>
 	///ステータスマネージャー
@@ -159,21 +165,37 @@ private:
 
 	//メンバ変数
 public:
+
 	//敵の状態
-	Status status = Walk;
+	Status status = Attack1Omen;
 	Status preStatus = Stand;
+	//状態遷移用タイマー
+	float statusTimer = 0.0f;
+
 	//立っている状態のオブジェクト
 	FbxObject3D* objectStand = nullptr;
 	//立っている状態のモデル
 	FbxModel* modelStand = nullptr;
+
 	//歩いている状態のオブジェクト
 	FbxObject3D* objectWalk = nullptr;
 	//歩いている状態のモデル
 	FbxModel* modelWalk = nullptr;
+
 	//攻撃1状態のオブジェクト
 	FbxObject3D* objectAttack1 = nullptr;
 	//攻撃1状態のモデル
 	FbxModel* modelAttack1 = nullptr;
+	//攻撃1状態のアニメーションのフレーム
+	float frameAttack1 = 190.0f;
+
+	//攻撃1前兆のオブジェクト
+	FbxObject3D* objectAttack1Omen = nullptr;
+	//攻撃1前兆のモデル
+	FbxModel* modelAttack1Omen = nullptr;
+	//攻撃1前兆状態のアニメーションのフレーム
+	float frameAttack1Omen = 143.0f;
+
 	//スプライト
 	std::unique_ptr<Sprite>spriteHpBar;
 
