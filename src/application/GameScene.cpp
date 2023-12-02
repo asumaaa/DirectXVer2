@@ -443,7 +443,7 @@ void GameScene::UpdateTitle()
 	}
 
 	//コライダー更新
-	/*UpdateCollider();*/
+	UpdateCollider();
 }
 
 void GameScene::UpdateGame()
@@ -732,6 +732,8 @@ void GameScene::UpdateCollider()
 	//		}
 	//	}
 	//}
+
+	ColliderManager::CheckCollider(player->GetColliderData(), player->GetColliderData());
 
 	//後処理
 	ColliderManager::PostUpdate();

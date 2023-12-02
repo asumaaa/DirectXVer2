@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "mathOriginal.h"
 #include "FbxLoader.h"
+#include "ColliderManager.h"
 #define G 6.674	//万有引力定数
 #define GAcceleration 9.80665 * 1/10	//重力加速度
 
@@ -68,6 +69,15 @@ void Player::Initialize()
 	ThunderParticle* newThunderParticle = new ThunderParticle();
 	newThunderParticle->CreateBuffers();
 	thunderParticle.reset(newThunderParticle);
+
+	//コライダーの設定
+	colliderData.type = "Sphere";	//判定を球体で取るため
+	colliderData.objectName = "player";
+	colliderData.scale = scale;
+	colliderData.rotation = rotation0;
+	colliderData.center = position;
+	//コライダーマネージャーにセット
+	ColliderManager::SetCollider(colliderData);
 }
 
 void Player::Update()
@@ -77,6 +87,9 @@ void Player::Update()
 
 	//挙動
 	GameControl();
+
+	//コライダー設定
+	UpdateCollider();
 
 	//攻撃
 	UpdateAttack();
@@ -99,6 +112,9 @@ void Player::UpdateTitle(float timer)
 	//挙動
 	TitleControl(timer);
 
+	//コライダー設定
+	UpdateCollider();
+
 	//攻撃
 	UpdateAttack();
 
@@ -113,6 +129,13 @@ void Player::UpdateTitle(float timer)
 
 	//1フレーム前のトランスフォームを保存
 	UpdateOldTransform();
+}
+
+void Player::UpdateCollider()
+{
+	colliderData.scale = scale;
+	colliderData.rotation = rotation0;
+	colliderData.center = position;
 }
 
 void Player::UpdateObject()

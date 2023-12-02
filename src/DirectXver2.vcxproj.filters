@@ -333,6 +333,9 @@
     <ClCompile Include="engine\collision\ColliderFrustumObject.cpp">
       <Filter>ソース ファイル\collision</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyBullet.cpp">
+      <Filter>ソース ファイル\gameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\MonochromeEffect.h">
@@ -517,6 +520,9 @@
     </ClInclude>
     <ClInclude Include="engine\collision\ColliderFrustumObject.h">
       <Filter>ヘッダー ファイル\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBullet.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

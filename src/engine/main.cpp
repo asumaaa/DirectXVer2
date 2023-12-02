@@ -21,13 +21,6 @@
 #include "Sprite.h"
 #include "BloomEffect.h"
 
-//#include "Effekseer.h"
-//#include "EffekseerRendererDX12.h"
-//
-//#pragma comment(lib,"EffekseerRendererDX12.lib")
-//#pragma comment(lib,"Effekseer.lib")
-//#pragma comment(lib,"LLGI.lib")
-
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	//ウィンドウ生成
@@ -82,48 +75,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	fps = new FPS;
 	fps->SetFrameRate(60.0f);
 	fps->FpsControlBegin();
-
-	////エフェクトレンダラー
-	//EffekseerRenderer::RendererRef efkRenderer;
-	////エフェクトマネージャー
-	//Effekseer::ManagerRef efkManager;
-	////メモリプール
-	//Effekseer::RefPtr<EffekseerRenderer::SingleFrameMemoryPool> efkMemoryPool;
-	////コマンドリスト
-	//Effekseer::RefPtr < EffekseerRenderer::CommandList> efkCmdList;
-	////エフェクト本体
-	//Effekseer::Effect* effect = nullptr;
-	////エフェクトハンドル
-	//Effekseer::Handle* efkHandle = nullptr;
-
-	//DXGI_FORMAT bbFormats = DXGI_FORMAT_R8G8B8A8_UNORM;
-	////エフェクトレンダラーの初期化
-	//efkRenderer = EffekseerRendererDX12::Create(
-	//	dxCommon->GetDevice(),
-	//	dxCommon->GetCommandQueue(),
-	//	2,
-	//	&bbFormats,
-	//	1,
-	//	bbFormats,
-	//	false,
-	//	10000);
-	//efkManager = Effekseer::Manager::Create(10000);
-	////座標を左手系にする
-	//efkManager->SetCoordinateSystem(Effekseer::CoordinateSystem::LH);
-	////描画用インスタンスから描画機能を設定
-	//efkManager->SetSpriteRenderer(efkRenderer->CreateSpriteRenderer());
-	//efkManager->SetRibbonRenderer(efkRenderer->CreateRibbonRenderer());
-	//efkManager->SetRingRenderer(efkRenderer->CreateRingRenderer());
-	//efkManager->SetTrackRenderer(efkRenderer->CreateTrackRenderer());
-	//efkManager->SetModelRenderer(efkRenderer->CreateModelRenderer());
-	////描画用インスタンスからテクスチャの読み込み昨日を設定
-	////拡張機能も可能
-	//efkManager->SetTextureLoader(efkRenderer->CreateTextureLoader());
-	//efkManager->SetModelLoader(efkRenderer->CreateModelLoader());
-	////DirecrX12特有の処理
-	//efkMemoryPool = EffekseerRenderer::CreateSingleFrameMemoryPool(efkRenderer);
-	//efkCmdList = EffekseerRenderer::CreateCommandList(efkRenderer, efkMemoryPool);
-	/*efkRenderer->SetCommandList(efkCmdList);*/
 
 	//ゲームループ
 	while (true)

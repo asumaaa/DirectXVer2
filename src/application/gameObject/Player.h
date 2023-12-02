@@ -10,6 +10,7 @@
 #include "FbxObject3D.h"
 #include "PlayerBullet.h"
 #include "ThunderParticle.h"
+#include "JSONLoader.h"
 
 class Player
 {
@@ -72,6 +73,11 @@ public:
 	///更新 タイトルシーン
 	/// </summary>
 	void UpdateTitle(float timer);
+
+	/// <summary>
+	///更新 コライダーデータ
+	/// </summary>
+	void UpdateCollider();
 
 	/// <summary>
 	///更新 オブジェクト
@@ -188,6 +194,11 @@ public:
 	/// </summary>
 	XMFLOAT3 GetScale() { return scale; }
 
+	/// <summary>
+	///コライダー取得
+	/// </summary>
+	JSONLoader::ColliderData GetColliderData() { return colliderData; }
+
 	//静的メンバ変数
 private:
 	//カメラ
@@ -202,6 +213,9 @@ public:
 
 	//弾
 	PlayerBullet* bullet;
+
+	//コライダーデータ
+	JSONLoader::ColliderData colliderData;
 
 	//待ってる状態のオブジェクト
 	FbxObject3D* objectWait = nullptr;
