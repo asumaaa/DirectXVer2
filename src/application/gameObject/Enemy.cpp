@@ -8,6 +8,7 @@
 #include "Enemy.h"
 #include "mathOriginal.h"
 #include "FbxLoader.h"
+#include "imgui.h"
 #define G 6.674	//万有引力定数
 #define GAcceleration 9.80665 * 1/10	//重力加速度
 
@@ -57,6 +58,10 @@ void Enemy::Initialize()
 	objectAttack1Omen->Initialize();
 	objectAttack1Omen->SetModel(modelAttack1Omen);
 	objectAttack1Omen->StopAnimation();
+
+	//敵の弾
+	bullet = new EnemyBullet;
+	bullet->Initialize();
 }
 
 void Enemy::Update()
@@ -79,10 +84,15 @@ void Enemy::Update()
 
 void Enemy::UpdateObject()
 {
+	//オブジェクト更新
 	UpdateObject(Stand, objectStand);
 	UpdateObject(Walk, objectWalk);
 	UpdateObject(Attack1, objectAttack1);
 	UpdateObject(Attack1Omen, objectAttack1Omen);
+
+	//弾更新
+	bullet->SetPlayerPos(playerPos);
+	bullet->Update();
 }
 
 void Enemy::UpdateObject(Status status, FbxObject3D* object)
@@ -133,6 +143,16 @@ void Enemy::Draw(ID3D12GraphicsCommandList* cmdList)
 	{
 		objectAttack1Omen->Draw(cmdList);
 	}
+
+	//弾
+	bullet->Draw();
+
+	//ImGui
+	/*ImGui::Begin("Enemy");
+	ImGui::SetWindowPos(ImVec2(0, 0));
+	ImGui::SetWindowSize(ImVec2(500, 150));
+	ImGui::InputFloat3("playerPos", bulletPos);
+	ImGui::End();*/
 }
 
 void Enemy::DrawLightView(ID3D12GraphicsCommandList* cmdList)
@@ -158,6 +178,11 @@ void Enemy::DrawLightView(ID3D12GraphicsCommandList* cmdList)
 void Enemy::DrawSprite(ID3D12GraphicsCommandList* cmdList)
 {
 	spriteHpBar->Draw(cmdList);
+}
+
+void Enemy::DrawParticle(ID3D12GraphicsCommandList* cmdList)
+{
+	bullet->DrawParticle(cmdList);
 }
 
 void Enemy::Move()
@@ -235,6 +260,15 @@ void Enemy::StatusManager()
 	//攻撃前兆の場合
 	if (status == Attack1Omen)
 	{
+		//弾をセット
+		if (statusTimer == 0.0f)
+		{
+			for (int i = 0; i < bulletVol; i++)
+			{
+				bullet->SetBullet(position, bulletScale, bulletLastScale, 0.0f,
+					frameAttack1Omen + bulletTimeLag * i, frameAttack1);
+			}
+		}
 		//タイマー更新
 		statusTimer += 1.0f;
 		if (statusTimer >= frameAttack1Omen)
@@ -250,6 +284,30 @@ void Enemy::StatusManager()
 		//タイマー更新
 		statusTimer += 1.0f;
 		if (statusTimer >= frameAttack1)
+		{
+			statusTimer = 0.0f;
+			status = Stand;
+			return;
+		}
+	}
+	//立っているの場合
+	if (status == Stand)
+	{
+		//タイマー更新
+		statusTimer += 1.0f;
+		if (statusTimer >= frameStand)
+		{
+			statusTimer = 0.0f;
+			status = Walk;
+			return;
+		}
+	}
+	//歩きの場合
+	if (status == Walk)
+	{
+		//タイマー更新
+		statusTimer += 1.0f;
+		if (statusTimer >= frameWalk)
 		{
 			statusTimer = 0.0f;
 			status = Attack1Omen;

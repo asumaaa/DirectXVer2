@@ -9,6 +9,7 @@
 #include "DirectXMath.h"
 #include "Camera.h"
 #include "JSONLoader.h"
+#include "EnemyBulletParticle.h"
 
 class EnemyBullet
 {
@@ -25,30 +26,40 @@ private:	//サブクラス
 	struct Bullet
 	{
 		//座標
-		XMFLOAT3 position;
+		XMFLOAT3 position1;
+		//座標(保存用)
+		XMFLOAT3 position2;
+		//座標(保存用)
+		XMFLOAT3 position3;
 		//回転
 		XMFLOAT3 rotation;
-		//サイズ
+		//最初のスケール
 		XMFLOAT3 scale;
+		//消滅時のスケール
+		XMFLOAT3 lastScale;
 		//進行ベクトル
 		XMFLOAT3 velocity;
 		//タイマー
 		float timer;
+		//弾が消える速度
+		float destoryTime1;
+		float destoryTime2;
 		//フラグ
 		bool hitFlag;
 		//コライダーのデータ
 		JSONLoader::ColliderData colliderData;
 	};
 
-public:
-
-	//メンバ関数
 public://静的メンバ関数
 
 	/// <summary>
-	///デバイスセット
+	///カメラセット
 	/// </summary>
 	static void SetCamera(Camera* camera) { EnemyBullet::camera = camera; }
+
+public:
+
+	//メンバ関数
 
 	/// <summary>
 	///初期化
@@ -66,9 +77,19 @@ public://静的メンバ関数
 	void UpdateCollider();
 
 	/// <summary>
+	///パーティクル更新
+	/// </summary>
+	void UpdateParticle();
+
+	/// <summary>
 	///描画
 	/// </summary>
 	void Draw();
+
+	/// <summary>
+	///パーティクル描画
+	/// </summary>
+	void DrawParticle(ID3D12GraphicsCommandList* cmdList);
 
 	/// <summary>
 	///移動
@@ -93,12 +114,17 @@ public://静的メンバ関数
 	/// <summary>
 	///弾に必要な情報をセットする
 	/// </summary>
-	void SetBullet(XMFLOAT3 position, XMFLOAT3 velocity);
+	void SetBullet(XMFLOAT3 position,XMFLOAT3 scale,XMFLOAT3 lastScale,float timer,float destoryTime1, float destoryTime2 );
 
 	/// <summary>
 	///ヒットフラグをセットする
 	/// </summary>
 	void SetHitFlag(bool hitFlag, int num) { bullet[num].hitFlag = hitFlag; };
+
+	/// <summary>
+	///プレイヤーの座標セット
+	/// </summary>
+	void SetPlayerPos(XMFLOAT3 playerPos) { EnemyBullet::playerPos = playerPos; };
 
 	/// <summary>
 	///コライダーデータ取得
@@ -108,12 +134,12 @@ public://静的メンバ関数
 	/// <summary>
 	///弾の数取得
 	/// </summary>
-	/*size_t GetBulletNum() { return object.size(); }*/
+	size_t GetBulletNum() { return bullet.size(); }
 
 	/// <summary>
 	///座標取得
 	/// </summary>
-	XMFLOAT3 GetPosition(int num) { return bullet[num].position; }
+	XMFLOAT3 GetPosition(int num) { return bullet[num].position1; }
 
 	//静的メンバ変数
 private:
@@ -138,22 +164,28 @@ private:
 	//std::vector<float>timer;
 	////フラグ
 	//std::vector<bool>hitFlag;
-
+	//パーティクル
+	std::unique_ptr<EnemyBulletParticle>particle;
 	//弾の情報
 	std::vector<Bullet> bullet;
 
 	XMFLOAT3 baseRotation = { 0.0f,0.0f,0.0f };
 	XMFLOAT3 baseScale = { 0.3f,0.3f,0.3f };
 	//弾が消える速度
-	float destoryTime = 120.0f;
+	/*float destoryTime = 120.0f;*/
 
 	//弾につける番号
 	int number = 0;
-
 	//ショットフラグ
 	bool shotFlag = false;
 
 	//スピード
-	float posSpeed = 1.0f;
+	float speed = 1.5f;
+
+	//デバッグ用
+	float bulletPos[3] = { 0.0f,0.0f,0.0f };
+
+	//プレイヤーの座標
+	XMFLOAT3 playerPos = { 0.0f,0.0f,0.0f };
 };
 

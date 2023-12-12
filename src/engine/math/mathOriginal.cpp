@@ -358,6 +358,11 @@ DirectX::XMFLOAT3 getVectorRotation(DirectX::XMFLOAT3 vec)
 	return DirectX::XMFLOAT3(0.0f,rotY,0.0f);
 }
 
+const DirectX::XMFLOAT3 lerp(const DirectX::XMFLOAT3& start, const DirectX::XMFLOAT3& end, const float t)
+{
+	return start * (1.0f - t) + end * t;
+}
+
 const DirectX::XMFLOAT2 operator+(DirectX::XMFLOAT2 v1, DirectX::XMFLOAT2 v2)
 {
 	return DirectX::XMFLOAT2(v1.x + v2.x,v1.y + v2.y);

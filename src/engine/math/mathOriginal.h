@@ -109,6 +109,8 @@ float LenSegOnSeparateAxis(DirectX::XMFLOAT3 Sep, DirectX::XMFLOAT3 e1,
 DirectX::XMFLOAT3 rollRotation(DirectX::XMFLOAT3 vector, DirectX::XMFLOAT3 rotation);
 //ベクトルから角度を取得(ラジアン)
 DirectX::XMFLOAT3 getVectorRotation(DirectX::XMFLOAT3 vec);
+//ベジエ曲線
+const DirectX::XMFLOAT3 lerp(const DirectX::XMFLOAT3& start, const DirectX::XMFLOAT3& end, const float t);
 
 #pragma endregion
 

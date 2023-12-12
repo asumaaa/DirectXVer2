@@ -178,7 +178,7 @@ void Camera::DebugUpdate()
 
 void Camera::UpdatePlayer(XMFLOAT3 playerPos, XMFLOAT3 playerRot)
 {
-	target_ = { playerPos.x,0.0f,playerPos.z };
+	target_ = { playerPos.x,5.0f,playerPos.z };
 
 	/*eye_.x = sin(playerChangeRot) * playerTargetDistance + target_.x;
 	eye_.y = sin(playerChangeRot2) * playerTargetDistance;
@@ -198,7 +198,7 @@ void Camera::UpdatePlayer(XMFLOAT3 playerPos, XMFLOAT3 playerRot)
 	}
 
 	eye_.x = playerPos.x + (cos(-playerRot.y - (PI / 2)) * playerTargetDistance);
-	eye_.y = playerPos.y + (cos(-playerRot.x + DebugChangeRot2 + (PI * 15 / 40)) * playerTargetDistance);
+	eye_.y = playerPos.y + (cos(-playerRot.x + DebugChangeRot2 + (PI * 9 / 40)) * playerTargetDistance);
 	eye_.z = playerPos.z + (sin(-playerRot.y - (PI / 2)) * playerTargetDistance);
 
 	////1フレームあたりの移動量

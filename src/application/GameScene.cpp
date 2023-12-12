@@ -47,7 +47,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInp
 	newTextureManager->LoadFile(1, L"Resources/pictures/toriko2.png");
 	newTextureManager->LoadFile(2, L"Resources/pictures/GourmetSpyzer.png");
 	newTextureManager->LoadFile(3, L"Resources/pictures/orange.png");
-	newTextureManager->LoadFile(4, L"Resources/pictures/red.png");
+	newTextureManager->LoadFile(4, L"Resources/pictures/purple.png");
 	newTextureManager->LoadFile(5, L"Resources/pictures/effect1.png");
 	newTextureManager->LoadFile(6, L"Resources/pictures/effect2.png");
 	newTextureManager->LoadFile(7, L"Resources/pictures/effect3.png");
@@ -257,6 +257,13 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInp
 	newExplosionParticle2->SetTextureNum(16);
 	explosionParticle2.reset(newExplosionParticle2);
 
+	//敵の弾パーティクル
+	EnemyBulletParticle::SetSpriteManager(textureManager.get());
+	EnemyBulletParticle::SetDevice(dxCommon_->GetDevice());
+	EnemyBulletParticle::SetCamera(camera_.get());
+	EnemyBulletParticle::SetInput(input_);
+	EnemyBulletParticle::CreateGraphicsPipeline();
+
 	//爆発パーティクル
 	ThunderParticle::SetSpriteManager(textureManager.get());
 	ThunderParticle::SetDevice(dxCommon_->GetDevice());
@@ -305,6 +312,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInp
 	Enemy* newEnemy = new Enemy();
 	newEnemy->Initialize();
 	enemy.reset(newEnemy);
+	//敵の弾
+	EnemyBullet::SetCamera(camera_.get());
 
 	//平面
 	/*Plane::SetCamera(camera_.get());
@@ -496,11 +505,11 @@ void GameScene::UpdateGame()
 
 	//パーティクル
 	
-	if (input_->TriggerKey(DIK_N))
+	if (input_->PushKey(DIK_N))
 	{
-		sparkParticle2->Add(XMFLOAT3(0.0f, 10.0f, -5.0f));
+		/*sparkParticle2->Add(XMFLOAT3(0.0f, 10.0f, -5.0f));
 		explosionParticle1->Add(XMFLOAT3(0.0f, 10.0f, -5.0f));
-		explosionParticle2->Add(XMFLOAT3(0.0f, 10.0f, -5.0f));
+		explosionParticle2->Add(XMFLOAT3(0.0f, 10.0f, -5.0f));*/
 	}
 	sparkParticle2->Update();
 	explosionParticle1->Update();
@@ -527,6 +536,7 @@ void GameScene::UpdateGame()
 	player->Update();
 
 	//敵
+	enemy->SetPlayerPos(player->GetPosition());
 	enemy->Update();
 
 	//平面
@@ -733,7 +743,35 @@ void GameScene::UpdateCollider()
 	//	}
 	//}
 
-	ColliderManager::CheckCollider(player->GetColliderData(), player->GetColliderData());
+	//敵の弾と時機の当たり判定
+	for (int i = 0; i < enemy->GetBulletNum(); i++)
+	{
+		if (ColliderManager::CheckCollider(player->GetColliderData(), enemy->GetBulletColliderData(i)))
+		{
+			//当たったらパーティクル発生
+			sparkParticle2->Add(XMFLOAT3(enemy->GetBulletColliderData(i).center));
+			explosionParticle1->Add(XMFLOAT3(enemy->GetBulletColliderData(i).center));
+			explosionParticle2->Add(XMFLOAT3(enemy->GetBulletColliderData(i).center));
+		}
+	}
+
+	//敵の弾と平面の判定
+	for (std::unique_ptr<FbxObject3D>& object1 : object)
+	{
+		if (object1->GetFileName() == "plane")
+		{
+			for (int i = 0; i < enemy->GetBulletNum(); i++)
+			{
+				if (ColliderManager::CheckCollider(object1->GetColliderData(), enemy->GetBulletColliderData(i)))
+				{
+					//当たったらパーティクル発生
+					sparkParticle2->Add(XMFLOAT3(enemy->GetBulletColliderData(i).center));
+					explosionParticle1->Add(XMFLOAT3(enemy->GetBulletColliderData(i).center));
+					explosionParticle2->Add(XMFLOAT3(enemy->GetBulletColliderData(i).center));
+				}
+			}
+		}
+	}
 
 	//後処理
 	ColliderManager::PostUpdate();
@@ -995,6 +1033,9 @@ void GameScene::DrawParticleGame()
 
 	//プレイヤーのパーティクル描画
 	player->DrawParticle(dxCommon_->GetCommandList());
+
+	//敵のパーティクル描画
+	enemy->DrawParticle(dxCommon_->GetCommandList());
 }
 
 void GameScene::DrawFBXClear()

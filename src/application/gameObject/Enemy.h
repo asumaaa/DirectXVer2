@@ -9,6 +9,8 @@
 #include "DirectXMath.h"
 #include "FbxObject3D.h"
 #include "Sprite.h"
+#include "EnemyBullet.h"
+#include "JSONLoader.h"
 
 class Enemy
 {
@@ -95,6 +97,11 @@ public://メンバ関数
 	void DrawSprite(ID3D12GraphicsCommandList* cmdList);
 
 	/// <summary>
+	///パーティクル描画
+	/// </summary>
+	void DrawParticle(ID3D12GraphicsCommandList* cmdList);
+
+	/// <summary>
 	///挙動全般
 	/// </summary>
 	void Move();
@@ -135,6 +142,11 @@ public://メンバ関数
 	void SetSRV(ID3D12DescriptorHeap* SRV);
 
 	/// <summary>
+	///プレイヤーの座標セット
+	/// </summary>
+	void SetPlayerPos(XMFLOAT3 playerPos) { Enemy::playerPos = playerPos; };
+
+	/// <summary>
 	///地面との判定
 	/// </summary>
 	void HitPlane();
@@ -154,6 +166,16 @@ public://メンバ関数
 	/// </summary>
 	XMFLOAT3 GetScale() { return scale; }
 
+	/// <summary>
+	///弾のコライダー取得
+	/// </summary>
+	JSONLoader::ColliderData GetBulletColliderData(int num) { return bullet->GetColliderData(num); }
+
+	/// <summary>
+	///弾のコライダー取得
+	/// </summary>
+	size_t GetBulletNum() { return  bullet->GetBulletNum(); }
+
 	//静的メンバ変数
 private:
 	//カメラ
@@ -172,15 +194,22 @@ public:
 	//状態遷移用タイマー
 	float statusTimer = 0.0f;
 
+	//敵の弾
+	EnemyBullet* bullet = nullptr;
+
 	//立っている状態のオブジェクト
 	FbxObject3D* objectStand = nullptr;
 	//立っている状態のモデル
 	FbxModel* modelStand = nullptr;
+	//攻撃1状態のアニメーションのフレーム
+	float frameStand = 250.0f;
 
 	//歩いている状態のオブジェクト
 	FbxObject3D* objectWalk = nullptr;
 	//歩いている状態のモデル
 	FbxModel* modelWalk = nullptr;
+	//攻撃1状態のアニメーションのフレーム
+	float frameWalk = 82.0f;
 
 	//攻撃1状態のオブジェクト
 	FbxObject3D* objectAttack1 = nullptr;
@@ -233,4 +262,19 @@ public:
 
 	//HP
 	float HP = 100;
+
+	//プレイヤーの座標
+	XMFLOAT3 playerPos = { 0.0f,0.0f,0.0f };
+
+	//デバッグ用
+	float bulletPos[3] = { 0.0f,0.0f,0.0f };
+
+	//一度に発射する弾の数
+	int bulletVol = 5;
+	//弾の時間差
+	float bulletTimeLag = 30.0f;
+	//弾の大きさ
+	XMFLOAT3 bulletScale = { 3.0f,3.0f,3.0f };
+	//弾の角度
+	XMFLOAT3 bulletLastScale = { 3.0f,3.0f,3.0f };
 };

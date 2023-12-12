@@ -151,6 +151,9 @@
     <Filter Include="リソース ファイル\Shaders\PostEffect\Bloom">
       <UniqueIdentifier>{541e3dd8-0b7b-495c-bf2b-ff820cec5a1d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\Shaders\Object\EnemyBulletParticle">
+      <UniqueIdentifier>{95c39ca4-42b3-45d8-a5b7-9acb3cdaee51}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="2d\MonochromeEffect.cpp">
@@ -335,6 +338,9 @@
     </ClCompile>
     <ClCompile Include="EnemyBullet.cpp">
       <Filter>ソース ファイル\gameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\particle\EnemyBulletParticle.cpp">
+      <Filter>ソース ファイル\particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -522,7 +528,10 @@
       <Filter>ヘッダー ファイル\collision</Filter>
     </ClInclude>
     <ClInclude Include="EnemyBullet.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\gameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\particle\EnemyBulletParticle.h">
+      <Filter>ヘッダー ファイル\particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -703,6 +712,15 @@
     <FxCompile Include="..\Resources\Shaders\Bloom\BloomVertexShader.hlsl">
       <Filter>リソース ファイル\Shaders\PostEffect\Bloom</Filter>
     </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\EnemyBulletParticle\EnemyBulletParticleGeometryShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Object\EnemyBulletParticle</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\EnemyBulletParticle\EnemyBulletParticlePixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Object\EnemyBulletParticle</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\EnemyBulletParticle\EnemyBulletParticleVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Object\EnemyBulletParticle</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\Shaders\ShaderHeader.hlsli">
@@ -785,6 +803,9 @@
     </None>
     <None Include="..\Resources\Shaders\Bloom\BloomEffectHeader.hlsli">
       <Filter>リソース ファイル\Shaders\PostEffect\Bloom</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\EnemyBulletParticle\EnemyBulletParticleHeader.hlsli">
+      <Filter>リソース ファイル\Shaders\Object\EnemyBulletParticle</Filter>
     </None>
   </ItemGroup>
 </Project>
