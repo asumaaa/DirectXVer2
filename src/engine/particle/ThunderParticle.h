@@ -46,29 +46,53 @@ public://サブクラス
 		XMMATRIX matBillboard;
 	};
 
+	////パーティクル1粒
+	//struct Particle
+	//{
+	//	//座標
+	//	XMFLOAT3 position = {};
+	//	//現在フレーム
+	//	int frame = 0;
+	//	//終了フレーム
+	//	int num_frame = 0;
+	//	//スケール
+	//	float scale = 1.0f;
+	//	//初期値
+	//	float startScale = 10.0f;
+	//	//最終地
+	//	float endScale = 0.0f;
+	//};
+
 	//パーティクル1粒
 	struct Particle
 	{
-		//座標
-		XMFLOAT3 position = {};
+		//開始地点
+		XMFLOAT3 startPosition = {};
+		//終了地点
+		XMFLOAT3 endPosition = {};
+		//枝分かれ数
+		float spliteVal = 0;
 		//現在フレーム
-		int frame = 0;
+		float frame = 0;
 		//終了フレーム
-		int num_frame = 0;
+		float endFrame = 0;
 		//スケール
 		float scale = 1.0f;
 		//初期値
 		float startScale = 10.0f;
-		//最終地
+		//最終値
 		float endScale = 0.0f;
 	};
 
 	//頂点データ配列
 	struct VertexPos
 	{
-		XMFLOAT3 pos;	//座標
-		XMFLOAT3 prePos;
+		XMFLOAT3 startPos;	//座標
+		XMFLOAT3 endPos;
 		float scale;
+		float spliteVal = 0;	//枝分かれ数
+		float frame;	//1を最大とした現在のフレーム
+		float seed;	//シェーダでの乱数の計算に使うseed値
 	};
 
 public:	//静的メンバ関数
@@ -128,7 +152,7 @@ public:
 	/// <summary>
 	///パーティクルを追加
 	/// </summary>
-	void AddParticle(int life, XMFLOAT3 position,float startScale, float endScale);
+	void AddParticle(XMFLOAT3 startPos, XMFLOAT3 endPos, float startScale, float endScale, int life, int spliteVal);
 
 	/// <summary>
 	///テクスチャの番号セット
@@ -179,10 +203,20 @@ private:
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
 
 	//パーティクル配列
-	std::list<Particle>particles;
+	std::vector<Particle>particles;
 	//テクスチャの番号
 	int textureNum = 0;
 
 	//パーティクルの振れ幅
 	float particleLevel = 3.0f;
+	//パーティクルのスケールの初期値
+	float startScale = 0.2f;
+	//パーティクルのスケールの最終値
+	float endScale = 0.0f;
+	//パーティクルの表示時間
+	float life = 60.0f;
+	//パーティクルの枝分かれ数
+	float spliteVal = 10.0f;
+	//枝分かれをどの間隔で一つ増やすか
+	float spliteWeight = 10.0f;
 };

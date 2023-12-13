@@ -7,6 +7,7 @@
 
 #include "ThunderParticle.h"
 #include "mathOriginal.h"
+#include "imgui.h"
 
 #include <d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
@@ -101,17 +102,32 @@ void ThunderParticle::CreateGraphicsPipeline()
 	// 頂点レイアウト
 	D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
 		{ // xy座標(1行で書いたほうが見やすい)
-			"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
+			"START_POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
 		{ // xy座標(1行で書いたほうが見やすい)
-			"SV_POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
+			"END_POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
 		{	//スケール
 			"SCALE",0,DXGI_FORMAT_R32_FLOAT,0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0
+		},
+		{	//枝分かれ数
+			"SPLITE",0,DXGI_FORMAT_R32_FLOAT,0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0
+		},
+		{	//フレーム
+			"FRAME",0,DXGI_FORMAT_R32_FLOAT,0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0
+		},
+		{	//seed値
+			"SEED",0,DXGI_FORMAT_R32_FLOAT,0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0
 		},
@@ -138,13 +154,13 @@ void ThunderParticle::CreateGraphicsPipeline()
 	D3D12_RENDER_TARGET_BLEND_DESC blenddesc{};
 	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;    // RBGA全てのチャンネルを描画
 	blenddesc.BlendEnable = true;
-	/*blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
-	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
-	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;*/
-	//加算合成
 	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
+	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
+	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
+	//加算合成
+	/*blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
 	blenddesc.SrcBlend = D3D12_BLEND_ONE;
-	blenddesc.DestBlend = D3D12_BLEND_ONE;
+	blenddesc.DestBlend = D3D12_BLEND_ONE;*/
 	//減算合成
 	/*blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;
 	blenddesc.SrcBlend = D3D12_BLEND_ONE;
@@ -367,20 +383,34 @@ void ThunderParticle::Update()
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 
-	for (std::list<Particle>::iterator it = particles.begin(); it != particles.end(); it++)
+	//for (std::list<Particle>::iterator it = particles.begin(); it != particles.end(); it++)
+	//{
+	//	if (it == particles.begin())continue;
+	//	//1つ前の座標
+	//	it--;
+	//	vertMap->prePos = it->position;
+	//	//現在の座標
+	//	it++;
+	//	vertMap->pos = it->position;
+	//	//スケール
+	//	vertMap->scale = it->scale;
+	//	//次の頂点へ
+	//	vertMap++;
+	//}
+
+	//頂点バッファにデータ転送
+	for (int i = 0; i < particles.size(); i++)
 	{
-		if (it == particles.begin())continue;
-		//1つ前の座標
-		it--;
-		vertMap->prePos = it->position;
-		//現在の座標
-		it++;
-		vertMap->pos = it->position;
-		//スケール
-		vertMap->scale = it->scale;
+		vertMap->startPos = particles[i].startPosition;
+		vertMap->endPos = particles[i].endPosition;
+		vertMap->scale = particles[i].scale;
+		vertMap->spliteVal = particles[i].spliteVal;
+		vertMap->frame = 1.0f - (particles[i].frame / particles[i].endFrame);
+		vertMap->seed = i;
 		//次の頂点へ
 		vertMap++;
 	}
+	
 	//つながりを解除
 	vertBuff->Unmap(0, nullptr);
 
@@ -401,29 +431,45 @@ void ThunderParticle::Update()
 
 void ThunderParticle::UpdateParticle()
 {
-	//寿命が尽きたパーティクルを全削除
-	particles.remove_if([](Particle& x)
+	//寿命が尽きたパーティクルを削除
+	for (int i = 0; i < particles.size(); i++)
+	{
+		//一定時間経ったら
+		if (particles[i].frame >= particles[i].endFrame)
 		{
-			return x.frame >= x.num_frame;
+			//弾削除
+			particles.erase(particles.begin() + i);
+
+			continue;
 		}
-	);
+	}
 
 	//全パーティクル更新
-	for (std::list<Particle>::iterator it = particles.begin(); it != particles.end(); it++)
+	for (int i = 0; i < particles.size(); i++)
 	{
-		//経過フレーム数をカウント
-		it->frame++;
-		////速度に加速度を加算
-		//it->velocity = it->velocity + it->accel;
-		////速度による移動
-		//it->position = it->position + it->velocity;
-
+		//フレーム数更新
+		particles[i].frame += 1.0f;
 		//進行度を0~1の範囲に換算
-		float f = (float)it->frame / it->num_frame;
+		float f = (particles[i].frame / particles[i].endFrame);
 		//スケールの線形補間
-		it->scale = (it->endScale - it->startScale) * f;
-		it->scale = it->startScale;
+		/*particles[i].scale = (particles[i].endScale - particles[i].startScale) * f;*/
+		particles[i].scale = particles[i].startScale;
 	}
+	//for (std::list<Particle>::iterator it = particles.begin(); it != particles.end(); it++)
+	//{
+	//	//経過フレーム数をカウント
+	//	it->frame++;
+	//	////速度に加速度を加算
+	//	//it->velocity = it->velocity + it->accel;
+	//	////速度による移動
+	//	//it->position = it->position + it->velocity;
+
+	//	//進行度を0~1の範囲に換算
+	//	float f = (float)it->frame / it->num_frame;
+	//	//スケールの線形補間
+	//	it->scale = (it->endScale - it->startScale) * f;
+	//	it->scale += it->startScale;
+	//}
 }
 
 void ThunderParticle::Draw(ID3D12GraphicsCommandList* cmdList)
@@ -463,72 +509,80 @@ void ThunderParticle::Draw(ID3D12GraphicsCommandList* cmdList)
 
 void ThunderParticle::Add(XMFLOAT3 pos1,XMFLOAT3 pos2)
 {
-	//座標1～座標2のベクトル
-	XMFLOAT3 vec1 = pos2 - pos1;
+	////座標1～座標2のベクトル
+	//XMFLOAT3 vec1 = pos2 - pos1;
 
-	//各座標を入れる
-	std::vector<XMFLOAT3> thunderPos;
-	//乱数の振れ幅
-	float randWidth = 80.0f; //0.2~1.8
-	//処理に使う分割数
-	float split = thunderCount;
-	//消滅するまでのフレーム
-	float life = 60.0f;
-	//スケール
-	float startScale = 1.0f;
-	float endScale = 0.0f;
+	////各座標を入れる
+	//std::vector<XMFLOAT3> thunderPos;
+	////乱数の振れ幅
+	//float randWidth = 80.0f; //0.2~1.8
+	////処理に使う分割数
+	//float split = thunderCount;
+	////消滅するまでのフレーム
+	//float life = 60.0f;
+	////スケール
+	//float startScale = 10.0f;
+	//float endScale = 0.0f;
 
-	//頂点生成
-	for (int i = 0; i < thunderCount; i++)
-	{
-		//1つめの座標をプレイヤーの座標に
-		if (i == 0)
-		{
-			thunderPos.emplace_back(pos1);
-			AddParticle(life, thunderPos.back(), startScale, endScale);
-			continue;
-		}
-		//最後の座標を目標の座標に
-		if (i == thunderCount - 1)
-		{
-			thunderPos.emplace_back(pos2);
-			AddParticle(life, thunderPos.back(), startScale, endScale);
-			continue;
-		}
+	////頂点生成
+	//for (int i = 0; i < thunderCount; i++)
+	//{
+	//	//1つめの座標をプレイヤーの座標に
+	//	if (i == 0)
+	//	{
+	//		thunderPos.emplace_back(pos1);
+	//		AddParticle(life, thunderPos.back(), startScale, endScale);
+	//		continue;
+	//	}
+	//	//最後の座標を目標の座標に
+	//	if (i == thunderCount - 1)
+	//	{
+	//		thunderPos.emplace_back(pos2);
+	//		AddParticle(life, thunderPos.back(), startScale, endScale);
+	//		continue;
+	//	}
 
-		//残りのベクトルを計算
-		//1番新しい座標～座標2のベクトル
-		vec1 = pos2 - thunderPos.back();
-		XMFLOAT3 vec2 = vec1 / (split + 1);
+	//	//残りのベクトルを計算
+	//	//1番新しい座標～座標2のベクトル
+	//	vec1 = pos2 - thunderPos.back();
+	//	XMFLOAT3 vec2 = vec1 / (split + 1);
 
-		//乱数を生成
-		float xRand, yRand, zRand;
-		xRand = GetRand(100.0f - randWidth, 100.0f + randWidth)/ 100.0f;
-		yRand = GetRand(100.0f - randWidth, 100.0f + randWidth)/ 100.0f;
-		zRand = GetRand(100.0f - randWidth, 100.0f + randWidth)/ 100.0f;
+	//	//乱数を生成
+	//	float xRand, yRand, zRand;
+	//	xRand = GetRand(100.0f - randWidth, 100.0f + randWidth)/ 100.0f;
+	//	yRand = GetRand(100.0f - randWidth, 100.0f + randWidth)/ 100.0f;
+	//	zRand = GetRand(100.0f - randWidth, 100.0f + randWidth)/ 100.0f;
 
-		//乱数と分割されたベクトルをかける
-		float vecX = vec2.x * xRand * particleLevel;
-		float vecY = vec2.y * yRand * particleLevel;
-		float vecZ = vec2.z * zRand;
+	//	//乱数と分割されたベクトルをかける
+	//	float vecX = vec2.x * xRand * particleLevel;
+	//	float vecY = vec2.y * yRand * particleLevel;
+	//	float vecZ = vec2.z * zRand;
 
-		//座標代入
-		thunderPos.emplace_back(XMFLOAT3(vecX,vecY,vecZ) + thunderPos.back());
-		AddParticle(life, thunderPos.back(), startScale, endScale);
+	//	//座標代入
+	//	thunderPos.emplace_back(XMFLOAT3(vecX,vecY,vecZ) + thunderPos.back());
+	//	AddParticle(life, thunderPos.back(), startScale, endScale);
 
-		//分割数を減らす
-		split--;
-	}
+	//	//分割数を減らす
+	//	split--;
+	//}
+
+	//枝分かれ数を計算
+	/*float sVal = length(pos1 - pos2) / spliteWeight;*/
+
+	AddParticle(pos1, pos2, startScale, endScale, life, spliteVal);
 }
 
-void ThunderParticle::AddParticle(int life, XMFLOAT3 position,float startScale, float endScale)
+void ThunderParticle::AddParticle(XMFLOAT3 startPos, XMFLOAT3 endPos, float startScale, float endScale, int life, int spliteVal)
 {
 	Particle p;
 	//値のセット
-	p.position = position;
-	p.num_frame = life;
-	p.startScale = startScale;
+	p.startPosition = startPos;
+	p.endPosition = endPos;
+	p.spliteVal = spliteVal;
+	p.frame = 0.0f;
+	p.endFrame = life;
 	p.scale = startScale;
+	p.startScale = startScale;
 	p.endScale = endScale;
 
 	particles.emplace_back(p);

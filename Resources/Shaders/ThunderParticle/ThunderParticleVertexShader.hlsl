@@ -1,13 +1,16 @@
 #include "ThunderParticleHeader.hlsli"
 
 //エントリーポイント
-VSOutput main(float4 pos : POSITION, float4 prePos : SV_POSITION, float scale: SCALE)
+VSOutput main(VSInput input)
 {
 	//ピクセルシェーダに渡す値
     VSOutput output;
-    output.pos = pos;
-    output.prePos = prePos;
-    output.scale = scale;
+    output.startPos = input.startPos;
+    output.endPos = input.endPos;
+    output.scale = input.scale;
+    output.splteVal = input.splteVal;
+    output.frame = input.frame;
+    output.seed = input.seed;
 
     return output;
 }

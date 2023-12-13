@@ -270,6 +270,10 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInp
 	ThunderParticle::SetCamera(camera_.get());
 	ThunderParticle::SetInput(input_);
 	ThunderParticle::CreateGraphicsPipeline();
+	ThunderParticle* newThunderParticle = new ThunderParticle();
+	newThunderParticle->CreateBuffers();
+	newThunderParticle->SetTextureNum(0);
+	thunderParticle.reset(newThunderParticle);
 
 	//ビルボードのスプライト
 	BillboardSpriteModel::SetDevice(dxCommon_->GetDevice());
@@ -505,15 +509,17 @@ void GameScene::UpdateGame()
 
 	//パーティクル
 	
-	if (input_->PushKey(DIK_N))
+	if (input_->TriggerKey(DIK_N))
 	{
 		/*sparkParticle2->Add(XMFLOAT3(0.0f, 10.0f, -5.0f));
 		explosionParticle1->Add(XMFLOAT3(0.0f, 10.0f, -5.0f));
 		explosionParticle2->Add(XMFLOAT3(0.0f, 10.0f, -5.0f));*/
+		thunderParticle->Add(XMFLOAT3(-30.0f,10.0f,0.0f),XMFLOAT3(30.0f,10.0f,0.0f));
 	}
 	sparkParticle2->Update();
 	explosionParticle1->Update();
 	explosionParticle2->Update();
+	thunderParticle->Update();
 
 	//ライト
 	light->SetEye(XMFLOAT3(lightPos));
@@ -817,7 +823,7 @@ void GameScene::DrawGame()
 	ImGui::End();*/
 
 	//天球描画
-	skySphereObject->Draw(dxCommon_->GetCommandList(), skySphereModel->vbView, skySphereModel->ibView);
+	/*skySphereObject->Draw(dxCommon_->GetCommandList(), skySphereModel->vbView, skySphereModel->ibView);*/
 
 	//コライダーの描画
 	if (*drawCollider == 1)DrawColliderGame();
@@ -1030,6 +1036,7 @@ void GameScene::DrawParticleGame()
 	sparkParticle2->Draw(dxCommon_->GetCommandList());
 	explosionParticle1->Draw(dxCommon_->GetCommandList());
 	explosionParticle2->Draw(dxCommon_->GetCommandList());
+	thunderParticle->Draw(dxCommon_->GetCommandList());
 
 	//プレイヤーのパーティクル描画
 	player->DrawParticle(dxCommon_->GetCommandList());

@@ -227,11 +227,14 @@ private:
 	//爆発パーテイクル2
 	std::unique_ptr<ExplosionParticle2>explosionParticle2;
 
+	//雷パーティクル
+	std::unique_ptr<ThunderParticle>thunderParticle;
+
 	//描画フラグ
 	int drawParticle[1] = { 1 };
 	int drawFbx[1] = { 1 };
 	int drawSprite[1] = { 1 };
-	int drawCollider[1] = { 0 };
+	int drawCollider[1] = { 1 };
 
 	//ビルボード　
 	std::unique_ptr<BillboardSprite>billboardSprite;
