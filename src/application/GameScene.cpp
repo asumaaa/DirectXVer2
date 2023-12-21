@@ -65,6 +65,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInp
 	newTextureManager->LoadFile(19, L"Resources/pictures/title2.png");
 	newTextureManager->LoadFile(20, L"Resources/pictures/game2.png");
 	newTextureManager->LoadFile(21, L"Resources/pictures/clear.png");
+	newTextureManager->LoadFile(22, L"Resources/pictures/rockOn.png");
 
 	textureManager.reset(newTextureManager);
 
@@ -263,6 +264,13 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInp
 	EnemyBulletParticle::SetCamera(camera_.get());
 	EnemyBulletParticle::SetInput(input_);
 	EnemyBulletParticle::CreateGraphicsPipeline();
+
+	//自機の弾パーティクル
+	PlayerBulletParticle::SetSpriteManager(textureManager.get());
+	PlayerBulletParticle::SetDevice(dxCommon_->GetDevice());
+	PlayerBulletParticle::SetCamera(camera_.get());
+	PlayerBulletParticle::SetInput(input_);
+	PlayerBulletParticle::CreateGraphicsPipeline();
 
 	//爆発パーティクル
 	ThunderParticle::SetSpriteManager(textureManager.get());
@@ -539,6 +547,7 @@ void GameScene::UpdateGame()
 	skySphereObject->Update();
 
 	//プレイヤー
+	player->SetEnemyPos(enemy->GetPosition());
 	player->Update();
 
 	//敵
@@ -827,12 +836,12 @@ void GameScene::DrawGame()
 
 	//コライダーの描画
 	if (*drawCollider == 1)DrawColliderGame();
-	//スプライトの描画
-	if (*drawSprite == 1)DrawSpriteGame();
 	//FBXの描画
 	if (*drawFbx == 1)DrawFBXGame();
 	//パーティクルの描画
 	if (*drawParticle == 1)DrawParticleGame();
+	//スプライトの描画
+	if (*drawSprite == 1)DrawSpriteGame();
 }
 
 void GameScene::DrawClear()
@@ -1028,6 +1037,9 @@ void GameScene::DrawSpriteGame()
 {
 	game1Sprite->Draw(dxCommon_->GetCommandList());
 	blackSprite1->Draw(dxCommon_->GetCommandList());
+
+	//プレイヤーのスプライト描画
+	player->DrawSprite(dxCommon_->GetCommandList());
 }
 
 void GameScene::DrawParticleGame()

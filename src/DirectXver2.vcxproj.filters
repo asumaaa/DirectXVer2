@@ -154,6 +154,9 @@
     <Filter Include="リソース ファイル\Shaders\Object\EnemyBulletParticle">
       <UniqueIdentifier>{95c39ca4-42b3-45d8-a5b7-9acb3cdaee51}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\Shaders\Object\PlayerBulletParticle">
+      <UniqueIdentifier>{f8ab54b7-8013-4314-9731-3ebbd2927dae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="2d\MonochromeEffect.cpp">
@@ -336,10 +339,13 @@
     <ClCompile Include="engine\collision\ColliderFrustumObject.cpp">
       <Filter>ソース ファイル\collision</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyBullet.cpp">
+    <ClCompile Include="engine\particle\EnemyBulletParticle.cpp">
+      <Filter>ソース ファイル\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="application\gameObject\EnemyBullet.cpp">
       <Filter>ソース ファイル\gameObject</Filter>
     </ClCompile>
-    <ClCompile Include="engine\particle\EnemyBulletParticle.cpp">
+    <ClCompile Include="engine\particle\PlayerBulletParticle.cpp">
       <Filter>ソース ファイル\particle</Filter>
     </ClCompile>
   </ItemGroup>
@@ -527,10 +533,13 @@
     <ClInclude Include="engine\collision\ColliderFrustumObject.h">
       <Filter>ヘッダー ファイル\collision</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyBullet.h">
+    <ClInclude Include="engine\particle\EnemyBulletParticle.h">
+      <Filter>ヘッダー ファイル\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="application\gameObject\EnemyBullet.h">
       <Filter>ヘッダー ファイル\gameObject</Filter>
     </ClInclude>
-    <ClInclude Include="engine\particle\EnemyBulletParticle.h">
+    <ClInclude Include="engine\particle\PlayerBulletParticle.h">
       <Filter>ヘッダー ファイル\particle</Filter>
     </ClInclude>
   </ItemGroup>
@@ -721,6 +730,15 @@
     <FxCompile Include="..\Resources\Shaders\EnemyBulletParticle\EnemyBulletParticleVertexShader.hlsl">
       <Filter>リソース ファイル\Shaders\Object\EnemyBulletParticle</Filter>
     </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\PlayerBulletParticle\PlayerBulletParticleGeometryShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Object\PlayerBulletParticle</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\PlayerBulletParticle\PlayerBulletParticlePixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Object\PlayerBulletParticle</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\PlayerBulletParticle\PlayerBulletParticleVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Object\PlayerBulletParticle</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\Shaders\ShaderHeader.hlsli">
@@ -806,6 +824,9 @@
     </None>
     <None Include="..\Resources\Shaders\EnemyBulletParticle\EnemyBulletParticleHeader.hlsli">
       <Filter>リソース ファイル\Shaders\Object\EnemyBulletParticle</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\PlayerBulletParticle\PlayerBulletParticleHeader.hlsli">
+      <Filter>リソース ファイル\Shaders\Object\PlayerBulletParticle</Filter>
     </None>
   </ItemGroup>
 </Project>

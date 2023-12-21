@@ -1,185 +1,181 @@
 /**
  * @file PlayerBullet.cpp
- * @brief ã‚²ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å¼¾
+ * @brief ƒQ[ƒ€ƒIƒuƒWƒFƒNƒg ©‹@‚Ì’e
  * @author Asuma Syota
- * @date 2023/4
+ * @date 2023/12
  */
 
 #include "PlayerBullet.h"
 #include "mathOriginal.h"
 #include "ColliderManager.h"
+#include "imgui.h"
 
 Camera* PlayerBullet::camera = nullptr;
-Input* PlayerBullet::input = nullptr;
-DXInput* PlayerBullet::dxInput = nullptr;
-FbxModel* PlayerBullet::model = nullptr;
 
 void PlayerBullet::Initialize()
 {
+	PlayerBulletParticle* newParticle = new PlayerBulletParticle();
+	newParticle->CreateBuffers();
+	newParticle->SetTextureNum(4);
+	particle.reset(newParticle);
 }
 
 void PlayerBullet::Update()
 {
-	//å¼¾ã‚’æ¶ˆã™å‡¦ç†
+	for (int i = 0; i < bullet.size(); i++)
+	{
+		bullet[i].timer += 1.0f;
+	}
+
+	//’e‚ğÁ‚·ˆ—
 	DeleteBullet();
 
-	//ã‚·ãƒ§ãƒƒãƒˆãƒ•ãƒ©ã‚°ãŒç«‹ã£ãŸã‚‰å¼¾ç”Ÿæˆ
-	if (shotFlag)
-	{
-		CreateBullet();
-	}
-
-	//å‹•ã
+	//“®‚«
 	Move();
 
-	//ã‚¿ã‚¤ãƒãƒ¼åŠ ç®—
-	for (int i = 0; i < object.size(); i++)
-	{
-		timer[i] += 1.0f;
-	}
+	//ƒRƒ‰ƒCƒ_[XV
+	UpdateCollider();
 
-	//æ›´æ–°
-	int i = 0;
-	for (std::unique_ptr<FbxObject3D>& objects : object)
-	{
-		objects->SetPosition(position[i]);
-		objects->SetRotation(rotation[i]);
-		objects->SetScale(scale[i]);
-		objects->Update();
-		i++;
-	}
-
-	//ã‚·ãƒ§ãƒƒãƒˆãƒ•ãƒ©ã‚°ã‚’å½ã«
-	shotFlag = false;
+	//ƒp[ƒeƒBƒNƒ‹XV
+	UpdateParticle();
 }
 
-void PlayerBullet::Draw(ID3D12GraphicsCommandList* cmdList)
+void PlayerBullet::UpdateCollider()
 {
-	/*for (std::unique_ptr<FbxObject3D>& objects : object)
-	{
-		objects->Draw(cmdList);
-	}*/
+	for (int i = 0; i < bullet.size(); i++)
+	{	
+		//Šeƒf[ƒ^‚ğ‘ã“ü
+		bullet[i].colliderData.center = bullet[i].position1;
+		bullet[i].colliderData.scale = bullet[i].scale;
+	}
 }
 
-void PlayerBullet::DrawLightView(ID3D12GraphicsCommandList* cmdList)
+void PlayerBullet::UpdateParticle()
 {
-	/*for (std::unique_ptr<FbxObject3D>& objects : object)
+	for (int i = 0; i < bullet.size(); i++)
 	{
-		objects->DrawLightView(cmdList);
-	}*/
+		//’e‚ÌÀ•W‚Éƒp[ƒeƒBƒNƒ‹’Ç‰Á
+		particle->Add(bullet[i].position1);
+	}
+
+	//XV
+	particle->Update();
+}
+
+void PlayerBullet::Draw()
+{
+	////ImGui
+	//ImGui::Begin("EnemyBullet");
+	//ImGui::SetWindowPos(ImVec2(0, 0));
+	//ImGui::SetWindowSize(ImVec2(500, 150));
+	//ImGui::InputFloat3("EnemyBulletPos", bulletPos);
+	//ImGui::End();
+}
+
+void PlayerBullet::DrawParticle(ID3D12GraphicsCommandList* cmdList)
+{
+	//XV
+	particle->Draw(cmdList);
 }
 
 void PlayerBullet::Move()
 {
-	if (object.size() != 0)
+	for (int i = 0; i < bullet.size(); i++)
 	{
-		for (int i = 0; i < object.size(); i++)
+		//’e‚ÌÀ•W‰ÁZ
+		if (bullet[i].timer < bullet[i].destoryTime)
 		{
-			//é€²è¡Œãƒ™ã‚¯ãƒˆãƒ«ã‚’åŠ ç®—
-			position[i] = position[i] + (velocity[i] * posSpeed);
+			bullet[i].position1 = bullet[i].position1 + bullet[i].velocity;
 		}
 	}
+		//’e”­ËŒã
+	//	else if(bullet[i].timer < bullet[i].destoryTime1 + bullet[i].destoryTime2)
+	//	{
+	//		//Å‰‚ÉƒxƒNƒgƒ‹æ“¾
+	//		if (bullet[i].timer < bullet[i].destoryTime1 + 1)
+	//		{
+	//			bullet[i].velocity = enemyPos - bullet[i].position1;
+	//			bullet[i].velocity = normalize(bullet[i].velocity);
+
+	//			//Å‰‚Ì’e‚ÌÀ•W•Û‘¶
+	//			bullet[i].position2 = bullet[i].position1;
+	//			//ƒvƒŒƒCƒ„[‚ÌÀ•W•Û‘¶
+	//			bullet[i].position3 = enemyPos;
+	//		}
+
+	//		//ƒxƒWƒG‹Èü—p’†ŠÔ’n“_‚ğŒvZ
+	//		XMFLOAT3 halfPos = (bullet[i].position3 - bullet[i].position2) / 2.0f;
+	//		halfPos.y += 100.0f;
+	//		//ƒxƒWƒG‹Èü‚ğŒvZ
+	//		float t = (bullet[i].timer - bullet[i].destoryTime1) / bullet[i].destoryTime2;
+	//		XMFLOAT3 a = lerp(bullet[i].position2, halfPos,easeInCubic(t)* speed);
+	//		XMFLOAT3 b = lerp(halfPos, bullet[i].position3, easeInCubic(t) * speed);
+	//		bullet[i].position1 = lerp(a, b, easeInCubic(t) * speed);
+
+	//		//ƒvƒŒƒCƒ„[‚©‚ç’e‚ÌƒxƒNƒgƒ‹æ“¾
+	//		//XMFLOAT3 velo = playerPos - bullet[i].position;
+	//		//velo = normalize(velo);
+	//		////’e‚ÌÀ•W‚É‰ÁZ
+	//		//bullet[i].position = bullet[i].position + velo * speed;
+	//	}
+	//}
 }
 
 void PlayerBullet::CreateBullet()
 {
-	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆ
-	std::unique_ptr<FbxObject3D>newObject = std::make_unique<FbxObject3D>();
-	newObject->Initialize();
-	newObject->SetModel(model);
-
-	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã”ã¨ã«åå‰ã‚’ã¤ã‘ã‚‹
-	std::string objectName = "playerBullet" + std::to_string(number);
-
-	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆ
-	JSONLoader::ObjectData objectData;
-	objectData.fileName = "playerBullet";
-	objectData.objectName = objectName;
-	objectData.position = position.back();
-	objectData.rotation = rotation.back();
-	objectData.scale = scale.back();
-	newObject->SetObjectData(objectData);
-
-	//ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ãƒ‡ãƒ¼ã‚¿ã‚»ãƒƒãƒˆ
-	JSONLoader::ColliderData colliderData;
-	colliderData.type = "Sphere";	//åˆ¤å®šã‚’çƒä½“ã§å–ã‚‹ãŸã‚
-	colliderData.objectName = objectName;
-	colliderData.scale = scale.back();
-	colliderData.rotation = rotation.back();
-	colliderData.center = position.back();
-	newObject->SetColliderData(colliderData);
-
-	//ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ãƒãƒãƒ¼ã‚¸ãƒ£ãƒ¼ã«ã‚»ãƒƒãƒˆ
-	ColliderManager::SetCollider(colliderData);
-
-	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ä»£å…¥
-	object.emplace_back(std::move(newObject));
-
-	number++;
 }
 
 void PlayerBullet::DeleteBullet()
 {
-	//å‰Šé™¤
-	for (int i = 0; i < object.size(); i++)
+	//íœ
+	for (int i = 0; i < bullet.size(); i++)
 	{
-		//ä¸€å®šæ™‚é–“çµŒã£ãŸã‚‰
-		if (timer[i] == destoryTime)
+		//ˆê’èŠÔŒo‚Á‚½‚ç
+		if (bullet[i].timer == bullet[i].destoryTime)
 		{
-			position.erase(position.begin() + i);
-			rotation.erase(rotation.begin() + i);
-			scale.erase(scale.begin() + i);
-			velocity.erase(velocity.begin() + i);
-			hitFlag.erase(hitFlag.begin() + i);
-			timer.erase(timer.begin() + i);
-			object.erase(std::next(object.begin(), i));
+			//’eíœ
+			bullet.erase(bullet.begin() + i);
 
 			continue;
 		}
 
-		//ãƒ’ãƒƒãƒˆãƒ•ãƒ©ã‚°ãŒç«‹ã£ãŸã‚‰
-		if (hitFlag[i] == true)
+		//ƒqƒbƒgƒtƒ‰ƒO‚ª—§‚Á‚½‚ç
+		if (bullet[i].hitFlag == true)
 		{
-			position.erase(position.begin() + i);
-			rotation.erase(rotation.begin() + i);
-			scale.erase(scale.begin() + i);
-			velocity.erase(velocity.begin() + i);
-			timer.erase(timer.begin() + i);
-			hitFlag.erase(hitFlag.begin() + i);
-			object.erase(std::next(object.begin(), i));
+			//’eíœ
+			bullet.erase(bullet.begin() + i);
 		}
 	}
 }
 
-void PlayerBullet::SetSRV(ID3D12DescriptorHeap* SRV)
+void PlayerBullet::SetBullet(XMFLOAT3 position,XMFLOAT3 velocity,float timer,float destoryTime)
 {
-	for (std::unique_ptr<FbxObject3D>& objects : object)
-	{
-		objects->SetSRV(SRV);
-	}
-}
+	//ˆø”‚©‚ç‰Šú’lİ’è
+	Bullet b;
+	b.position1 = position;
+	b.velocity = velocity;
+	b.timer = timer;
+	b.destoryTime = destoryTime;
+	b.hitFlag = false;
 
-void PlayerBullet::SetBullet(XMFLOAT3 position, XMFLOAT3 velocity)
-{
-	PlayerBullet::position.emplace_back(position);
-	PlayerBullet::rotation.emplace_back(baseRotation);
-	PlayerBullet::scale.emplace_back(baseScale);
-	PlayerBullet::velocity.emplace_back(velocity);
-	PlayerBullet::timer.emplace_back(0.0f);
-	PlayerBullet::hitFlag.emplace_back(false);
-}
+	//ƒRƒ‰ƒCƒ_[‚Ìİ’è
+	//ƒRƒ‰ƒCƒ_[‚²‚Æ‚É–¼‘O‚ğ‚Â‚¯‚é
+	std::string objectName = "enemyBullet" + std::to_string(number);
+	//ƒRƒ‰ƒCƒ_[ƒf[ƒ^‚Ì¶¬
+	JSONLoader::ColliderData colliderData;
+	colliderData.type = "Sphere";	//”»’è‚ğ‹…‘Ì‚Åæ‚é‚½‚ß
+	colliderData.objectName = objectName;
+	colliderData.scale = b.scale;
+	colliderData.rotation = XMFLOAT3(0.0f,0.0f,0.0f);
+	colliderData.center = b.position1;
+	b.colliderData = colliderData;
 
-JSONLoader::ColliderData PlayerBullet::GetColliderData(int num)
-{
-	std::list<std::unique_ptr<FbxObject3D>>::iterator itr;
-	itr = object.begin();
-	if (num != 0)
-	{
-		for (int i = 0; i < num; i++)
-		{
-			itr++;
-		}
-	}
+	//ƒRƒ‰ƒCƒ_[ƒ}ƒl[ƒWƒƒ[‚ÉƒZƒbƒg
+	ColliderManager::SetCollider(colliderData);
 
-	return itr->get()->GetColliderData();
+	//İ’è‚µ‚½’l‚ğ‘}“ü
+	bullet.emplace_back(b);
+
+	//’e‚É‚Â‚¯‚é”Ô†‚ğ‘‚â‚·
+	number++;
 }

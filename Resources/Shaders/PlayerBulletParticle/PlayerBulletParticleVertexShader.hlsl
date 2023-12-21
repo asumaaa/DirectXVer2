@@ -1,4 +1,4 @@
-#include "EnemyBulletParticleHeader.hlsli"
+#include "PlayerBulletParticleHeader.hlsli"
 
 //エントリーポイント
 VSOutput main(float4 pos:POSITION, float scale:SCALE)

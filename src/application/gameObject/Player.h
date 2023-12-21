@@ -11,6 +11,7 @@
 #include "PlayerBullet.h"
 #include "ThunderParticle.h"
 #include "JSONLoader.h"
+#include "Sprite.h"
 
 class Player
 {
@@ -95,6 +96,11 @@ public:
 	void UpdateParticle();
 
 	/// <summary>
+	///更新 スプライト
+	/// </summary>
+	void UpdateSprite();
+
+	/// <summary>
 	///1フレーム前の座標取得
 	/// </summary>
 	void UpdateOldTransform();
@@ -113,6 +119,11 @@ public:
 	///パーティクル描画
 	/// </summary>
 	void DrawParticle(ID3D12GraphicsCommandList* cmdList);
+
+	/// <summary>
+	///スプライト描画
+	/// </summary>
+	void DrawSprite(ID3D12GraphicsCommandList* cmdList);
 
 	/// <summary>
 	///挙動 タイトルシーン
@@ -155,9 +166,14 @@ public:
 	void UpdateAttack();
 
 	/// <summary>
+	///更新 炎攻撃
+	/// </summary>
+	void UpdateBullet1();
+
+	/// <summary>
 	///弾セット
 	/// </summary>
-	void SetBullet(PlayerBullet* playerBullet) { Player::bullet = playerBullet; }
+	void SetBullet(PlayerBullet* playerBullet) { Player::bullet1 = playerBullet; }
 
 	/// <summary>
 	///srvセット
@@ -168,6 +184,11 @@ public:
 	///座標セット
 	/// </summary>
 	void SetPosition(XMFLOAT3 pos) { position = pos; };
+
+	/// <summary>
+	///敵の座標取得
+	/// </summary>
+	void SetEnemyPos(XMFLOAT3 enemyPos) { this->enemyPos = enemyPos; }
 
 	/// <summary>
 	///平面との判定
@@ -199,6 +220,16 @@ public:
 	/// </summary>
 	JSONLoader::ColliderData GetColliderData() { return colliderData; }
 
+	/// <summary>
+	///弾のコライダー取得
+	/// </summary>
+	JSONLoader::ColliderData GetBulletColliderData(int num) { return bullet1->GetColliderData(num); }
+
+	/// <summary>
+	///弾のコライダー取得
+	/// </summary>
+	size_t GetBulletNum() { return  bullet1->GetBulletNum(); }
+
 	//静的メンバ変数
 private:
 	//カメラ
@@ -211,8 +242,8 @@ private:
 	//メンバ変数
 public:
 
-	//弾
-	PlayerBullet* bullet;
+	//弾 炎
+	PlayerBullet* bullet1 = nullptr;
 
 	//コライダーデータ
 	JSONLoader::ColliderData colliderData;
@@ -236,6 +267,12 @@ public:
 	FbxObject3D* objectAttack2 = nullptr;
 	//攻撃2のモデル
 	FbxModel* modelAttack2 = nullptr;
+
+	//標準用のスプライト
+	Sprite* rockOnSprite = nullptr;
+	//標準用スプライトの大きさ、座標
+	XMFLOAT2 rockOnSpriteScale = { 96.0f,96.0f };
+	XMFLOAT2 rockOnSpritePos = { 1280.0f / 2.0f - rockOnSpriteScale.x / 2.0f,220.0f};
 
 	//変形行列
 	//平行移動
@@ -305,4 +342,19 @@ public:
 
 	//弾
 	std::unique_ptr<ThunderParticle>thunderParticle;
+
+	//敵の座標
+	XMFLOAT3 enemyPos = { 0.0f,0.0f,0.0f };
+
+	//炎の弾のタイマー
+	int bullet1Timer = 0.0f;
+	//炎を出す間隔
+	int bullet1Interval = 10.0f;
+	//炎のスケール
+	XMFLOAT3  bullet1Scale = { 10.0f,10.0f,10.0f };
+	XMFLOAT3  bullet1LastScale = { 1.0f,1.0f,1.0f };
+	//炎を発生させる位置
+	XMFLOAT3 bullet1AddPosition = { 0.0f,10.0f,0.0f };
+	//炎を消すフレーム
+	float bullet1Frame = 120.0f;
 };

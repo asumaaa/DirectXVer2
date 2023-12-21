@@ -1,161 +1,182 @@
 /**
  * @file PlayerBullet.h
- * @brief ã‚²ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å¼¾
+ * @brief ƒQ[ƒ€ƒIƒuƒWƒFƒNƒg ©‹@‚Ì’e
  * @author Asuma Syota
- * @date 2023/4
+ * @date 2023/12
  */
 
 #pragma once
 #include "DirectXMath.h"
-#include "FbxObject3D.h"
+#include "Camera.h"
+#include "JSONLoader.h"
+#include "PlayerBulletParticle.h"
 
 class PlayerBullet
 {
-private:	//ã‚¨ã‚¤ãƒªã‚¢ã‚¹
-	//Microsoft::WRL::ã‚’çœç•¥
+private:	//ƒGƒCƒŠƒAƒX
+	//Microsoft::WRL::‚ğÈ—ª
 	template<class T>using ComPtr = Microsoft::WRL::ComPtr<T>;
-	//DirectX::ã‚’çœç•¥
+	//DirectX::‚ğÈ—ª
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 
-public:
+private:	//ƒTƒuƒNƒ‰ƒX
+	struct Bullet
+	{
+		//À•W
+		XMFLOAT3 position1;
+		//Å‰‚ÌƒXƒP[ƒ‹
+		XMFLOAT3 scale;
+		//isƒxƒNƒgƒ‹
+		XMFLOAT3 velocity;
+		//ƒ^ƒCƒ}[
+		float timer;
+		//’e‚ªÁ‚¦‚é‘¬“x
+		float destoryTime;
+		//ƒtƒ‰ƒO
+		bool hitFlag;
+		//ƒRƒ‰ƒCƒ_[‚Ìƒf[ƒ^
+		JSONLoader::ColliderData colliderData;
+	};
 
-	//ãƒ¡ãƒ³ãƒé–¢æ•°
-public://é™çš„ãƒ¡ãƒ³ãƒé–¢æ•°
+public://Ã“Iƒƒ“ƒoŠÖ”
 
 	/// <summary>
-	///ãƒ‡ãƒã‚¤ã‚¹ã‚»ãƒƒãƒˆ
+	///ƒJƒƒ‰ƒZƒbƒg
 	/// </summary>
 	static void SetCamera(Camera* camera) { PlayerBullet::camera = camera; }
 
-	/// <summary>
-	///å…¥åŠ›ã‚»ãƒƒãƒˆ
-	/// </summary>
-	static void SetInput(Input* input) { PlayerBullet::input = input; }
+public:
+
+	//ƒƒ“ƒoŠÖ”
 
 	/// <summary>
-	///ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼å…¥åŠ›
-	/// </summary>
-	static void SetDXInput(DXInput* dxInput) { PlayerBullet::dxInput = dxInput; }
-
-	/// <summary>
-	///ãƒ¢ãƒ‡ãƒ«ã‚»ãƒƒãƒˆ
-	/// </summary>
-	static void SetModel(FbxModel* model) { PlayerBullet::model = model; }
-
-	/// <summary>
-	///åˆæœŸåŒ–
+	///‰Šú‰»
 	/// </summary>
 	void Initialize();
 
 	/// <summary>
-	///æ›´æ–°
+	///XV
 	/// </summary>
 	void Update();
 
 	/// <summary>
-	///æç”»
+	///ƒRƒ‰ƒCƒ_[XV
 	/// </summary>
-	void Draw(ID3D12GraphicsCommandList* cmdList);
+	void UpdateCollider();
 
 	/// <summary>
-	///ãƒ©ã‚¤ãƒˆè¦–ç‚¹ã§ã®æç”»
+	///ƒp[ƒeƒBƒNƒ‹XV
 	/// </summary>
-	void DrawLightView(ID3D12GraphicsCommandList* cmdList);
+	void UpdateParticle();
 
 	/// <summary>
-	///ç§»å‹•
+	///•`‰æ
+	/// </summary>
+	void Draw();
+
+	/// <summary>
+	///ƒp[ƒeƒBƒNƒ‹•`‰æ
+	/// </summary>
+	void DrawParticle(ID3D12GraphicsCommandList* cmdList);
+
+	/// <summary>
+	///ˆÚ“®
 	/// </summary>
 	void Move();
 
 	/// <summary>
-	///ã‚·ãƒ§ãƒƒãƒˆãƒ•ãƒ©ã‚°ãŒçœŸãªã‚‰ã°å¼¾ç”Ÿæˆ
+	///ƒVƒ‡ƒbƒgƒtƒ‰ƒO‚ª^‚È‚ç‚Î’e¶¬
 	/// </summary>
 	void CreateBullet();
 
 	/// <summary>
-	///å¼¾ã‚’å‰Šé™¤ã™ã‚‹å‡¦ç†
+	///’e‚ğíœ‚·‚éˆ—
 	/// </summary>
 	void DeleteBullet();
 
 	/// <summary>
-	///srvã‚»ãƒƒãƒˆ
-	/// </summary>
-	void SetSRV(ID3D12DescriptorHeap* SRV);
-
-	/// <summary>
-	///ã‚·ãƒ§ãƒƒãƒˆã™ã‚‹ãƒ•ãƒ©ã‚°ã‚’å—ã‘å–ã‚‹
+	///ƒVƒ‡ƒbƒg‚·‚éƒtƒ‰ƒO‚ğó‚¯æ‚é
 	/// </summary>
 	void SetShotFlag(bool shotFlag) { PlayerBullet::shotFlag = shotFlag; };
 
 	/// <summary>
-	///å¼¾ã«å¿…è¦ãªæƒ…å ±ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	///’e‚É•K—v‚Èî•ñ‚ğƒZƒbƒg‚·‚é
 	/// </summary>
-	void SetBullet(XMFLOAT3 position, XMFLOAT3 velocity);
+	void SetBullet(XMFLOAT3 position,XMFLOAT3 velocity,float timer,float destoryTime);
 
 	/// <summary>
-	///ãƒ’ãƒƒãƒˆãƒ•ãƒ©ã‚°ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
+	///ƒqƒbƒgƒtƒ‰ƒO‚ğƒZƒbƒg‚·‚é
 	/// </summary>
-	void SetHitFlag(bool hitFlag, int num) { PlayerBullet::hitFlag[num] = hitFlag; };
+	void SetHitFlag(bool hitFlag, int num) { bullet[num].hitFlag = hitFlag; };
 
 	/// <summary>
-	///ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ãƒ‡ãƒ¼ã‚¿å–å¾—
+	///“G‚ÌÀ•WƒZƒbƒg
 	/// </summary>
-	JSONLoader::ColliderData GetColliderData(int num);
+	void SetEnemyPos(XMFLOAT3 enemyPos) { PlayerBullet::enemyPos = enemyPos; };
 
 	/// <summary>
-	///å¼¾ã®æ•°å–å¾—
+	///ƒRƒ‰ƒCƒ_[ƒf[ƒ^æ“¾
 	/// </summary>
-	size_t GetBulletNum() { return object.size(); }
+	JSONLoader::ColliderData GetColliderData(int num) { return bullet[num].colliderData; }
 
 	/// <summary>
-	///åº§æ¨™å–å¾—
+	///’e‚Ì”æ“¾
 	/// </summary>
-	XMFLOAT3 GetPosition(int num) { return position[num]; }
+	size_t GetBulletNum() { return bullet.size(); }
 
-	//é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°
+	/// <summary>
+	///À•Wæ“¾
+	/// </summary>
+	XMFLOAT3 GetPosition(int num) { return bullet[num].position1; }
+
+	//Ã“Iƒƒ“ƒo•Ï”
 private:
-	//ã‚«ãƒ¡ãƒ©
+	//ƒJƒƒ‰
 	static Camera* camera;
-	//ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰
-	static Input* input;
-	//ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼
-	static DXInput* dxInput;
-	//ãƒ¢ãƒ‡ãƒ«
-	static FbxModel* model;
 
-	//ãƒ¡ãƒ³ãƒå¤‰æ•°
-public:
+	//ƒƒ“ƒo•Ï”
+private:
 
-	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
-	std::list<std::unique_ptr<FbxObject3D>>object;
+	//ƒIƒuƒWƒFƒNƒg
+	/*std::list<std::unique_ptr<FbxObject3D>>object;*/
 
-	//åº§æ¨™
-	std::vector<XMFLOAT3> position;
-	//å›è»¢
-	std::vector<XMFLOAT3> rotation;
-	//ã‚µã‚¤ã‚º
-	std::vector<XMFLOAT3> scale;
-	//é€²è¡Œãƒ™ã‚¯ãƒˆãƒ«
-	std::vector<XMFLOAT3> velocity;
-	//ã‚¿ã‚¤ãƒãƒ¼
-	std::vector<float>timer;
-	//ãƒ•ãƒ©ã‚°
-	std::vector<bool>hitFlag;
+	////À•W
+	//std::vector<XMFLOAT3> position;
+	////‰ñ“]
+	//std::vector<XMFLOAT3> rotation;
+	////ƒTƒCƒY
+	//std::vector<XMFLOAT3> scale;
+	////isƒxƒNƒgƒ‹
+	//std::vector<XMFLOAT3> velocity;
+	////ƒ^ƒCƒ}[
+	//std::vector<float>timer;
+	////ƒtƒ‰ƒO
+	//std::vector<bool>hitFlag;
+	//ƒp[ƒeƒBƒNƒ‹
+	std::unique_ptr<PlayerBulletParticle>particle;
+	//’e‚Ìî•ñ
+	std::vector<Bullet> bullet;
 
 	XMFLOAT3 baseRotation = { 0.0f,0.0f,0.0f };
 	XMFLOAT3 baseScale = { 0.3f,0.3f,0.3f };
-	//å¼¾ãŒæ¶ˆãˆã‚‹é€Ÿåº¦
-	float destoryTime = 120.0f;
+	//’e‚ªÁ‚¦‚é‘¬“x
+	/*float destoryTime = 120.0f;*/
 
-	//å¼¾ã«ã¤ã‘ã‚‹ç•ªå·
+	//’e‚É‚Â‚¯‚é”Ô†
 	int number = 0;
-
-	//ã‚·ãƒ§ãƒƒãƒˆãƒ•ãƒ©ã‚°
+	//ƒVƒ‡ƒbƒgƒtƒ‰ƒO
 	bool shotFlag = false;
 
-	//ã‚¹ãƒ”ãƒ¼ãƒ‰
-	float posSpeed = 1.0f;
+	//ƒXƒs[ƒh
+	float speed = 1.5f;
+
+	//ƒfƒoƒbƒO—p
+	float bulletPos[3] = { 0.0f,0.0f,0.0f };
+
+	//ƒvƒŒƒCƒ„[‚ÌÀ•W
+	XMFLOAT3 enemyPos = { 0.0f,0.0f,0.0f };
 };
+
