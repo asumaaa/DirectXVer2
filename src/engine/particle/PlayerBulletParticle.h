@@ -72,6 +72,7 @@ public://サブクラス
 	{
 		XMFLOAT3 pos;	//座標
 		float scale;
+		float frame;
 	};
 
 public:	//静的メンバ関数

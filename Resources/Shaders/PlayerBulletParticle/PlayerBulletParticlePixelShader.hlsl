@@ -9,7 +9,11 @@ float4 main(GSOutput input) : SV_TARGET
 {
 	//画像のデータ
 	float4 texData = float4(tex.Sample(smp,input.uv));
+	
+    float f = 1.0f - input.frame;
+    float r = 1.0f;
+    float g = 0.3f;
 
 	//アルファ値を合成
-	return float4(texData.x, texData.y, texData.z, 1);
+    return float4(texData.x * (r * f), texData.y * (g * f), 0.0f, 1);
 }

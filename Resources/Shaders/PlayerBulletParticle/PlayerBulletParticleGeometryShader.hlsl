@@ -41,6 +41,7 @@ void main(
 		//ƒrƒ…[AË‰e•ÏŠ·
 		element.svpos = mul(mat, element.svpos);
 		element.uv = uv_array[i];
+        element.frame = input[0].frame;
 		output.Append(element);
 	}
 }

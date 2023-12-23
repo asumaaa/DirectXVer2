@@ -16,7 +16,7 @@ void PlayerBullet::Initialize()
 {
 	PlayerBulletParticle* newParticle = new PlayerBulletParticle();
 	newParticle->CreateBuffers();
-	newParticle->SetTextureNum(4);
+	newParticle->SetTextureNum(6);
 	particle.reset(newParticle);
 }
 
