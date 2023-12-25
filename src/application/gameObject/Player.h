@@ -198,7 +198,7 @@ public:
 	/// <summary>
 	///弾命中時
 	/// </summary>
-	void HitBullet1(int num) { bullet1->SetHitFlag(true, num); };
+	void HitBullet1(int num) { bullet1->SetHitFlag(num); };
 
 	/// <summary>
 	///座標取得

@@ -110,7 +110,8 @@ public:
 	/// <summary>
 	///ヒットフラグをセットする
 	/// </summary>
-	void SetHitFlag(bool hitFlag, int num) { bullet[num].hitFlag = hitFlag; };
+	//void SetHitFlag(bool hitFlag, int num) { bullet[num].hitFlag = hitFlag; };
+	void SetHitFlag(int num);
 
 	/// <summary>
 	///敵の座標セット
@@ -120,17 +121,19 @@ public:
 	/// <summary>
 	///コライダーデータ取得
 	/// </summary>
-	JSONLoader::ColliderData GetColliderData(int num) { return bullet[num].colliderData; }
+	//JSONLoader::ColliderData GetColliderData(int num) { return bullet[num].colliderData; }
+	JSONLoader::ColliderData GetColliderData(int num);
 
 	/// <summary>
 	///弾の数取得
 	/// </summary>
-	size_t GetBulletNum() { return bullet.size(); }
+	size_t GetBulletNum() { return std::distance(bullet.begin(), bullet.end()); }
 
 	/// <summary>
 	///座標取得
 	/// </summary>
-	XMFLOAT3 GetPosition(int num) { return bullet[num].position1; }
+	//XMFLOAT3 GetPosition(int num) { return bullet[num].position1; }
+	XMFLOAT3 GetPosition(int num);
 
 	//静的メンバ変数
 private:
@@ -158,7 +161,7 @@ private:
 	//パーティクル
 	std::unique_ptr<PlayerBulletParticle>particle;
 	//弾の情報
-	std::vector<Bullet> bullet;
+	std::forward_list<Bullet> bullet;
 
 	XMFLOAT3 baseRotation = { 0.0f,0.0f,0.0f };
 	XMFLOAT3 baseScale = { 1.0f,1.0f,1.0f };

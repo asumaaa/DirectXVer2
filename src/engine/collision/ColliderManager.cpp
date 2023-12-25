@@ -190,13 +190,14 @@ bool ColliderManager::CheckSphereSphere(JSONLoader::ColliderData colliderSphere0
 	float distanceCenter1 = sqrt(pow(distanceCenter0.x, 2) + pow(distanceCenter0.y, 2) + pow(distanceCenter0.z, 2));
 
 	//二つのコライダーの半径の合計
-	float r = colliderSphere0.scale.x + colliderSphere1.scale.x;
+	float r = length(colliderSphere0.scale) + length(colliderSphere1.scale);
 
 	//中心との距離が半径の合計より大きければ当たっていない
 	if (r < distanceCenter1) return false;
 
 	/*ChangeHitColor(colliderSphere0);*/
 	ChangeHitColor(colliderSphere1);
+	ChangeHitColor(colliderSphere0);
 	return true;
 }
 

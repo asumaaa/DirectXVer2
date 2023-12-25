@@ -235,7 +235,7 @@ private:
 	int drawParticle[1] = { 1 };
 	int drawFbx[1] = { 1 };
 	int drawSprite[1] = { 1 };
-	int drawCollider[1] = { 1 };
+	int drawCollider[1] = { 0 };
 
 	//ビルボード　
 	std::unique_ptr<BillboardSprite>billboardSprite;

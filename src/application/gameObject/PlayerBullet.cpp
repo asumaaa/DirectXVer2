@@ -22,9 +22,10 @@ void PlayerBullet::Initialize()
 
 void PlayerBullet::Update()
 {
-	for (int i = 0; i < bullet.size(); i++)
+	//タイマー更新
+	for (std::forward_list<Bullet>::iterator it = bullet.begin(); it != bullet.end(); it++)
 	{
-		bullet[i].timer += 1.0f;
+		it->timer += 1.0f;
 	}
 
 	//弾を消す処理
@@ -42,21 +43,21 @@ void PlayerBullet::Update()
 
 void PlayerBullet::UpdateCollider()
 {
-	for (int i = 0; i < bullet.size(); i++)
-	{	
+	for (std::forward_list<Bullet>::iterator it = bullet.begin(); it != bullet.end(); it++)
+	{
 		//各データを代入
-		bullet[i].colliderData.center = bullet[i].position1;
-		bullet[i].colliderData.scale = bullet[i].scale;
-		bullet[i].colliderData.rotation = XMFLOAT3(0.0f,0.0f,0.0f);
+		it->colliderData.center = it->position1;
+		it->colliderData.scale = it->scale;
+		it->colliderData.rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	}
 }
 
 void PlayerBullet::UpdateParticle()
 {
-	for (int i = 0; i < bullet.size(); i++)
+	for (std::forward_list<Bullet>::iterator it = bullet.begin(); it != bullet.end(); it++)
 	{
 		//弾の座標にパーティクル追加
-		particle->Add(bullet[i].position1);
+		particle->Add(it->position1);
 	}
 
 	//更新
@@ -76,50 +77,15 @@ void PlayerBullet::Draw()
 void PlayerBullet::DrawParticle(ID3D12GraphicsCommandList* cmdList)
 {
 	//更新
-	/*particle->Draw(cmdList);*/
+	particle->Draw(cmdList);
 }
 
 void PlayerBullet::Move()
 {
-	for (int i = 0; i < bullet.size(); i++)
+	for (std::forward_list<Bullet>::iterator it = bullet.begin(); it != bullet.end(); it++)
 	{
-		//弾の座標加算
-		if (bullet[i].timer < bullet[i].destoryTime)
-		{
-			bullet[i].position1 = bullet[i].position1 + bullet[i].velocity;
-		}
+		it->position1 = it->position1 + it->velocity;
 	}
-		//弾発射後
-	//	else if(bullet[i].timer < bullet[i].destoryTime1 + bullet[i].destoryTime2)
-	//	{
-	//		//最初にベクトル取得
-	//		if (bullet[i].timer < bullet[i].destoryTime1 + 1)
-	//		{
-	//			bullet[i].velocity = enemyPos - bullet[i].position1;
-	//			bullet[i].velocity = normalize(bullet[i].velocity);
-
-	//			//最初の弾の座標保存
-	//			bullet[i].position2 = bullet[i].position1;
-	//			//プレイヤーの座標保存
-	//			bullet[i].position3 = enemyPos;
-	//		}
-
-	//		//ベジエ曲線用中間地点を計算
-	//		XMFLOAT3 halfPos = (bullet[i].position3 - bullet[i].position2) / 2.0f;
-	//		halfPos.y += 100.0f;
-	//		//ベジエ曲線を計算
-	//		float t = (bullet[i].timer - bullet[i].destoryTime1) / bullet[i].destoryTime2;
-	//		XMFLOAT3 a = lerp(bullet[i].position2, halfPos,easeInCubic(t)* speed);
-	//		XMFLOAT3 b = lerp(halfPos, bullet[i].position3, easeInCubic(t) * speed);
-	//		bullet[i].position1 = lerp(a, b, easeInCubic(t) * speed);
-
-	//		//プレイヤーから弾のベクトル取得
-	//		//XMFLOAT3 velo = playerPos - bullet[i].position;
-	//		//velo = normalize(velo);
-	//		////弾の座標に加算
-	//		//bullet[i].position = bullet[i].position + velo * speed;
-	//	}
-	//}
 }
 
 void PlayerBullet::CreateBullet()
@@ -128,33 +94,63 @@ void PlayerBullet::CreateBullet()
 
 void PlayerBullet::DeleteBullet()
 {
-	//削除
-	int a = 0;
-	for (int i = 0; i < bullet.size() + a; i++)
-	{
-		//一定時間経ったら
-		if (bullet[i - a].timer == bullet[i - a].destoryTime)
+	//寿命が尽きた球を全削除
+	bullet.remove_if([](Bullet& b)
 		{
-			//弾削除
-			bullet.erase(bullet.begin() + (i - a));
-			a++;
-			continue;
-		}
+			return b.timer >= b.destoryTime;
+		});
 
-		//ヒットフラグが立ったら
-		if (bullet[i - a].hitFlag == true)
+	//ヒットフラグが立った弾を全削除
+	bullet.remove_if([](Bullet& b)
 		{
-			//弾削除
-			bullet.erase(bullet.begin() + (i - a));
-			a++;
-		}
+			return b.hitFlag == true;
+		});
+}
+
+void PlayerBullet::SetHitFlag(int num)
+{
+	//先頭の要素取得
+	std::forward_list<Bullet>::iterator it = bullet.begin();
+	//ヒットフラグを立てたい要素まで進める
+	for (int i = 0; i < num; i++)
+	{
+		++it;
 	}
+	it->hitFlag = true;
+}
+
+JSONLoader::ColliderData PlayerBullet::GetColliderData(int num)
+{
+	//先頭の要素取得
+	std::forward_list<Bullet>::iterator it = bullet.begin();
+	//コライダーを取得したい要素まで進める
+	for (int i = 0; i < num; i++)
+	{
+		++it;
+	}
+	return it->colliderData;
+}
+
+XMFLOAT3 PlayerBullet::GetPosition(int num)
+{
+	//先頭の要素取得
+	std::forward_list<Bullet>::iterator it = bullet.begin();
+	//座標を取得したい要素まで進める
+	for (int i = 0; i < num; i++)
+	{
+		++it;
+	}
+	return it->position1;
 }
 
 void PlayerBullet::SetBullet(XMFLOAT3 position,XMFLOAT3 velocity,float timer,float destoryTime)
 {
 	//引数から初期値設定
-	Bullet b;
+	//リストに要素を追加
+	bullet.emplace_front();
+	//追加した要素の参照
+	Bullet& b = bullet.front();
+	//値のセット
 	b.position1 = position;
 	b.scale = XMFLOAT3(3.0f, 3.0f, 3.0f);
 	b.velocity = velocity;
@@ -171,14 +167,11 @@ void PlayerBullet::SetBullet(XMFLOAT3 position,XMFLOAT3 velocity,float timer,flo
 	colliderData.objectName = objectName;
 	colliderData.scale = XMFLOAT3(1.0f,1.0f,1.0f);
 	colliderData.rotation = XMFLOAT3(0.0f,0.0f,0.0f);
-	colliderData.center = b.position1;
+	colliderData.center = position;
 	b.colliderData = colliderData;
 
 	//コライダーマネージャーにセット
 	ColliderManager::SetCollider(colliderData);
-
-	//設定した値を挿入
-	bullet.emplace_back(b);
 
 	//弾につける番号を増やす
 	number++;

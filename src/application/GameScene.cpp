@@ -484,9 +484,6 @@ void GameScene::UpdateGame()
 	/*camera_->DebugUpdate();*/
 	camera_->Update();
 
-	//コライダー更新
-	UpdateCollider();
-
 	//判定 デバッグ
 	if (input_->PushKey(DIK_I))
 	{
@@ -585,6 +582,9 @@ void GameScene::UpdateGame()
 	{
 		object0->Update();
 	}
+
+	//コライダー更新
+	UpdateCollider();
 }
 
 void GameScene::UpdateClear()
@@ -718,16 +718,12 @@ void GameScene::UpdateCollider()
 	//時機の弾(炎)と敵の当たり判定
 	for (int i = 0; i < player->GetBullet1Num(); i++)
 	{
-		if (ColliderManager::CheckCollider(player->GetBullet1ColliderData(i), enemy->GetColliderData()))
+		if (ColliderManager::CheckCollider(enemy->GetColliderData(), player->GetBullet1ColliderData(i)))
 		{
 			//敵にヒットフラグ送信
 			enemy->HitBullet1();
 			//自機にヒットフラグ送信
 			player->HitBullet1(i);
-			//当たったらパーティクル発生
-			sparkParticle2->Add(XMFLOAT3(enemy->GetBulletColliderData(i).center));
-			explosionParticle1->Add(XMFLOAT3(enemy->GetBulletColliderData(i).center));
-			explosionParticle2->Add(XMFLOAT3(enemy->GetBulletColliderData(i).center));
 		}
 	}
 
