@@ -196,6 +196,11 @@ public:
 	void HitPlane();
 
 	/// <summary>
+	///弾命中時
+	/// </summary>
+	void HitBullet1(int num) { bullet1->SetHitFlag(true, num); };
+
+	/// <summary>
 	///座標取得
 	/// </summary>
 	XMFLOAT3 GetPosition() { return position; }
@@ -223,12 +228,12 @@ public:
 	/// <summary>
 	///弾のコライダー取得
 	/// </summary>
-	JSONLoader::ColliderData GetBulletColliderData(int num) { return bullet1->GetColliderData(num); }
+	JSONLoader::ColliderData GetBullet1ColliderData(int num) { return bullet1->GetColliderData(num); }
 
 	/// <summary>
 	///弾のコライダー取得
 	/// </summary>
-	size_t GetBulletNum() { return  bullet1->GetBulletNum(); }
+	size_t GetBullet1Num() { return  bullet1->GetBulletNum(); }
 
 	//静的メンバ変数
 private:

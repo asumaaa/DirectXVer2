@@ -132,6 +132,16 @@ public://メンバ関数
 	void UpdateAttackOmen();
 
 	/// <summary>
+	///ダメージ系全般
+	/// </summary>
+	void UpdateDamage();
+
+	/// <summary>
+	///コライダー
+	/// </summary>
+	void UpdateCollider();
+
+	/// <summary>
 	///ステータスマネージャー
 	/// </summary>
 	void StatusManager();
@@ -152,6 +162,11 @@ public://メンバ関数
 	void HitPlane();
 
 	/// <summary>
+	///時機の弾被弾時
+	/// </summary>
+	void HitBullet1();
+
+	/// <summary>
 	///座標取得
 	/// </summary>
 	XMFLOAT3 GetPosition() { return position; }
@@ -165,6 +180,11 @@ public://メンバ関数
 	///スケール取得
 	/// </summary>
 	XMFLOAT3 GetScale() { return scale; }
+
+	/// <summary>
+	///コライダー取得
+	/// </summary>
+	JSONLoader::ColliderData GetColliderData() { return colliderData; }
 
 	/// <summary>
 	///弾のコライダー取得
@@ -197,6 +217,9 @@ public:
 	//敵の弾
 	EnemyBullet* bullet = nullptr;
 
+	//コライダーデータ
+	JSONLoader::ColliderData colliderData;
+
 	//立っている状態のオブジェクト
 	FbxObject3D* objectStand = nullptr;
 	//立っている状態のモデル
@@ -226,7 +249,10 @@ public:
 	float frameAttack1Omen = 143.0f;
 
 	//スプライト
-	std::unique_ptr<Sprite>spriteHpBar;
+	Sprite* hpBar1 = nullptr;	//HPバーの枠
+	Sprite* hpBar2 = nullptr;	//HPバー
+	Sprite* hpBar3 = nullptr;	//現在のHPのとこにつけるやつ
+	Sprite* hpBar4 = nullptr;	//BOSS HPのテキスト
 
 	//変形行列
 	//平行移動
@@ -241,6 +267,8 @@ public:
 	//接地フラグ
 	bool groundFlag = false;
 
+	//被弾
+	bool HitFlag1 = false;
 
 	//挙動関連
 
@@ -261,7 +289,8 @@ public:
 	float speed = 0.15f;
 
 	//HP
-	float HP = 100;
+	float maxHP = 100;
+	float HP = 50;
 
 	//プレイヤーの座標
 	XMFLOAT3 playerPos = { 0.0f,0.0f,0.0f };
@@ -277,4 +306,26 @@ public:
 	XMFLOAT3 bulletScale = { 3.0f,3.0f,3.0f };
 	//弾の角度
 	XMFLOAT3 bulletLastScale = { 3.0f,3.0f,3.0f };
+
+	//スプライト用
+	//HPバー1
+	XMFLOAT2 hpBar1Pos = { 320.0f,-15.0f };
+	XMFLOAT2 hpBar1Scale = { 640.0f,96.0f };
+	//HPバー2
+	XMFLOAT2 hpBar2Pos = { 349.0f,26.0f };
+	XMFLOAT2 hpBar2OriginalScale = { 605.0f,15.0f };
+	XMFLOAT2 hpBar2Scale = hpBar2OriginalScale;
+	//HPバー3
+	XMFLOAT2 hpBar3OriginalPos = { 938.0f,25.0f };
+	XMFLOAT2 hpBar3Pos = hpBar3OriginalPos;
+	XMFLOAT2 hpBar3Scale = { 16.0f,16.0f };
+	//Hpバー4
+	XMFLOAT2 hpBar4Pos = { 230.0f,25.0f };
+	XMFLOAT2 hpBar4Scale = { 96.0f,16.0f };
+
+	//imgui用
+	float pos1[2] = { 320.0f,-15.0f };
+	float pos2[2] = { 605.0f,15.0f };
+	float pos3[2] = { 938.0f,25.0f };
+	float pos4[2] = { 230.0f,25.0f };
 };

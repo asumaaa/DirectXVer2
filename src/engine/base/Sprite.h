@@ -53,6 +53,11 @@ public:	//メンバ関数
 	void Update();
 
 	/// <summary>
+	///更新
+	/// </summary>
+	void Update(XMFLOAT2 position,XMFLOAT2 scale);
+
+	/// <summary>
 	///描画
 	/// </summary>
 	void Draw(ID3D12GraphicsCommandList* cmdList);

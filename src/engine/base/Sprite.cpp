@@ -176,6 +176,14 @@ void Sprite::Update()
 	constMapTransform->mat.r[3].m128_f32[1] = 1.0f - (position.y / window_height) * 2;
 }
 
+void Sprite::Update(XMFLOAT2 position, XMFLOAT2 scale)
+{
+	this->position = position;
+	this->scale = scale;
+
+	Update();
+}
+
 void Sprite::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	//パイプライン、ルートシグネチャをセット

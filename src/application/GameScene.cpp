@@ -66,6 +66,10 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInp
 	newTextureManager->LoadFile(20, L"Resources/pictures/game2.png");
 	newTextureManager->LoadFile(21, L"Resources/pictures/clear.png");
 	newTextureManager->LoadFile(22, L"Resources/pictures/rockOn.png");
+	newTextureManager->LoadFile(23, L"Resources/pictures/enemyHP1.png");
+	newTextureManager->LoadFile(24, L"Resources/pictures/enemyHP2.png");
+	newTextureManager->LoadFile(25, L"Resources/pictures/enemyHP3.png");
+	newTextureManager->LoadFile(26, L"Resources/pictures/enemyHP4.png");
 
 	textureManager.reset(newTextureManager);
 
@@ -480,6 +484,9 @@ void GameScene::UpdateGame()
 	/*camera_->DebugUpdate();*/
 	camera_->Update();
 
+	//コライダー更新
+	UpdateCollider();
+
 	//判定 デバッグ
 	if (input_->PushKey(DIK_I))
 	{
@@ -578,9 +585,6 @@ void GameScene::UpdateGame()
 	{
 		object0->Update();
 	}
-
-	//コライダー更新
-	UpdateCollider();
 }
 
 void GameScene::UpdateClear()
@@ -699,70 +703,27 @@ void GameScene::UpdateCollider()
 	//事前処理
 	ColliderManager::PreUpdate();
 
-	//プレイヤーと平面との判定
-	//for (std::unique_ptr<FbxObject3D>& object0 : object)
-	//{
-	//	if (object0->GetFileName() == "player")
-	//	{
-	//		for (std::unique_ptr<FbxObject3D>& object1 : object)
-	//		{
-	//			if (object1->GetFileName() == "plane")
-	//			{
-	//				//当たっていたら
-	//				while (ColliderManager::CheckCollider(object0->GetColliderData(), object1->GetColliderData()))
-	//				{
-	//					player->HitPlane();
-	//				}
-	//			}
-	//		}
-	//	}
-	//}
-
-	////プレイヤーと平面との判定
-	//for (std::unique_ptr<FbxObject3D>& object0 : object)
-	//{
-	//	if (object0->GetFileName() == "player")
-	//	{
-	//		for (std::unique_ptr<FbxObject3D>& object1 : object)
-	//		{
-	//			if (object1->GetFileName() == "enemy")
-	//			{
-	//				ColliderManager::CheckCollider(object0->GetColliderData(), object1->GetColliderData());
-	//			}
-	//		}
-	//	}
-	//}
-
-	////弾と敵との判定
-	//for (std::unique_ptr<FbxObject3D>& object0 : object)
-	//{
-	//	if (object0->GetFileName() == "enemy")
-	//	{
-	//		//弾が一つ以上あれば
-	//		if (playerBullet->GetBulletNum() >= 1)
-	//		{
-	//			for (int i = 0; i < playerBullet->GetBulletNum(); i++)
-	//			{
-	//				if (ColliderManager::CheckCollider(playerBullet->GetColliderData(i),
-	//					object0->GetColliderData()))
-	//				{
-	//					//パーティクル
-	//					sparkParticle2->Add(XMFLOAT3(playerBullet->GetPosition(i)));
-	//					explosionParticle1->Add(XMFLOAT3(playerBullet->GetPosition(i)));
-	//					explosionParticle2->Add(XMFLOAT3(playerBullet->GetPosition(i)));
-	//					//弾
-	//					playerBullet->SetHitFlag(true, i);
-	//				}
-	//			}
-	//		}
-	//	}
-	//}
-
 	//敵の弾と時機の当たり判定
-	for (int i = 0; i < enemy->GetBulletNum(); i++)
+	//for (int i = 0; i < enemy->GetBulletNum(); i++)
+	//{
+	//	if (ColliderManager::CheckCollider(player->GetColliderData(), enemy->GetBulletColliderData(i)))
+	//	{
+	//		//当たったらパーティクル発生
+	//		sparkParticle2->Add(XMFLOAT3(enemy->GetBulletColliderData(i).center));
+	//		explosionParticle1->Add(XMFLOAT3(enemy->GetBulletColliderData(i).center));
+	//		explosionParticle2->Add(XMFLOAT3(enemy->GetBulletColliderData(i).center));
+	//	}
+	//}
+
+	//時機の弾(炎)と敵の当たり判定
+	for (int i = 0; i < player->GetBullet1Num(); i++)
 	{
-		if (ColliderManager::CheckCollider(player->GetColliderData(), enemy->GetBulletColliderData(i)))
+		if (ColliderManager::CheckCollider(player->GetBullet1ColliderData(i), enemy->GetColliderData()))
 		{
+			//敵にヒットフラグ送信
+			enemy->HitBullet1();
+			//自機にヒットフラグ送信
+			player->HitBullet1(i);
 			//当たったらパーティクル発生
 			sparkParticle2->Add(XMFLOAT3(enemy->GetBulletColliderData(i).center));
 			explosionParticle1->Add(XMFLOAT3(enemy->GetBulletColliderData(i).center));
@@ -814,15 +775,15 @@ void GameScene::DrawTitle()
 
 void GameScene::DrawGame()
 {
-	////ImGui
-	//ImGui::Begin("GameScene");
-	//ImGui::SetWindowPos(ImVec2(0, 0));
-	//ImGui::SetWindowSize(ImVec2(500, 150));
-	//ImGui::InputInt("DrawFbx", drawFbx);
-	//ImGui::InputInt("DrawSprite", drawSprite);
-	//ImGui::InputInt("DrawCollider", drawCollider);
-	//ImGui::InputInt("DrawParticle", drawParticle);
-	//ImGui::End();
+	//ImGui
+	ImGui::Begin("GameScene");
+	ImGui::SetWindowPos(ImVec2(0, 0));
+	ImGui::SetWindowSize(ImVec2(500, 150));
+	ImGui::InputInt("DrawFbx", drawFbx);
+	ImGui::InputInt("DrawSprite", drawSprite);
+	ImGui::InputInt("DrawCollider", drawCollider);
+	ImGui::InputInt("DrawParticle", drawParticle);
+	ImGui::End();
 
 	//ImGui
 	/*ImGui::Begin("GameScene");
@@ -1035,11 +996,13 @@ void GameScene::DrawColliderGame()
 
 void GameScene::DrawSpriteGame()
 {
-	game1Sprite->Draw(dxCommon_->GetCommandList());
-	blackSprite1->Draw(dxCommon_->GetCommandList());
+	/*game1Sprite->Draw(dxCommon_->GetCommandList());
+	blackSprite1->Draw(dxCommon_->GetCommandList());*/
 
 	//プレイヤーのスプライト描画
 	player->DrawSprite(dxCommon_->GetCommandList());
+	//敵
+	enemy->DrawSprite(dxCommon_->GetCommandList());
 }
 
 void GameScene::DrawParticleGame()

@@ -155,7 +155,7 @@ private:
 	float DebugTargetDistance = 40.0f;
 	//加算用
 	float DebugChangeRot = (float)PI;
-	float DebugChangeRot2 = 0.5f;
+	float DebugChangeRot2 = PI * (13.0f / 40.0f);
 	float DebugChangeDistance = 0.0f;
 
 	//プレイヤー

@@ -47,6 +47,7 @@ void PlayerBullet::UpdateCollider()
 		//各データを代入
 		bullet[i].colliderData.center = bullet[i].position1;
 		bullet[i].colliderData.scale = bullet[i].scale;
+		bullet[i].colliderData.rotation = XMFLOAT3(0.0f,0.0f,0.0f);
 	}
 }
 
@@ -75,7 +76,7 @@ void PlayerBullet::Draw()
 void PlayerBullet::DrawParticle(ID3D12GraphicsCommandList* cmdList)
 {
 	//更新
-	particle->Draw(cmdList);
+	/*particle->Draw(cmdList);*/
 }
 
 void PlayerBullet::Move()
@@ -128,22 +129,24 @@ void PlayerBullet::CreateBullet()
 void PlayerBullet::DeleteBullet()
 {
 	//削除
-	for (int i = 0; i < bullet.size(); i++)
+	int a = 0;
+	for (int i = 0; i < bullet.size() + a; i++)
 	{
 		//一定時間経ったら
-		if (bullet[i].timer == bullet[i].destoryTime)
+		if (bullet[i - a].timer == bullet[i - a].destoryTime)
 		{
 			//弾削除
-			bullet.erase(bullet.begin() + i);
-
+			bullet.erase(bullet.begin() + (i - a));
+			a++;
 			continue;
 		}
 
 		//ヒットフラグが立ったら
-		if (bullet[i].hitFlag == true)
+		if (bullet[i - a].hitFlag == true)
 		{
 			//弾削除
-			bullet.erase(bullet.begin() + i);
+			bullet.erase(bullet.begin() + (i - a));
+			a++;
 		}
 	}
 }
@@ -153,6 +156,7 @@ void PlayerBullet::SetBullet(XMFLOAT3 position,XMFLOAT3 velocity,float timer,flo
 	//引数から初期値設定
 	Bullet b;
 	b.position1 = position;
+	b.scale = XMFLOAT3(3.0f, 3.0f, 3.0f);
 	b.velocity = velocity;
 	b.timer = timer;
 	b.destoryTime = destoryTime;
@@ -160,12 +164,12 @@ void PlayerBullet::SetBullet(XMFLOAT3 position,XMFLOAT3 velocity,float timer,flo
 
 	//コライダーの設定
 	//コライダーごとに名前をつける
-	std::string objectName = "enemyBullet" + std::to_string(number);
+	std::string objectName = "playerBullet" + std::to_string(number);
 	//コライダーデータの生成
 	JSONLoader::ColliderData colliderData;
 	colliderData.type = "Sphere";	//判定を球体で取るため
 	colliderData.objectName = objectName;
-	colliderData.scale = b.scale;
+	colliderData.scale = XMFLOAT3(1.0f,1.0f,1.0f);
 	colliderData.rotation = XMFLOAT3(0.0f,0.0f,0.0f);
 	colliderData.center = b.position1;
 	b.colliderData = colliderData;

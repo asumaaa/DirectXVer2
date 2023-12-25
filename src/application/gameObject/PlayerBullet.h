@@ -161,7 +161,7 @@ private:
 	std::vector<Bullet> bullet;
 
 	XMFLOAT3 baseRotation = { 0.0f,0.0f,0.0f };
-	XMFLOAT3 baseScale = { 0.3f,0.3f,0.3f };
+	XMFLOAT3 baseScale = { 1.0f,1.0f,1.0f };
 	//íeÇ™è¡Ç¶ÇÈë¨ìx
 	/*float destoryTime = 120.0f;*/
 
