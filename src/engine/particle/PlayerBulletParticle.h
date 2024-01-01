@@ -127,7 +127,7 @@ public:
 	/// <summary>
 	///パーティクルを追加
 	/// </summary>
-	void Add(XMFLOAT3 pos);
+	void Add(XMFLOAT3 pos,float startScale);
 
 	/// <summary>
 	///パーティクルを追加

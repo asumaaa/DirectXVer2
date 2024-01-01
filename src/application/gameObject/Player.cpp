@@ -494,7 +494,7 @@ void Player::UpdateAttack()
 void Player::UpdateBullet1()
 {
 	//Aボタンを押している間
-	if (dxInput->PushKey(DXInput::PAD_A))
+	if (dxInput->PushKey(DXInput::PAD_RIGHT_SHOULDER))
 	{
 		//タイマー更新
 		bullet1Timer += 1.0f;

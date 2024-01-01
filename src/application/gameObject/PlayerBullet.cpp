@@ -57,7 +57,7 @@ void PlayerBullet::UpdateParticle()
 	for (std::forward_list<Bullet>::iterator it = bullet.begin(); it != bullet.end(); it++)
 	{
 		//弾の座標にパーティクル追加
-		particle->Add(it->position1);
+		particle->Add(it->position1, (it->timer + 0.5f) * scaleAcc);
 	}
 
 	//更新

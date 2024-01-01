@@ -179,7 +179,10 @@ private:
 	//デバッグ用
 	float bulletPos[3] = { 0.0f,0.0f,0.0f };
 
-	//プレイヤーの座標
+	//敵の座標
 	XMFLOAT3 enemyPos = { 0.0f,0.0f,0.0f };
+
+	//弾の大きくなる拡大率
+	float scaleAcc = 0.05f;
 };
 

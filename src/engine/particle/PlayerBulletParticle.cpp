@@ -455,7 +455,7 @@ void PlayerBulletParticle::Draw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->DrawInstanced((UINT)std::distance(particles.begin(), particles.end()), 1, 0, 0);
 }
 
-void PlayerBulletParticle::Add(XMFLOAT3 pos)
+void PlayerBulletParticle::Add(XMFLOAT3 pos, float startScale)
 {
 	float randPos = 10.0f;
 	float randVelo = 0.2f;
@@ -467,7 +467,7 @@ void PlayerBulletParticle::Add(XMFLOAT3 pos)
 			, (float)rand() / RAND_MAX * randVelo - randVelo / 2.0f);
 		XMFLOAT3 accel(0.0f, (float)rand() / RAND_MAX * randAcc, 0.0f);
 
-		AddParticle(30, p, velocity, accel, 2.0f, 0.0f);
+		AddParticle(30, p, velocity, accel, startScale, 0.0f);
 	}
 }
 
