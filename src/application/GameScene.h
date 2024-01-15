@@ -255,8 +255,8 @@ private:
 	//ゲームシーン用スプライト
 	std::unique_ptr<Sprite>game1Sprite;
 	//ゲームシーン用スプライト 座標 スケール
-	XMFLOAT2 game1Pos = { 0.0f, 0.0f };
-	XMFLOAT2 game1Scale = { 399.0f, 60.0f };
+	XMFLOAT2 game1Pos = { 900.0f, 600.0f };
+	XMFLOAT2 game1Scale = { 227.0f, 101.0f };
 	//黒いスプライト
 	std::unique_ptr<Sprite>blackSprite1;
 	std::unique_ptr<Sprite>blackSprite2;

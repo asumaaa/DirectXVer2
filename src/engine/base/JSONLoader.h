@@ -60,8 +60,12 @@ public:	//サブクラス
 		int textureNum4;
 		//シェーダ名
 		std::string shaderName;
+		//シェーダ名
+		std::string shaderName2;
 		//テクスチャの枚数
 		int textureVol;
+		//シェーダの数
+		int shaderVol = 1;
 	};
 
 	//敵の行動パターン

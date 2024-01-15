@@ -107,6 +107,11 @@ public://メンバ関数
 	void Move();
 
 	/// <summary>
+	///歩くモーション自の挙動
+	/// </summary>
+	void MoveWalk();
+
+	/// <summary>
 	///落下
 	/// </summary>
 	void UpdateGravity();
@@ -167,6 +172,11 @@ public://メンバ関数
 	void HitBullet1();
 
 	/// <summary>
+	///リセット
+	/// </summary>
+	void Reset();
+
+	/// <summary>
 	///座標取得
 	/// </summary>
 	XMFLOAT3 GetPosition() { return position; }
@@ -195,6 +205,11 @@ public://メンバ関数
 	///弾のコライダー取得
 	/// </summary>
 	size_t GetBulletNum() { return  bullet->GetBulletNum(); }
+
+	/// <summary>
+	///死亡フラグ取得
+	/// </summary>
+	bool GetIsDead() { return isDead; }
 
 	//静的メンバ変数
 private:
@@ -232,7 +247,7 @@ public:
 	//歩いている状態のモデル
 	FbxModel* modelWalk = nullptr;
 	//攻撃1状態のアニメーションのフレーム
-	float frameWalk = 82.0f;
+	float frameWalk = 82.0f * 3.0f;
 
 	//攻撃1状態のオブジェクト
 	FbxObject3D* objectAttack1 = nullptr;
@@ -287,10 +302,11 @@ public:
 
 	//スピード
 	float speed = 0.15f;
+	float walkSpeed = 1.0f;
 
 	//HP
 	float maxHP = 100;
-	float HP = 50;
+	float HP = maxHP;
 
 	//プレイヤーの座標
 	XMFLOAT3 playerPos = { 0.0f,0.0f,0.0f };
@@ -328,4 +344,7 @@ public:
 	float pos2[2] = { 605.0f,15.0f };
 	float pos3[2] = { 938.0f,25.0f };
 	float pos4[2] = { 230.0f,25.0f };
+
+	//死亡フラグ
+	bool isDead = false;
 };

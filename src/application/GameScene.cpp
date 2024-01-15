@@ -70,6 +70,11 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInp
 	newTextureManager->LoadFile(24, L"Resources/pictures/enemyHP2.png");
 	newTextureManager->LoadFile(25, L"Resources/pictures/enemyHP3.png");
 	newTextureManager->LoadFile(26, L"Resources/pictures/enemyHP4.png");
+	newTextureManager->LoadFile(27, L"Resources/pictures/fire.png");
+	newTextureManager->LoadFile(28, L"Resources/pictures/playerHP1.png");
+	newTextureManager->LoadFile(29, L"Resources/pictures/playerHP2.png");
+	newTextureManager->LoadFile(30, L"Resources/pictures/playerHP3.png");
+	newTextureManager->LoadFile(31, L"Resources/pictures/elec.jpeg");
 
 	textureManager.reset(newTextureManager);
 
@@ -275,17 +280,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInp
 	PlayerBulletParticle::SetCamera(camera_.get());
 	PlayerBulletParticle::SetInput(input_);
 	PlayerBulletParticle::CreateGraphicsPipeline();
-
-	//爆発パーティクル
-	ThunderParticle::SetSpriteManager(textureManager.get());
-	ThunderParticle::SetDevice(dxCommon_->GetDevice());
-	ThunderParticle::SetCamera(camera_.get());
-	ThunderParticle::SetInput(input_);
-	ThunderParticle::CreateGraphicsPipeline();
-	ThunderParticle* newThunderParticle = new ThunderParticle();
-	newThunderParticle->CreateBuffers();
-	newThunderParticle->SetTextureNum(0);
-	thunderParticle.reset(newThunderParticle);
 
 	//ビルボードのスプライト
 	BillboardSpriteModel::SetDevice(dxCommon_->GetDevice());
@@ -493,9 +487,6 @@ void GameScene::UpdateGame()
 	{
 		camera_->SetDebugFlag(false);
 	}
-	colliderFrustumObject->SetPosition(camera_->GetEye());
-	colliderFrustumObject->SetRotation(camera_->GetRotation());
-	colliderFrustumObject->Update();
 
 	//コントローラテスト
 	stickTest[0] = player->GetPosition().x;
@@ -526,16 +517,14 @@ void GameScene::UpdateGame()
 		/*sparkParticle2->Add(XMFLOAT3(0.0f, 10.0f, -5.0f));
 		explosionParticle1->Add(XMFLOAT3(0.0f, 10.0f, -5.0f));
 		explosionParticle2->Add(XMFLOAT3(0.0f, 10.0f, -5.0f));*/
-		thunderParticle->Add(XMFLOAT3(-30.0f,10.0f,0.0f),XMFLOAT3(30.0f,10.0f,0.0f));
 	}
 	sparkParticle2->Update();
 	explosionParticle1->Update();
 	explosionParticle2->Update();
-	thunderParticle->Update();
 
 	//ライト
-	light->SetEye(XMFLOAT3(lightPos));
-	light->SetTarget(XMFLOAT3(lightTarget));
+	light->SetEye(XMFLOAT3(lightPos) + player->GetPosition());
+	light->SetTarget(XMFLOAT3(lightTarget) + player->GetPosition());
 	light->SetDir(XMFLOAT3(lightDir));
 	light->Update();
 
@@ -561,23 +550,7 @@ void GameScene::UpdateGame()
 	//平面
 	/*plane->Update();*/
 
-	//スペースキーでファイル読み込み更新
-	if (input_->TriggerKey(DIK_SPACE))
-	{
-		jsonLoader->LoadFile("Resources/json/demo1.json");
-		int i = 0;
-		for (std::unique_ptr<FbxObject3D>& object0 : object)
-		{
-			//プレイヤー以外のオブジェクト更新
-			if (object0->GetFileName() != "player")
-			{
-				object0->SetPosition(jsonLoader->GetPosition(i));
-				object0->SetScale(jsonLoader->GetScale(i));
-				object0->SetRotation(jsonLoader->GetRotation(i));
-			}
-			i++;
-		}
-	}
+	//エディタで読み込んだオブジェクト更新
 	for (std::unique_ptr<FbxObject3D>& object0 : object)
 	{
 		object0->Update();
@@ -647,8 +620,8 @@ void GameScene::UpdateClear()
 	explosionParticle2->Update();
 
 	//ライト
-	light->SetEye(XMFLOAT3(lightPos));
-	light->SetTarget(XMFLOAT3(lightTarget));
+	light->SetEye(XMFLOAT3(lightPos) + player->GetPosition());
+	light->SetTarget(XMFLOAT3(lightTarget) + player->GetPosition());
 	light->SetDir(XMFLOAT3(lightDir));
 	light->Update();
 
@@ -704,16 +677,27 @@ void GameScene::UpdateCollider()
 	ColliderManager::PreUpdate();
 
 	//敵の弾と時機の当たり判定
-	//for (int i = 0; i < enemy->GetBulletNum(); i++)
-	//{
-	//	if (ColliderManager::CheckCollider(player->GetColliderData(), enemy->GetBulletColliderData(i)))
-	//	{
-	//		//当たったらパーティクル発生
-	//		sparkParticle2->Add(XMFLOAT3(enemy->GetBulletColliderData(i).center));
-	//		explosionParticle1->Add(XMFLOAT3(enemy->GetBulletColliderData(i).center));
-	//		explosionParticle2->Add(XMFLOAT3(enemy->GetBulletColliderData(i).center));
-	//	}
-	//}
+	if (player->GetInvincibleFlag() == false)
+	{
+		for (int i = 0; i < enemy->GetBulletNum(); i++)
+		{
+			if (ColliderManager::CheckCollider(player->GetColliderData(), enemy->GetBulletColliderData(i)))
+			{
+				//自機にヒットフラグ送信
+				player->HitEnemy();
+			}
+		}
+	}
+
+	//敵と時機の当たり判定
+	if (player->GetInvincibleFlag() == false)
+	{
+		if (ColliderManager::CheckCollider(player->GetColliderData(), enemy->GetColliderData()))
+		{
+			//自機にヒットフラグ送信
+			player->HitEnemy();
+		}
+	}
 
 	//時機の弾(炎)と敵の当たり判定
 	for (int i = 0; i < player->GetBullet1Num(); i++)
@@ -772,7 +756,7 @@ void GameScene::DrawTitle()
 void GameScene::DrawGame()
 {
 	//ImGui
-	ImGui::Begin("GameScene");
+	/*ImGui::Begin("GameScene");
 	ImGui::SetWindowPos(ImVec2(0, 0));
 	ImGui::SetWindowSize(ImVec2(500, 150));
 	ImGui::InputInt("DrawFbx", drawFbx);
@@ -780,6 +764,14 @@ void GameScene::DrawGame()
 	ImGui::InputInt("DrawCollider", drawCollider);
 	ImGui::InputInt("DrawParticle", drawParticle);
 	ImGui::End();
+
+	ImGui::Begin("GameScene light");
+	ImGui::SetWindowPos(ImVec2(500, 0));
+	ImGui::SetWindowSize(ImVec2(500, 150));
+	ImGui::InputFloat3("lightPos", lightPos);
+	ImGui::InputFloat3("lightTarget", lightTarget);
+	ImGui::InputFloat3("lightDir", lightDir);
+	ImGui::End();*/
 
 	//ImGui
 	/*ImGui::Begin("GameScene");
@@ -921,6 +913,9 @@ void GameScene::ModeManager()
 		//タイマーが規定のタイムに達したら
 		if (titleFromGameTimer >= titleFromGameTime)
 		{
+			//リセット
+			player->Reset();
+			enemy->Reset();
 			//モードをゲームへ
 			mode = static_cast<size_t>(Mode::Title);
 			modeDraw = static_cast<size_t>(ModeDraw::TitleDraw);
@@ -933,21 +928,21 @@ void GameScene::ModeManager()
 	}
 
 	//ゲームクリア デバッグ用
-	//if (dxInput->TriggerKey(DXInput::PAD_A))
-	//{
-	//	//ゲームからゲームに移るフラグオン
-	//	clearFromGameFlag = true;
-	//}
-	////ゲームからクリアに移るフラグが立ったら
-	//if (clearFromGameFlag == true)
-	//{
-	//	//モードをゲームへ
-	//	mode = static_cast<size_t>(Mode::Clear);
-	//	modeDraw = static_cast<size_t>(ModeDraw::ClearDraw);
-	//	modeDrawLightView = static_cast<size_t>(ModeDrawLightView::ClearDrawLightView);
-	//	//フラグをもとに戻す
-	//	clearFromGameFlag = false;
-	//}
+	if (enemy->GetIsDead() == true)
+	{
+		//ゲームからゲームに移るフラグオン
+		clearFromGameFlag = true;
+	}
+	//ゲームからクリアに移るフラグが立ったら
+	if (clearFromGameFlag == true)
+	{
+		//モードをゲームへ
+		mode = static_cast<size_t>(Mode::Clear);
+		modeDraw = static_cast<size_t>(ModeDraw::ClearDraw);
+		modeDrawLightView = static_cast<size_t>(ModeDrawLightView::ClearDrawLightView);
+		//フラグをもとに戻す
+		clearFromGameFlag = false;
+	}
 
 	//クリアの時AかSPACEが押されたら
 	if (input_->TriggerKey(DIK_SPACE) || dxInput->TriggerKey(DXInput::PAD_X) && mode == static_cast<size_t>(Mode::Clear))
@@ -961,6 +956,9 @@ void GameScene::ModeManager()
 	//クリアからゲームに移るフラグが立ったら
 	if (gameFromClearFlag == true)
 	{
+		//リセット
+		player->Reset();
+		enemy->Reset();
 		//モードをゲームへ
 		mode = static_cast<size_t>(Mode::Game);
 		modeDraw = static_cast<size_t>(ModeDraw::GameDraw);
@@ -981,8 +979,6 @@ void GameScene::DrawFBXGame()
 
 	player->Draw(dxCommon_->GetCommandList());
 	enemy->Draw(dxCommon_->GetCommandList());
-
-	colliderFrustumObject->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::DrawColliderGame()
@@ -992,8 +988,8 @@ void GameScene::DrawColliderGame()
 
 void GameScene::DrawSpriteGame()
 {
-	/*game1Sprite->Draw(dxCommon_->GetCommandList());
-	blackSprite1->Draw(dxCommon_->GetCommandList());*/
+	game1Sprite->Draw(dxCommon_->GetCommandList());
+	/*blackSprite1->Draw(dxCommon_->GetCommandList());*/
 
 	//プレイヤーのスプライト描画
 	player->DrawSprite(dxCommon_->GetCommandList());
@@ -1007,7 +1003,6 @@ void GameScene::DrawParticleGame()
 	sparkParticle2->Draw(dxCommon_->GetCommandList());
 	explosionParticle1->Draw(dxCommon_->GetCommandList());
 	explosionParticle2->Draw(dxCommon_->GetCommandList());
-	thunderParticle->Draw(dxCommon_->GetCommandList());
 
 	//プレイヤーのパーティクル描画
 	player->DrawParticle(dxCommon_->GetCommandList());

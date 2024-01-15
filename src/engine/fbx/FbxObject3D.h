@@ -42,7 +42,8 @@ public:
 		XMMATRIX world;
 		XMFLOAT3 cameraPos;
 		XMMATRIX lightviewproj;
-		float timer;
+		float timer1;
+		float timer2;
 	};
 	//定数バッファ用データ構造体(スキニング)
 	struct ConstBufferDataSkin
@@ -86,6 +87,11 @@ public://メンバ関数
 	void Initialize();
 
 	/// <summary>
+	///初期化
+	/// </summary>
+	void Initialize(FbxModel* model,JSONLoader::TextureData textureData);
+
+	/// <summary>
 	///更新
 	/// </summary>
 	void Update();
@@ -99,6 +105,11 @@ public://メンバ関数
 	///コライダー更新
 	/// </summary>
 	void UpdateCollider();
+
+	/// <summary>
+	///タイマー更新
+	/// </summary>
+	void UpdateTimer();
 
 	/// <summary>
 	///ライト視点での描画
@@ -132,6 +143,8 @@ public://メンバ関数
 	void CreateGraphicsPipelineTexture2();	//テクスチャ2枚の場合
 	void CreateGraphicsPipelineTexture3();	//テクスチャ3枚の場合
 	void CreateGraphicsPipelineTexture4();	//テクスチャ4枚の場合
+
+	void CreateGraphicsPipelineShader2Texture2();	//シェーダ2テクスチャ2枚の場合
 
 	/// <summary>
 	///アニメーション開始
@@ -189,6 +202,11 @@ public://メンバ関数
 	void SetTextureNum(int textureNum) { this->textureNum1 = textureNum; }
 
 	/// <summary>
+	///外部から描画に使うシェーダの番号を指定
+	/// </summary>
+	void SetDrawShaderNum(int num) { drawShaderNum = num; }
+
+	/// <summary>
 	///座標取得
 	/// </summary>
 	XMFLOAT3 GetPosition() { return position; }
@@ -230,6 +248,9 @@ private://メンバ変数
 	//影付きカメラ視点のルートシグネチャとパイプライン
 	static ComPtr<ID3D12RootSignature>rootsignature2;
 	static ComPtr<ID3D12PipelineState>pipelinestate2;
+	//シェーダ2つめのルートシグネチャとパイプライン
+	ComPtr<ID3D12RootSignature>rootsignature3;
+	ComPtr<ID3D12PipelineState>pipelinestate3;
 
 private:
 	//ローカルスケール
@@ -290,10 +311,22 @@ private:
 	int textureVol = 1;
 	//使用するシェーダの名前
 	std::string shaderName;
+	std::string shaderName2;
+	//シェーダの数
+	int shaderVol = 1;
 	bool shaderFlag = false;
 
-	//タイマーシェーダ用
-	float timer = 0.0f;
-	float fTime = 0.005f;
-	float maxTime = 1.0f;
+	//何番目のシェーダで描画を行うか
+	int drawShaderNum = 0;
+
+	//タイマーシェーダ用1
+	float timer1 = 0.0f;
+	float fTime1 = 0.002f;
+	float maxTime1 = 1.0f;
+
+	//タイマーシェーダ用2
+	float timer2 = 0.6f;
+	float maxTime2 = 1.0f;
+	float minTime2 = 0.1f;
+	float fTime2 = 0.02f;
 };

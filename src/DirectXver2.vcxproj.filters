@@ -145,9 +145,6 @@
     <Filter Include="リソース ファイル\Shaders\Object\Obj">
       <UniqueIdentifier>{d707f0ec-e997-41a0-8495-2e6f4c0c7769}</UniqueIdentifier>
     </Filter>
-    <Filter Include="リソース ファイル\Shaders\Object\ThunderParticle">
-      <UniqueIdentifier>{f80ef776-b812-4f58-ae63-addc218b2ff1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="リソース ファイル\Shaders\PostEffect\Bloom">
       <UniqueIdentifier>{541e3dd8-0b7b-495c-bf2b-ff820cec5a1d}</UniqueIdentifier>
     </Filter>
@@ -156,6 +153,12 @@
     </Filter>
     <Filter Include="リソース ファイル\Shaders\Object\PlayerBulletParticle">
       <UniqueIdentifier>{f8ab54b7-8013-4314-9731-3ebbd2927dae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\Shaders\Fbx\PlayerFire">
+      <UniqueIdentifier>{107691f3-bf47-42bf-9f0d-5f894dec780c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\Shaders\Fbx\PlayerElec">
+      <UniqueIdentifier>{908dbc68-efaf-4412-b418-a0c2eeaca3ca}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -706,15 +709,6 @@
     <FxCompile Include="..\Resources\Shaders\Obj\ObjVertexShader.hlsl">
       <Filter>リソース ファイル\Shaders\Object\Obj</Filter>
     </FxCompile>
-    <FxCompile Include="..\Resources\Shaders\ThunderParticle\ThunderParticleGeometryShader.hlsl">
-      <Filter>リソース ファイル\Shaders\Object\ThunderParticle</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\Shaders\ThunderParticle\ThunderParticlePixelShader.hlsl">
-      <Filter>リソース ファイル\Shaders\Object\ThunderParticle</Filter>
-    </FxCompile>
-    <FxCompile Include="..\Resources\Shaders\ThunderParticle\ThunderParticleVertexShader.hlsl">
-      <Filter>リソース ファイル\Shaders\Object\ThunderParticle</Filter>
-    </FxCompile>
     <FxCompile Include="..\Resources\Shaders\Bloom\BloomPixelShader.hlsl">
       <Filter>リソース ファイル\Shaders\PostEffect\Bloom</Filter>
     </FxCompile>
@@ -738,6 +732,18 @@
     </FxCompile>
     <FxCompile Include="..\Resources\Shaders\PlayerBulletParticle\PlayerBulletParticleVertexShader.hlsl">
       <Filter>リソース ファイル\Shaders\Object\PlayerBulletParticle</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\PlayerFire\PlayerFirePixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Fbx\PlayerFire</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\PlayerFire\PlayerFireVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Fbx\PlayerFire</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\PlayerElec\PlayerElecPixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Fbx\PlayerElec</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\PlayerElec\PlayerElecVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Fbx\PlayerElec</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
@@ -816,9 +822,6 @@
     <None Include="..\Resources\Shaders\Obj\ObjHeader.hlsli">
       <Filter>リソース ファイル\Shaders\Object\Obj</Filter>
     </None>
-    <None Include="..\Resources\Shaders\ThunderParticle\ThunderParticleHeader.hlsli">
-      <Filter>リソース ファイル\Shaders\Object\ThunderParticle</Filter>
-    </None>
     <None Include="..\Resources\Shaders\Bloom\BloomEffectHeader.hlsli">
       <Filter>リソース ファイル\Shaders\PostEffect\Bloom</Filter>
     </None>
@@ -827,6 +830,12 @@
     </None>
     <None Include="..\Resources\Shaders\PlayerBulletParticle\PlayerBulletParticleHeader.hlsli">
       <Filter>リソース ファイル\Shaders\Object\PlayerBulletParticle</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\PlayerFire\PlayerFireHeader.hlsli">
+      <Filter>リソース ファイル\Shaders\Fbx\PlayerFire</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\PlayerElec\PlayerElecHeader.hlsli">
+      <Filter>リソース ファイル\Shaders\Fbx\PlayerElec</Filter>
     </None>
   </ItemGroup>
 </Project>

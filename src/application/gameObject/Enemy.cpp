@@ -43,6 +43,7 @@ void Enemy::Initialize()
 	objectStand = new FbxObject3D;
 	objectStand->Initialize();
 	objectStand->SetModel(modelStand);
+	objectStand->SetTextureNum(0);
 	objectStand->PlayAnimation();
 
 	//歩いているモデル
@@ -51,6 +52,7 @@ void Enemy::Initialize()
 	objectWalk = new FbxObject3D;
 	objectWalk->Initialize();
 	objectWalk->SetModel(modelWalk);
+	objectWalk->SetTextureNum(0);
 	objectWalk->StopAnimation();
 
 	//攻撃1のモデル
@@ -59,6 +61,7 @@ void Enemy::Initialize()
 	objectAttack1 = new FbxObject3D;
 	objectAttack1->Initialize();
 	objectAttack1->SetModel(modelAttack1);
+	objectAttack1->SetTextureNum(0);
 	objectAttack1->StopAnimation();
 
 	//攻撃前兆のモデル
@@ -67,6 +70,7 @@ void Enemy::Initialize()
 	objectAttack1Omen = new FbxObject3D;
 	objectAttack1Omen->Initialize();
 	objectAttack1Omen->SetModel(modelAttack1Omen);
+	objectAttack1Omen->SetTextureNum(0);
 	objectAttack1Omen->StopAnimation();
 
 	//コライダーの設定
@@ -105,6 +109,12 @@ void Enemy::Update()
 
 	//1フレーム前の状態を代入
 	preStatus = status;
+
+	//デバッグ用に死なないようにする
+	if (HP <= 10)
+	{
+		HP = maxHP;
+	}
 }
 
 void Enemy::UpdateObject()
@@ -157,11 +167,11 @@ void Enemy::UpdateSprite()
 void Enemy::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	//ImGui
-	ImGui::Begin("Enemy");
+	/*ImGui::Begin("Enemy");
 	ImGui::SetWindowPos(ImVec2(0, 150));
 	ImGui::SetWindowSize(ImVec2(500, 150));
 	ImGui::InputFloat2("HP", pos1);
-	ImGui::End();
+	ImGui::End();*/
 
 	if (status == Stand)
 	{
@@ -226,16 +236,22 @@ void Enemy::DrawParticle(ID3D12GraphicsCommandList* cmdList)
 
 void Enemy::Move()
 {
-	////ジャンプ更新
-	//UpdateJump();
+	//歩きモーション時の動き
+	if (status == Walk)
+	{
+		MoveWalk();
+	}
+}
 
-	////重力更新
-	//UpdateGravity();
+void Enemy::MoveWalk()
+{
+	//プレイヤーと敵のベクトル取得
+	XMFLOAT3 velo = playerPos - position;
+	//敵がプレイヤーの向きを向くようにする
+	rotation.y = getVectorRotation(velo).y;
 
-	//position.x -= input->PushKey(DIK_A) * speed;
-	//position.x += input->PushKey(DIK_D) * speed;
-	//position.z -= input->PushKey(DIK_S) * speed;
-	//position.z += input->PushKey(DIK_W) * speed;
+	//プレイヤーに近づく
+	position = position + normalize(velo) * walkSpeed;
 }
 
 void Enemy::UpdateGravity()
@@ -303,10 +319,10 @@ void Enemy::UpdateDamage()
 		HP -= 1.0f;
 	}
 
-	//デバッグ用
-	if (HP <= 10)
+	//死亡
+	if (HP <= 0)
 	{
-		HP = maxHP;
+		isDead = true;
 	}
 
 	//フラグをもとに戻す
@@ -315,7 +331,7 @@ void Enemy::UpdateDamage()
 
 void Enemy::UpdateCollider()
 {
-	colliderData.scale = XMFLOAT3(10.0f,10.0f,10.0f);
+	colliderData.scale = XMFLOAT3(20.0f,10.0f,10.0f);
 	colliderData.rotation = rotation;
 	colliderData.center = position + XMFLOAT3(0.0f,5.0f,0.0f);
 }
@@ -328,9 +344,11 @@ void Enemy::StatusManager()
 		//弾をセット
 		if (statusTimer == 0.0f)
 		{
+			XMFLOAT3 addPos(-20, 40, 50);
+			addPos = position + rollRotation(addPos,rotation);
 			for (int i = 0; i < bulletVol; i++)
 			{
-				bullet->SetBullet(position, bulletScale, bulletLastScale, 0.0f,
+				bullet->SetBullet(addPos, bulletScale, bulletLastScale, 0.0f,
 					frameAttack1Omen + bulletTimeLag * i, frameAttack1);
 			}
 		}
@@ -372,7 +390,8 @@ void Enemy::StatusManager()
 	{
 		//タイマー更新
 		statusTimer += 1.0f;
-		if (statusTimer >= frameWalk)
+		//プレイヤーとの距離が近い場合も終了
+		if (statusTimer >= frameWalk || length(position - playerPos) <= 10.0f)
 		{
 			statusTimer = 0.0f;
 			status = Attack1Omen;
@@ -417,4 +436,11 @@ void Enemy::HitBullet1()
 {
 	//被弾フラグを立てる
 	HitFlag1 = true;
+}
+
+void Enemy::Reset()
+{
+	HP = maxHP;
+	isDead = false;
+	position = XMFLOAT3(0.0f, 0.0f, 0.0f);
 }

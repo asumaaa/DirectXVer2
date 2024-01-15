@@ -27,15 +27,20 @@ private:	//エイリアス
 private:
 	enum Status	//プレイヤーの状態
 	{
-		Wait,
-		Run,
-		BackRun,
-		RunLeft,
-		RunRight,
-		Attack1,
-		Attack2,
-		Attack3,
+		Wait,	//待機
+		Run,	//走り
+		Attack1,//攻撃1
+		Attack2,//攻撃2
+		Attack3,//攻撃3
+		Down,	//被ダメージ時
 	};
+
+	enum Form	//プレイヤーのフォルム
+	{
+		Fire,	//炎
+		Elec,	//電気
+	};
+
 	//メンバ関数
 public:
 
@@ -136,6 +141,11 @@ public:
 	void GameControl();
 
 	/// <summary>
+	///更新 フォルム
+	/// </summary>
+	void UpdateForm();
+
+	/// <summary>
 	///移動 ゲームシーン
 	/// </summary>
 	void GameMove();
@@ -164,6 +174,11 @@ public:
 	///更新 攻撃
 	/// </summary>
 	void UpdateAttack();
+
+	/// <summary>
+	///更新 被ダメージ時
+	/// </summary>
+	void UpdateDown();
 
 	/// <summary>
 	///更新 炎攻撃
@@ -196,9 +211,19 @@ public:
 	void HitPlane();
 
 	/// <summary>
-	///弾命中時
+	///プレイヤーの弾命中時
 	/// </summary>
 	void HitBullet1(int num) { bullet1->SetHitFlag(num); };
+
+	/// <summary>
+	///敵の弾命中時
+	/// </summary>
+	void HitEnemy();
+
+	/// <summary>
+	///リセット
+	/// </summary>
+	void Reset();
 
 	/// <summary>
 	///座標取得
@@ -234,6 +259,16 @@ public:
 	///弾のコライダー取得
 	/// </summary>
 	size_t GetBullet1Num() { return  bullet1->GetBulletNum(); }
+
+	/// <summary>
+	///プレイヤーが無敵状態か取得
+	/// </summary>
+	bool GetInvincibleFlag() { return invincibleFlag; }
+
+	/// <summary>
+	///死亡フラグ取得
+	/// </summary>
+	bool GetIsDead() { return isDead; }
 
 	//静的メンバ変数
 private:
@@ -273,11 +308,32 @@ public:
 	//攻撃2のモデル
 	FbxModel* modelAttack2 = nullptr;
 
+	//被ダメージ時のオブジェクト
+	FbxObject3D* objectDown = nullptr;
+	//被ダメージ時のモデル
+	FbxModel* modelDown = nullptr;
+	//被ダメージアニメーションのフレーム数
+	float frameDown = 138.0f;
+
 	//標準用のスプライト
 	Sprite* rockOnSprite = nullptr;
 	//標準用スプライトの大きさ、座標
 	XMFLOAT2 rockOnSpriteScale = { 96.0f,96.0f };
 	XMFLOAT2 rockOnSpritePos = { 1280.0f / 2.0f - rockOnSpriteScale.x / 2.0f,220.0f};
+
+	//HP用スプライト
+	Sprite* hpSprite1[5];	//緑のHP
+	Sprite* hpSprite2 = nullptr;	//赤いHP
+	Sprite* hpSprite3 = nullptr;	//HPの枠
+	//HP用スプライトの大きさ、座標
+	XMFLOAT2 hpSpritePos = { 490.0f,660.0f };
+	XMFLOAT2 hpSprite1Scale = { 32.0f * 1.5f,16.0f * 1.5f };
+	XMFLOAT2 hpSprite2Scale = { 32.0f * 1.5f,16.0f * 1.5f };
+	XMFLOAT2 hpSprite3Scale = { 196.0f * 1.5,28.0f * 1.5 };
+	//HP枠の大きさ
+	float hpFrameScale1 = 10.0f * 1.5f;	//外枠 左右
+	float hpFrameScale2 = 4.0f * 1.5f;	//内側の枠
+	float hpFrameScale3 = 6.0f * 1.5f;	//外枠 上下
 
 	//変形行列
 	//平行移動
@@ -296,6 +352,7 @@ public:
 	//角度ベクトル
 	XMFLOAT3 rotVelocity = { 0.0f,0.0f,0.0f };
 	XMFLOAT3 oldRotVelocity = { 0.0f,0.0f,0.0f };
+	float debugPos[2] = {320.0f,120.0f};
 
 	//当たり判定関連
 	//接地フラグ
@@ -303,7 +360,8 @@ public:
 
 	//ステータス関連
 	//プレイヤーのHP
-	float HP = 10;
+	float MaxHP = 5;
+	float HP = MaxHP;
 
 
 	//挙動関連
@@ -320,6 +378,7 @@ public:
 	//ジャンプ
 	float jumpHeight = 0.4;
 
+	
 	//スピード
 	float posSpeed = 1.0f;
 	float rot0Speed = (float)PI * 1.5f / 180.0f;
@@ -338,6 +397,15 @@ public:
 	Status status = Wait;
 	//1フレーム前の状態
 	Status preStatus = Wait;
+
+	//フォルム
+	Form form = Fire;
+	Form preForm = Fire;
+	//フォルムチェンジに使うタイマー
+	int formTimer = 0;
+	int formMaxTime = 120;
+	//フォルムチェンジに使うフラグ
+	bool formChangeFlag = false;
 
 	//走ってるアニメーションに無理やりするフラグ
 	bool runAnimationFlag = false;
@@ -362,4 +430,13 @@ public:
 	XMFLOAT3 bullet1AddPosition = { 0.0f,10.0f,0.0f };
 	//炎を消すフレーム
 	float bullet1Frame = 120.0f;
+
+	//当たりフラグ
+	bool hitFlag = false;
+	float hitTimer = 0.0f;
+	//被ダメージ時の無敵時間
+	bool invincibleFlag = false;
+
+	//死亡フラグ
+	bool isDead = false;
 };

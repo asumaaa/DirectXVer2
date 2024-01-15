@@ -91,7 +91,7 @@ void EnemyBullet::Move()
 			//	//ç≈èâÇÃç¿ïWï€ë∂
 			//	bullet[i].position2 = bullet
 			//}
-			bullet[i].position1 = XMFLOAT3(-20, 40, 50);
+			/*bullet[i].position1 = XMFLOAT3(-20, 40, 50);*/
 		}
 		//íeî≠éÀå„
 		else if(bullet[i].timer < bullet[i].destoryTime1 + bullet[i].destoryTime2)
