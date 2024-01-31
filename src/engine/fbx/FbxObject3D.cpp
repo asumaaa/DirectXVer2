@@ -69,7 +69,7 @@ void FbxObject3D::Initialize()
 
 }
 
-void FbxObject3D::Initialize(FbxModel* model, JSONLoader::TextureData textureData)
+void FbxObject3D::Initialize(FbxModel* model, const JSONLoader::TextureData& textureData)
 {
 	Initialize();
 	SetTextureData(textureData);
@@ -1836,7 +1836,7 @@ void FbxObject3D::PlayAnimation()
 	isPlay = true;
 }
 
-void FbxObject3D::SetObjectData(JSONLoader::ObjectData objectData)
+void FbxObject3D::SetObjectData(const JSONLoader::ObjectData& objectData)
 {
 	position = objectData.position;
 	colliderPos0 = objectData.position;
@@ -1846,7 +1846,7 @@ void FbxObject3D::SetObjectData(JSONLoader::ObjectData objectData)
 	objectName = objectData.objectName;
 }
 
-void FbxObject3D::SetColliderData(JSONLoader::ColliderData colliderData)
+void FbxObject3D::SetColliderData(const JSONLoader::ColliderData& colliderData)
 {
 	FbxObject3D::colliderData.type = colliderData.type;
 	FbxObject3D::colliderData.objectName = colliderData.objectName;
@@ -1858,7 +1858,7 @@ void FbxObject3D::SetColliderData(JSONLoader::ColliderData colliderData)
 	colliderScale = colliderData.scale;
 }
 
-void FbxObject3D::SetTextureData(JSONLoader::TextureData textureData)
+void FbxObject3D::SetTextureData(const JSONLoader::TextureData& textureData)
 {
 	textureNum1 = textureData.textureNum1;
 	//シェーダの数1の時

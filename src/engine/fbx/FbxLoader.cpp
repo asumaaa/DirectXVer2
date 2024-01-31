@@ -45,7 +45,7 @@ void FbxLoader::Finalize()
     fbxManager->Destroy();
 }
 
-FbxModel* FbxLoader::LoadModelFromFile(const string modelName/*, const string textureName*/)
+FbxModel* FbxLoader::LoadModelFromFile(const string &modelName/*, const string textureName*/)
 {
     //モデルと同じ名前のフォルダから読み込む
     const string directoryPath = baseDirectory + modelName + "/";

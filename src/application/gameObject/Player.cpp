@@ -217,7 +217,7 @@ void Player::UpdateObject()
 	bullet1->Update();
 }
 
-void Player::UpdateObject(Status status, FbxObject3D* object)
+void Player::UpdateObject(const Status &status, FbxObject3D* object)
 {
 	if (this->status == status)
 	{

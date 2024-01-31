@@ -147,7 +147,7 @@ void DXInput::UpdateOldStick()
 }
 
 
-bool DXInput::PushKey(Pad pad)
+bool DXInput::PushKey(const Pad& pad)
 {
     if (pad == PAD_LEFT)return key.PAD_LEFT;
     if (pad == PAD_RIGHT)return key.PAD_RIGHT;
@@ -161,7 +161,7 @@ bool DXInput::PushKey(Pad pad)
     if (pad == PAD_RIGHT_SHOULDER)return key.PAD_RIGHT_SHOULDER;
 }
 
-bool DXInput::TriggerKey(Pad pad)
+bool DXInput::TriggerKey(const Pad &pad)
 {
     if (pad == PAD_LEFT) {
         if (key.PAD_LEFT != oldKey.PAD_LEFT)return true;
@@ -205,7 +205,7 @@ bool DXInput::TriggerKey(Pad pad)
     }
 }
 
-float DXInput::GetStick(Stick stick)
+float DXInput::GetStick(const Stick &stick)
 {
     if (stick == RStickX)return this->stick.RStickX;
     if (stick == RStickY)return this->stick.RStickY;
@@ -215,7 +215,7 @@ float DXInput::GetStick(Stick stick)
     if (stick == LStick)return this->stick.LStick;
 }
 
-float DXInput::GetStickRot(Stick stick)
+float DXInput::GetStickRot(const Stick &stick)
 {
     float stickX = 0.0f;
     float stickY = 0.0f;
@@ -272,7 +272,7 @@ float DXInput::GetStickRot(Stick stick)
     return stickY;
 }
 
-float DXInput::GetOldStick(Stick stick)
+float DXInput::GetOldStick(const Stick &stick)
 {
     if (stick == RStickX)return this->oldStick.RStickX;
     if (stick == RStickY)return this->oldStick.RStickY;

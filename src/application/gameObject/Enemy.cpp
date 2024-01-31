@@ -127,7 +127,7 @@ void Enemy::UpdateObject()
 	bullet->Update();
 }
 
-void Enemy::UpdateObject(Status status, FbxObject3D* object)
+void Enemy::UpdateObject(const Status& status, FbxObject3D* object)
 {
 	//引数のステータスと同じ場合のみ更新
 	if (this->status == status)

@@ -13,7 +13,7 @@
 
 #define PI 3.1415
 
-void JSONLoader::LoadFile(const std::string fileName)
+void JSONLoader::LoadFile(const std::string& fileName)
 {
 	//オブジェクトデータリセット
 	objectData.clear();
@@ -178,7 +178,7 @@ void JSONLoader::LoadFile(const std::string fileName)
 	}
 }
 
-std::vector<JSONLoader::EnemyPatern> JSONLoader::LoadEnemyPatern(const std::string fileName)
+std::vector<JSONLoader::EnemyPatern> JSONLoader::LoadEnemyPatern(const std::string& fileName)
 {
 	//読み込んだ敵の行動パターンを入れておくコンテナ
 	std::vector<EnemyPatern> enemeyPatern;

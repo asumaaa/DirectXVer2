@@ -89,7 +89,7 @@ public://メンバ関数
 	/// <summary>
 	///初期化
 	/// </summary>
-	void Initialize(FbxModel* model,JSONLoader::TextureData textureData);
+	void Initialize(FbxModel* model,const JSONLoader::TextureData& textureData);
 
 	/// <summary>
 	///更新
@@ -179,17 +179,17 @@ public://メンバ関数
 	/// <summary>
 	///オブジェクトデータ取得
 	/// </summary>
-	void SetObjectData(JSONLoader::ObjectData objectData);
+	void SetObjectData(const JSONLoader::ObjectData& objectData);
 
 	/// <summary>
 	///コライダーデータ取得
 	/// </summary>
-	void SetColliderData(JSONLoader::ColliderData colliderData);
+	void SetColliderData(const JSONLoader::ColliderData& colliderData);
 
 	/// <summary>
 	///テクスチャデータ取得
 	/// </summary>
-	void SetTextureData(JSONLoader::TextureData textureData);
+	void SetTextureData(const JSONLoader::TextureData& textureData);
 
 	/// <summary>
 	///ビルボード行列を使うかのフラグ取得

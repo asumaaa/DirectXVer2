@@ -66,7 +66,7 @@ public:
 	/// <summary>
 	///FBXファイルの読み込み
 	/// </summary>
-	FbxModel* LoadModelFromFile(const string modelName);
+	FbxModel* LoadModelFromFile(const string &modelName);
 
 	/// <summary>
 	///ノード構成を解析

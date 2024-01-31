@@ -92,7 +92,7 @@ public:
 	/// <summary>
 	///更新 オブジェクト
 	/// </summary>
-	void UpdateObject(Status status, FbxObject3D* object);
+	void UpdateObject(const Status& status, FbxObject3D* object);
 
 	/// <summary>
 	///更新 弾 パーティクル

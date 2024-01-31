@@ -84,9 +84,9 @@ public:	//サブクラス
 
 	//メンバ関数
 public:
-	void LoadFile(const std::string fileName);
+	void LoadFile(const std::string& fileName);
 
-	std::vector<EnemyPatern> LoadEnemyPatern(const std::string fileName);
+	std::vector<EnemyPatern> LoadEnemyPatern(const std::string& fileName);
 
 	/// <summary>
 	///オブジェクトデータ取得

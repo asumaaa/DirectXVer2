@@ -25,7 +25,7 @@ public:
 	/// <summary>
 	///csvファイルを読み込んで変数に代入する
 	/// </summary>
-	void LoadCSV(const std::string fileName);
+	void LoadCSV(const std::string &fileName);
 
 	/// <summary>
 	///座標取得

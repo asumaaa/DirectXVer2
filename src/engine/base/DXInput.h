@@ -130,27 +130,27 @@ public:// メンバ関数
     /// <summary>
     ///ボタン取得
     /// </summary>  
-    bool PushKey(Pad pad);
+    bool PushKey(const Pad& pad);
     
     /// <summary>
     ///トリガーボタン取得
     /// </summary>  
-    bool TriggerKey(Pad pad);
+    bool TriggerKey(const Pad& pad);
 
     /// <summary>
     ///スティック取得
     /// </summary>
-    float GetStick(Stick stick);
+    float GetStick(const Stick& stick);
 
     /// <summary>
     ///スティックを真上から見た際の角度取得(ラジアン)
     /// </summary>
-    float GetStickRot(Stick stick);
+    float GetStickRot(const Stick& stick);
 
     /// <summary>
     ///1フレーム前のスティック取得
     /// </summary>
-    float GetOldStick(Stick stick);
+    float GetOldStick(const Stick& stick);
 
     /*HRESULT UpdateCountrollerState();*/
 
