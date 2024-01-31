@@ -1,8 +1,8 @@
 /**
- * @file ThunderParticle.h
- * @brief ゲームオブジェクト 雷のパーティクル
+ * @file ElecParticle2.h
+ * @brief ゲームオブジェクト 自機の電気パーティクル
  * @author Asuma Syota
- * @date 2023/4
+ * @date 2024/1
  */
 
 #pragma once
@@ -20,8 +20,7 @@
 #include "string.h"
 #include "input.h"
 #include "forward_list"
-
-class ThunderParticle
+class ElecParticle2
 {
 private:	//エイリアス
 	//Microsoft::WRL::を省略
@@ -46,53 +45,33 @@ public://サブクラス
 		XMMATRIX matBillboard;
 	};
 
-	////パーティクル1粒
-	//struct Particle
-	//{
-	//	//座標
-	//	XMFLOAT3 position = {};
-	//	//現在フレーム
-	//	int frame = 0;
-	//	//終了フレーム
-	//	int num_frame = 0;
-	//	//スケール
-	//	float scale = 1.0f;
-	//	//初期値
-	//	float startScale = 10.0f;
-	//	//最終地
-	//	float endScale = 0.0f;
-	//};
-
 	//パーティクル1粒
 	struct Particle
 	{
-		//開始地点
-		XMFLOAT3 startPosition = {};
-		//終了地点
-		XMFLOAT3 endPosition = {};
-		//枝分かれ数
-		float spliteVal = 0;
+		//座標
+		XMFLOAT3 position = {};
+		//速度
+		XMFLOAT3 velocity = {};
+		//加速度
+		XMFLOAT3 accel = {};
 		//現在フレーム
-		float frame = 0;
+		int frame = 0;
 		//終了フレーム
-		float endFrame = 0;
+		int num_frame = 0;
 		//スケール
 		float scale = 1.0f;
 		//初期値
-		float startScale = 10.0f;
-		//最終値
+		float startScale = 100.0f;
+		//最終地
 		float endScale = 0.0f;
 	};
 
 	//頂点データ配列
 	struct VertexPos
 	{
-		XMFLOAT3 startPos;	//座標
-		XMFLOAT3 endPos;
+		XMFLOAT3 pos;	//座標
 		float scale;
-		float spliteVal = 0;	//枝分かれ数
-		float frame;	//1を最大とした現在のフレーム
-		float seed;	//シェーダでの乱数の計算に使うseed値
+		float frame;
 	};
 
 public:	//静的メンバ関数
@@ -100,22 +79,22 @@ public:	//静的メンバ関数
 	/// <summary>
 	///テクスチャマネージャー
 	/// </summary>
-	static void SetSpriteManager(TextureManager* spriteManager) { ThunderParticle::spriteManager = spriteManager; };
+	static void SetSpriteManager(TextureManager* spriteManager) { ElecParticle2::spriteManager = spriteManager; };
 
 	/// <summary>
 	///デバイスセット
 	/// </summary>
-	static void SetDevice(ID3D12Device* device) { ThunderParticle::device = device; }
+	static void SetDevice(ID3D12Device* device) { ElecParticle2::device = device; }
 
 	/// <summary>
 	///カメラセット
 	/// </summary>
-	static void SetCamera(Camera* camera) { ThunderParticle::camera = camera; }
+	static void SetCamera(Camera* camera) { ElecParticle2::camera = camera; }
 
 	/// <summary>
 	///入力セット
 	/// </summary>
-	static void SetInput(Input* input) { ThunderParticle::input = input; }
+	static void SetInput(Input* input) { ElecParticle2::input = input; }
 
 	/// <summary>
 	///パイプライン設定、作成
@@ -147,12 +126,12 @@ public:
 	/// <summary>
 	///パーティクルを追加
 	/// </summary>
-	void Add(XMFLOAT3 pos1,XMFLOAT3 pos2);
+	void Add(XMFLOAT3 pos1, XMFLOAT3 pos2, float startScale);
 
 	/// <summary>
 	///パーティクルを追加
 	/// </summary>
-	void AddParticle(XMFLOAT3 startPos, XMFLOAT3 endPos, float startScale, float endScale, int life, int spliteVal);
+	void AddParticle(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float startScale, float endScale);
 
 	/// <summary>
 	///テクスチャの番号セット
@@ -166,8 +145,8 @@ public:	//静的メンバ変数
 	static Input* input;
 	//頂点最大数
 	static const int vertexCount = 1024;
-	//雷の分割数
-	static const int thunderCount = 6;
+	//火花1回に使う頂点数
+	static const int sparkCount = 4;
 
 private:
 	//定数バッファ
@@ -203,20 +182,7 @@ private:
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
 
 	//パーティクル配列
-	std::vector<Particle>particles;
+	std::forward_list<Particle>particles;
 	//テクスチャの番号
 	int textureNum = 0;
-
-	//パーティクルの振れ幅
-	float particleLevel = 3.0f;
-	//パーティクルのスケールの初期値
-	float startScale = 0.2f;
-	//パーティクルのスケールの最終値
-	float endScale = 0.0f;
-	//パーティクルの表示時間
-	float life = 60.0f;
-	//パーティクルの枝分かれ数
-	float spliteVal = 10.0f;
-	//枝分かれをどの間隔で一つ増やすか
-	float spliteWeight = 10.0f;
 };

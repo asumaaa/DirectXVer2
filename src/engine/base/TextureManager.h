@@ -27,7 +27,7 @@ public:	 //定数
 	//SRVの最大個数
 	static const size_t kMaxSrvCount = 2056;
 
-public:	//メンバ関数
+public:	//メンバ関
 
 	/// <summary>
 	///初期化

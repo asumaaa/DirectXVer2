@@ -111,10 +111,7 @@ void Enemy::Update()
 	preStatus = status;
 
 	//デバッグ用に死なないようにする
-	if (HP <= 10)
-	{
-		HP = maxHP;
-	}
+	if (HP <= 0)HP = maxHP;
 }
 
 void Enemy::UpdateObject()

@@ -32,10 +32,8 @@
 #include "ColliderManager.h"
 #include "SparkParticle.h"
 #include "SparkParticle2.h"
-#include "ThunderParticle.h"
 #include "ExplosionParticle1.h"
 #include "ExplosionParticle2.h"
-#include "ThunderParticle.h"
 #include "BillboardSprite.h"
 #include "BillboardSpriteModel.h"
 #include "ObjModel.h"
@@ -44,6 +42,9 @@
 #include "DebugLineModel.h"
 #include "EnemyBulletParticle.h"
 #include "PlayerBulletParticle.h"
+#include "ElecParticle.h"
+#include "ElecParticle2.h"
+#include "ElecObject.h"
 
 class GameScene
 {
@@ -228,8 +229,14 @@ private:
 	//爆発パーテイクル2
 	std::unique_ptr<ExplosionParticle2>explosionParticle2;
 
-	//雷パーティクル
-	std::unique_ptr<ThunderParticle>thunderParticle;
+	//電気パーティクル
+	std::unique_ptr<ElecParticle>elecParticle;
+
+	//電気パーティクル
+	std::unique_ptr<ElecParticle2>elecParticle2;
+
+	//電気オブジェクト(デバッグ)
+	std::unique_ptr<ElecObject>elecObject;
 
 	//描画フラグ
 	int drawParticle[1] = { 1 };

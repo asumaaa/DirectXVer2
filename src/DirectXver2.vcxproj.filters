@@ -160,6 +160,12 @@
     <Filter Include="リソース ファイル\Shaders\Fbx\PlayerElec">
       <UniqueIdentifier>{908dbc68-efaf-4412-b418-a0c2eeaca3ca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\Shaders\Object\ElecParticle">
+      <UniqueIdentifier>{9cb2ffb7-f59b-4e3a-8970-cf488d62029e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\Shaders\Object\ElecParticle2">
+      <UniqueIdentifier>{959afe1c-3562-4c0a-bde6-08030af35595}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="2d\MonochromeEffect.cpp">
@@ -324,9 +330,6 @@
     <ClCompile Include="engine\Obj\ObjObject3D.cpp">
       <Filter>ソース ファイル\obb</Filter>
     </ClCompile>
-    <ClCompile Include="engine\particle\ThunderParticle.cpp">
-      <Filter>ソース ファイル\particle</Filter>
-    </ClCompile>
     <ClCompile Include="2d\BloomEffect.cpp">
       <Filter>ソース ファイル\2d</Filter>
     </ClCompile>
@@ -349,6 +352,15 @@
       <Filter>ソース ファイル\gameObject</Filter>
     </ClCompile>
     <ClCompile Include="engine\particle\PlayerBulletParticle.cpp">
+      <Filter>ソース ファイル\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\particle\ElecParticle.cpp">
+      <Filter>ソース ファイル\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\particle\ElecParticle2.cpp">
+      <Filter>ソース ファイル\particle</Filter>
+    </ClCompile>
+    <ClCompile Include="ElecObject.cpp">
       <Filter>ソース ファイル\particle</Filter>
     </ClCompile>
   </ItemGroup>
@@ -518,9 +530,6 @@
     <ClInclude Include="engine\Obj\ObjObject3D.h">
       <Filter>ヘッダー ファイル\obb</Filter>
     </ClInclude>
-    <ClInclude Include="engine\particle\ThunderParticle.h">
-      <Filter>ヘッダー ファイル\particle</Filter>
-    </ClInclude>
     <ClInclude Include="2d\BloomEffect.h">
       <Filter>ヘッダー ファイル\2d</Filter>
     </ClInclude>
@@ -543,6 +552,15 @@
       <Filter>ヘッダー ファイル\gameObject</Filter>
     </ClInclude>
     <ClInclude Include="engine\particle\PlayerBulletParticle.h">
+      <Filter>ヘッダー ファイル\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\particle\ElecParticle.h">
+      <Filter>ヘッダー ファイル\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\particle\ElecParticle2.h">
+      <Filter>ヘッダー ファイル\particle</Filter>
+    </ClInclude>
+    <ClInclude Include="ElecObject.h">
       <Filter>ヘッダー ファイル\particle</Filter>
     </ClInclude>
   </ItemGroup>
@@ -745,6 +763,24 @@
     <FxCompile Include="..\Resources\Shaders\PlayerElec\PlayerElecVertexShader.hlsl">
       <Filter>リソース ファイル\Shaders\Fbx\PlayerElec</Filter>
     </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\ElecParticle\ElecParticleGeometryShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Object\ElecParticle</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\ElecParticle\ElecParticlePixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Object\ElecParticle</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\ElecParticle\ElecParticleVertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Object\ElecParticle</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\ElecParticle2\ElecParticle2GeometryShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Object\ElecParticle2</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\ElecParticle2\ElecParticle2PixelShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Object\ElecParticle2</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\ElecParticle2\ElecParticle2VertexShader.hlsl">
+      <Filter>リソース ファイル\Shaders\Object\ElecParticle2</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\Shaders\ShaderHeader.hlsli">
@@ -836,6 +872,12 @@
     </None>
     <None Include="..\Resources\Shaders\PlayerElec\PlayerElecHeader.hlsli">
       <Filter>リソース ファイル\Shaders\Fbx\PlayerElec</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\ElecParticle\ElecParticleHeader.hlsli">
+      <Filter>リソース ファイル\Shaders\Object\ElecParticle</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\ElecParticle2\ElecParticle2Header.hlsli">
+      <Filter>リソース ファイル\Shaders\Object\ElecParticle2</Filter>
     </None>
   </ItemGroup>
 </Project>

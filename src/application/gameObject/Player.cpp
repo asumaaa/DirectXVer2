@@ -24,6 +24,7 @@ Player::~Player()
 	delete objectRun;
 	delete objectAttack1;
 	delete objectAttack2;
+	delete objectAttack3;
 	delete objectDown;
 
 	//モデルの削除
@@ -31,6 +32,7 @@ Player::~Player()
 	delete modelRun;
 	delete modelAttack1;
 	delete modelAttack2;
+	delete modelAttack3;
 	delete modelDown;
 }
 
@@ -69,6 +71,12 @@ void Player::Initialize()
 	//攻撃2のオブジェクト
 	objectAttack2 = new FbxObject3D;
 	objectAttack2->Initialize(modelAttack2, textureData);
+
+	//攻撃2のモデル
+	modelAttack3 = FbxLoader::GetInstance()->LoadModelFromFile("playerRun");
+	//攻撃2のオブジェクト
+	objectAttack3 = new FbxObject3D;
+	objectAttack3->Initialize(modelAttack3, textureData);
 
 	//被ダメージ時のモデル
 	modelDown = FbxLoader::GetInstance()->LoadModelFromFile("playerDown");
@@ -151,6 +159,8 @@ void Player::Update()
 
 	//当たりフラグを元に戻す
 	hitFlag = false;
+
+	if (HP <= 0)HP = MaxHP;
 }
 
 void Player::UpdateTitle(float timer)
@@ -199,6 +209,7 @@ void Player::UpdateObject()
 	UpdateObject(Run, objectRun);
 	UpdateObject(Attack1, objectAttack1);
 	UpdateObject(Attack2, objectAttack2);
+	UpdateObject(Attack3, objectAttack3);
 	UpdateObject(Down, objectDown);
 
 	//弾更新
@@ -274,6 +285,10 @@ void Player::Draw(ID3D12GraphicsCommandList* cmdList)
 	{
 		objectAttack2->Draw(cmdList);
 	}
+	if (status == Attack3)
+	{
+		objectAttack3->Draw(cmdList);
+	}
 	if (status == Down)
 	{
 		objectDown->Draw(cmdList);
@@ -308,6 +323,10 @@ void Player::DrawLightView(ID3D12GraphicsCommandList* cmdList)
 	if (status == Attack2)
 	{
 		objectAttack2->DrawLightView(cmdList);
+	}
+	if (status == Attack3)
+	{
+		objectAttack3->DrawLightView(cmdList);
 	}
 	if (status == Down)
 	{
@@ -530,20 +549,27 @@ void Player::StatusManager()
 		return;
 	}
 
-	//インターバル中にBボタンで連続攻撃 攻撃2へ
-	if (dxInput->TriggerKey(DXInput::PAD_B) && 0 <= Attack1Time - Attack1Timer && Attack1Time - Attack1Timer <= Attack1IntervalTime)
+	//炎状態でRボタンを押していたら攻撃3へ
+	if (dxInput->PushKey(DXInput::PAD_RIGHT_SHOULDER) == 1 && form == Fire)
+	{
+		status = Attack3;
+		return;
+	}
+
+	//インターバル中にRボタンで連続攻撃 攻撃2へ
+	if (form == Elec && dxInput->TriggerKey(DXInput::PAD_RIGHT_SHOULDER) && 0 <= Attack1Time - Attack1Timer && Attack1Time - Attack1Timer <= Attack1IntervalTime)
 	{
 		status = Attack2;
 		return;
 	}
 	//攻撃モーション中 攻撃2
-	else if (Attack2Timer >= 1)
+	else if (form == Elec && Attack2Timer >= 1)
 	{
 		status = Attack2;
 		return;
 	}
-	//Bボタンで攻撃1
-	else if (dxInput->TriggerKey(DXInput::PAD_B) && Attack1Timer == 0 || Attack1Timer >= 1)
+	//Rボタンで攻撃1
+	else if (form == Elec && dxInput->TriggerKey(DXInput::PAD_RIGHT_SHOULDER) && Attack1Timer == 0 || Attack1Timer >= 1)
 	{
 		status = Attack1;
 		return;
@@ -622,7 +648,7 @@ void Player::UpdateDown()
 void Player::UpdateBullet1()
 {
 	//Aボタンを押している間
-	if (dxInput->PushKey(DXInput::PAD_RIGHT_SHOULDER))
+	if (status == Attack3)
 	{
 		//タイマー更新
 		bullet1Timer += 1.0f;
@@ -655,6 +681,10 @@ void Player::SetSRV(ID3D12DescriptorHeap* SRV)
 	if (status == Attack2)
 	{
 		objectAttack2->SetSRV(SRV);
+	}
+	if (status == Attack3)
+	{
+		objectAttack3->SetSRV(SRV);
 	}
 	if (status == Down)
 	{

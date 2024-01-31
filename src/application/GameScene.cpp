@@ -16,15 +16,6 @@
 #include "mathOriginal.h"
 #define PI 3.1415
 
-class a
-{
-public:
-	bool aiueo() { return true; }
-	int x;
-};
-
-class b : public a{};
-
 GameScene::GameScene()
 {
 }
@@ -281,6 +272,37 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInp
 	PlayerBulletParticle::SetInput(input_);
 	PlayerBulletParticle::CreateGraphicsPipeline();
 
+	//電気パーティクル
+	ElecParticle::SetSpriteManager(textureManager.get());
+	ElecParticle::SetDevice(dxCommon_->GetDevice());
+	ElecParticle::SetCamera(camera_.get());
+	ElecParticle::SetInput(input_);
+	ElecParticle::CreateGraphicsPipeline();
+	ElecParticle* newElecParticle = new ElecParticle();
+	newElecParticle->CreateBuffers();
+	newElecParticle->SetTextureNum(4);
+	elecParticle.reset(newElecParticle);
+
+	//電気パーティクル
+	ElecParticle2::SetSpriteManager(textureManager.get());
+	ElecParticle2::SetDevice(dxCommon_->GetDevice());
+	ElecParticle2::SetCamera(camera_.get());
+	ElecParticle2::SetInput(input_);
+	ElecParticle2::CreateGraphicsPipeline();
+	ElecParticle2* newElecParticle2 = new ElecParticle2();
+	newElecParticle2->CreateBuffers();
+	newElecParticle2->SetTextureNum(4);
+	elecParticle2.reset(newElecParticle2);
+
+	//電気オブジェクト(デバッグ)
+	ElecObject::SetDevice(dxCommon_->GetDevice());
+	ElecObject::SetCamera(camera_.get());
+	ElecObject::SetInput(input_);
+	ElecObject::CreateGraphicsPipeline();
+	ElecObject* newElecObject = new ElecObject();
+	newElecObject->Initialize(XMFLOAT3(0.0f,0.0f,0.0f), XMFLOAT3(0.0f, 0.0f, 0.0f),0.0f);
+	elecObject.reset(newElecObject);
+
 	//ビルボードのスプライト
 	BillboardSpriteModel::SetDevice(dxCommon_->GetDevice());
 	BillboardSpriteModel::SetSpriteManager(textureManager.get());
@@ -487,6 +509,18 @@ void GameScene::UpdateGame()
 	{
 		camera_->SetDebugFlag(false);
 	}
+
+	//デバッグ用
+	elecParticle->Add(XMFLOAT3(0.0f,5.0f,0.0f), 1.0f);
+	elecObject->Update();
+	//更新
+	elecParticle->Update();
+	if (input_->TriggerKey(DIK_N))
+	{
+		elecParticle2->Add(XMFLOAT3(10.0f, 5.0f, 0.0f), XMFLOAT3(-10.0f, 5.0f, 0.0f), 1.0f);
+	}
+	//更新
+	elecParticle2->Update();
 
 	//コントローラテスト
 	stickTest[0] = player->GetPosition().x;
@@ -756,7 +790,7 @@ void GameScene::DrawTitle()
 void GameScene::DrawGame()
 {
 	//ImGui
-	/*ImGui::Begin("GameScene");
+	ImGui::Begin("GameScene");
 	ImGui::SetWindowPos(ImVec2(0, 0));
 	ImGui::SetWindowSize(ImVec2(500, 150));
 	ImGui::InputInt("DrawFbx", drawFbx);
@@ -771,7 +805,7 @@ void GameScene::DrawGame()
 	ImGui::InputFloat3("lightPos", lightPos);
 	ImGui::InputFloat3("lightTarget", lightTarget);
 	ImGui::InputFloat3("lightDir", lightDir);
-	ImGui::End();*/
+	ImGui::End();
 
 	//ImGui
 	/*ImGui::Begin("GameScene");
@@ -1003,6 +1037,11 @@ void GameScene::DrawParticleGame()
 	sparkParticle2->Draw(dxCommon_->GetCommandList());
 	explosionParticle1->Draw(dxCommon_->GetCommandList());
 	explosionParticle2->Draw(dxCommon_->GetCommandList());
+
+	//電気パーティクル デバッグ用
+	/*elecParticle->Draw(dxCommon_->GetCommandList());*/
+	elecParticle2->Draw(dxCommon_->GetCommandList());
+	elecObject->Draw(dxCommon_->GetCommandList());
 
 	//プレイヤーのパーティクル描画
 	player->DrawParticle(dxCommon_->GetCommandList());

@@ -9,7 +9,6 @@
 #include "DirectXMath.h"
 #include "FbxObject3D.h"
 #include "PlayerBullet.h"
-#include "ThunderParticle.h"
 #include "JSONLoader.h"
 #include "Sprite.h"
 
@@ -308,6 +307,11 @@ public:
 	//攻撃2のモデル
 	FbxModel* modelAttack2 = nullptr;
 
+	//攻撃3のオブジェクト
+	FbxObject3D* objectAttack3 = nullptr;
+	//攻撃3のモデル
+	FbxModel* modelAttack3 = nullptr;
+
 	//被ダメージ時のオブジェクト
 	FbxObject3D* objectDown = nullptr;
 	//被ダメージ時のモデル
@@ -412,9 +416,6 @@ public:
 	//シーン遷移に使う角度
 	float addRot = 0.0f;
 	float originalRot = 0.0f;
-
-	//弾
-	std::unique_ptr<ThunderParticle>thunderParticle;
 
 	//敵の座標
 	XMFLOAT3 enemyPos = { 0.0f,0.0f,0.0f };

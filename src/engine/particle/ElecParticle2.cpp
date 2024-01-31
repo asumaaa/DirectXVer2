@@ -1,26 +1,25 @@
 /**
- * @file ThunderParticle.cpp
- * @brief ゲームオブジェクト 雷のパーティクル
+ * @file ElecParticle.cpp
+ * @brief ゲームオブジェクト 自機の電気パーティクル
  * @author Asuma Syota
- * @date 2023/4
+ * @date 2024/1
  */
 
-#include "ThunderParticle.h"
+#include "ElecParticle2.h"
 #include "mathOriginal.h"
-#include "imgui.h"
 
 #include <d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
 
-ComPtr<ID3D12RootSignature>ThunderParticle::rootsignature;
-ComPtr<ID3D12PipelineState>ThunderParticle::pipelinestate;
-TextureManager* ThunderParticle::spriteManager = nullptr;
-ID3D12Device* ThunderParticle::device = nullptr;
-Camera* ThunderParticle::camera = nullptr;
-Input* ThunderParticle::input = nullptr;
+ComPtr<ID3D12RootSignature>ElecParticle2::rootsignature;
+ComPtr<ID3D12PipelineState>ElecParticle2::pipelinestate;
+TextureManager* ElecParticle2::spriteManager = nullptr;
+ID3D12Device* ElecParticle2::device = nullptr;
+Camera* ElecParticle2::camera = nullptr;
+Input* ElecParticle2::input = nullptr;
 
 
-void ThunderParticle::CreateGraphicsPipeline()
+void ElecParticle2::CreateGraphicsPipeline()
 {
 	HRESULT result = S_FALSE;
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
@@ -32,7 +31,7 @@ void ThunderParticle::CreateGraphicsPipeline()
 
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/ThunderParticle/ThunderParticleVertexShader.hlsl",     // シェーダファイル名
+		L"Resources/Shaders/ElecParticle2/ElecParticle2VertexShader.hlsl",     // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "vs_5_0",    // エントリーポイント名、シェーダーモデル指定
@@ -55,7 +54,7 @@ void ThunderParticle::CreateGraphicsPipeline()
 
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/ThunderParticle/ThunderParticleGeometryShader.hlsl",     // シェーダファイル名
+		L"Resources/Shaders/ElecParticle2/ElecParticle2GeometryShader.hlsl",     // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "gs_5_0",    // エントリーポイント名、シェーダーモデル指定
@@ -78,7 +77,7 @@ void ThunderParticle::CreateGraphicsPipeline()
 
 	// ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/Shaders/ThunderParticle/ThunderParticlePixelShader.hlsl",   // シェーダファイル名
+		L"Resources/Shaders/ElecParticle2/ElecParticle2PixelShader.hlsl",   // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "ps_5_0",    // エントリーポイント名、シェーダーモデル指定
@@ -102,12 +101,7 @@ void ThunderParticle::CreateGraphicsPipeline()
 	// 頂点レイアウト
 	D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
 		{ // xy座標(1行で書いたほうが見やすい)
-			"START_POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
-			D3D12_APPEND_ALIGNED_ELEMENT,
-			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
-		},
-		{ // xy座標(1行で書いたほうが見やすい)
-			"END_POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
+			"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
@@ -116,21 +110,11 @@ void ThunderParticle::CreateGraphicsPipeline()
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0
 		},
-		{	//枝分かれ数
-			"SPLITE",0,DXGI_FORMAT_R32_FLOAT,0,
-			D3D12_APPEND_ALIGNED_ELEMENT,
-			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0
-		},
 		{	//フレーム
 			"FRAME",0,DXGI_FORMAT_R32_FLOAT,0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0
-		},
-		{	//seed値
-			"SEED",0,DXGI_FORMAT_R32_FLOAT,0,
-			D3D12_APPEND_ALIGNED_ELEMENT,
-			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0
-		},
+		}
 	};
 
 	// グラフィックスパイプラインの流れを設定
@@ -154,13 +138,13 @@ void ThunderParticle::CreateGraphicsPipeline()
 	D3D12_RENDER_TARGET_BLEND_DESC blenddesc{};
 	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;    // RBGA全てのチャンネルを描画
 	blenddesc.BlendEnable = true;
-	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
-	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
-	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
-	//加算合成
 	/*blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
+	blenddesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
+	blenddesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;*/
+	//加算合成
+	blenddesc.BlendOp = D3D12_BLEND_OP_ADD;
 	blenddesc.SrcBlend = D3D12_BLEND_ONE;
-	blenddesc.DestBlend = D3D12_BLEND_ONE;*/
+	blenddesc.DestBlend = D3D12_BLEND_ONE;
 	//減算合成
 	/*blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;
 	blenddesc.SrcBlend = D3D12_BLEND_ONE;
@@ -219,7 +203,7 @@ void ThunderParticle::CreateGraphicsPipeline()
 	if (FAILED(result)) { assert(0); }
 }
 
-void ThunderParticle::CreateBuffers()
+void ElecParticle2::CreateBuffers()
 {
 	HRESULT result;
 
@@ -368,7 +352,7 @@ void ThunderParticle::CreateBuffers()
 	);
 }
 
-void ThunderParticle::Update()
+void ElecParticle2::Update()
 {
 	//-----この上に頂点の更新処理を書く-----
 
@@ -382,35 +366,15 @@ void ThunderParticle::Update()
 	VertexPos* vertMap = nullptr;
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
-
-	//for (std::list<Particle>::iterator it = particles.begin(); it != particles.end(); it++)
-	//{
-	//	if (it == particles.begin())continue;
-	//	//1つ前の座標
-	//	it--;
-	//	vertMap->prePos = it->position;
-	//	//現在の座標
-	//	it++;
-	//	vertMap->pos = it->position;
-	//	//スケール
-	//	vertMap->scale = it->scale;
-	//	//次の頂点へ
-	//	vertMap++;
-	//}
-
-	//頂点バッファにデータ転送
-	for (int i = 0; i < particles.size(); i++)
+	for (std::forward_list<Particle>::iterator it = particles.begin(); it != particles.end(); it++)
 	{
-		vertMap->startPos = particles[i].startPosition;
-		vertMap->endPos = particles[i].endPosition;
-		vertMap->scale = particles[i].scale;
-		vertMap->spliteVal = particles[i].spliteVal;
-		vertMap->frame = 1.0f - (particles[i].frame / particles[i].endFrame);
-		vertMap->seed = i;
+		//座標
+		vertMap->pos = it->position;
+		vertMap->scale = it->scale;
+		vertMap->frame = (float)it->frame / (float)it->num_frame;
 		//次の頂点へ
 		vertMap++;
 	}
-	
 	//つながりを解除
 	vertBuff->Unmap(0, nullptr);
 
@@ -429,50 +393,34 @@ void ThunderParticle::Update()
 	}
 }
 
-void ThunderParticle::UpdateParticle()
+void ElecParticle2::UpdateParticle()
 {
-	//寿命が尽きたパーティクルを削除
-	for (int i = 0; i < particles.size(); i++)
-	{
-		//一定時間経ったら
-		if (particles[i].frame >= particles[i].endFrame)
+	//寿命が尽きたパーティクルを全削除
+	particles.remove_if([](Particle& x)
 		{
-			//弾削除
-			particles.erase(particles.begin() + i);
-
-			continue;
+			return x.frame >= x.num_frame;
 		}
-	}
+	);
 
 	//全パーティクル更新
-	for (int i = 0; i < particles.size(); i++)
+	for (std::forward_list<Particle>::iterator it = particles.begin(); it != particles.end(); it++)
 	{
-		//フレーム数更新
-		particles[i].frame += 1.0f;
-		//進行度を0~1の範囲に換算
-		float f = (particles[i].frame / particles[i].endFrame);
-		//スケールの線形補間
-		/*particles[i].scale = (particles[i].endScale - particles[i].startScale) * f;*/
-		particles[i].scale = particles[i].startScale;
-	}
-	//for (std::list<Particle>::iterator it = particles.begin(); it != particles.end(); it++)
-	//{
-	//	//経過フレーム数をカウント
-	//	it->frame++;
-	//	////速度に加速度を加算
-	//	//it->velocity = it->velocity + it->accel;
-	//	////速度による移動
-	//	//it->position = it->position + it->velocity;
+		//経過フレーム数をカウント
+		it->frame++;
+		//速度に加速度を加算
+		it->velocity = it->velocity + it->accel;
+		//速度による移動
+		it->position = it->position + it->velocity;
 
-	//	//進行度を0~1の範囲に換算
-	//	float f = (float)it->frame / it->num_frame;
-	//	//スケールの線形補間
-	//	it->scale = (it->endScale - it->startScale) * f;
-	//	it->scale += it->startScale;
-	//}
+		//進行度を0~1の範囲に換算
+		float f = (float)it->frame / it->num_frame;
+		//スケールの線形補間
+		it->scale = (it->endScale - it->startScale) * f;
+		it->scale += it->startScale;
+	}
 }
 
-void ThunderParticle::Draw(ID3D12GraphicsCommandList* cmdList)
+void ElecParticle2::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	//パイプラインステートの設定
 	cmdList->SetPipelineState(pipelinestate.Get());
@@ -507,83 +455,34 @@ void ThunderParticle::Draw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->DrawInstanced((UINT)std::distance(particles.begin(), particles.end()), 1, 0, 0);
 }
 
-void ThunderParticle::Add(XMFLOAT3 pos1,XMFLOAT3 pos2)
+void ElecParticle2::Add(XMFLOAT3 pos1, XMFLOAT3 pos2, float startScale)
 {
-	////座標1～座標2のベクトル
-	//XMFLOAT3 vec1 = pos2 - pos1;
+	float randPos = 10.0f;
+	float randVelo = 0.2f;
+	float randAcc = 0.0001f;
+	for (int i = 0; i < sparkCount; i++)
+	{
+		XMFLOAT3 p = pos1;
+		XMFLOAT3 velocity((float)rand() / RAND_MAX * randVelo - randVelo / 2.0f, (float)rand() / RAND_MAX * randVelo - randVelo / 2.0f
+			, (float)rand() / RAND_MAX * randVelo - randVelo / 2.0f);
+		XMFLOAT3 accel(0.0f, (float)rand() / RAND_MAX * randAcc, 0.0f);
 
-	////各座標を入れる
-	//std::vector<XMFLOAT3> thunderPos;
-	////乱数の振れ幅
-	//float randWidth = 80.0f; //0.2~1.8
-	////処理に使う分割数
-	//float split = thunderCount;
-	////消滅するまでのフレーム
-	//float life = 60.0f;
-	////スケール
-	//float startScale = 10.0f;
-	//float endScale = 0.0f;
-
-	////頂点生成
-	//for (int i = 0; i < thunderCount; i++)
-	//{
-	//	//1つめの座標をプレイヤーの座標に
-	//	if (i == 0)
-	//	{
-	//		thunderPos.emplace_back(pos1);
-	//		AddParticle(life, thunderPos.back(), startScale, endScale);
-	//		continue;
-	//	}
-	//	//最後の座標を目標の座標に
-	//	if (i == thunderCount - 1)
-	//	{
-	//		thunderPos.emplace_back(pos2);
-	//		AddParticle(life, thunderPos.back(), startScale, endScale);
-	//		continue;
-	//	}
-
-	//	//残りのベクトルを計算
-	//	//1番新しい座標～座標2のベクトル
-	//	vec1 = pos2 - thunderPos.back();
-	//	XMFLOAT3 vec2 = vec1 / (split + 1);
-
-	//	//乱数を生成
-	//	float xRand, yRand, zRand;
-	//	xRand = GetRand(100.0f - randWidth, 100.0f + randWidth)/ 100.0f;
-	//	yRand = GetRand(100.0f - randWidth, 100.0f + randWidth)/ 100.0f;
-	//	zRand = GetRand(100.0f - randWidth, 100.0f + randWidth)/ 100.0f;
-
-	//	//乱数と分割されたベクトルをかける
-	//	float vecX = vec2.x * xRand * particleLevel;
-	//	float vecY = vec2.y * yRand * particleLevel;
-	//	float vecZ = vec2.z * zRand;
-
-	//	//座標代入
-	//	thunderPos.emplace_back(XMFLOAT3(vecX,vecY,vecZ) + thunderPos.back());
-	//	AddParticle(life, thunderPos.back(), startScale, endScale);
-
-	//	//分割数を減らす
-	//	split--;
-	//}
-
-	//枝分かれ数を計算
-	/*float sVal = length(pos1 - pos2) / spliteWeight;*/
-
-	AddParticle(pos1, pos2, startScale, endScale, life, spliteVal);
+		AddParticle(30, p, velocity, accel, startScale, 0.0f);
+	}
 }
 
-void ThunderParticle::AddParticle(XMFLOAT3 startPos, XMFLOAT3 endPos, float startScale, float endScale, int life, int spliteVal)
+void ElecParticle2::AddParticle(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float startScale, float endScale)
 {
-	Particle p;
+	//リストに要素を追加
+	particles.emplace_front();
+	//追加した要素の参照
+	Particle& p = particles.front();
 	//値のセット
-	p.startPosition = startPos;
-	p.endPosition = endPos;
-	p.spliteVal = spliteVal;
-	p.frame = 0.0f;
-	p.endFrame = life;
-	p.scale = startScale;
+	p.position = position;
+	p.velocity = velocity;
+	p.accel = accel;
+	p.num_frame = life;
 	p.startScale = startScale;
+	p.scale = startScale;
 	p.endScale = endScale;
-
-	particles.emplace_back(p);
 }

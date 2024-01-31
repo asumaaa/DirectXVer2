@@ -124,7 +124,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)engine\base;$(ProjectDir);$(ProjectDir)engine\fbx;$(ProjectDir)Resources;$(ProjectDir)Resources\Shaders;$(ProjectDir)engine\particle;$(ProjectDir)engine\light;$(ProjectDir)fbxsdk;$(ProjectDir)2d;$(ProjectDir)Resources\Shaders\Bulr;$(ProjectDir)Resources\Shaders\Monochrome;$(ProjectDir)Resources\Shaders\Mosaic;$(ProjectDir)Resources\Shaders\Reversal;$(ProjectDir)Resources\Shaders\ChromaticAberration;$(ProjectDir)Resources\Shaders\DepthOfField;$(ProjectDir)Resources\Shaders\ShadowMap;$(ProjectDir)Resources\Shaders\Fbx;$(ProjectDir)Resources\Shaders\Sprite;$(ProjectDir)Resources\Shaders\VolumeLight;$(ProjectDir)Resources\Shaders\Fog;$(ProjectDir)Resources\Shaders\Vignette;$(ProjectDir)Resources\Shaders\ColliderCube;$(ProjectDir)engine\collision;$(ProjectDir)application\gameObject;$(ProjectDir)Resource\Shader\Particle;$(ProjectDir)engine\math;$(ProjectDir)Resource\Shader\SparkParticlr;$(ProjectDir)application;$(ProjectDir)Resources\Shaders\BillboardSprite;$(ProjectDir)Resources\Shaders\Ground;$(ProjectDir)Resources\Shaders\Explosion1;$(ProjectDir)Resources\Shaders\Explosion2;$(Projectdir)Resources\Shaders\MultiTextureTest;$(ProjectDir)Resources\Shaders\NoizTest;$(ProjectDir)engine\Obj;$(SolutionDir)Resources\Shaders\Obj;$(SolutionDir)Resources\obj;$(ProjectDir)Resources\Shaders\EnemyBulletParticle;$(ProjectDir)Resources\Shaders\PlayerBulletParticle;$(ProjectDir)Resources\Shaders\PlayerFire;$(ProjectDir)Resources\Shaders\PlayerElec</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)engine\base;$(ProjectDir);$(ProjectDir)engine\fbx;$(ProjectDir)Resources;$(ProjectDir)Resources\Shaders;$(ProjectDir)engine\particle;$(ProjectDir)engine\light;$(ProjectDir)fbxsdk;$(ProjectDir)2d;$(ProjectDir)Resources\Shaders\Bulr;$(ProjectDir)Resources\Shaders\Monochrome;$(ProjectDir)Resources\Shaders\Mosaic;$(ProjectDir)Resources\Shaders\Reversal;$(ProjectDir)Resources\Shaders\ChromaticAberration;$(ProjectDir)Resources\Shaders\DepthOfField;$(ProjectDir)Resources\Shaders\ShadowMap;$(ProjectDir)Resources\Shaders\Fbx;$(ProjectDir)Resources\Shaders\Sprite;$(ProjectDir)Resources\Shaders\VolumeLight;$(ProjectDir)Resources\Shaders\Fog;$(ProjectDir)Resources\Shaders\Vignette;$(ProjectDir)Resources\Shaders\ColliderCube;$(ProjectDir)engine\collision;$(ProjectDir)application\gameObject;$(ProjectDir)Resource\Shader\Particle;$(ProjectDir)engine\math;$(ProjectDir)Resource\Shader\SparkParticlr;$(ProjectDir)application;$(ProjectDir)Resources\Shaders\BillboardSprite;$(ProjectDir)Resources\Shaders\Ground;$(ProjectDir)Resources\Shaders\Explosion1;$(ProjectDir)Resources\Shaders\Explosion2;$(Projectdir)Resources\Shaders\MultiTextureTest;$(ProjectDir)Resources\Shaders\NoizTest;$(ProjectDir)engine\Obj;$(SolutionDir)Resources\Shaders\Obj;$(SolutionDir)Resources\obj;$(ProjectDir)Resources\Shaders\EnemyBulletParticle;$(ProjectDir)Resources\Shaders\PlayerBulletParticle;$(ProjectDir)Resources\Shaders\PlayerFire;$(ProjectDir)Resources\Shaders\ElecParticle;$(ProjectDir)Resources\Shaders\ElecParticle2</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4099;26495;26451;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
@@ -145,7 +145,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)engine\base;$(ProjectDir);$(ProjectDir)engine\fbx;$(ProjectDir)Resources;$(ProjectDir)Resources\Shaders;$(ProjectDir)engine\particle;$(ProjectDir)engine\light;$(ProjectDir)fbxsdk;$(ProjectDir)2d;$(ProjectDir)Resources\Shaders\Bulr;$(ProjectDir)Resources\Shaders\Monochrome;$(ProjectDir)Resources\Shaders\Mosaic;$(ProjectDir)Resources\Shaders\Reversal;$(ProjectDir)Resources\Shaders\ChromaticAberration;$(ProjectDir)Resources\Shaders\DepthOfField;$(ProjectDir)Resources\Shaders\ShadowMap;$(ProjectDir)Resources\Shaders\Fbx;$(ProjectDir)Resources\Shaders\Sprite;$(ProjectDir)Resources\Shaders\VolumeLight;$(ProjectDir)Resources\Shaders\Fog;$(ProjectDir)Resources\Shaders\Vignette;$(ProjectDir)Resources\Shaders\ColliderCube;$(ProjectDir)engine\collision;$(ProjectDir)application\gameObject;$(ProjectDir)Resource\Shader\Particle;$(ProjectDir)engine\math;$(ProjectDir)Resource\Shader\SparkParticlr;$(ProjectDir)application;$(ProjectDir)Resources\Shaders\BillboardSprite;$(ProjectDir)Resources\Shaders\Ground;$(ProjectDir)Resources\Shaders\Explosion1;$(ProjectDir)Resources\Shaders\Explosion2;$(Projectdir)Resources\Shaders\MultiTextureTest;$(ProjectDir)Resources\Shaders\NoizTest;$(ProjectDir)engine\Obj;$(SolutionDir)Resources\Shaders\Obj;$(SolutionDir)Resources\obj;$(ProjectDir)Resources\Shaders\EnemyBulletParticle;$(ProjectDir)Resources\Shaders\PlayerBulletParticle;$(ProjectDir)Resources\Shaders\PlayerFire;$(ProjectDir)Resources\Shaders\PlayerElec</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)engine\base;$(ProjectDir);$(ProjectDir)engine\fbx;$(ProjectDir)Resources;$(ProjectDir)Resources\Shaders;$(ProjectDir)engine\particle;$(ProjectDir)engine\light;$(ProjectDir)fbxsdk;$(ProjectDir)2d;$(ProjectDir)Resources\Shaders\Bulr;$(ProjectDir)Resources\Shaders\Monochrome;$(ProjectDir)Resources\Shaders\Mosaic;$(ProjectDir)Resources\Shaders\Reversal;$(ProjectDir)Resources\Shaders\ChromaticAberration;$(ProjectDir)Resources\Shaders\DepthOfField;$(ProjectDir)Resources\Shaders\ShadowMap;$(ProjectDir)Resources\Shaders\Fbx;$(ProjectDir)Resources\Shaders\Sprite;$(ProjectDir)Resources\Shaders\VolumeLight;$(ProjectDir)Resources\Shaders\Fog;$(ProjectDir)Resources\Shaders\Vignette;$(ProjectDir)Resources\Shaders\ColliderCube;$(ProjectDir)engine\collision;$(ProjectDir)application\gameObject;$(ProjectDir)Resource\Shader\Particle;$(ProjectDir)engine\math;$(ProjectDir)Resource\Shader\SparkParticlr;$(ProjectDir)application;$(ProjectDir)Resources\Shaders\BillboardSprite;$(ProjectDir)Resources\Shaders\Ground;$(ProjectDir)Resources\Shaders\Explosion1;$(ProjectDir)Resources\Shaders\Explosion2;$(Projectdir)Resources\Shaders\MultiTextureTest;$(ProjectDir)Resources\Shaders\NoizTest;$(ProjectDir)engine\Obj;$(SolutionDir)Resources\Shaders\Obj;$(SolutionDir)Resources\obj;$(ProjectDir)Resources\Shaders\EnemyBulletParticle;$(ProjectDir)Resources\Shaders\PlayerBulletParticle;$(ProjectDir)Resources\Shaders\PlayerFire;$(ProjectDir)Resources\Shaders\ElecParticle;$(ProjectDir)Resources\Shaders\ElecParticle2</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <DisableSpecificWarnings>4099;26495;26451;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
@@ -178,6 +178,7 @@
     <ClCompile Include="application\gameObject\Player.cpp" />
     <ClCompile Include="application\gameObject\PlayerBullet.cpp" />
     <ClCompile Include="application\GameScene.cpp" />
+    <ClCompile Include="ElecObject.cpp" />
     <ClCompile Include="engine\base\BIllboardSprite.cpp" />
     <ClCompile Include="engine\base\BillboardSpriteModel.cpp" />
     <ClCompile Include="engine\base\Camera.cpp" />
@@ -217,6 +218,8 @@
     <ClCompile Include="engine\math\Matrix4.cpp" />
     <ClCompile Include="engine\Obj\ObjModel.cpp" />
     <ClCompile Include="engine\Obj\ObjObject3D.cpp" />
+    <ClCompile Include="engine\particle\ElecParticle.cpp" />
+    <ClCompile Include="engine\particle\ElecParticle2.cpp" />
     <ClCompile Include="engine\particle\EnemyBulletParticle.cpp" />
     <ClCompile Include="engine\particle\ExplosionParticle1.cpp" />
     <ClCompile Include="engine\particle\ExplosionParticle2.cpp" />
@@ -224,7 +227,6 @@
     <ClCompile Include="engine\particle\PlayerBulletParticle.cpp" />
     <ClCompile Include="engine\particle\SparkParticle.cpp" />
     <ClCompile Include="engine\particle\SparkParticle2.cpp" />
-    <ClCompile Include="engine\particle\ThunderParticle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\BloomEffect.h" />
@@ -243,6 +245,7 @@
     <ClInclude Include="application\gameObject\Player.h" />
     <ClInclude Include="application\gameObject\PlayerBullet.h" />
     <ClInclude Include="application\GameScene.h" />
+    <ClInclude Include="ElecObject.h" />
     <ClInclude Include="engine\base\BIllboardSprite.h" />
     <ClInclude Include="engine\base\BillboardSpriteModel.h" />
     <ClInclude Include="engine\base\Camera.h" />
@@ -283,6 +286,8 @@
     <ClInclude Include="engine\math\Matrix4.h" />
     <ClInclude Include="engine\Obj\ObjModel.h" />
     <ClInclude Include="engine\Obj\ObjObject3D.h" />
+    <ClInclude Include="engine\particle\ElecParticle.h" />
+    <ClInclude Include="engine\particle\ElecParticle2.h" />
     <ClInclude Include="engine\particle\EnemyBulletParticle.h" />
     <ClInclude Include="engine\particle\ExplosionParticle1.h" />
     <ClInclude Include="engine\particle\ExplosionParticle2.h" />
@@ -290,7 +295,6 @@
     <ClInclude Include="engine\particle\PlayerBulletParticle.h" />
     <ClInclude Include="engine\particle\SparkParticle.h" />
     <ClInclude Include="engine\particle\SparkParticle2.h" />
-    <ClInclude Include="engine\particle\ThunderParticle.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\external\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
@@ -360,6 +364,30 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
     <FxCompile Include="..\Resources\Shaders\DissolveTest\DissolveTestVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\ElecParticle2\ElecParticle2GeometryShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\ElecParticle2\ElecParticle2PixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\ElecParticle2\ElecParticle2VertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\ElecParticle\ElecParticleGeometryShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\ElecParticle\ElecParticlePixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="..\Resources\Shaders\ElecParticle\ElecParticleVertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
@@ -580,6 +608,8 @@
     <None Include="..\Resources\Shaders\ColliderCube\ColliderCubeHeader.hlsli" />
     <None Include="..\Resources\Shaders\DepthOfField\DepthOfFieldHeader.hlsli" />
     <None Include="..\Resources\Shaders\DissolveTest\DissolveTestHeader.hlsli" />
+    <None Include="..\Resources\Shaders\ElecParticle2\ElecParticle2Header.hlsli" />
+    <None Include="..\Resources\Shaders\ElecParticle\ElecParticleHeader.hlsli" />
     <None Include="..\Resources\Shaders\EnemyBulletParticle\EnemyBulletParticleHeader.hlsli" />
     <None Include="..\Resources\Shaders\ExplosionParticle1\ExplosionParticle1Header.hlsli" />
     <None Include="..\Resources\Shaders\ExplosionParticle2\ExplosionParticle2Header.hlsli" />
