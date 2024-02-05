@@ -227,6 +227,7 @@
     <ClCompile Include="engine\particle\PlayerBulletParticle.cpp" />
     <ClCompile Include="engine\particle\SparkParticle.cpp" />
     <ClCompile Include="engine\particle\SparkParticle2.cpp" />
+    <ClCompile Include="PostEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\BloomEffect.h" />
@@ -295,6 +296,7 @@
     <ClInclude Include="engine\particle\PlayerBulletParticle.h" />
     <ClInclude Include="engine\particle\SparkParticle.h" />
     <ClInclude Include="engine\particle\SparkParticle2.h" />
+    <ClInclude Include="PostEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\external\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">

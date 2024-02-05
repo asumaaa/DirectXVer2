@@ -20,6 +20,7 @@
 #include "Vignette.h"
 #include "Sprite.h"
 #include "BloomEffect.h"
+#include "PostEffect.h"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
