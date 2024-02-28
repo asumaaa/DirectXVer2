@@ -1283,13 +1283,14 @@ void GameScene::DrawParticleTitle()
 
 void GameScene::DrawFBXTutorial()
 {
-	for (std::unique_ptr<FbxObject3D>& object0 : object)
+	/*for (std::unique_ptr<FbxObject3D>& object0 : object)
 	{
 		object0->Draw(dxCommon_->GetCommandList());
-	}
+	}*/
 
 	player->Draw(dxCommon_->GetCommandList());
 	enemy->Draw(dxCommon_->GetCommandList());
+	plane->Draw(dxCommon_->GetCommandList());
 	if (tutorialSpriteFlag == 10)tutorialEnemy->Draw(dxCommon_->GetCommandList());
 }
 
@@ -1333,12 +1334,13 @@ void GameScene::DrawFBXLightViewTitle()
 
 void GameScene::DrawFBXLightViewTutorial()
 {
-	for (std::unique_ptr<FbxObject3D>& object0 : object)
+	/*for (std::unique_ptr<FbxObject3D>& object0 : object)
 	{
 		object0->DrawLightView(dxCommon_->GetCommandList());
-	}
+	}*/
 	player->DrawLightView(dxCommon_->GetCommandList());
 	enemy->DrawLightView(dxCommon_->GetCommandList());
+	plane->DrawLightView(dxCommon_->GetCommandList());
 	if(tutorialSpriteFlag == 10)tutorialEnemy->DrawLightView(dxCommon_->GetCommandList());
 }
 

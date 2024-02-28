@@ -152,9 +152,9 @@ private:
 	std::unique_ptr<Camera> camera_;
 
 	//モード
-	size_t mode = static_cast<size_t>(Mode::Game);	//更新
-	size_t modeDraw = static_cast<size_t>(ModeDraw::GameDraw);		//描画
-	size_t modeDrawLightView = static_cast<size_t>(ModeDrawLightView::GameDrawLightView);//ライト目線描画
+	size_t mode = static_cast<size_t>(Mode::Title);	//更新
+	size_t modeDraw = static_cast<size_t>(ModeDraw::TitleDraw);		//描画
+	size_t modeDrawLightView = static_cast<size_t>(ModeDrawLightView::TitleDrawLightView);//ライト目線描画
 
 	//シーン遷移
 	float titleFromGameTime = 120.0f;
