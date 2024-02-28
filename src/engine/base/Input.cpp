@@ -14,7 +14,7 @@ Input* Input::GetInstance()
 	return &instance;
 }
 
-void Input::Initialize(WinApp* winApp)
+void Input::Initialize(MyEngine::WinApp* winApp)
 {
 	HRESULT result;
 	winApp_ = winApp;

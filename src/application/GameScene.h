@@ -45,6 +45,8 @@
 #include "ElecParticle.h"
 #include "ElecParticle2.h"
 #include "ElecObject.h"
+#include "TutorialEnemy.h"
+#include "Plane.h"
 
 class GameScene
 {
@@ -52,18 +54,21 @@ public:	//モード
 	enum class Mode
 	{
 		Title,	//タイトル
+		Tutorial,	//チュートリアル
 		Game,	//ゲームシーン
 		Clear,	//クリア
 	};
 	enum class ModeDraw
 	{
 		TitleDraw,	//タイトル
+		TutorialDraw,	//チュートリアル
 		GameDraw,	//ゲームシーン
 		ClearDraw,	//クリア
 	};
 	enum class ModeDrawLightView
 	{
 		TitleDrawLightView,	//タイトル
+		TutorialDrawLightView,	//チュートリアル
 		GameDrawLightView,	//ゲームシーン
 		ClearDrawLightView,	//クリア
 	};
@@ -81,6 +86,7 @@ public:
 	void Update();
 	//モードごとの更新
 	void UpdateTitle();	//タイトル
+	void UpdateTutorial();	//チュートリアル
 	void UpdateGame();	//ゲームシーン
 	void UpdateClear();	//クリア
 	//コライダーの更新
@@ -90,6 +96,7 @@ public:
 	void Draw();
 	//モードごとの描画
 	void DrawTitle();	//タイトル
+	void DrawTutorial();	//チュートリアル
 	void DrawGame();	//ゲームシーン
 	void DrawClear();	//ゲームシーン
 	//モードごとの描画
@@ -98,6 +105,11 @@ public:
 	void DrawColliderTitle();		//コライダーの描画
 	void DrawSpriteTitle();			//スプライト
 	void DrawParticleTitle();		//パーティクル
+	//チュートリアル
+	void DrawFBXTutorial();			//FBX描画
+	void DrawColliderTutorial();		//コライダーの描画
+	void DrawSpriteTutorial();			//スプライト
+	void DrawParticleTutorial();		//パーティクル
 	//ゲーム
 	void DrawFBXGame();				//FBX描画
 	void DrawColliderGame();		//コライダーの描画
@@ -113,6 +125,7 @@ public:
 	void DrawFBXLightView();
 	//モードごと
 	void DrawFBXLightViewTitle();	//タイトル
+	void DrawFBXLightViewTutorial();	//チュートリアル
 	void DrawFBXLightViewGame();	//ゲーム
 	void DrawFBXLightViewClear();	//クリア
 
@@ -154,6 +167,7 @@ private:
 	float clearFromGameTimer = 0.0f;
 	float clearFromGameTime = 500.0f;
 	bool gameFromClearFlag = false;
+	bool TutorialFromGameFlag = false;
 
 	//fbx
 	std::list<std::unique_ptr<FbxModel>> models;
@@ -193,8 +207,11 @@ private:
 	////敵
 	std::unique_ptr<Enemy>enemy;
 
+	//チュートリアルの敵
+	std::unique_ptr<TutorialEnemy>tutorialEnemy;
+
 	//平面
-	/*std::unique_ptr<Plane> plane;*/
+	std::unique_ptr<Plane> plane;
 
 	//天球
 	std::unique_ptr<ObjModel>skySphereModel;
@@ -277,6 +294,64 @@ private:
 	//クリアシーン用スプライト 座標 スケール
 	XMFLOAT2 clear1Pos = { 150.0f, 300.0f };
 	XMFLOAT2 clear1Scale = { 860.0f, 77.0f };
+
+	//スプライト
+	//チュートリアル
+	std::unique_ptr<Sprite>tutorial1Sprite;
+	std::unique_ptr<Sprite>tutorial2Sprite;
+	std::unique_ptr<Sprite>tutorial3Sprite;
+	std::unique_ptr<Sprite>tutorial4Sprite;
+	std::unique_ptr<Sprite>tutorial6Sprite;
+	std::unique_ptr<Sprite>tutorial7Sprite;
+	std::unique_ptr<Sprite>tutorial8Sprite;
+	std::unique_ptr<Sprite>tutorial10Sprite;
+	std::unique_ptr<Sprite>tutorial11Sprite;
+	//チュートリアルのスプライト 座標 スケール
+	XMFLOAT2 tutorial1Pos = { 128.0f, 520.0f };
+	XMFLOAT2 tutorial1Scale = { 512.0f * 2, 130.0f * 1.5 };
+	//チュートリアルのスプライト2 座標 スケール
+	XMFLOAT2 tutorial2Pos = { 198.0f, 570.0f };
+	XMFLOAT2 tutorial2Scale = { 791.0f, 101.0f };
+	//チュートリアルのスプライト3 座標 スケール
+	XMFLOAT2 tutorial3Pos = { 198.0f, 570.0f };
+	XMFLOAT2 tutorial3Scale = { 104.0f * 2.0f, 42.0f * 2.0f };
+	//チュートリアルのスプライト4 座標 スケール
+	XMFLOAT2 tutorial4Pos = { 198.0f, 570.0f };
+	XMFLOAT2 tutorial4Scale = { 791.0f, 101.0f };
+	//チュートリアルのスプライト6 座標 スケール
+	XMFLOAT2 tutorial6Pos = { 198.0f, 570.0f };
+	XMFLOAT2 tutorial6Scale = { 791.0f, 101.0f };
+	//チュートリアルのスプライト7 座標 スケール
+	XMFLOAT2 tutorial7Pos = { 198.0f, 570.0f };
+	XMFLOAT2 tutorial7Scale = { 791.0f, 101.0f };
+	//チュートリアルのスプライト8 座標 スケール
+	XMFLOAT2 tutorial8Pos = { 198.0f, 570.0f };
+	XMFLOAT2 tutorial8Scale = { 791.0f, 101.0f };
+	//チュートリアルのスプライト10 座標 スケール
+	XMFLOAT2 tutorial10Pos = { 198.0f, 570.0f };
+	XMFLOAT2 tutorial10Scale = { 791.0f, 101.0f };
+	//チュートリアルのスプライト11 座標 スケール
+	XMFLOAT2 tutorial11Pos = { 198.0f, 570.0f };
+	XMFLOAT2 tutorial11Scale = { 791.0f, 101.0f };
+
+	//チュートリアル用
+	float blackSpriteTimer = 0.0f;
+	float blackSpriteMaxTime = 120.0f;
+	int tutorialSpriteFlag = 1;	//その番号のスプライト描画
+	int tutorialLStickTimer = 0.0f;
+	int tutorialLStickMaxTime = 240.0f;
+	int tutorialRStickTimer = 0.0f;
+	int tutorialRStickMaxTime = 240.0f;
+	int tutorialIikannjiTimer = 0.0f;
+	int tutorialIikannjiMaxTime = 200.0f;
+	int tutorialAttackTimer = 0.0f;
+	int tutorialAttackMaxTime = 200.0f;
+	int tutorialAttack2Timer = 0.0f;
+	int tutorialAttack2MaxTime = 2.0f;
+	int tutorial12Timer = 0.0f;
+	int tutorial12MaxTime = 120.0f;
+	int tutorial13Timer = 0.0f;
+	int tutorial13MaxTime =320.0f;
 
 	float stickTest[2] = { 0.0f,0.0f };
 

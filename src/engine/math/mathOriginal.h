@@ -15,6 +15,8 @@
 int RNG(int min, int max, bool preciseMode = false);
 //乱数(メルセンヌツイスター)
 uint64_t GetRand(uint64_t minVal, uint64_t maxVal);
+//シェイク
+float shake(int num, int strength);
 
 #pragma endregion
 

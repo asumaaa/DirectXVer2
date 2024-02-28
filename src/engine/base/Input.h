@@ -33,7 +33,7 @@ public:
 	/// <summary>
 	///初期化
 	/// </summary>
-	void Initialize(WinApp* winApp);
+	void Initialize(MyEngine::WinApp* winApp);
 
 	/// <summary>
 	///更新
@@ -52,7 +52,7 @@ public:
 
 public:
 	//ウィンドウ
-	WinApp* winApp_;
+	MyEngine::WinApp* winApp_;
 	ComPtr<IDirectInput8> directInput;
 	//キーボード
 	ComPtr<IDirectInputDevice8> keyboard;

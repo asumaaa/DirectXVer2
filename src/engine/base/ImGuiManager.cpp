@@ -15,7 +15,7 @@
 //#include "imstb_textedit.h"
 //#include "imstb_truetype.h"
 
-void ImGuiManager::Initialize(WinApp* winApp, DirectXCommon* dxCommon)
+void ImGuiManager::Initialize(MyEngine::WinApp* winApp, DirectXCommon* dxCommon)
 {
 	this->winApp_ = winApp;
 	this->dxCommon_ = dxCommon;

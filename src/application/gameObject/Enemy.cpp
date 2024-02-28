@@ -114,6 +114,26 @@ void Enemy::Update()
 	if (HP <= 0)HP = maxHP;
 }
 
+void Enemy::UpdateTutorial(int tutorialTimer)
+{
+	position.y = 1000.0f;
+	if (tutorialTimer == 0)return;
+
+	position = XMFLOAT3(0.0f, 0.0f, 0.0f);
+
+	//ステータスマネージャー
+	StatusManagerTutorial(tutorialTimer);
+
+	//オブジェクト更新
+	UpdateObject();
+
+	//スプライト更新
+	UpdateSprite();
+
+	//1フレーム前の状態を代入
+	preStatus = status;
+}
+
 void Enemy::UpdateObject()
 {
 	//オブジェクト更新
@@ -129,23 +149,23 @@ void Enemy::UpdateObject()
 
 void Enemy::UpdateObject(const Status& status, FbxObject3D* object)
 {
-	//引数のステータスと同じ場合のみ更新
-	if (this->status == status)
-	{
-		object->SetPosition(position);
-		object->SetRotation(rotation);
-		object->SetScale(scale);
-		if (this->status != preStatus)
-		{
-			object->PlayAnimation();
-		}
-
-		object->Update();
-	}
-	else
+	//引数のステータスと違う場合早期リターン
+	if (this->status != status)
 	{
 		object->StopAnimation();
+		return;
 	}
+
+	//引数のステータスと同じ場合のみ更新
+	object->SetPosition(position);
+	object->SetRotation(rotation);
+	object->SetScale(scale);
+	if (this->status != preStatus)
+	{
+			object->PlayAnimation();
+	}
+
+	object->Update();
 }
 
 void Enemy::UpdateSprite()
@@ -394,6 +414,28 @@ void Enemy::StatusManager()
 			status = Attack1Omen;
 			return;
 		}
+	}
+}
+
+void Enemy::StatusManagerTutorial(int tutorialTimer)
+{
+	//しばらく立ってる
+	if (tutorialTimer < 180)
+	{
+		status = Stand;
+		return;
+	}
+	//攻撃前兆モーション
+	if (tutorialTimer < 180 + frameAttack1Omen)
+	{
+		status = Attack1Omen;
+		return;
+	}
+	//しばらく立ってる
+	else
+	{
+		status = Stand;
+		return;
 	}
 }
 

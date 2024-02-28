@@ -9,24 +9,27 @@
 //#include "dxgidebug.h"
 #include <d3d12.h>
 
-class Message
+namespace MyEngine
 {
-public:
+	class Message
+	{
+	public:
 
-	/// <summary>
-	///インスタンス取得
-	/// </summary>
-	static Message* GetInstance();
+		/// <summary>
+		///インスタンス取得
+		/// </summary>
+		static Message* GetInstance();
 
-	/// <summary>
-	///Xボタンで終了メッセ時が来たらゲームループを抜ける 
-	/// </summary>
-	bool Update();
+		/// <summary>
+		///Xボタンで終了メッセ時が来たらゲームループを抜ける 
+		/// </summary>
+		bool Update();
 
-	/// <summary>
-	///呼び出した時のエラーを出す
-	/// </summary>
-	bool CheckError();
-public:
-	MSG msg{};
-};
+		/// <summary>
+		///呼び出した時のエラーを出す
+		/// </summary>
+		bool CheckError();
+	public:
+		MSG msg{};
+	};
+}

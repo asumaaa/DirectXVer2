@@ -11,7 +11,7 @@
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-LRESULT WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+LRESULT MyEngine::WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	//ImGui用ウィンドウプロシージャ呼び出し
 	if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam))return true;
@@ -29,13 +29,13 @@ LRESULT WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 	return DefWindowProc(hwnd, msg, wparam, lparam);
 }
 
-WinApp* WinApp::GetInstance()
+MyEngine::WinApp* MyEngine::WinApp::GetInstance()
 {
 	static WinApp instance;
 	return &instance;
 }
 
-void WinApp::CreateWindow_(const wchar_t* title)
+void MyEngine::WinApp::CreateWindow_(const wchar_t* title)
 {
 	// COM初期化
 	CoInitializeEx(nullptr, COINIT_MULTITHREADED);
@@ -72,7 +72,7 @@ void WinApp::CreateWindow_(const wchar_t* title)
 	ShowWindow(hwnd, SW_SHOW);
 }
 
-void WinApp::deleteWindow()
+void MyEngine::WinApp::deleteWindow()
 {
 	UnregisterClass(w.lpszClassName, w.hInstance);
 }

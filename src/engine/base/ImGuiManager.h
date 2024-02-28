@@ -16,7 +16,7 @@ public:
 	/// <summary>
 	///初期化
 	/// </summary>
-	void Initialize(WinApp* winApp, DirectXCommon* dxCommon);
+	void Initialize(MyEngine::WinApp* winApp, DirectXCommon* dxCommon);
 
 	/// <summary>
 	///終了時呼び出し処理
@@ -40,7 +40,7 @@ public:
 
 
 private:
-	WinApp* winApp_ = nullptr;
+	MyEngine::WinApp* winApp_ = nullptr;
 	DirectXCommon* dxCommon_ = nullptr;
 
 	//SRV用デスクリプタヒープ

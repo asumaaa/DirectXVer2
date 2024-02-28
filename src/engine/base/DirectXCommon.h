@@ -42,7 +42,7 @@ public:
 	/// <summary>
 	///初期化
 	/// </summary>
-	void Initialize(WinApp* winApp);
+	void Initialize(MyEngine::WinApp* winApp);
 
 	/// <summary>
 	///初期化関連
@@ -57,7 +57,7 @@ public:
 	/// <summary>
 	///描画前処理
 	/// </summary>
-	void PreDraw();	
+	void PreDraw();
 
 	/// <summary>
 	///描画前処理
@@ -137,7 +137,7 @@ public:
 public:
 	//メンバ変数
 	//ウィンドウ
-	WinApp* winApp_;
+	MyEngine::WinApp* winApp_;
 private:
 	//DirectX
 	ComPtr<ID3D12Device> device;

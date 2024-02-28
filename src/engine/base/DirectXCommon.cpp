@@ -23,7 +23,7 @@ DirectXCommon::~DirectXCommon()
 }
 
 //初期化処理
-void DirectXCommon::Initialize(WinApp* winApp)
+void DirectXCommon::Initialize(MyEngine::WinApp* winApp)
 {
 	winApp_ = winApp;
 

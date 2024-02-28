@@ -67,6 +67,11 @@ public://メンバ関数
 	void Update();
 
 	/// <summary>
+	///チュートリアルの時の更新
+	/// </summary>
+	void UpdateTutorial(int tutorialTimer);
+
+	/// <summary>
 	///オブジェクト更新
 	/// </summary>
 	void UpdateObject();
@@ -150,6 +155,11 @@ public://メンバ関数
 	///ステータスマネージャー
 	/// </summary>
 	void StatusManager();
+
+	/// <summary>
+	///ステータスマネージャー
+	/// </summary>
+	void StatusManagerTutorial(int tutorialTimer);
 
 	/// <summary>
 	///srvセット

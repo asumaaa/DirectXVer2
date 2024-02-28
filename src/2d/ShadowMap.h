@@ -84,6 +84,11 @@ public:	//メンバ関数
 	/// </summary>
 	void PostDrawScene0(ID3D12GraphicsCommandList* cmdList);
 
+	/// <summary>
+	///シェイク
+	/// </summary>
+	void Shake();
+
 public:	//静的メンバ関数
 
 	/// <summary>
@@ -127,6 +132,11 @@ public:	//セッター
 	///ビュー行列セット
 	/// </summary>
 	void SetLightVP(XMMATRIX l) { lightVP = l; }
+
+	/// <summary>
+	///シェイクセット
+	/// </summary>
+	void SetShake() { shakeFlag = true; };
 
 	/// <summary>
 	///シェーダリソースビュー取得
@@ -181,4 +191,10 @@ private:
 	XMFLOAT2 scale = { 100.0f,100.0f };
 	//射影変換
 	XMMATRIX lightVP;
+
+	//シェイク用
+	int shakeTimer = 0;
+	int shakeMaxTime = 120;
+	XMFLOAT2 shakePos;
+	bool shakeFlag = false;
 };

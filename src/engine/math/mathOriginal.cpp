@@ -190,6 +190,13 @@ uint64_t GetRand(uint64_t minVal, uint64_t maxVal) {
 	return get_rand_uni_int(mt64);
 }
 
+float shake(int num, int strength)
+{
+	// -strengthからstrengthの範囲でランダムな値を生成
+	float shake = ((float)rand() / RAND_MAX) * 2 * strength - strength;
+	return num + shake;
+}
+
 float easeInSine(float x)
 {
 	return 1 - cos((x * PI) / 2);

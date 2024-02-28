@@ -25,13 +25,13 @@
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	//ウィンドウ生成
-	WinApp* winApp = nullptr;
-	winApp = WinApp::GetInstance();
+	MyEngine::WinApp* winApp = nullptr;
+	winApp = MyEngine::WinApp::GetInstance();
 	winApp->CreateWindow_(L"エレメントラッシュ");
 
 	//メッセージ
-	Message* message;
-	message = Message::GetInstance();
+	MyEngine::Message* message;
+	message = MyEngine::Message::GetInstance();
 
 	//DirectX初期化処理
 	DirectXCommon* dxCommon = nullptr;

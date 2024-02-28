@@ -66,6 +66,11 @@ public:
 	void UpdatePlayer(XMFLOAT3 playerPos, XMFLOAT3 playerRot);
 
 	/// <summary>
+	///チュートリアルの更新
+	/// </summary>
+	void UpdateTutorial(int tutorialTimer);
+
+	/// <summary>
 	///クリア画面の更新
 	/// </summary>
 	void UpdateClear(XMFLOAT3 enemyPos,float timer);

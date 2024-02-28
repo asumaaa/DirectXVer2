@@ -8,6 +8,7 @@
 #pragma once
 #include "DirectXMath.h"
 #include "FbxObject3D.h"
+#include "JSONLoader.h"
 
 class Plane
 {
@@ -100,12 +101,17 @@ private:
 public:
 
 	//オブジェクト
-	std::list<std::unique_ptr<FbxObject3D>>object;
+	FbxObject3D* object = nullptr;
+	//モデル
+	FbxModel* model = nullptr;
+
+	//コライダーデータ
+	JSONLoader::ColliderData colliderData;
 
 	//座標
 	XMFLOAT3 position = { 0.0f,0.0f,0.0f };
 	//回転
 	XMFLOAT3 rotation = { 0.0f,0.0f,0.0f };
 	//サイズ
-	XMFLOAT3 scale = { 1.0f,1.0f,1.0f };
+	XMFLOAT3 scale = { 1000.0f,1000.0f,1.0f };
 };

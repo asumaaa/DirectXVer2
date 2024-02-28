@@ -66,6 +66,16 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInp
 	newTextureManager->LoadFile(29, L"Resources/pictures/playerHP2.png");
 	newTextureManager->LoadFile(30, L"Resources/pictures/playerHP3.png");
 	newTextureManager->LoadFile(31, L"Resources/pictures/elec.jpeg");
+	newTextureManager->LoadFile(32, L"Resources/pictures/tutorial1.png");
+	newTextureManager->LoadFile(33, L"Resources/pictures/tutorial2.png");
+	newTextureManager->LoadFile(34, L"Resources/pictures/tutorial3.png");
+	newTextureManager->LoadFile(35, L"Resources/pictures/tutorial4.png");
+	newTextureManager->LoadFile(36, L"Resources/pictures/tutorial6.png");
+	newTextureManager->LoadFile(37, L"Resources/pictures/tutorial7.png");
+	newTextureManager->LoadFile(38, L"Resources/pictures/tutorial8.png");
+	newTextureManager->LoadFile(39, L"Resources/pictures/tutorial10.png");
+	newTextureManager->LoadFile(40, L"Resources/pictures/tutorial11.png");
+	newTextureManager->LoadFile(41, L"Resources/pictures/plane.png");
 
 	textureManager.reset(newTextureManager);
 
@@ -133,6 +143,69 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInp
 	clear1Sprite->SetTextureNum(21);
 	clear1Sprite->SetPosition(clear1Pos);
 	clear1Sprite->SetScale(clear1Scale);
+	//チュートリアルのスプライト1
+	Sprite* newTutorial1Sprite = new Sprite();
+	newTutorial1Sprite->Initialize();
+	tutorial1Sprite.reset(newTutorial1Sprite);
+	tutorial1Sprite->SetTextureNum(32);
+	tutorial1Sprite->SetPosition(tutorial1Pos);
+	tutorial1Sprite->SetScale(tutorial1Scale);
+	//チュートリアルのスプライト2
+	Sprite* newTutorial2Sprite = new Sprite();
+	newTutorial2Sprite->Initialize();
+	tutorial2Sprite.reset(newTutorial2Sprite);
+	tutorial2Sprite->SetTextureNum(33);
+	tutorial2Sprite->SetPosition(tutorial2Pos);
+	tutorial2Sprite->SetScale(tutorial2Scale);
+	//チュートリアルのスプライト3
+	Sprite* newTutorial3Sprite = new Sprite();
+	newTutorial3Sprite->Initialize();
+	tutorial3Sprite.reset(newTutorial3Sprite);
+	tutorial3Sprite->SetTextureNum(34);
+	tutorial3Sprite->SetPosition(tutorial3Pos);
+	tutorial3Sprite->SetScale(tutorial3Scale);
+	//チュートリアルのスプライト4
+	Sprite* newTutorial4Sprite = new Sprite();
+	newTutorial4Sprite->Initialize();
+	tutorial4Sprite.reset(newTutorial4Sprite);
+	tutorial4Sprite->SetTextureNum(35);
+	tutorial4Sprite->SetPosition(tutorial4Pos);
+	tutorial4Sprite->SetScale(tutorial4Scale);
+	//チュートリアルのスプライト6
+	Sprite* newTutorial6Sprite = new Sprite();
+	newTutorial6Sprite->Initialize();
+	tutorial6Sprite.reset(newTutorial6Sprite);
+	tutorial6Sprite->SetTextureNum(36);
+	tutorial6Sprite->SetPosition(tutorial6Pos);
+	tutorial6Sprite->SetScale(tutorial6Scale);
+	//チュートリアルのスプライト7
+	Sprite* newTutorial7Sprite = new Sprite();
+	newTutorial7Sprite->Initialize();
+	tutorial7Sprite.reset(newTutorial7Sprite);
+	tutorial7Sprite->SetTextureNum(37);
+	tutorial7Sprite->SetPosition(tutorial6Pos);
+	tutorial7Sprite->SetScale(tutorial6Scale);
+	//チュートリアルのスプライト8
+	Sprite* newTutorial8Sprite = new Sprite();
+	newTutorial8Sprite->Initialize();
+	tutorial8Sprite.reset(newTutorial8Sprite);
+	tutorial8Sprite->SetTextureNum(38);
+	tutorial8Sprite->SetPosition(tutorial8Pos);
+	tutorial8Sprite->SetScale(tutorial8Scale);
+	//チュートリアルのスプライト10
+	Sprite* newTutorial10Sprite = new Sprite();
+	newTutorial10Sprite->Initialize();
+	tutorial10Sprite.reset(newTutorial10Sprite);
+	tutorial10Sprite->SetTextureNum(39);
+	tutorial10Sprite->SetPosition(tutorial10Pos);
+	tutorial10Sprite->SetScale(tutorial10Scale);
+	//チュートリアルのスプライト11
+	Sprite* newTutorial11Sprite = new Sprite();
+	newTutorial11Sprite->Initialize();
+	tutorial11Sprite.reset(newTutorial11Sprite);
+	tutorial11Sprite->SetTextureNum(40);
+	tutorial11Sprite->SetPosition(tutorial11Pos);
+	tutorial11Sprite->SetScale(tutorial11Scale);
 
 	//カメラ初期化
 	Camera::SetInput(input_);
@@ -347,16 +420,23 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, DXInput* dxInp
 	//敵の弾
 	EnemyBullet::SetCamera(camera_.get());
 
+	//チュートリアルの敵
+	TutorialEnemy::SetCamera(camera_.get());
+	TutorialEnemy::SetInput(input);
+	TutorialEnemy* newTutorialEnemy = new TutorialEnemy();
+	newTutorialEnemy->Initialize();
+	tutorialEnemy.reset(newTutorialEnemy);
+
 	//平面
-	/*Plane::SetCamera(camera_.get());
-	Plane::SetInput(input);*/
-	/*Plane* newPlane = new Plane();
+	Plane::SetCamera(camera_.get());
+	Plane::SetInput(input);
+	Plane* newPlane = new Plane();
 	newPlane->Initialize();
-	plane.reset(newPlane);*/
+	plane.reset(newPlane);
 
 	//レベルエディタ
 	JSONLoader* newJsonLoader = new JSONLoader();
-	newJsonLoader->LoadFile("Resources/json/demo.json");
+	newJsonLoader->LoadFile("Resources/json/demo2.json");
 	jsonLoader.reset(newJsonLoader);
 
 	for (int i = 0; i < jsonLoader->GetObjectNum(); i++)
@@ -397,18 +477,6 @@ void GameScene::Finalize()
 	/*delete tree1csv;
 	delete spriteManager;
 	delete lightGroup;*/
-}
-
-void GameScene::Update()
-{
-	//コントローラー更新
-	dxInput->InputProcess();
-
-	//モードマネージャー
-	ModeManager();
-
-	//シーンごとの処理
-	(this->*Mode[mode])();
 }
 
 void GameScene::UpdateTitle()
@@ -478,6 +546,281 @@ void GameScene::UpdateTitle()
 	player->UpdateTitle(gameFromTitleTimer);
 
 	//オブジェクト更新
+	for (std::unique_ptr<FbxObject3D>& object0 : object)
+	{
+		object0->Update();
+	}
+
+	//コライダー更新
+	UpdateCollider();
+}
+
+void GameScene::UpdateTutorial()
+{
+	if (gameTimer == 0.0f)
+	{
+		player->SetPosition(XMFLOAT3(0.0f, 0.0f, 0.0f));
+	}
+	gameTimer += 1.0f;
+
+	//カメラ更新
+	if (tutorialSpriteFlag == 13)
+	{
+		camera_->UpdateTutorial(tutorial13Timer);
+	}
+	else
+	{
+		camera_->UpdatePlayer(player->GetPosition(), player->GetRotation0());
+	}
+	/*camera_->DebugUpdate();*/
+	camera_->Update();
+
+	//判定 デバッグ
+	if (input_->PushKey(DIK_I))
+	{
+		camera_->SetDebugFlag(true);
+	}
+	else
+	{
+		camera_->SetDebugFlag(false);
+	}
+
+	//デバッグ用
+	elecParticle->Add(XMFLOAT3(0.0f, 5.0f, 0.0f), 1.0f);
+	elecObject->Update();
+	//更新
+	elecParticle->Update();
+	if (input_->TriggerKey(DIK_N))
+	{
+		elecParticle2->Add(XMFLOAT3(10.0f, 5.0f, 0.0f), XMFLOAT3(-10.0f, 5.0f, 0.0f), 1.0f);
+	}
+	//更新
+	elecParticle2->Update();
+
+	//スプライトの処理
+	//黒幕
+	if (tutorialSpriteFlag == 1)
+	{
+		blackSpriteTimer++;
+		blackSprite1->SetAlpha((blackSpriteMaxTime - blackSpriteTimer) / blackSpriteMaxTime);
+		//時間経過でスティック操作チュートリアルへ
+		if (blackSpriteTimer >= blackSpriteMaxTime)
+		{
+			tutorialSpriteFlag = 2;
+			blackSpriteTimer = 0;
+		}
+	}
+	//スティック操作チュートリアル
+	if (tutorialSpriteFlag == 2)
+	{
+		//Rスティックの入力があればタイマー更新
+		if (dxInput->GetStick(DXInput::RStickX) >= 0.4 || dxInput->GetStick(DXInput::RStickX) <= -0.4 ||
+			dxInput->GetStick(DXInput::RStickY) >= 0.4 || dxInput->GetStick(DXInput::RStickY) <= -0.4)
+		{
+			tutorialRStickTimer++;
+		}
+		//Lスティックの入力があればタイマー更新
+		if (dxInput->GetStick(DXInput::LStickX) >= 0.4 || dxInput->GetStick(DXInput::LStickX) <= -0.4 ||
+			dxInput->GetStick(DXInput::LStickY) >= 0.4 || dxInput->GetStick(DXInput::LStickY) <= -0.4)
+		{
+			tutorialLStickTimer++;
+		}
+		//どっちも達成で次へ
+		if (tutorialLStickTimer >= tutorialLStickMaxTime && tutorialRStickTimer >= tutorialRStickMaxTime)
+		{
+			tutorialSpriteFlag = 3;
+			tutorialLStickTimer = 0;
+			tutorialRStickTimer = 0;
+		}
+	}
+	//いい感じチュートリアル
+	if (tutorialSpriteFlag == 3)
+	{
+		tutorialIikannjiTimer++;
+		//時間経過で攻撃チュートリアルへ
+		if (tutorialIikannjiTimer >= tutorialIikannjiMaxTime)
+		{
+			tutorialSpriteFlag = 4;
+			tutorialIikannjiTimer = 0;
+		}
+	}
+	//攻撃チュートリアル
+	if (tutorialSpriteFlag == 4)
+	{
+		if (dxInput->PushKey(DXInput::PAD_RIGHT_SHOULDER) == 1)
+		{
+			tutorialAttackTimer++;
+		}
+		//達成で次へ
+		if (tutorialAttackTimer >= tutorialAttackMaxTime)
+		{
+			tutorialSpriteFlag = 5;
+			tutorialAttackTimer = 0;
+		}
+	}
+	//いい感じチュートリアル
+	if (tutorialSpriteFlag == 5)
+	{
+		tutorialIikannjiTimer++;
+		//時間経過で攻撃チュートリアルへ
+		if (tutorialIikannjiTimer >= tutorialIikannjiMaxTime)
+		{
+			tutorialSpriteFlag = 6;
+			tutorialIikannjiTimer = 0;
+		}
+	}
+	//属性変化チュートリアル
+	if (tutorialSpriteFlag == 6)
+	{
+		if (dxInput->PushKey(DXInput::PAD_LEFT_SHOULDER) == 1)
+		{
+			tutorialSpriteFlag = 7;
+		}
+	}
+	//属性変化チュートリアル2
+	if (tutorialSpriteFlag == 7)
+	{
+		tutorialIikannjiTimer++;
+		//時間経過で攻撃チュートリアルへ
+		if (tutorialIikannjiTimer >= tutorialIikannjiMaxTime)
+		{
+			tutorialSpriteFlag = 8;
+			tutorialIikannjiTimer = 0;
+		}
+	}
+	//攻撃チュートリアル
+	if (tutorialSpriteFlag == 8)
+	{
+		if (dxInput->TriggerKey(DXInput::PAD_RIGHT_SHOULDER) == 1)
+		{
+			tutorialAttack2Timer++;
+		}
+		//達成で次へ
+		if (tutorialAttack2Timer >= tutorialAttack2MaxTime)
+		{
+			tutorialSpriteFlag = 9;
+			tutorialAttack2Timer = 0;
+		}
+	}
+	//属性変化チュートリアル2
+	if (tutorialSpriteFlag == 9)
+	{
+		tutorialIikannjiTimer++;
+		//時間経過で攻撃チュートリアルへ
+		if (tutorialIikannjiTimer >= tutorialIikannjiMaxTime)
+		{
+			tutorialSpriteFlag = 10;
+			tutorialIikannjiTimer = 0;
+		}
+	}
+	//敵を倒すチュートリアル
+	if (tutorialSpriteFlag == 10)
+	{
+		tutorialEnemy->Update();
+		//敵を倒したら次へ
+		if (tutorialEnemy->GetIsDead())
+		{
+			tutorialSpriteFlag = 11;
+			tutorialEnemy->Reset();
+		}
+	}
+	//いい感じチュートリアル
+	if (tutorialSpriteFlag == 11)
+	{
+		tutorialIikannjiTimer++;
+		//時間経過でチュートリアル終了
+		if (tutorialIikannjiTimer >= tutorialIikannjiMaxTime)
+		{
+			tutorialSpriteFlag = 12;
+			tutorialIikannjiTimer = 0;
+		}
+	}
+	//敵登場までの間
+	if (tutorialSpriteFlag == 12)
+	{
+		tutorial12Timer++;
+		tutorial1Sprite->SetPosition(tutorial1Pos + XMFLOAT2(0.0f, tutorial12Timer * 2.5f));
+		//時間経過でチュートリアル終了
+		if (tutorial12Timer >= tutorial12MaxTime)
+		{
+			tutorialSpriteFlag = 13;
+			tutorial12Timer = 0;
+			tutorial1Sprite->SetPosition(tutorial1Pos);
+			blackSprite1->SetPosition(XMFLOAT2(0.0f, -620.0f));
+			blackSprite1->SetScale(XMFLOAT2(1280.0f, 720.0f));
+			blackSprite1->SetAlpha(1.0f);
+			blackSprite2->SetPosition(XMFLOAT2(0.0f, 620.0f));
+			blackSprite2->SetScale(XMFLOAT2(1280.0f, 720.0f));
+			blackSprite2->SetAlpha(1.0f);
+		}
+	}
+	if (tutorialSpriteFlag == 13)
+	{
+		tutorial13Timer++;
+		if (tutorial13Timer >= tutorial13MaxTime)
+		{
+			tutorial13Timer = 0;
+			tutorialSpriteFlag = 1;
+			blackSprite1->SetPosition(XMFLOAT2(0.0f, 0.0f));
+			TutorialFromGameFlag = true;
+		}
+	}
+	//スプライト更新
+	blackSprite1->Update();
+	blackSprite2->Update();
+	tutorial1Sprite->Update();
+	tutorial2Sprite->Update();
+	tutorial3Sprite->Update();
+	tutorial4Sprite->Update();
+	tutorial6Sprite->Update();
+	tutorial7Sprite->Update();
+	tutorial8Sprite->Update();
+	tutorial10Sprite->Update();
+	tutorial11Sprite->Update();
+
+	billboardSprite->SetPosition(XMFLOAT3(0.0f, 10.0f, 0.0f));
+	billboardSprite->SetScale(XMFLOAT3(2.5f, 0.3f, 1.0f));
+	billboardSprite->Update();
+
+	//パーティクル
+	if (input_->TriggerKey(DIK_N))
+	{
+		/*sparkParticle2->Add(XMFLOAT3(0.0f, 10.0f, -5.0f));
+		explosionParticle1->Add(XMFLOAT3(0.0f, 10.0f, -5.0f));
+		explosionParticle2->Add(XMFLOAT3(0.0f, 10.0f, -5.0f));*/
+	}
+	sparkParticle2->Update();
+	explosionParticle1->Update();
+	explosionParticle2->Update();
+
+	//ライト
+	light->SetEye(XMFLOAT3(lightPos) + player->GetPosition());
+	light->SetTarget(XMFLOAT3(lightTarget) + player->GetPosition());
+	light->SetDir(XMFLOAT3(lightDir));
+	light->Update();
+
+	//ライト
+	lightGroup->SetAmbientColor(XMFLOAT3(1, 1, 1));
+	lightGroup->SetDirLightActive(0, false);
+	lightGroup->SetDirLightActive(1, false);
+	lightGroup->SetDirLightActive(2, false);
+	lightGroup->Update();
+
+	//天球
+	skySphereObject->HomingUpdate(player->GetPosition());
+	skySphereObject->Update();
+
+	//プレイヤー
+	player->SetEnemyPos(enemy->GetPosition());
+	player->Update();
+
+	//敵
+	enemy->UpdateTutorial(tutorial13Timer);
+
+	//平面
+	plane->Update();
+
+	//エディタで読み込んだオブジェクト更新
 	for (std::unique_ptr<FbxObject3D>& object0 : object)
 	{
 		object0->Update();
@@ -582,7 +925,7 @@ void GameScene::UpdateGame()
 	enemy->Update();
 
 	//平面
-	/*plane->Update();*/
+	plane->Update();
 
 	//エディタで読み込んだオブジェクト更新
 	for (std::unique_ptr<FbxObject3D>& object0 : object)
@@ -745,6 +1088,18 @@ void GameScene::UpdateCollider()
 		}
 	}
 
+	//時機の弾(炎)と敵の当たり判定
+	for (int i = 0; i < player->GetBullet1Num(); i++)
+	{
+		if (ColliderManager::CheckCollider(tutorialEnemy->GetColliderData(), player->GetBullet1ColliderData(i)))
+		{
+			//敵にヒットフラグ送信
+			tutorialEnemy->HitBullet1();
+			//自機にヒットフラグ送信
+			player->HitBullet1(i);
+		}
+	}
+
 	//敵の弾と平面の判定
 	for (std::unique_ptr<FbxObject3D>& object1 : object)
 	{
@@ -767,10 +1122,28 @@ void GameScene::UpdateCollider()
 	ColliderManager::PostUpdate();
 }
 
+void GameScene::Update()
+{
+	//コントローラー更新
+	dxInput->InputProcess();
+
+	//モードマネージャー
+	ModeManager();
+
+	//シーンごとの処理
+	(this->*Mode[mode])();
+}
+
 void GameScene::Draw()
 {
 	//シーンごとの描画
 	(this->*ModeDraw[modeDraw])();
+}
+
+void GameScene::DrawFBXLightView()
+{
+	//シーンごとの描画
+	(this->*ModeDrawLightView[modeDrawLightView])();
 }
 
 void GameScene::DrawTitle()
@@ -787,10 +1160,10 @@ void GameScene::DrawTitle()
 	/*if (*drawSprite == 1)*/DrawSpriteTitle();
 }
 
-void GameScene::DrawGame()
+void GameScene::DrawTutorial()
 {
 	//ImGui
-	ImGui::Begin("GameScene");
+	/*ImGui::Begin("GameScene");
 	ImGui::SetWindowPos(ImVec2(0, 0));
 	ImGui::SetWindowSize(ImVec2(500, 150));
 	ImGui::InputInt("DrawFbx", drawFbx);
@@ -805,7 +1178,7 @@ void GameScene::DrawGame()
 	ImGui::InputFloat3("lightPos", lightPos);
 	ImGui::InputFloat3("lightTarget", lightTarget);
 	ImGui::InputFloat3("lightDir", lightDir);
-	ImGui::End();
+	ImGui::End();*/
 
 	//ImGui
 	/*ImGui::Begin("GameScene");
@@ -815,7 +1188,47 @@ void GameScene::DrawGame()
 	ImGui::End();*/
 
 	//天球描画
-	/*skySphereObject->Draw(dxCommon_->GetCommandList(), skySphereModel->vbView, skySphereModel->ibView);*/
+	skySphereObject->Draw(dxCommon_->GetCommandList(), skySphereModel->vbView, skySphereModel->ibView);
+
+	//コライダーの描画
+	if (*drawCollider == 1)DrawColliderTutorial();
+	//FBXの描画
+	if (*drawFbx == 1)DrawFBXTutorial();
+	//パーティクルの描画
+	if (*drawParticle == 1)DrawParticleTutorial();
+	//スプライトの描画
+	if (*drawSprite == 1)DrawSpriteTutorial();
+}
+
+void GameScene::DrawGame()
+{
+	//ImGui
+	/*ImGui::Begin("GameScene");
+	ImGui::SetWindowPos(ImVec2(0, 0));
+	ImGui::SetWindowSize(ImVec2(500, 150));
+	ImGui::InputInt("DrawFbx", drawFbx);
+	ImGui::InputInt("DrawSprite", drawSprite);
+	ImGui::InputInt("DrawCollider", drawCollider);
+	ImGui::InputInt("DrawParticle", drawParticle);
+	ImGui::End();
+
+	ImGui::Begin("GameScene light");
+	ImGui::SetWindowPos(ImVec2(500, 0));
+	ImGui::SetWindowSize(ImVec2(500, 150));
+	ImGui::InputFloat3("lightPos", lightPos);
+	ImGui::InputFloat3("lightTarget", lightTarget);
+	ImGui::InputFloat3("lightDir", lightDir);
+	ImGui::End();*/
+
+	//ImGui
+	/*ImGui::Begin("GameScene");
+	ImGui::SetWindowPos(ImVec2(0, 0));
+	ImGui::SetWindowSize(ImVec2(500, 150));
+	ImGui::InputFloat2("StickTest", stickTest);
+	ImGui::End();*/
+
+	//天球描画
+	skySphereObject->Draw(dxCommon_->GetCommandList(), skySphereModel->vbView, skySphereModel->ibView);
 
 	//コライダーの描画
 	if (*drawCollider == 1)DrawColliderGame();
@@ -868,10 +1281,44 @@ void GameScene::DrawParticleTitle()
 {
 }
 
-void GameScene::DrawFBXLightView()
+void GameScene::DrawFBXTutorial()
 {
-	//シーンごとの描画
-	(this->*ModeDrawLightView[modeDrawLightView])();
+	for (std::unique_ptr<FbxObject3D>& object0 : object)
+	{
+		object0->Draw(dxCommon_->GetCommandList());
+	}
+
+	player->Draw(dxCommon_->GetCommandList());
+	enemy->Draw(dxCommon_->GetCommandList());
+	if (tutorialSpriteFlag == 10)tutorialEnemy->Draw(dxCommon_->GetCommandList());
+}
+
+void GameScene::DrawColliderTutorial()
+{
+}
+
+void GameScene::DrawSpriteTutorial()
+{
+	//スプライト更新
+	blackSprite1->Draw(dxCommon_->GetCommandList());
+	if (tutorialSpriteFlag < 13)tutorial1Sprite->Draw(dxCommon_->GetCommandList());
+	if(tutorialSpriteFlag == 2)tutorial2Sprite->Draw(dxCommon_->GetCommandList());
+	if (tutorialSpriteFlag == 3 || tutorialSpriteFlag == 5 || tutorialSpriteFlag == 9)tutorial3Sprite->Draw(dxCommon_->GetCommandList());
+	if (tutorialSpriteFlag == 4)tutorial4Sprite->Draw(dxCommon_->GetCommandList());
+	if (tutorialSpriteFlag == 6)tutorial6Sprite->Draw(dxCommon_->GetCommandList());
+	if (tutorialSpriteFlag == 7)tutorial7Sprite->Draw(dxCommon_->GetCommandList());
+	if (tutorialSpriteFlag == 8)tutorial8Sprite->Draw(dxCommon_->GetCommandList());
+	if (tutorialSpriteFlag == 10)tutorial10Sprite->Draw(dxCommon_->GetCommandList());
+	if (tutorialSpriteFlag == 11)tutorial11Sprite->Draw(dxCommon_->GetCommandList());
+	if (tutorialSpriteFlag == 13)blackSprite2->Draw(dxCommon_->GetCommandList());
+
+	tutorialEnemy->DrawSprite(dxCommon_->GetCommandList());
+}
+
+void GameScene::DrawParticleTutorial()
+{
+	//プレイヤーのパーティクル描画
+	player->DrawParticle(dxCommon_->GetCommandList());
 }
 
 void GameScene::DrawFBXLightViewTitle()
@@ -884,15 +1331,27 @@ void GameScene::DrawFBXLightViewTitle()
 	player->DrawLightView(dxCommon_->GetCommandList());
 }
 
-void GameScene::DrawFBXLightViewGame()
+void GameScene::DrawFBXLightViewTutorial()
 {
 	for (std::unique_ptr<FbxObject3D>& object0 : object)
 	{
 		object0->DrawLightView(dxCommon_->GetCommandList());
 	}
+	player->DrawLightView(dxCommon_->GetCommandList());
+	enemy->DrawLightView(dxCommon_->GetCommandList());
+	if(tutorialSpriteFlag == 10)tutorialEnemy->DrawLightView(dxCommon_->GetCommandList());
+}
+
+void GameScene::DrawFBXLightViewGame()
+{
+	/*for (std::unique_ptr<FbxObject3D>& object0 : object)
+	{
+		object0->DrawLightView(dxCommon_->GetCommandList());
+	}*/
 
 	player->DrawLightView(dxCommon_->GetCommandList());
 	enemy->DrawLightView(dxCommon_->GetCommandList());
+	plane->DrawLightView(dxCommon_->GetCommandList());
 }
 
 void GameScene::DrawFBXLightViewClear()
@@ -923,14 +1382,27 @@ void GameScene::ModeManager()
 		if (gameFromTitleTimer >= gameFromTitleTime)
 		{
 			//モードをゲームへ
-			mode = static_cast<size_t>(Mode::Game);
-			modeDraw = static_cast<size_t>(ModeDraw::GameDraw);
-			modeDrawLightView = static_cast<size_t>(ModeDrawLightView::GameDrawLightView);
+			mode = static_cast<size_t>(Mode::Tutorial);
+			modeDraw = static_cast<size_t>(ModeDraw::TutorialDraw);
+			modeDrawLightView = static_cast<size_t>(ModeDrawLightView::TutorialDrawLightView);
 			//タイマーリセット
 			gameFromTitleTimer = 0.0f;
 			//フラグをもとに戻す
 			gameFromTitleFlag = false;
 		}
+	}
+
+	//チュートリアルからゲームに移るフラグが立ったら
+	if (TutorialFromGameFlag == true)
+	{
+		//リセット
+		player->Reset();
+		enemy->Reset();
+		//モードをゲームへ
+		mode = static_cast<size_t>(Mode::Game);
+		modeDraw = static_cast<size_t>(ModeDraw::GameDraw);
+		modeDrawLightView = static_cast<size_t>(ModeDrawLightView::GameDrawLightView);
+		TutorialFromGameFlag = false;
 	}
 
 	//ゲームの時Bが押されたら
@@ -1006,13 +1478,14 @@ void GameScene::ModeManager()
 
 void GameScene::DrawFBXGame()
 {
-	for (std::unique_ptr<FbxObject3D>& object0 : object)
+	/*for (std::unique_ptr<FbxObject3D>& object0 : object)
 	{
 		object0->Draw(dxCommon_->GetCommandList());
-	}
+	}*/
 
 	player->Draw(dxCommon_->GetCommandList());
 	enemy->Draw(dxCommon_->GetCommandList());
+	plane->Draw(dxCommon_->GetCommandList());
 }
 
 void GameScene::DrawColliderGame()
@@ -1091,6 +1564,8 @@ void GameScene::SetSRV(ID3D12DescriptorHeap* SRV)
 
 	player->SetSRV(SRV);
 	enemy->SetSRV(SRV);
+	plane->SetSRV(SRV);
+	tutorialEnemy->SetSRV(SRV);
 }
 
 DirectX::XMMATRIX GameScene::GetLightViewProjection()
@@ -1102,18 +1577,21 @@ DirectX::XMMATRIX GameScene::GetLightViewProjection()
 void(GameScene::* GameScene::Mode[])() =
 {
 	&GameScene::UpdateTitle,
+	&GameScene::UpdateTutorial,
 	&GameScene::UpdateGame,
 	&GameScene::UpdateClear,
 };
 void(GameScene::* GameScene::ModeDraw[])() =
 {
 	&GameScene::DrawTitle,
+	&GameScene::DrawTutorial,
 	&GameScene::DrawGame,
 	&GameScene::DrawClear,
 };
 void(GameScene::* GameScene::ModeDrawLightView[])() =
 {
 	&GameScene::DrawFBXLightViewTitle,
+	&GameScene::DrawFBXLightViewTutorial,
 	&GameScene::DrawFBXLightViewGame,
 	&GameScene::DrawFBXLightViewClear,
 };

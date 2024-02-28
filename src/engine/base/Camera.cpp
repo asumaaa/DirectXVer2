@@ -233,6 +233,22 @@ void Camera::UpdatePlayer(XMFLOAT3 playerPos, XMFLOAT3 playerRot)
 	//eye_.z = playerPos.z + (sin(DebugChangeRot) * playerTargetDistance);
 }
 
+void Camera::UpdateTutorial(int tutorialTimer)
+{
+	int n = 60;
+	if (tutorialTimer < n)
+	{
+		eye_.x = -10.0f + (n - tutorialTimer) * 2.0f;
+	}
+	eye_.y = 85.0f;
+	eye_.z = 80.0f;
+
+	if (tutorialTimer < n)
+	{
+		target_ = { (n - tutorialTimer) * 2.0f,65.0f,0.0f };
+	}
+}
+
 void Camera::UpdateClear(XMFLOAT3 enemyPos, float timer)
 {
 	target_ = { enemyPos.x,enemyPos.y,enemyPos.z };

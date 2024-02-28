@@ -9,6 +9,7 @@
 #include "ShadowMap.h"
 #include "string.h"
 #include "WinApp.h"
+#include "mathOriginal.h"
 #include <d3dcompiler.h>
 #include <DirectXTex.h>
 
@@ -675,4 +676,20 @@ void ShadowMap::PostDrawScene0(ID3D12GraphicsCommandList* cmdList)
 	cmdList->ResourceBarrier(1, &a0);
 	//震度バッファのクリア
 	/*cmdList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);*/
+}
+
+void ShadowMap::Shake()
+{
+	if (shakeFlag == true)
+	{
+		shakeTimer++;
+		shakePos = position + XMFLOAT2(0.0f, shake(position.y, 5.0f));
+		SetPosition(shakePos);
+		if (shakeTimer >= shakeMaxTime)
+		{
+			shakeFlag = false;
+			SetPosition(position);
+			shakeTimer = 0;
+		}
+	}
 }

@@ -7,13 +7,13 @@
 
 #include "Message.h"
 
-Message* Message::GetInstance()
+MyEngine::Message* MyEngine::Message::GetInstance()
 {
-	static Message instance;
+	static MyEngine::Message instance;
 	return &instance;
 }
 
-bool Message::Update()
+bool MyEngine::Message::Update()
 {
 	if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) // メッセージがある？
 	{
@@ -52,7 +52,7 @@ bool Message::Update()
 	//}
 }
 
-bool Message::CheckError()
+bool MyEngine::Message::CheckError()
 {
 	//IDXGIDebug* giDebugInterface = nullptr;
 
